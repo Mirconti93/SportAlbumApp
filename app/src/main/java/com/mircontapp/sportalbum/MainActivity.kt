@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
@@ -44,8 +45,7 @@ class MainActivity : ComponentActivity() {
                             contentColor = MaterialTheme.colorScheme.primary,
                         ) {
                             Text(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
                                 text = "Bottom app bar",
                             )
@@ -53,12 +53,11 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     Column(
-                        modifier = Modifier
-                            .padding(innerPadding),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(innerPadding).fillMaxWidth().fillMaxHeight(),
+                        verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Greeting(name = "World")
+                        HomeButtons(name = "World")
                     }
                 }
             }
@@ -67,10 +66,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun HomeButtons(name: String, modifier: Modifier = Modifier) {
     Text(
         text = "Hello $name!",
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -78,6 +77,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     SportAlbumTheme {
-        Greeting("Android")
+        HomeButtons("Android")
     }
 }
