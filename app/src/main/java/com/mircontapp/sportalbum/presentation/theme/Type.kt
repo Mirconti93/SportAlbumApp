@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.ui.theme
+package com.mircontapp.sportalbum.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

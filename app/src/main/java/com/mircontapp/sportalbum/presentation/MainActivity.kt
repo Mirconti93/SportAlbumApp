@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum
+package com.mircontapp.sportalbum.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,15 +10,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.mircontapp.sportalbum.ui.theme.SportAlbumTheme
+import androidx.navigation.NavController
+import com.mircontapp.sportalbum.R
+import com.mircontapp.sportalbum.presentation.theme.SportAlbumTheme
 
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
@@ -48,7 +53,10 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     Column(
-                        modifier = Modifier.padding(innerPadding).fillMaxWidth().fillMaxHeight(),
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -58,6 +66,16 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+@Composable
+fun BottomBarNavigation(navController: NavController) {
+    val items = listOf(
+        NavigationItem.Album,
+        NavigationItem.Dashboard,
+        NavigationItem.Games
+    )
+
 }
 
 @Composable
