@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.theme
+package com.mircontapp.sportalbum.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

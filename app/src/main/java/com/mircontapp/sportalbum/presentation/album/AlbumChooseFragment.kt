@@ -6,15 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.mircontapp.sportalbum.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AlbumChooseFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = AlbumChooseFragment()
-    }
-
-    private lateinit var viewModel: AlbumChooseViewModel
+    private val albumChooseVM: AlbumChooseViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,10 +22,5 @@ class AlbumChooseFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_album_choose, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AlbumChooseViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }

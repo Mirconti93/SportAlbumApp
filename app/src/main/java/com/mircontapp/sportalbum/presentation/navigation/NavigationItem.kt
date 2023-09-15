@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation
+package com.mircontapp.sportalbum.presentation.navigation
 
 import android.graphics.drawable.Icon
 
