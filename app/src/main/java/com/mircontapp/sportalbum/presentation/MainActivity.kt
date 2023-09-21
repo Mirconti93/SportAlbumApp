@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -24,8 +26,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -49,6 +53,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
+            mainViewModel.routeSelected.observe(this) {
+                navController.navigate(it.route)
+            }
 
             SportAlbumTheme {
                 // A surface container using the 'background' color from the theme
@@ -61,7 +68,11 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
-                        BottomBarNavigation(navController = navController)
+                        BottomBarNavigation(arrayListOf(
+                            NavigationItem.Album,
+                            NavigationItem.Dashboard,
+                            NavigationItem.Games
+                        ))
                     }
                 ) { innerPadding ->
                     Column(
@@ -80,38 +91,31 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun BottomBarNavigation(navController: NavController) {
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
+    fun BottomBarNavigation(items: List<NavigationItem>) {
+        Box (
+            Modifier.background(Color.Blue)
         ) {
-            IconButton(onClick = {
-                mainViewModel.routeSelected.value = NavigationItem.Album
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = null
-                )
-            }
-            IconButton(onClick = {
-                mainViewModel.routeSelected.value = NavigationItem.Dashboard
-            }) {
-                Icon(
-                    imageVector = Icons.Default.List,
-                    contentDescription = null
-                )
-            }
-            IconButton(onClick = {
-                mainViewModel.routeSelected.value = NavigationItem.Games
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Favorite,
-                    contentDescription = null
-                )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                items.forEach {
+                    IconButton(onClick = {
+                        mainViewModel.routeSelected.value = it
+                    }) {
+                        Icon(
+                            imageVector = it.icon,
+                            contentDescription = null
+                        )
+                    }
+                }
+
             }
         }
+
 
     }
 
@@ -126,9 +130,11 @@ class MainActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun GreetingPreview() {
-        SportAlbumTheme {
-            HomeButtons("Android")
-        }
+        BottomBarNavigation(arrayListOf(
+            NavigationItem.Album,
+            NavigationItem.Dashboard,
+            NavigationItem.Games
+        ))
     }
 }
 
