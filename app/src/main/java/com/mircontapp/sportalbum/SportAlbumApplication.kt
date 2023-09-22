@@ -7,8 +7,16 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class SportAlbumApplication: Application() {
 
-    init {
+    companion object {
+        lateinit var instance: SportAlbumApplication
+    }
 
+    init {
+        instance = this
+    }
+
+    fun getStringById(id: Int): String {
+        return getString(id)
     }
 
 
