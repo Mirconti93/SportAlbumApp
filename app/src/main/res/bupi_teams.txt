@@ -1,0 +1,214 @@
+Niuppin_Italia
+Senfrensis_Italia
+Lainate_Italia
+Mollett_Italia
+Clusone_Italia
+Mappett_Italia
+Torreboldone_Italia
+Songavazzo_Italia
+Olr_Italia
+Roma_Italia
+Napoli_Italia
+Firenze_Italia
+Parma_Italia
+Onore_Italia
+Fino Del Monte_Italia
+Rhodense_Italia
+Bari_Italia
+Bologna_Italia
+Cagliari_Italia
+Castione_Italia
+Genova_Italia
+Mambol_Italia
+Milano_Italia
+Novezio_Italia
+Pescara_Italia
+Presolana_Italia
+Real Cesate_Italia
+Rovetta_Italia
+San Lorenzo_Italia
+Torino_Italia
+Venezia_Italia
+Verona_Italia
+Airoldi_Italia
+Bratto_Italia
+Cerete Alto_Italia
+Cerete Basso_Italia
+Dorga_Italia
+Empoli_Italia
+Friulana_Italia
+Lecce_Italia
+Palermo_Italia
+Nanet_Italia
+Reggina_Italia
+London
+Birmingham
+Manchester
+Reginald
+Liverpool
+Everton
+Dover
+Shire
+Coolidge
+Manchester Blue
+London White
+London Reds
+Southampton
+Brighton
+Liverpool Light
+Oxford
+West Bromwich
+Newcastle
+Fulham
+Wigan
+Leeds
+Barcellona
+Madrid
+Valencia
+Madrid Rojo
+Valenciar
+Sevilla
+Malaga
+Madrigal
+Mallorca
+Bilbao
+Sevillab
+Zaragozza
+Tenerife
+Ibiza
+Getafe
+Almeria
+Monaco
+Stoccarda
+Dortmund
+Brema
+Frankfurt
+Colonia
+Amburgo
+Berlino
+Munich B
+Hannover
+Wolfsburg
+Mainz
+Augusta
+Frankfurt B
+Hamburger R
+Lione
+Marsiglia
+Paris
+Montecarlo
+Lille
+Nantes
+Tolosa
+Rennes
+Bordeaux
+Porto
+Oporto
+Madeira
+Estoril
+Lisbona
+Olandese
+Eindhoven
+Aja
+Amsterdam
+Utrecht
+Istanbul
+Ankara
+Istanbul B
+Istanbul Y
+Spartak Mosca
+Sochi
+Ufa
+Olympia
+Athenakos
+Atene
+Salonicco
+Mosca
+St Pietroburgo
+Praga
+Praga B
+Brno
+Kiev
+S. Kiev
+Donieskt
+Bruxelles
+Bruxelles B
+Liegi
+Moscovita
+Varsavia
+Cracova
+Varsavia W
+Zagabria
+Belgrado
+Tallin
+Sofia
+Budapest
+Bucarina
+Zagabria
+Basilea
+Ginevra
+Sion
+Vienna
+Innsbruck
+Vienna B
+Stoccolma
+Malmoe
+Oslo
+Copenaghen
+Copenaghen W
+Copenaghen B
+At Praga
+Bratislava
+Houston
+Los Angeles
+Dallas
+New York
+Chicago
+Boston
+Portland
+Miami
+Miami Red
+Orlando
+San Francisco
+Washington
+New York R
+Miami
+Orlando
+Chicago B
+Toronto
+Montreal
+San Paolo
+Rio R
+Rio B
+Porto Alegre
+Recife
+Coritiba
+Sao Paulo B
+Brasilia
+Rio G
+Rio N
+Alegre Blu
+Amazonia
+Buenos Aires
+River
+Buenos Rojo
+Aires Amar
+Cordova
+Rosario
+Pato Blanco
+Quito
+Montevideo
+La Paz
+Cali
+Bogota
+Medellin
+Caracas
+Tigres
+Accra
+Pechino
+Pechino B
+Nanchino
+Tokyo
+Kyoto
+Sydney
+Melbourne
