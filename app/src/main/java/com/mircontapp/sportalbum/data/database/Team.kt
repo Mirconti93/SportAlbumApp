@@ -1,7 +1,11 @@
-package com.mircontapp.sportalbum.domain.models
+package com.mircontapp.sportalbum.data.database
 
-data class TeamModel(
-    val name: String,
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "team")
+class Team (
+    @PrimaryKey val name: String,
     val city: String?,
     val country: String?,
     val type: String?,
@@ -11,3 +15,5 @@ data class TeamModel(
     val coach: String?,
     val area: String?
 )
+
+

@@ -1,6 +1,7 @@
 package com.mircontapp.sportalbum
 
 import android.app.Application
+import com.mircontapp.sportalbum.data.database.AppDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 
@@ -13,6 +14,7 @@ class SportAlbumApplication: Application() {
 
     init {
         instance = this
+        val database = AppDatabase.getInstance(this)
     }
 
     fun getStringById(id: Int): String {

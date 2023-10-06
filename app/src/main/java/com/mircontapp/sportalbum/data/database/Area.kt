@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "bupi_player")
-data class BupiPlayer (
+data class Area (
     @PrimaryKey val name: String,
     val team: String?,
     var role: String?

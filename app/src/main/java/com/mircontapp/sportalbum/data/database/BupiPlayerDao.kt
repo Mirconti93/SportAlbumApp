@@ -1,4 +1,4 @@
-package com.example.demoapp.database
+package com.mircontapp.sportalbum.data.database
 
 import androidx.room.Dao
 import androidx.room.Delete

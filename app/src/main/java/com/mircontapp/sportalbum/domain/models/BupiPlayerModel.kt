@@ -1,4 +1,4 @@
-package com.example.bupialbum.models
+package com.mircontapp.sportalbum.domain.models
 
 data class BupiPlayerModel(
     val name: String,

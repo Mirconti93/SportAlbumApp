@@ -1,4 +1,4 @@
-package com.example.bupialbum.models
+package com.mircontapp.sportalbum.domain.models
 
 abstract class GenericModel {
     private var order = 0

@@ -1,4 +1,4 @@
-package com.example.demoapp.database
+package com.mircontapp.sportalbum.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

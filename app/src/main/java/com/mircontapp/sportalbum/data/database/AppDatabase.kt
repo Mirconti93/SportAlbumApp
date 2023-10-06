@@ -1,11 +1,11 @@
-package com.example.demoapp.database
+package com.mircontapp.sportalbum.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [BupiPlayer::class, BupiTeam::class], version = 1)
+@Database(entities = [BupiPlayer::class, BupiTeam::class, Player::class, Team::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bupiDao(): BupiPlayerDao
     abstract fun teamDao(): BupiTeamDao

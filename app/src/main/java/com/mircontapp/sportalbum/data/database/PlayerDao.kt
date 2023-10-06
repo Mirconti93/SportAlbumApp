@@ -6,13 +6,14 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface BupiTeamDao {
+interface PlayerDao {
     @Insert
-    fun insertAll(vararg teams: BupiTeam)
+    fun insertAll(vararg users: Player)
 
     @Delete
-    fun delete(team: BupiTeam)
+    fun delete(user: BupiPlayer)
 
-    @Query("select * from bupi_team")
-    fun getTeams(): List<BupiTeam>
+    @Query("select * from player")
+    fun getBupi(): List<BupiPlayer>
+
 }

@@ -1,8 +1,13 @@
-package com.mircontapp.sportalbum.domain.models
+package com.mircontapp.sportalbum.data.database
 
-data class PlayerModel(
-    val name: String,
-    var role: Enums.Role,
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity(tableName = "player")
+data class Player (
+    @PrimaryKey val name: String,
+    var role: String,
     var Gender: String?,
     var team: String?,
     val country: String?,
@@ -14,3 +19,4 @@ data class PlayerModel(
     val nationalLegend: Int?,
     val roleLineUp: String?
 )
+

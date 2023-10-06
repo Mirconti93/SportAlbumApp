@@ -1,6 +1,4 @@
-package com.example.bupialbum.models
-
-import com.mirco.sportalbum.utils.Enums
+package com.mircontapp.sportalbum.domain.models
 
 data class AreaModel(val area: Enums.Area, val name: String?) {
 
