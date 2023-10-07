@@ -7,4 +7,50 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="blue">#0000FF</color>
+    <color name="blue1">#182473</color>
+    <color name="blue2">#152067</color>
+    <color name="blue3">#131c5c</color>
+    <color name="blue4">#101950</color>
+
+    <color name="lightblue">#87cefa</color>
+    <color name="lightblue1">#3db0f7</color>
+    <color name="lightblue2">#1e67b9</color>
+
+    <color name="yellow">#F5D239</color>
+    <color name="yellow2">#ffe135</color>
+
+    <color name="red1">#cf0012</color>
+
+    <color name="green1">#77D03F</color>
+    <color name="green2">#00da0d</color>
+    <color name="green3">#248d62</color>
+
+    <!--BROWN-->
+    <color name="brown">#5b342e</color>
+
+    <!--ORANGE-->
+    <color name="orange1">#f39200</color>
+    <color name="orange2">#f9720a</color>
+    <color name="orange4">#e87400</color>
+
+    <!--PINK-->
+    <color name="pink">#ffcff1</color>
+    <color name="peach">#ed715c</color>
+    <color name="magenta">#FC1464</color>
+
+    <!--PURPLE-->
+    <color name="purple">#4b0082</color>
+
+    <color name="gray1">#F0F0F0</color>
+    <color name="gray2">#D3D3D3</color>
+    <color name="gray3">#A9A9A9</color>
+    <color name="gray4">#4d4d4d</color>
+    <color name="gray5">#202020</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="transparentGray">#c0000000</color>
+    <color name="transparentBlue1">#182473eb</color>
+    <color name="transparentLightblue2">#1e67b9eb</color>
 </resources>

@@ -2,4 +2,234 @@
     <string name="app_name">Sport Album</string>
 
     <string name="teams">Teams</string>
+
+    <string name="insertTeams">Inserisci le tue squadre</string>
+    <string name="newTeam">Nuova squadra</string>
+    <string name="insertedTeams">Squadre inserite</string>
+    <string name="hasRank">Ha teste di serie?</string>
+    <string name="customInsert">Inserimento custom</string>
+    <string name="customInsertClose">Chiudi inserimento custom</string>
+    <string name="insertNumber">Inserisci numero:</string>
+    <string name="chosenNumber">Numero scelto:</string>
+    <string name="rank1">Fascia 1</string>
+    <string name="rank2">Fascia 2</string>
+    <string name="sortResult">Risultati del sorteggio</string>
+
+    <string name="football">Calcio</string>
+    <string name="motorsport">Motorsport</string>
+    <string name="tennis">Tennis</string>
+    <string name="otherSport">Altri sport</string>
+
+    <string name="footballTitle">Il mio album del calcio</string>
+
+    <string name="change">Cambia</string>
+
+    <string name="city">Città</string>
+    <string name="stadium">Stadio</string>
+    <string name="type">Tipo</string>
+    <string name="color1">Colore 1</string>
+    <string name="color2">Colore 2</string>
+
+    <string name="pt" translatable="false">Pt</string>
+    <string name="dc" translatable="false">Dc</string>
+    <string name="td" translatable="false">Td</string>
+    <string name="ts" translatable="false">Ts</string>
+    <string name="md" translatable="false">Md</string>
+    <string name="cc" translatable="false">Cc</string>
+    <string name="tq" translatable="false">Tq</string>
+    <string name="ad" translatable="false">Ad</string>
+    <string name="as" translatable="false">As</string>
+    <string name="sp" translatable="false">Sp</string>
+    <string name="pp" translatable="false">Pp</string>
+
+    <string name="ptc" translatable="false">Ptc</string>
+    <string name="ptm" translatable="false">Ptm</string>
+    <string name="dcs" translatable="false">Dcs</string>
+    <string name="dcl" translatable="false">Dcl</string>
+    <string name="tdd" translatable="false">Tdd</string>
+    <string name="tdo" translatable="false">Tdo</string>
+    <string name="tsd" translatable="false">Tsd</string>
+    <string name="tso" translatable="false">Tso</string>
+    <string name="med" translatable="false">Med</string>
+    <string name="reg" translatable="false">Reg</string>
+    <string name="msp" translatable="false">Msp</string>
+    <string name="mzl" translatable="false">Mzl</string>
+    <string name="trq" translatable="false">Trq</string>
+    <string name="esd" translatable="false">Esd</string>
+    <string name="ald" translatable="false">Ald</string>
+    <string name="ess" translatable="false">Ess</string>
+    <string name="als" translatable="false">Als</string>
+    <string name="spp" translatable="false">Spp</string>
+    <string name="ppm" translatable="false">Ppm</string>
+    <string name="cav" translatable="false">Cav</string>
+    <string name="pan" translatable="false">Pan</string>
+    <string name="tri" translatable="false">Tri</string>
+
+    <string name="att" translatable="false">Att</string>
+    <string name="dif" translatable="false">Dif</string>
+    <string name="tec" translatable="false">Tec</string>
+    <string name="dri" translatable="false">Dri</string>
+    <string name="fin" translatable="false">Fin</string>
+    <string name="bal" translatable="false">Bal</string>
+    <string name="fis" translatable="false">Fis</string>
+    <string name="vel" translatable="false">Vel</string>
+    <string name="rig" translatable="false">Rig</string>
+    <string name="por" translatable="false">Por</string>
+
+    <string name="club" translatable="false">club</string>
+    <string name="clubFemminile" translatable="false">clubFemminile</string>
+    <string name="nazionale" translatable="false">nazionale</string>
+    <string name="nazionaleFemminile" translatable="false">nazionaleFemminile</string>
+
+    <string name="bianco" translatable="false">bianco</string>
+    <string name="nero" translatable="false">nero</string>
+    <string name="blu" translatable="false">blu</string>
+    <string name="rosso" translatable="false">rosso</string>
+    <string name="azzurro" translatable="false">azzurro</string>
+    <string name="verde" translatable="false">verde</string>
+    <string name="giallo" translatable="false">giallo</string>
+    <string name="arancione" translatable="false">arancione</string>
+    <string name="viola" translatable="false">viola</string>
+    <string name="rosa" translatable="false">rosa</string>
+    <string name="marrone" translatable="false">marrone</string>
+    <string name="grigio" translatable="false">grigio</string>
+
+    <string name="m442" translatable="false">442</string>
+    <string name="m433" translatable="false">433</string>
+    <string name="m451" translatable="false">451</string>
+    <string name="m4231" translatable="false">4231</string>
+    <string name="m4312" translatable="false">4312</string>
+    <string name="m532" translatable="false">532</string>
+    <string name="m541" translatable="false">541</string>
+    <string name="m352" translatable="false">352</string>
+    <string name="m343" translatable="false">343</string>
+    <string name="m3412" translatable="false">3412</string>
+    <string name="m3313" translatable="false">3313</string>
+
+    <string name="goalkeeper">Portiere</string>
+    <string name="centralBack">Difensore centrale</string>
+    <string name="rightBack">Terzino destro</string>
+    <string name="leftBack">Terzino sinistro</string>
+    <string name="defensiveMidfielder">Mediano</string>
+    <string name="centralMidfielder">Centrocampista centrale</string>
+    <string name="advancedMidfielder">Trequartista</string>
+    <string name="rightWing">Ala destra</string>
+    <string name="leftWing">Ala sinistra</string>
+    <string name="centralForward">Seconda punta</string>
+    <string name="stricker">Prima punta</string>
+
+    <string name="goalkeeperClassic">Portiere classico</string>
+    <string name="goalkeeperModern">Portiere moderno</string>
+    <string name="stopper">Stopper</string>
+    <string name="freeDefender">Libero</string>
+    <string name="defensiveRightBack">Terzino Destro Arretrato</string>
+    <string name="offensiveRightBack">Terzino Destro Offensivo</string>
+    <string name="defensiveLeftBack">Terzino Sinistro Arretrato</string>
+    <string name="offensiveLeftBack">Terzino Sinistro Offensivo</string>
+    <string name="bench">Panchina</string>
+    <string name="tribune">Tribuna</string>
+
+
+    <string name="playerAge">anni</string>
+
+    <string name="defender">Difensore</string>
+    <string name="midfielder">Centrocampista</string>
+    <string name="forward">Attaccante</string>
+
+    <string name="playerList">Lista Giocatori</string>
+    <string name="playerRandom">Giocatore random</string>
+    <string name="sorting">Sorteggio</string>
+    <string name="saveData">Salva Dati</string>
+    <string name="saveAll">Salva tutto</string>
+
+    <string name="player">Giocatore</string>
+    <string name="search">Cerca</string>
+    <string name="filter">Filtra</string>
+    <string name="add">Nuovo</string>
+    <string name="ok">Ok</string>
+    <string name="area">Area</string>
+    <string name="gender">Genere</string>
+    <string name="playStatus">Giocatori</string>
+    <string name="role">Ruolo</string>
+    <string name="stylePlay">Stile</string>
+    <string name="all">Tutto</string>
+    <string name="men">Uomini</string>
+    <string name="women">Donne</string>
+    <string name="actual">In corso</string>
+    <string name="legends">Leggende</string>
+    <string name="coach">All.</string>
+    <string name="coachLegend">All. Legends</string>
+    <string name="edit">Modifica</string>
+    <string name="lineUp">Formazione</string>
+
+    <string name="ranking">Classifiche</string>
+    <string name="formulaYE">Formula YE</string>
+    <string name="bupiMarc">Marcatori Bupi</string>
+    <string name="champ">Champ</string>
+
+    <string name="save">Salva</string>
+    <string name="delete">Elimina</string>
+
+    <string name="name">Nome</string>
+    <string name="team">Squadra</string>
+    <string name="birthyear">Anno di nascita</string>
+    <string name="country">Nazione</string>
+    <string name="national">Nazionale</string>
+    <string name="clubLegend">Club Leggende</string>
+    <string name="nationLegend">Nationale Legende</string>
+    <string name="val">Valore</string>
+    <string name="valeg">Valore leggenda</string>
+
+    <string name="youSure">Are you sure?</string>
+    <string name="yes">Sì</string>
+    <string name="no">No</string>
+
+    <string name="home">Home</string>
+    <string name="away">Away</string>
+    <string name="chooseTeams">Scegli le squadre</string>
+    <string name="match">Partita</string>
+
+    <string name="field">Campo</string>
+    <string name="goToMatch">Vai alla partita</string>
+
+    <string name="telecronacaCen1">%s fa girare il pallone</string>
+    <string name="telecronacaCen2">%s cerca di avanzare</string>
+    <string name="telecronacaCen3">Bel passaggio filtrante di %s</string>
+    <string name="telecronacaBal1">%s recupera la palla</string>
+    <string name="telecronacaBal2">%s intercetta il pallone</string>
+    <string name="telecronacaBal3">Ottimo intervento di %s</string>
+    <string name="telecronacaPun">Fallo di %s. Sarà calcio di punizione</string>
+    <string name="telecronacaPun1">%s alla batutta. Rete! Gran gol! Il pallone si insacca!</string>
+    <string name="telecronacaPun2">Prova %s! Gooool! Che magia da palla inattiva!</string>
+    <string name="telecronacaRig">%s viene atterrato. Sarà calcio di rigore</string>
+    <string name="telecronacaRig1">Rete! %s non sbaglia dal dischetto!</string>
+    <string name="telecronacaRig2">Goooooool! %s trasforma il calcio di rigore!</string>
+    <string name="telecronacaAtt1">%s tenta l\'azione personale</string>
+    <string name="telecronacaAtt2">Gran giocata di %s</string>
+    <string name="telecronacaDif1">%s libera l\'aria di rigore</string>
+    <string name="telecronacaDif2">%s sbroglia una situazione di pericolo</string>
+    <string name="telecronacaDif3">Intervento provvidenziale di %s</string>
+    <string name="telecronacaGol1">Rete! Ooh! Che gol di %s!</string>
+    <string name="telecronacaGol2">Goooooool! %s! Che gol ha fatto!</string>
+    <string name="telecronacaGol3">Rete Incredibile! Rete Incredibile! %s! Gran gol!</string>
+    <string name="telecronacaPar1">%s va al tiro! Grandissima parata di %s!</string>
+    <string name="telecronacaPar2">%s inquadra la porta! %s para!</string>
+    <string name="telecronacaParig">La prende %s! Rigore Neutralizzato</string>
+    <string name="telecronacaPal">%s colpisce il palo!</string>
+    <string name="telecronacaTra">%s! Il pallone colpisce la traversa!</string>
+    <string name="telecronacaOut1">%s! Non va!</string>
+    <string name="telecronacaOut2">%s carica il tiro! Palla a lato di poco!</string>
+    <string name="telecronacaAmm">%s è stato ammonito!</string>
+    <string name="telecronacaEsp">%s viene espulso!</string>
+
+    <string name="endMatch">Termina partita</string>
+    <string name="extraTime">Tempi supplementari</string>
+    <string name="penaltiesGo">Vai ai rigori</string>
+
+    <string name="matchSimple">PARTITA</string>
+    <string name="penalties">RIGORI</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Bupi Album</string>
+    <string name="teams">Teams</string>
+    <string name="allTeams">Tutte le squadre</string>
 </resources>
