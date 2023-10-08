@@ -2,16 +2,36 @@ package com.mircontapp.sportalbum.data.datasource
 
 import android.content.res.AssetManager
 import com.mirco.sportalbum.utils.Enums
+import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.domain.models.TeamModel
 import java.io.File
 
 
 class AlbumDataSource {
+    val players: MutableList<PlayerModel> = ArrayList()
+    val teams: MutableList<TeamModel> = ArrayList()
+    final val PLAYERS_FILE_NAME = "players.txt"
+    final val TEAMS_FILE_NAME = "teams.txt"
+
 
     var assets: AssetManager?
 
     constructor(assets: AssetManager) {
         this.assets = assets
     }
+
+    //todo
+    /*fun fetchPlayersByAssets() {
+        assets?.open(PLAYERS_FILE_NAME)?.bufferedReader()?.forEachLine {
+            players.add(playerFactory(it))
+        }
+    }
+
+    fun fetchTeamsByAssets() {
+        assets?.open(FILE_NAME)?.bufferedReader()?.forEachLine {
+            teams.add(teamFactory(it))
+        }
+    }*/
 
     private fun readFileLines(fileName: String): MutableList<String> = File(fileName).bufferedReader().readLines().toMutableList()
 
