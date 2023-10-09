@@ -8,7 +8,8 @@ import androidx.room.RoomDatabase
 @Database(entities = [BupiPlayer::class, BupiTeam::class, Player::class, Team::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bupiDao(): BupiPlayerDao
-    abstract fun teamDao(): BupiTeamDao
+    abstract fun bupiTeamDao(): BupiTeamDao
+    abstract fun playerDao(): PlayerDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null

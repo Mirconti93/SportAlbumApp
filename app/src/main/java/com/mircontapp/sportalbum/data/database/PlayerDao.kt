@@ -7,13 +7,14 @@ import androidx.room.Query
 
 @Dao
 interface PlayerDao {
+
     @Insert
-    fun insertAll(vararg users: Player)
+    fun insertAll(vararg players: Player)
 
     @Delete
-    fun delete(user: BupiPlayer)
+    fun delete(user: Player)
 
     @Query("select * from player")
-    fun getBupi(): List<BupiPlayer>
+    fun getAll(): List<Player>
 
 }

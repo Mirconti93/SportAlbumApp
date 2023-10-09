@@ -10,14 +10,7 @@ class TeamsRepository() {
 
 
 
-    fun teamFactory(row: String) : TeamModel {
-        val fields = row.split("_")
-        if (fields.size >= 2) {
-            return TeamModel(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], fields[7], fields[7])
-        } else {
-            return TeamModel("Team", "", "", "", "", "", "", "", "")
-        }
-    }
+
 
     fun addTeam(TeamModel: TeamModel) {
         if (teams.contains(TeamModel)) {
@@ -30,7 +23,7 @@ class TeamsRepository() {
     fun teamFromArea(area: String) : List<TeamModel> {
         var teamList = ArrayList<TeamModel>()
         teams.forEach {
-            if (it.area.equals(area)) {
+            if (it.area?.name.equals(area)) {
                 teams.add(it)
             }
         }
@@ -46,6 +39,8 @@ class TeamsRepository() {
             )
         }
     }
+
+
 
 
 }

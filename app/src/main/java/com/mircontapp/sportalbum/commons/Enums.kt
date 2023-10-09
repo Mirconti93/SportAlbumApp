@@ -3,12 +3,14 @@ package com.mirco.sportalbum.utils
 import com.mircontapp.sportalbum.R
 
 class Enums {
-    enum class Area {
-        SERIEA, SERIEB, PREMIERLEAGUE, LIGA, BUNDESLIGA, LIGUE1, OTHER, CLUBFEMMINILI, NAZIONALI, NAZIONALIFEMMINILI
+    enum class Area(val text: String) {
+        SERIEA("Serie A"), SERIEB("Serie B"), PREMIERLEAGUE("Premier League"), LIGA("Liga"), BUNDESLIGA("Bundesliga"), LIGUE1("League 1"), OTHER("Other"), CLUBFEMMINILI("Women clubs"), NAZIONALI("Nationals"), NAZIONALIFEMMINILI("Women nationals")
     }
 
     enum class Role(val code: Int, override val text: Int) : EnumWriteble {
-        PT(R.string.pt, R.string.goalkeeper), DC(R.string.dc, R.string.centralBack), TD(
+        PT(R.string.pt, R.string.goalkeeper),
+        DC(R.string.dc, R.string.centralBack),
+        TD(
             R.string.td,
             R.string.rightBack
         ),

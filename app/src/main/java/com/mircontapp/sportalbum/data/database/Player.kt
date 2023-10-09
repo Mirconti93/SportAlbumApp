@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Player (
     @PrimaryKey val name: String,
     var role: String,
-    var Gender: String?,
+    var gender: String?,
     var team: String?,
     val country: String?,
     val birthyear: String?,

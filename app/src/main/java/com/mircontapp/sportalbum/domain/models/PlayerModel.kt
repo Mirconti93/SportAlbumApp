@@ -1,9 +1,11 @@
 package com.mircontapp.sportalbum.domain.models
 
+import com.mirco.sportalbum.utils.Enums
+
 data class PlayerModel(
     val name: String,
     var role: Enums.Role,
-    var Gender: String?,
+    var gender: Enums.Gender?,
     var team: String?,
     val country: String?,
     val birthyear: String?,
