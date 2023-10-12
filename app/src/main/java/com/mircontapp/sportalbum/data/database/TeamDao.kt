@@ -6,15 +6,15 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface PlayerDao {
+interface TeamDao {
 
     @Insert
-    fun insertAll(vararg players: Player)
+    fun insertAll(vararg team: Team)
 
     @Delete
-    fun delete(player: Player)
+    fun delete(team: Team)
 
-    @Query("select * from player")
-    fun getAll(): List<Player>
+    @Query("select * from team")
+    fun getAll(): List<Team>
 
 }

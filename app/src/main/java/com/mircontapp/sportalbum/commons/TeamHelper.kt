@@ -5,7 +5,7 @@ import com.mirco.sportalbum.utils.Enums
 class TeamHelper {
 
     companion object {
-        fun findAreaEnum(keyText: String): Enums.Area {
+        fun findAreaEnum(keyText: String?): Enums.Area {
             for (a in Enums.Area.values()) {
                 if (keyText.equals(a.toString(), ignoreCase = true)) {
                     return a

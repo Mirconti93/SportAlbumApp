@@ -6,5 +6,5 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 interface AlbumDataSource {
     fun fetchPlayers(): List<PlayerModel>?
 
-    fun fetchTeams(): List<TeamModel>
+    fun fetchTeams(): List<TeamModel>?
 }

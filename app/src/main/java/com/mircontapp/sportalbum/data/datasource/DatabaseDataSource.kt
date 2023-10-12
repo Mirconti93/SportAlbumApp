@@ -7,6 +7,7 @@ import com.mircontapp.sportalbum.commons.TeamHelper
 import com.mircontapp.sportalbum.data.database.AppDatabase
 import com.mircontapp.sportalbum.data.database.Player
 import com.mircontapp.sportalbum.data.database.PlayerDao
+import com.mircontapp.sportalbum.data.database.Team
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 
@@ -28,6 +29,8 @@ class DatabaseDataSource : AlbumDataSource {
         return players
     }
 
+
+
     private fun playerModelFromEntity(player: Player) : PlayerModel {
         return PlayerModel(
             name = player.name,
@@ -45,11 +48,28 @@ class DatabaseDataSource : AlbumDataSource {
         )
     }
 
-    override fun fetchTeams(): List<TeamModel> {
-        TODO("Not yet implemented")
+    override fun fetchTeams(): List<TeamModel>? {
+        val teams = ArrayList<TeamModel>()
+        database?.teamDAo()?.getAll()?.forEach {
+                team ->teams.add(teamModelFromEntity(team))
+        }
+        return teams
     }
 
+    private fun teamModelFromEntity(team: Team) : TeamModel {
+        return TeamModel(
+            name = team.name,
+            city = team.city,
+            country = team.country,
+            type = team.type,
+            color1 =  team.color1,
+            color2 = team.color2,
+            stadium = team.stadium,
+            coach = team.coach,
+            area = TeamHelper.findAreaEnum(team.area)
 
+        )
+    }
 
 
 
