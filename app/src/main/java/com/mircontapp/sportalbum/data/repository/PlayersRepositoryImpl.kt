@@ -5,7 +5,7 @@ import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 
-class PlayersRepository {
+class PlayersRepositoryImpl {
     val players: MutableList<PlayerModel> = ArrayList()
 
     fun playersFromTeam(teamName: String) : List<PlayerModel> {
@@ -31,7 +31,7 @@ class PlayersRepository {
     fun playersFromNational(country: String, gender: Enums.Gender): List<PlayerModel> {
         val playersList: MutableList<PlayerModel> = java.util.ArrayList<PlayerModel>()
         this.players.forEach {
-            if (country == it.country && gender.name == it.Gender && it.national === 1) {
+            if (country == it.country && gender == it.gender && it.national === 1) {
                 playersList.add(it)
             }
         }
@@ -41,7 +41,7 @@ class PlayersRepository {
     fun playersFromNationalLegend(country: String, gender: Enums.Gender): List<PlayerModel> {
         val playersList: MutableList<PlayerModel> = java.util.ArrayList<PlayerModel>()
         this.players.forEach{
-            if (country == it.country && gender.name == it.Gender && it.nationalLegend === 1) {
+            if (country == it.country && gender == it.gender && it.nationalLegend === 1) {
                 playersList.add(it)
             }
         }
@@ -74,15 +74,7 @@ class PlayersRepository {
     }*/
 
 
-    fun teamsFromArea(area: Enums.Area): List<TeamModel>? {
-        val teams: MutableList<TeamModel> = ArrayList()
-        for (team in teams) {
-            if (team.area != null && area.equals(team.area)) {
-                teams.add(team)
-            }
-        }
-        return teams
-    }
+
 
 
 

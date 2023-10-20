@@ -43,7 +43,7 @@ class PlayerHelper {
             return Enums.Gender.OTHER
         }
 
-        fun sortPlayerByRole(players: List<PlayerModel?>): List<PlayerModel?> {
+        fun sortPlayerByRole(players: List<PlayerModel>): List<PlayerModel> {
             return players.sortedBy { it?.role }
         }
 

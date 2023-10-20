@@ -5,7 +5,7 @@ import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 
-class TeamsRepository() {
+class TeamsRepositoryImpl() {
     val teams: MutableList<TeamModel> = ArrayList()
 
 
