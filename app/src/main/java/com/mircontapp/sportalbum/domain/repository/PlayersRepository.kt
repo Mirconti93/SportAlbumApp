@@ -9,4 +9,5 @@ interface PlayersRepository {
     fun playersFromTeam(teamName: String) : List<PlayerModel>
     fun playersFromTeamLegend(teamName: String): List<PlayerModel>
     fun playersFromNational(country: String, gender: Enums.Gender): List<PlayerModel>
+    fun playersFromNationalLegend(country: String, gender: Enums.Gender): List<PlayerModel>
 }

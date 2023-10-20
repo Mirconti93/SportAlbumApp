@@ -1,45 +1,31 @@
 package com.mircontapp.sportalbum.data.repository
 
+import com.mirco.sportalbum.utils.Enums
+import com.mircontapp.sportalbum.data.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.domain.repository.TeamsRepository
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 
-class TeamsRepositoryImpl() {
-    val teams: MutableList<TeamModel> = ArrayList()
+class TeamsRepositoryImpl(albumDataSource: AlbumDataSource) : TeamsRepository {
+    val teams: MutableList<TeamModel>
 
-
-
-
-
-    fun addTeam(TeamModel: TeamModel) {
-        if (teams.contains(TeamModel)) {
-            teams.set(teams.indexOf(TeamModel), TeamModel)
-        } else {
-            teams.add(TeamModel)
-        }
+    init {
+        teams = albumDataSource.fetchTeams()?.toMutableList() ?: ArrayList()
     }
 
-    fun teamFromArea(area: String) : List<TeamModel> {
-        var teamList = ArrayList<TeamModel>()
-        teams.forEach {
-            if (it.area?.name.equals(area)) {
-                teams.add(it)
-            }
-        }
-        return teams
+    override fun getAllTeams(): List<TeamModel> {
+        return teams.toList()
     }
 
-    fun teamFromAreaOrdered(area: String) : List<TeamModel> {
-        return teamFromArea(area).also {
-            Collections.sort(it, object : Comparator<TeamModel> {
-                override fun compare(a: TeamModel, b: TeamModel): Int {
-                    return a.name.compareTo(b.name)
-                }}
-            )
-        }
+    override fun addTeam(teamModel: TeamModel) {
+        teams.add(teamModel)
     }
 
+    override fun teamsFromArea(area: Enums.Area) : List<TeamModel> {
+        return teams.filter { area.equals(it.area) }
+    }
 
 
 

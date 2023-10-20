@@ -2,80 +2,39 @@ package com.mircontapp.sportalbum.data.repository
 
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.data.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.domain.repository.PlayersRepository
+import javax.inject.Inject
 
-class PlayersRepositoryImpl {
-    val players: MutableList<PlayerModel> = ArrayList()
 
-    fun playersFromTeam(teamName: String) : List<PlayerModel> {
-        var playersList = ArrayList<PlayerModel>()
-        this.players.forEach {
-            if (it.team.equals(teamName)) {
-                playersList.add(it)
-            }
-        }
-        return playersList
+class PlayersRepositoryImpl(albumDataSource: AlbumDataSource): PlayersRepository {
+    val players: MutableList<PlayerModel>
+
+    init {
+        players = albumDataSource.fetchPlayers()?.toMutableList() ?: ArrayList()
     }
 
-    fun playersFromTeamLegend(teamName: String): List<PlayerModel> {
-        val playersList: MutableList<PlayerModel> = java.util.ArrayList<PlayerModel>()
-        this.players.forEach {
-            if (teamName.equals(it.teamLegend, ignoreCase = true)) {
-                playersList.add(it)
-            }
-        }
-        return PlayerHelper.sortPlayerByRole(playersList)
+    override fun getAllPlayers(): List<PlayerModel> {
+        return players
     }
 
-    fun playersFromNational(country: String, gender: Enums.Gender): List<PlayerModel> {
-        val playersList: MutableList<PlayerModel> = java.util.ArrayList<PlayerModel>()
-        this.players.forEach {
-            if (country == it.country && gender == it.gender && it.national === 1) {
-                playersList.add(it)
-            }
-        }
-        return playersList
+    override fun playersFromTeam(teamName: String) : List<PlayerModel> {
+        return players.filter { it.team.equals(teamName) }
     }
 
-    fun playersFromNationalLegend(country: String, gender: Enums.Gender): List<PlayerModel> {
-        val playersList: MutableList<PlayerModel> = java.util.ArrayList<PlayerModel>()
-        this.players.forEach{
-            if (country == it.country && gender == it.gender && it.nationalLegend === 1) {
-                playersList.add(it)
-            }
-        }
-        return playersList
+    override fun playersFromTeamLegend(teamName: String): List<PlayerModel> {
+        return players.filter { teamName.equals(it.teamLegend, ignoreCase = true) }
     }
 
-    //todo
-    /*
-
-    fun sortPlayerByRoleLegend(players: List<PlayerModel?>?): List<PlayerModel> {
-        val orderedPlayers: List<PlayerModel> = ArrayList<PlayerModel>(players)
-        Collections.sort(
-            orderedPlayers,
-            comparator)
-        return orderedPlayers
+    override fun playersFromNational(country: String, gender: Enums.Gender): List<PlayerModel> {
+        return players.filter {country == it.country && gender == it.gender && it.national == 1}
     }
 
-
-
-    fun playersFromTeamByRole(teamName: String) : List<PlayerModel> {
-        return playersFromTeam(teamName).also {
-            Collections.sort(it, object : Comparator<PlayerModel> {
-                override fun compare(a: PlayerModel, b: PlayerModel): Int {
-
-                    return a.role!!.compareTo(b.role!!)
-
-                }}
-            )
-        }
-    }*/
-
-
-
-
+    override fun playersFromNationalLegend(country: String, gender: Enums.Gender): List<PlayerModel> {
+        return players.filter { country == it.country && gender == it.gender && it.nationalLegend == 1 }
+    }
 
 
 
