@@ -4,15 +4,22 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.data.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.repository.TeamsRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 
-class TeamsRepositoryImpl(albumDataSource: AlbumDataSource) : TeamsRepository {
-    val teams: MutableList<TeamModel>
+class TeamsRepositoryImpl @Inject constructor(albumDataSource: AlbumDataSource) : TeamsRepository {
+    lateinit var teams: MutableList<TeamModel>
 
     init {
-        teams = albumDataSource.fetchTeams()?.toMutableList() ?: ArrayList()
+        CoroutineScope(Dispatchers.IO).launch {
+            teams = albumDataSource.fetchTeams()?.toMutableList() ?: ArrayList()
+        }
+
     }
 
     override fun getAllTeams(): List<TeamModel> {

@@ -21,7 +21,7 @@ class DatabaseDataSource : AlbumDataSource {
         database = AppDatabase.getInstance(SportAlbumApplication.instance.applicationContext)
     }
 
-    override fun fetchPlayers(): List<PlayerModel>? {
+    override suspend fun fetchPlayers(): List<PlayerModel>? {
         val players = ArrayList<PlayerModel>()
         database?.playerDao()?.getAll()?.forEach {
             player ->players.add(playerModelFromEntity(player))
@@ -29,7 +29,13 @@ class DatabaseDataSource : AlbumDataSource {
         return players
     }
 
-
+    override suspend fun fetchTeams(): List<TeamModel>? {
+        val teams = ArrayList<TeamModel>()
+        database?.teamDAo()?.getAll()?.forEach {
+                team ->teams.add(teamModelFromEntity(team))
+        }
+        return teams
+    }
 
     private fun playerModelFromEntity(player: Player) : PlayerModel {
         return PlayerModel(
@@ -46,14 +52,6 @@ class DatabaseDataSource : AlbumDataSource {
             nationalLegend = player.nationalLegend,
             roleLineUp = player.roleLineUp
         )
-    }
-
-    override fun fetchTeams(): List<TeamModel>? {
-        val teams = ArrayList<TeamModel>()
-        database?.teamDAo()?.getAll()?.forEach {
-                team ->teams.add(teamModelFromEntity(team))
-        }
-        return teams
     }
 
     private fun teamModelFromEntity(team: Team) : TeamModel {

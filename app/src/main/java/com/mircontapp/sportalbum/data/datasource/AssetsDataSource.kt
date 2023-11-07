@@ -9,30 +9,27 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 import java.io.File
 
 
-class AssetsDataSource {
+class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
     val players: MutableList<PlayerModel> = ArrayList()
     val teams: MutableList<TeamModel> = ArrayList()
     val PLAYERS_FILE_NAME = "players.txt"
     val TEAMS_FILE_NAME = "teams.txt"
 
-
-    var assets: AssetManager?
-
-    constructor(assets: AssetManager) {
-        this.assets = assets
-    }
-
-    fun fetchPlayersByAssets() {
+    override suspend fun fetchPlayers(): List<PlayerModel>? {
         assets?.open(PLAYERS_FILE_NAME)?.bufferedReader()?.forEachLine {
             players.add(playerFactory(it))
         }
+        return players
     }
 
-    fun fetchTeamsByAssets() {
+
+    override suspend fun fetchTeams(): List<TeamModel> {
         assets?.open(TEAMS_FILE_NAME)?.bufferedReader()?.forEachLine {
             teams.add(teamFactory(it))
         }
+        return teams
     }
+
     private fun readFileLines(fileName: String): MutableList<String> = File(fileName).bufferedReader().readLines().toMutableList()
 
     fun playerFactory(row: String) : PlayerModel {

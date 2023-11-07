@@ -2,8 +2,13 @@ package com.mircontapp.sportalbum
 
 import android.app.Application
 import com.mircontapp.sportalbum.data.database.AppDatabase
+import com.mircontapp.sportalbum.data.datasource.AlbumDataSource
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltAndroidApp
 class SportAlbumApplication: Application() {
@@ -15,6 +20,10 @@ class SportAlbumApplication: Application() {
     init {
         instance = this
         val database = AppDatabase.getInstance(this)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
     }
 
     fun getStringById(id: Int): String {
