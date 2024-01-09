@@ -6,14 +6,19 @@ import com.mircontapp.sportalbum.data.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.repository.PlayersRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 class PlayersRepositoryImpl(albumDataSource: AlbumDataSource): PlayersRepository {
-    val players: MutableList<PlayerModel>
+    lateinit var players: List<PlayerModel>
 
     init {
-        players = albumDataSource.fetchPlayers()?.toMutableList() ?: ArrayList()
+        CoroutineScope(Dispatchers.IO).launch {
+            players = albumDataSource.fetchPlayers()?.toList() ?: ArrayList()
+        }
     }
 
     override fun getAllPlayers(): List<PlayerModel> {

@@ -19,16 +19,10 @@ class SportAlbumApplication: Application() {
 
     init {
         instance = this
-        val database = AppDatabase.getInstance(this)
     }
 
     override fun onCreate() {
         super.onCreate()
     }
-
-    fun getStringById(id: Int): String {
-        return getString(id)
-    }
-
 
 }

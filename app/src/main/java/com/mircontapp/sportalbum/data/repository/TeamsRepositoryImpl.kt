@@ -13,7 +13,7 @@ import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 class TeamsRepositoryImpl @Inject constructor(albumDataSource: AlbumDataSource) : TeamsRepository {
-    lateinit var teams: MutableList<TeamModel>
+    var teams: MutableList<TeamModel> = ArrayList()
 
     init {
         CoroutineScope(Dispatchers.IO).launch {

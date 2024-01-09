@@ -13,7 +13,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun teamDAo(): TeamDao
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
-
         fun getInstance(context: Context) : AppDatabase? {
             synchronized(this) {
                 var instance = INSTANCE
@@ -21,15 +20,13 @@ abstract class AppDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context,
                         AppDatabase::class.java,
-                        "bupi_database"
+                        "album_database"
                     ).build()
 
                     INSTANCE = instance
                 }
                 return instance
             }
-
-
         }
     }
 }
