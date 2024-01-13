@@ -12,26 +12,26 @@ import javax.inject.Inject
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 
-class TeamsRepositoryImpl @Inject constructor(albumDataSource: AlbumDataSource) : TeamsRepository {
+class TeamsRepositoryImpl @Inject constructor(val albumDataSource: AlbumDataSource) : TeamsRepository {
     var teams: MutableList<TeamModel> = ArrayList()
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
             teams = albumDataSource.fetchTeams()?.toMutableList() ?: ArrayList()
         }
-
     }
 
-    override fun getAllTeams(): List<TeamModel> {
-        return teams.toList()
+    override suspend fun getAllTeams(): List<TeamModel> {
+        return albumDataSource.fetchTeams()?.toMutableList() ?: ArrayList()
     }
 
-    override fun addTeam(teamModel: TeamModel) {
+    override suspend fun addTeam(teamModel: TeamModel) {
         teams.add(teamModel)
     }
 
-    override fun teamsFromArea(area: Enums.Area) : List<TeamModel> {
-        return teams.filter { area.equals(it.area) }
+    override suspend fun teamsFromArea(area: Enums.Area) : List<TeamModel> {
+        teams = albumDataSource.fetchTeams()?.toMutableList() ?: ArrayList()
+        return teams.filter { area.equals(it.area) }.sortedBy { it.name }
     }
 
 

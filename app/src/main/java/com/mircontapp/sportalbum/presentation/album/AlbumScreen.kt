@@ -27,12 +27,19 @@ fun AlbumScreen() {
     ) {
         val viewModel: AlbumViewModel = hiltViewModel()
         Text(text = SportAlbumApplication.instance.getString(R.string.teams))
-        LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 80.dp)) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
 
-            items(20) {
-                TeamChoiceItem(name = it.toString(), modifier = Modifier.padding(8.dp))
+            items(viewModel.teams.value?.size ?: 0) { i ->
+                if (viewModel.teams.value?.get(i) != null)
+                TeamChoiceItem(name = viewModel.teams.value?.get(i)!!.name, modifier = Modifier.padding(8.dp))
             }
         }
+
+
     }
 
 }

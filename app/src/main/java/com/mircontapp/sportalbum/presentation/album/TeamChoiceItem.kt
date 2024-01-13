@@ -43,7 +43,7 @@ fun TeamChoiceItem(name: String, modifier: Modifier) {
                 R.drawable.ic_launcher_foreground
             }
             Image(
-                painter = painterResource(id = idDrawable),
+                painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = null, // Descrizione opzionale per l'accessibilità
                 modifier = Modifier
                     .size(40.dp).shadow(2.dp)

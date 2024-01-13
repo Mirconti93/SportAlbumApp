@@ -21,23 +21,23 @@ class PlayersRepositoryImpl(albumDataSource: AlbumDataSource): PlayersRepository
         }
     }
 
-    override fun getAllPlayers(): List<PlayerModel> {
+    override suspend fun getAllPlayers(): List<PlayerModel> {
         return players
     }
 
-    override fun playersFromTeam(teamName: String) : List<PlayerModel> {
+    override suspend fun playersFromTeam(teamName: String) : List<PlayerModel> {
         return players.filter { it.team.equals(teamName) }
     }
 
-    override fun playersFromTeamLegend(teamName: String): List<PlayerModel> {
+    override suspend fun playersFromTeamLegend(teamName: String): List<PlayerModel> {
         return players.filter { teamName.equals(it.teamLegend, ignoreCase = true) }
     }
 
-    override fun playersFromNational(country: String, gender: Enums.Gender): List<PlayerModel> {
+    override suspend fun playersFromNational(country: String, gender: Enums.Gender): List<PlayerModel> {
         return players.filter {country == it.country && gender == it.gender && it.national == 1}
     }
 
-    override fun playersFromNationalLegend(country: String, gender: Enums.Gender): List<PlayerModel> {
+    override suspend fun playersFromNationalLegend(country: String, gender: Enums.Gender): List<PlayerModel> {
         return players.filter { country == it.country && gender == it.gender && it.nationalLegend == 1 }
     }
 
