@@ -230,4 +230,5 @@
     <string name="hello_blank_fragment">Bupi Album</string>
     <string name="teams">Teams</string>
     <string name="allTeams">Tutte le squadre</string>
+    <string name="noTeams">Nessuna squadra disponibile</string>
 </resources>

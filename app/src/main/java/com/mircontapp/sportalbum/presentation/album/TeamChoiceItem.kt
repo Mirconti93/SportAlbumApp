@@ -33,7 +33,7 @@ fun TeamChoiceItem(name: String, modifier: Modifier) {
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant,
         ),
-        shape = MaterialTheme.shapes.medium
+        shape = MaterialTheme.shapes.large
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             val context = SportAlbumApplication.instance.applicationContext
@@ -43,7 +43,7 @@ fun TeamChoiceItem(name: String, modifier: Modifier) {
                 R.drawable.ic_launcher_foreground
             }
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.empty_logo),
                 contentDescription = null, // Descrizione opzionale per l'accessibilità
                 modifier = Modifier
                     .size(40.dp).shadow(2.dp)
