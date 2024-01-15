@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.mircontapp.sportalbum.presentation.album.AlbumScreen
+import com.mircontapp.sportalbum.presentation.match.MatchScreen
 
 
 @Composable
@@ -22,7 +23,7 @@ fun NavGraph (navController: NavHostController){
             Text(text = "DashBoard")
         }
         composable(route = NavigationItem.Games.route){
-            Text(text = "Games")
+            MatchScreen()
         }
     }
 }

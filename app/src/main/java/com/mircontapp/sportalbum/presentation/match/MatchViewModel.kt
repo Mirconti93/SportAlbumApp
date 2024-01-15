@@ -1,3 +1,10 @@
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.domain.models.TeamModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 //package com.mircontapp.sportalbum.presentation.viewmodels
 //
 //import android.content.Context
@@ -9,14 +16,16 @@
 //import com.mircontapp.sportalbum.domain.models.PlayerModel
 //import com.mircontapp.sportalbum.domain.models.TeamModel
 //
-//class MatchViewModel : ViewModel() {
-//    var app = SportAlbumApplication.instance
-//    val homeTeam: MutableLiveData<TeamModel>
-//    val awayTeam: MutableLiveData<TeamModel>
-//    val homeRoster: MutableLiveData<List<PlayerModel>?>
-//    val awayRoster: MutableLiveData<List<PlayerModel>?>
-//    val currentPlayer: MutableLiveData<PlayerModel>
-//    val currentFocus: MutableLiveData<Int>
+
+@HiltViewModel
+class MatchViewModel : ViewModel() {
+    var app = SportAlbumApplication.instance
+    val homeTeam: MutableLiveData<TeamModel> = MutableLiveData()
+    val awayTeam: MutableLiveData<TeamModel> = MutableLiveData()
+    val homeRoster: MutableLiveData<List<PlayerModel>?> = MutableLiveData()
+    val awayRoster: MutableLiveData<List<PlayerModel>?> = MutableLiveData()
+    var currentPlayer: MutableLiveData<PlayerModel> = MutableLiveData()
+    var currentFocus: MutableLiveData<Int> = MutableLiveData()
 //    private val lineUpChoice: MutableLiveData<Enums.LineUpChoice>
 //    val minute: MutableLiveData<Int>
 //    private var homeLUManager: LineUpDataManager? = null
@@ -354,8 +363,8 @@
 //        this.coachAway = coachAway
 //    }
 //
-//    companion object {
-//        const val HOME = 0
-//        const val AWAY = 1
-//    }
-//}
+    companion object {
+        const val HOME = 0
+        const val AWAY = 1
+    }
+}

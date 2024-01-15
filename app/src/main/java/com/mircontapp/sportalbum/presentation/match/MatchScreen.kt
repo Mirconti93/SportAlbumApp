@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.album
+package com.mircontapp.sportalbum.presentation.match
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,10 +17,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.album.AlbumViewModel
+import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 
 @Composable
-fun AlbumScreen() {
+fun MatchScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
