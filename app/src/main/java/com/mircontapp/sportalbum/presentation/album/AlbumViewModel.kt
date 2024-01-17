@@ -1,5 +1,6 @@
 package com.mircontapp.sportalbum.presentation.album
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +17,7 @@ class AlbumViewModel @Inject constructor(
     val getAllTeamsUC: GetAllTeamsUC,
     val teamsFromAreaOrderedUC: GetTeamsFromAreaUC,
 ) : ViewModel() {
-    var teams: MutableLiveData<List<TeamModel>> = MutableLiveData()
+    val teams = mutableStateOf<List<TeamModel>>(emptyList())
 
     init {
         viewModelScope.launch {
@@ -26,3 +27,4 @@ class AlbumViewModel @Inject constructor(
     }
 
 }
+

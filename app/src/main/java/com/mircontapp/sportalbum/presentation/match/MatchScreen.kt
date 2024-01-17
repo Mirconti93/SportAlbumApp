@@ -19,6 +19,7 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.album.AlbumViewModel
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
+import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 
 @Composable
@@ -34,11 +35,11 @@ fun MatchScreen() {
         Text(text = SportAlbumApplication.instance.getString(R.string.teams))
 
         if (viewModel.teams.value != null) {
-            TeamsGrid(teams = viewModel.teams.value!!, onTeamClickHandler = object : OnTeamClickHandler {
-                override fun onTeakClick(teamModel: TeamModel) {
+            TeamsGrid(TeamsState(viewModel.teams.value!!, onTeamClickHandler = object : OnTeamClickHandler {
+                override fun onTeamClick(teamModel: TeamModel) {
                     TODO("Not yet implemented")
                 }
-            })
+            }))
         } else {
             Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
         }

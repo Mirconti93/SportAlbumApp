@@ -25,5 +25,8 @@ fun NavGraph (navController: NavHostController){
         composable(route = NavigationItem.Games.route){
             MatchScreen()
         }
+        composable(route = NavigationItem.TeamSelection.route){
+            MatchScreen()
+        }
     }
 }

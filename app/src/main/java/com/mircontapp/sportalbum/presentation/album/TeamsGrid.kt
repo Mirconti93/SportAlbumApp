@@ -12,6 +12,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -24,13 +25,13 @@ import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import java.lang.Exception
 
 @Composable
-fun TeamsGrid(teams: List<TeamModel>, onTeamClickHandler: OnTeamClickHandler) {
+fun TeamsGrid(teamsState: TeamsState) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        teams.forEach {
+        teamsState.teams.forEach {
             item {
                 TeamChoiceItem(name = it.name, modifier = Modifier.padding(8.dp))
             }
@@ -68,3 +69,6 @@ fun TeamChoiceItem(name: String, modifier: Modifier) {
     }
 
 }
+
+@Stable
+data class TeamsState(val teams: List<TeamModel>, val onTeamClickHandler: OnTeamClickHandler)

@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,11 +33,14 @@ fun AlbumScreen() {
         Text(text = SportAlbumApplication.instance.getString(R.string.teams))
 
         if (viewModel.teams.value != null) {
-            TeamsGrid(teams = viewModel.teams.value!!, onTeamClickHandler = object : OnTeamClickHandler {
-                override fun onTeakClick(teamModel: TeamModel) {
+            val teams = rememberSaveable { mutableStateOf(viewModel.teams.value) }
+            TeamsGrid(TeamsState(teams.value!!, object : OnTeamClickHandler {
+                override fun onTeamClick(teamModel: TeamModel) {
                     TODO("Not yet implemented")
                 }
-            })
+            }))
+
+
         } else {
             Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
         }

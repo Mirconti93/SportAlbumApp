@@ -6,8 +6,10 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class NavigationItem(var route: String, var icon: ImageVector, var title: String) {
+sealed class NavigationItem(var route: String, var icon: ImageVector?, var title: String) {
     object Album : NavigationItem("album", Icons.Default.Home, "Album")
     object Dashboard : NavigationItem("dashboard", Icons.Default.List, "Dashboard")
     object Games : NavigationItem("games", Icons.Default.Favorite, "Games")
+    object TeamSelection : NavigationItem("team_selection", null, "Games")
+
 }

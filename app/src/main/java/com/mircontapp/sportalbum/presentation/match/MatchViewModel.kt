@@ -1,9 +1,13 @@
+package com.mircontapp.sportalbum.presentation.match
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 //package com.mircontapp.sportalbum.presentation.viewmodels
 //
@@ -18,25 +22,25 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 //
 
 @HiltViewModel
-class MatchViewModel : ViewModel() {
+class MatchViewModel @Inject constructor() : ViewModel() {
     var app = SportAlbumApplication.instance
     val homeTeam: MutableLiveData<TeamModel> = MutableLiveData()
     val awayTeam: MutableLiveData<TeamModel> = MutableLiveData()
     val homeRoster: MutableLiveData<List<PlayerModel>?> = MutableLiveData()
     val awayRoster: MutableLiveData<List<PlayerModel>?> = MutableLiveData()
-    var currentPlayer: MutableLiveData<PlayerModel> = MutableLiveData()
-    var currentFocus: MutableLiveData<Int> = MutableLiveData()
-//    private val lineUpChoice: MutableLiveData<Enums.LineUpChoice>
-//    val minute: MutableLiveData<Int>
+    val currentPlayer: MutableLiveData<PlayerModel> = MutableLiveData()
+    val currentFocus: MutableLiveData<Int> = MutableLiveData()
+    val lineUpChoice: MutableLiveData<Enums.LineUpChoice> = MutableLiveData()
+    val minute: MutableLiveData<Int> = MutableLiveData()
 //    private var homeLUManager: LineUpDataManager? = null
 //    private var awayLUManager: LineUpDataManager? = null
-//    val homeEleven: MutableLiveData<List<PlayerModel>>
-//    val awayEleven: MutableLiveData<List<PlayerModel>>
-//    val homeBench: MutableLiveData<List<PlayerModel>>
-//    val awayBench: MutableLiveData<List<PlayerModel>>
-//    var isLegend: Boolean
-//    private var matchType: Enums.MatchType
-//    var playerSelected: PlayerModel? = null
+    val homeEleven: MutableLiveData<List<PlayerModel>> = MutableLiveData()
+    val awayEleven: MutableLiveData<List<PlayerModel>> = MutableLiveData()
+    val homeBench: MutableLiveData<List<PlayerModel>> = MutableLiveData()
+    val awayBench: MutableLiveData<List<PlayerModel>> = MutableLiveData()
+    var isLegend: Boolean = true
+    var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
+    var playerSelected: PlayerModel? = null
 //    private var coachHome: CoachModel? = null
 //    private var coachAway: CoachModel? = null
 //    private var modHome: Enums.MatchModule? = null
