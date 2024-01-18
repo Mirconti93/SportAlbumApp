@@ -10,7 +10,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun bupiDao(): BupiPlayerDao
     abstract fun bupiTeamDao(): BupiTeamDao
     abstract fun playerDao(): PlayerDao
-    abstract fun teamDAo(): TeamDao
+    abstract fun teamDao(): TeamDao
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
         fun getInstance(context: Context) : AppDatabase? {

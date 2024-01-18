@@ -9,7 +9,10 @@ import androidx.room.Query
 interface TeamDao {
 
     @Insert
-    fun insertAll(vararg team: Team)
+    fun insert(vararg team: Team)
+
+    @Insert
+    fun insertAll(vararg teams: List<Team>)
 
     @Delete
     fun delete(team: Team)

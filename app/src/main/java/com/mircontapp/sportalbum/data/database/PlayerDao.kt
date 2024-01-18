@@ -9,7 +9,10 @@ import androidx.room.Query
 interface PlayerDao {
 
     @Insert
-    fun insertAll(vararg players: Player)
+    fun insert(vararg players: Player)
+
+    @Insert
+    fun insertAll(vararg players: List<Player>)
 
     @Delete
     fun delete(player: Player)
