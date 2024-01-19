@@ -49,13 +49,6 @@ class MainActivity : ComponentActivity() {
             SportAlbumTheme {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            title = {
-                                Text(getString(R.string.app_name))
-                            }
-                        )
-                    },
                     bottomBar = {
                         BottomBarNavigation(arrayListOf(
                             NavigationItem.Album,

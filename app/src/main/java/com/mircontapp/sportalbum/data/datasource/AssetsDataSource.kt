@@ -34,7 +34,7 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
 
     fun playerFactory(row: String) : PlayerModel {
         val fields = row.split("_")
-        if (fields.size>=12) {
+        if (fields.size>=22) {
             return PlayerModel(
                 fields[0], PlayerHelper.roleFromString(fields[1]) ?: Enums.Role.PP,
                 PlayerHelper.genderFromString(fields[2]),
@@ -46,10 +46,20 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
                 fields[8],
                 Integer.parseInt(fields[9]),
                 Integer.parseInt(fields[10]),
-                fields[11]
+                fields[11],
+                Integer.parseInt(fields[12]),
+                Integer.parseInt(fields[13]),
+                Integer.parseInt(fields[14]),
+                Integer.parseInt(fields[15]),
+                Integer.parseInt(fields[16]),
+                Integer.parseInt(fields[17]),
+                Integer.parseInt(fields[18]),
+                Integer.parseInt(fields[19]),
+                Integer.parseInt(fields[20]),
+                Integer.parseInt(fields[21])
             )
         } else {
-            return PlayerModel(fields[0], Enums.Role.PP, null, null, null, null, null, null, null, null, null, null)
+            return PlayerModel(fields[0], Enums.Role.PP, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null )
         }
 
     }
@@ -57,9 +67,9 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
     fun teamFactory(row: String) : TeamModel {
         val fields = row.split("_")
         if (fields.size >= 2) {
-            return TeamModel(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], fields[7], PlayerHelper.findAreaEnum(fields[8]))
+            return TeamModel(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], PlayerHelper.findAreaEnum(fields[8]), fields[7], "", Enums.MatchModule.M442)
         } else {
-            return TeamModel("Team", "", "", "", "", "", "", "", Enums.Area.OTHER)
+            return TeamModel("Team", "", "", "", "", "", "", Enums.Area.OTHER,"",  "",Enums.MatchModule.M442)
         }
     }
 

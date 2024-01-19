@@ -1,12 +1,19 @@
 package com.mircontapp.sportalbum.presentation.match
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
+import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 //package com.mircontapp.sportalbum.presentation.viewmodels
@@ -22,7 +29,10 @@ import javax.inject.Inject
 //
 
 @HiltViewModel
-class MatchViewModel @Inject constructor() : ViewModel() {
+class MatchViewModel @Inject constructor(
+    val getTeamsFromAreaUC: GetTeamsFromAreaUC,
+    val getPlayersByTeamUC: GetPlayersByTeamUC
+) : ViewModel() {
     var app = SportAlbumApplication.instance
     val homeTeam: MutableLiveData<TeamModel> = MutableLiveData()
     val awayTeam: MutableLiveData<TeamModel> = MutableLiveData()
@@ -41,6 +51,22 @@ class MatchViewModel @Inject constructor() : ViewModel() {
     var isLegend: Boolean = true
     var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
     var playerSelected: PlayerModel? = null
+
+    val teamPosition = mutableStateOf(TeamPosition.HOME)
+    val teams = mutableStateOf<List<TeamModel>>(emptyList())
+    enum class TeamPosition {
+        HOME, AWAY
+    }
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = getTeamsFromAreaUC.getTeamsFromArea(Enums.Area.SERIEA)
+            withContext(Dispatchers.Main) {
+                teams.value = list
+            }
+        }
+    }
+
 //    private var coachHome: CoachModel? = null
 //    private var coachAway: CoachModel? = null
 //    private var modHome: Enums.MatchModule? = null
@@ -367,8 +393,6 @@ class MatchViewModel @Inject constructor() : ViewModel() {
 //        this.coachAway = coachAway
 //    }
 //
-    companion object {
-        const val HOME = 0
-        const val AWAY = 1
-    }
+
+
 }

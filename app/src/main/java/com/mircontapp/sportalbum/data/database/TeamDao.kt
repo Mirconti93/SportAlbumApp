@@ -12,7 +12,7 @@ interface TeamDao {
     fun insert(vararg team: Team)
 
     @Insert
-    fun insertAll(vararg teams: List<Team>)
+    fun insertAll(teams: List<Team>)
 
     @Delete
     fun delete(team: Team)

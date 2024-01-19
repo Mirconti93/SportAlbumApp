@@ -1,8 +1,10 @@
 package com.mircontapp.sportalbum.presentation.album
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -16,10 +18,12 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import java.lang.Exception
@@ -27,13 +31,13 @@ import java.lang.Exception
 @Composable
 fun TeamsGrid(teamsState: TeamsState) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(4),
+        columns = GridCells.Fixed(5),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         teamsState.teams.forEach {
             item {
-                TeamChoiceItem(name = it.name, modifier = Modifier.padding(8.dp))
+                TeamChoiceItem(name = it.name, modifier = Modifier.padding(8.dp).fillMaxWidth())
             }
         }
 
@@ -46,24 +50,22 @@ fun TeamChoiceItem(name: String, modifier: Modifier) {
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            containerColor = MaterialTheme.colorScheme.primary,
         ),
         shape = MaterialTheme.shapes.large
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             val context = SportAlbumApplication.instance.applicationContext
-            val idDrawable = try {
-                context.resources.getIdentifier(name, "drawable", context.getPackageName());
-            } catch (e: Exception) {
-                R.drawable.ic_launcher_foreground
-            }
+            val idDrawable = UIHelper.getDrawableId(context, name, R.drawable.inter)
             Image(
-                painter = painterResource(id = R.drawable.empty_logo),
+                painter = painterResource(id = R.drawable.inter),
                 contentDescription = null, // Descrizione opzionale per l'accessibilità
                 modifier = Modifier
-                    .size(40.dp).shadow(2.dp)
+                    .size(40.dp).shadow(2.dp).weight(1f),
+                contentScale = ContentScale.Crop
             )
-            Text(text = name)
+            Text(modifier = Modifier.weight(1f),
+                text = name)
         }
 
     }

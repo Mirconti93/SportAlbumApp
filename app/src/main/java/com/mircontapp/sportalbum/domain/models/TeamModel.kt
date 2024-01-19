@@ -10,6 +10,8 @@ data class TeamModel(
     val color1: String?,
     val color2: String?,
     val stadium: String?,
+    val area: Enums.Area?,
     val coach: String?,
-    val area: Enums.Area?
+    val coachlegend: String?,
+    val module: Enums.MatchModule
 )

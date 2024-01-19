@@ -33,16 +33,41 @@ fun MatchScreen() {
     ) {
         val viewModel: AlbumViewModel = hiltViewModel()
         Text(text = SportAlbumApplication.instance.getString(R.string.teams))
-
-        if (viewModel.teams.value != null) {
-            TeamsGrid(TeamsState(viewModel.teams.value!!, onTeamClickHandler = object : OnTeamClickHandler {
-                override fun onTeamClick(teamModel: TeamModel) {
-                    TODO("Not yet implemented")
-                }
-            }))
+        if (viewModel.showSelection.value) {
+            if (viewModel.teams.value != null) {
+                TeamsGrid(
+                    TeamsState(
+                        viewModel.teams.value!!,
+                        onTeamClickHandler = object : OnTeamClickHandler {
+                            override fun onTeamClick(teamModel: TeamModel) {
+                                TODO("Not yet implemented")
+                            }
+                        })
+                )
+            } else {
+                Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
+            }
         } else {
-            Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
+
         }
+    }
+
+}
+
+@Composable
+fun MatchChoice(homeTeam: String, awayTeam: String) {
+    Column {
+        TeamSelected(team = homeTeam)
+    }
+    Column {
+        TeamSelected(team = awayTeam)
+    }
+}
+
+@Composable
+fun TeamSelected(team: String) {
+    Column {
+
     }
 
 }

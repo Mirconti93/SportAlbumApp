@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "coach")
 class Coach (
     @PrimaryKey val name: String,
-    var description: String
+    var module: String,
 )
 
 

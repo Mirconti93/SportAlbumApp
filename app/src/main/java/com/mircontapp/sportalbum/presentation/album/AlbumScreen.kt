@@ -31,10 +31,9 @@ fun AlbumScreen() {
     ) {
         val viewModel: AlbumViewModel = hiltViewModel()
         Text(text = SportAlbumApplication.instance.getString(R.string.teams))
-
         if (viewModel.teams.value != null) {
-            val teams = rememberSaveable { mutableStateOf(viewModel.teams.value) }
-            TeamsGrid(TeamsState(teams.value!!, object : OnTeamClickHandler {
+            val teams = viewModel.teams.value
+            TeamsGrid(TeamsState(teams, object : OnTeamClickHandler {
                 override fun onTeamClick(teamModel: TeamModel) {
                     TODO("Not yet implemented")
                 }
@@ -44,6 +43,7 @@ fun AlbumScreen() {
         } else {
             Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
         }
+
     }
 
 }

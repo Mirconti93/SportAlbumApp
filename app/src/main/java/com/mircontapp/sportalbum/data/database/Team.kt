@@ -12,8 +12,10 @@ class Team (
     val color1: String?,
     val color2: String?,
     val stadium: String?,
+    val area: String?,
     val coach: String?,
-    val area: String?
+    val coachlegend: String?,
+    val module: String?,
 )
 
 

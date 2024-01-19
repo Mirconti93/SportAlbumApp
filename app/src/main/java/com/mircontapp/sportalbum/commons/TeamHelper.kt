@@ -14,6 +14,16 @@ class TeamHelper {
             return Enums.Area.OTHER
         }
 
+        fun findModuleEnum(keyText: String?): Enums.MatchModule {
+            for (m in Enums.MatchModule.values()) {
+                val text = "M" + keyText
+                if (text.equals(m.toString(), ignoreCase = true)) {
+                    return m
+                }
+            }
+            return Enums.MatchModule.M442
+        }
+
     }
 
 

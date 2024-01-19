@@ -12,7 +12,7 @@ interface PlayerDao {
     fun insert(vararg players: Player)
 
     @Insert
-    fun insertAll(vararg players: List<Player>)
+    fun insertAll(players: List<Player>)
 
     @Delete
     fun delete(player: Player)

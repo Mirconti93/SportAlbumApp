@@ -12,33 +12,26 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class PlayersRepositoryImpl(albumDataSource: AlbumDataSource): PlayersRepository {
-    lateinit var players: List<PlayerModel>
-
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
-            players = albumDataSource.fetchPlayers()?.toList() ?: ArrayList()
-        }
-    }
+class PlayersRepositoryImpl(val albumDataSource: AlbumDataSource): PlayersRepository {
 
     override suspend fun getAllPlayers(): List<PlayerModel> {
-        return players
+        return albumDataSource.fetchPlayers()?.toList() ?: ArrayList()
     }
 
     override suspend fun playersFromTeam(teamName: String) : List<PlayerModel> {
-        return players.filter { it.team.equals(teamName) }
+        return getAllPlayers().filter { it.team.equals(teamName) }
     }
 
     override suspend fun playersFromTeamLegend(teamName: String): List<PlayerModel> {
-        return players.filter { teamName.equals(it.teamLegend, ignoreCase = true) }
+        return getAllPlayers().filter { teamName.equals(it.teamLegend, ignoreCase = true) }
     }
 
     override suspend fun playersFromNational(country: String, gender: Enums.Gender): List<PlayerModel> {
-        return players.filter {country == it.country && gender == it.gender && it.national == 1}
+        return getAllPlayers().filter {country == it.country && gender == it.gender && it.national == 1}
     }
 
     override suspend fun playersFromNationalLegend(country: String, gender: Enums.Gender): List<PlayerModel> {
-        return players.filter { country == it.country && gender == it.gender && it.nationalLegend == 1 }
+        return getAllPlayers().filter { country == it.country && gender == it.gender && it.nationalLegend == 1 }
     }
 
 

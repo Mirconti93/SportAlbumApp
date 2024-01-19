@@ -1,8 +1,13 @@
 package com.mircontapp.sportalbum
 
 import android.app.Application
+import android.util.Log
 import com.mircontapp.sportalbum.data.database.AppDatabase
 import com.mircontapp.sportalbum.data.datasource.AlbumDataSource
+import com.mircontapp.sportalbum.data.datasource.AssetsDataSource
+import com.mircontapp.sportalbum.data.datasource.DatabaseDataSource
+import com.mircontapp.sportalbum.data.repository.PlayersRepositoryImpl
+import com.mircontapp.sportalbum.data.repository.TeamsRepositoryImpl
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -25,4 +30,20 @@ class SportAlbumApplication: Application() {
         super.onCreate()
     }
 
+    private fun insertToDB() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val dataSource = AssetsDataSource(assets)
+            var repoT = TeamsRepositoryImpl(dataSource)
+            val teams = repoT.getAllTeams()
+            Log.i("BUPI", "Teams:" + teams.size.toString())
+            var repoP = PlayersRepositoryImpl(dataSource)
+            val players = repoP.getAllPlayers()
+            Log.i("BUPI", "Players:" + players.size.toString())
+
+            val databaseDS = DatabaseDataSource()
+            databaseDS.insertAllTeams(teams)
+            databaseDS.insertAllPlayers(players)
+
+        }
+    }
 }

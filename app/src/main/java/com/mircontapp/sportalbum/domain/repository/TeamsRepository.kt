@@ -1,6 +1,7 @@
 package com.mircontapp.sportalbum.domain.repository
 
 import com.mirco.sportalbum.utils.Enums
+import com.mircontapp.sportalbum.data.database.Team
 import com.mircontapp.sportalbum.domain.models.TeamModel
 
 interface TeamsRepository {
