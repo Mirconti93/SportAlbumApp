@@ -1,16 +1,18 @@
 package com.mircontapp.sportalbum.presentation.navigation
 
+import android.content.Context
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.mircontapp.sportalbum.presentation.album.AlbumScreen
+import com.mircontapp.sportalbum.presentation.match.LineUpScreen
 import com.mircontapp.sportalbum.presentation.match.MatchScreen
 
 
 @Composable
-fun NavGraph (navController: NavHostController){
+fun NavGraph(navController: NavHostController){
 
     NavHost(
         navController = navController,
@@ -24,6 +26,10 @@ fun NavGraph (navController: NavHostController){
         }
         composable(route = NavigationItem.Games.route){
             MatchScreen()
+        }
+
+        composable(route = NavigationItem.Games.route){
+            LineUpScreen()
         }
     }
 }

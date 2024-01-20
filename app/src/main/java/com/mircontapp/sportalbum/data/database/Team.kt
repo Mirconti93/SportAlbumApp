@@ -13,6 +13,8 @@ class Team (
     val color2: String?,
     val stadium: String?,
     val area: String?,
+    val arealegend: String?,
+    val superlega: Boolean?,
     val coach: String?,
     val coachlegend: String?,
     val module: String?,

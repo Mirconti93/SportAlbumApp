@@ -1,5 +1,6 @@
 package com.mircontapp.sportalbum.presentation.album
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mircontapp.sportalbum.R
@@ -37,7 +39,7 @@ fun TeamsGrid(teamsState: TeamsState) {
     ) {
         teamsState.teams.forEach {
             item {
-                TeamChoiceItem(name = it.name, modifier = Modifier.padding(8.dp).fillMaxWidth())
+                TeamChoiceItem(name = it.name, modifier = Modifier.padding(8.dp))
             }
         }
 
@@ -47,25 +49,23 @@ fun TeamsGrid(teamsState: TeamsState) {
 @Composable
 fun TeamChoiceItem(name: String, modifier: Modifier) {
     Card(
-        modifier = modifier,
+        modifier = modifier.shadow(2.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
         ),
-        shape = MaterialTheme.shapes.large
+        shape = MaterialTheme.shapes.large,
+
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            val context = SportAlbumApplication.instance.applicationContext
-            val idDrawable = UIHelper.getDrawableId(context, name, R.drawable.inter)
+        Column(modifier = Modifier.fillMaxWidth().padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            val idDrawable = UIHelper.getDrawableId(name, R.drawable.inter)
             Image(
-                painter = painterResource(id = R.drawable.inter),
-                contentDescription = null, // Descrizione opzionale per l'accessibilità
-                modifier = Modifier
-                    .size(40.dp).shadow(2.dp).weight(1f),
+                painter = painterResource(idDrawable),
+                contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
+                modifier = Modifier.size(40.dp),
                 contentScale = ContentScale.Crop
             )
-            Text(modifier = Modifier.weight(1f),
-                text = name)
+            Text(modifier = Modifier, text = name)
         }
 
     }

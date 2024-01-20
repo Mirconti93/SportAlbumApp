@@ -11,4 +11,6 @@ sealed class NavigationItem(var route: String, var icon: ImageVector, var title:
     object Dashboard : NavigationItem("dashboard", Icons.Default.List, "Dashboard")
     object Games : NavigationItem("games", Icons.Default.Favorite, "Games")
 
+    object LineUps : NavigationItem("line_up", Icons.Default.Favorite, "Line Up")
+
 }

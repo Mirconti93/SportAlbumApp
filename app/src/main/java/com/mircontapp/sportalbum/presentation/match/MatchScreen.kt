@@ -12,8 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.Navigation
+import androidx.navigation.compose.rememberNavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.TeamModel
@@ -21,6 +24,7 @@ import com.mircontapp.sportalbum.presentation.album.AlbumViewModel
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
+import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 
 @Composable
 fun MatchScreen() {
@@ -32,15 +36,15 @@ fun MatchScreen() {
         verticalArrangement = Arrangement.Top
     ) {
         val viewModel: AlbumViewModel = hiltViewModel()
+        val navController = rememberNavController()
         Text(text = SportAlbumApplication.instance.getString(R.string.teams))
         if (viewModel.showSelection.value) {
             if (viewModel.teams.value != null) {
-                TeamsGrid(
-                    TeamsState(
+                TeamsGrid(TeamsState(
                         viewModel.teams.value!!,
                         onTeamClickHandler = object : OnTeamClickHandler {
                             override fun onTeamClick(teamModel: TeamModel) {
-                                TODO("Not yet implemented")
+                                navController.navigate(NavigationItem.LineUps.route)
                             }
                         })
                 )

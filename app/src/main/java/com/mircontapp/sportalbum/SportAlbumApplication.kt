@@ -20,6 +20,7 @@ class SportAlbumApplication: Application() {
 
     companion object {
         lateinit var instance: SportAlbumApplication
+
     }
 
     init {

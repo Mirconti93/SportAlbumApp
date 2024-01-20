@@ -91,6 +91,8 @@ class DataMapper {
                 stadium = team.stadium,
                 coach = team.coach,
                 area = team.area?.name,
+                arealegend = team.area?.name,
+                superlega = false,
                 coachlegend = team.coachlegend,
                 module = team.module.name.substring(1)
             )

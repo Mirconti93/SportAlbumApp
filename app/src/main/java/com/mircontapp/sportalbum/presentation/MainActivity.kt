@@ -1,6 +1,10 @@
 package com.mircontapp.sportalbum.presentation
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -22,7 +26,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.presentation.navigation.NavGraph
@@ -45,6 +52,8 @@ class MainActivity : ComponentActivity() {
             mainViewModel.routeSelected.observe(this) {
                 navController.navigate(it.route)
             }
+
+
 
             SportAlbumTheme {
                 // A surface container using the 'background' color from the theme
