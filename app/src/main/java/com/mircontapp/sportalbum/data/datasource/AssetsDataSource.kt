@@ -39,6 +39,10 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
         Log.i("BUPI", "Operation not available")
     }
 
+    override suspend fun insertTeam(teamModel: TeamModel) {
+        Log.i("BUPI", "Operation not available")
+    }
+
     private fun readFileLines(fileName: String): MutableList<String> = File(fileName).bufferedReader().readLines().toMutableList()
 
     fun playerFactory(row: String) : PlayerModel {
@@ -76,9 +80,9 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
     fun teamFactory(row: String) : TeamModel {
         val fields = row.split("_")
         if (fields.size >= 2) {
-            return TeamModel(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], PlayerHelper.findAreaEnum(fields[8]), fields[7], "", Enums.MatchModule.M442)
+            return TeamModel(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], PlayerHelper.findAreaEnum(fields[8]), Enums.Area.OTHER, false, fields[7], "", Enums.MatchModule.M442)
         } else {
-            return TeamModel("Team", "", "", "", "", "", "", Enums.Area.OTHER,"",  "",Enums.MatchModule.M442)
+            return TeamModel("Team", "", "", "", "", "", "", Enums.Area.OTHER,Enums.Area.OTHER,false,"",  "",Enums.MatchModule.M442)
         }
     }
 

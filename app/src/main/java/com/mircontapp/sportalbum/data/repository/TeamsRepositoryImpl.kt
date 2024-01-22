@@ -27,6 +27,14 @@ class TeamsRepositoryImpl @Inject constructor(val albumDataSource: AlbumDataSour
         return getAllTeams().filter { area.equals(it.area) }.sortedBy { it.name }
     }
 
+    override suspend fun updateTeam(teamModel: TeamModel) {
+        albumDataSource.updateTeam(teamModel)
+    }
+
+    override suspend fun insertTeam(teamModel: TeamModel) {
+        albumDataSource.insertTeam(teamModel)
+    }
+
 
 
 }

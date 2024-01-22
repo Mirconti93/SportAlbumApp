@@ -11,6 +11,8 @@ import com.mircontapp.sportalbum.domain.repository.TeamsRepository
 import com.mircontapp.sportalbum.domain.usecases.GetAllPlayersUC
 import com.mircontapp.sportalbum.domain.usecases.GetAllTeamsUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
+import com.mircontapp.sportalbum.domain.usecases.InsertTeamUC
+import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,6 +53,17 @@ class AppModule {
     fun provideGetTeamsFromArea(): GetTeamsFromAreaUC {
         return GetTeamsFromAreaUC(provideTeamsRepository())
     }
+
+    @Provides
+    fun provideUpdateTeam(): UpdateTeamUC {
+        return UpdateTeamUC(provideTeamsRepository())
+    }
+
+    @Provides
+    fun provideInsertTeam(): InsertTeamUC {
+        return InsertTeamUC(provideTeamsRepository())
+    }
+
 
 
 

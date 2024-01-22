@@ -3,6 +3,7 @@ package com.mircontapp.sportalbum.presentation.album
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,7 +40,9 @@ fun TeamsGrid(teamsState: TeamsState) {
     ) {
         teamsState.teams.forEach {
             item {
-                TeamChoiceItem(name = it.name, modifier = Modifier.padding(8.dp))
+                TeamChoiceItem(name = it.name, modifier = Modifier.padding(8.dp).shadow(2.dp).clickable {
+                    teamsState.onTeamClickHandler.onTeamClick(it)
+                })
             }
         }
 
@@ -49,7 +52,7 @@ fun TeamsGrid(teamsState: TeamsState) {
 @Composable
 fun TeamChoiceItem(name: String, modifier: Modifier) {
     Card(
-        modifier = modifier.shadow(2.dp),
+        modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,

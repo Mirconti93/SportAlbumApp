@@ -11,5 +11,6 @@ interface AlbumDataSource {
     abstract suspend fun updatePlayer(playerModel: PlayerModel)
 
     abstract suspend fun updateTeam(teamModel: TeamModel)
+    abstract suspend fun insertTeam(teamModel: TeamModel)
 
 }

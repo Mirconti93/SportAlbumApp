@@ -25,7 +25,8 @@ fun DashboardScreen() {
                 viewModel.teams.value!!,
                 onTeamClickHandler = object : OnTeamClickHandler {
                     override fun onTeamClick(teamModel: TeamModel) {
-                        navController.navigate(NavigationItem.LineUps.route)
+                        viewModel.team.value = teamModel
+                        navController.navigate(NavigationItem.EditTeam.route)
                     }
                 })
             )

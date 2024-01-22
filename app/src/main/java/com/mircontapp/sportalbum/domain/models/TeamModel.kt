@@ -11,6 +11,8 @@ data class TeamModel(
     val color2: String?,
     val stadium: String?,
     val area: Enums.Area?,
+    val arealegend: Enums.Area?,
+    val superlega: Boolean?,
     val coach: String?,
     val coachlegend: String?,
     val module: Enums.MatchModule

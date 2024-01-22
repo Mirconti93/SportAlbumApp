@@ -74,6 +74,8 @@ class DataMapper {
                 color2 = team.color2,
                 stadium = team.stadium,
                 area = TeamHelper.findAreaEnum(team.area),
+                arealegend = TeamHelper.findAreaEnum(team.arealegend),
+                superlega = team.superlega,
                 coach = team.coach,
                 coachlegend = team.coachlegend,
                 module = TeamHelper.findModuleEnum(team.module)
@@ -91,8 +93,8 @@ class DataMapper {
                 stadium = team.stadium,
                 coach = team.coach,
                 area = team.area?.name,
-                arealegend = team.area?.name,
-                superlega = false,
+                arealegend = team.arealegend?.name,
+                superlega = team.superlega,
                 coachlegend = team.coachlegend,
                 module = team.module.name.substring(1)
             )
