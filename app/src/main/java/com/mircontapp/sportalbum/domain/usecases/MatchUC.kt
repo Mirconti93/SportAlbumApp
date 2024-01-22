@@ -1,3 +1,9 @@
+import com.mircontapp.sportalbum.domain.models.MatchModel
+
+class MatchUC(matchModel: MatchModel) {
+
+}
+
 //package com.mircontapp.sportalbum.domain.usecases
 //
 //import android.content.Context

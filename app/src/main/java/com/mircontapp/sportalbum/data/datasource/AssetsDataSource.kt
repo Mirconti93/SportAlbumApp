@@ -1,6 +1,7 @@
 package com.mircontapp.sportalbum.data.datasource
 
 import android.content.res.AssetManager
+import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.commons.TeamHelper
@@ -28,6 +29,14 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
             teams.add(teamFactory(it))
         }
         return teams
+    }
+
+    override suspend fun updatePlayer(playerModel: PlayerModel) {
+        Log.i("BUPI", "Operation not available")
+    }
+
+    override suspend fun updateTeam(teamModel: TeamModel) {
+        Log.i("BUPI", "Operation not available")
     }
 
     private fun readFileLines(fileName: String): MutableList<String> = File(fileName).bufferedReader().readLines().toMutableList()

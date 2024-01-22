@@ -40,6 +40,14 @@ class DatabaseDataSource : AlbumDataSource {
         return teams
     }
 
+    override suspend fun updatePlayer(playerModel: PlayerModel) {
+        database?.playerDao()?.update(DataMapper.entityFromPlayerModel(playerModel))
+    }
+
+    override suspend fun updateTeam(teamModel: TeamModel) {
+        database?.teamDao()?.update(DataMapper.entityFromTeamModel(teamModel))
+    }
+
     fun insertAllTeams(teams: List<TeamModel>?) {
         val teamsEntities = ArrayList<Team>()
         teams?.forEach { teamsEntities.add(DataMapper.entityFromTeamModel(it)) }

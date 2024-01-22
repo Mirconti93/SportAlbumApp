@@ -58,7 +58,7 @@ fun TeamChoiceItem(name: String, modifier: Modifier) {
 
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            val idDrawable = UIHelper.getDrawableId(name, R.drawable.inter)
+            val idDrawable = UIHelper.getDrawableId(name, R.drawable.empty_logo)
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità

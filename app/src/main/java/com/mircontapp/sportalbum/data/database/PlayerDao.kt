@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface PlayerDao {
@@ -19,5 +20,8 @@ interface PlayerDao {
 
     @Query("select * from player")
     fun getAll(): List<Player>
+
+    @Update
+    fun update(player: Player)
 
 }

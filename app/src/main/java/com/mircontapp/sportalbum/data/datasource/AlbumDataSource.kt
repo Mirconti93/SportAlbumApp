@@ -8,4 +8,8 @@ interface AlbumDataSource {
 
     abstract suspend fun fetchTeams(): List<TeamModel>?
 
+    abstract suspend fun updatePlayer(playerModel: PlayerModel)
+
+    abstract suspend fun updateTeam(teamModel: TeamModel)
+
 }

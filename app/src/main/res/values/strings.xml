@@ -231,4 +231,5 @@
     <string name="teams">Teams</string>
     <string name="allTeams">Tutte le squadre</string>
     <string name="noTeams">Nessuna squadra disponibile</string>
+    <string name="notSelected">Seleziona</string>
 </resources>

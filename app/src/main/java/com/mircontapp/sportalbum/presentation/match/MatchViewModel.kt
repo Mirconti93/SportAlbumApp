@@ -52,8 +52,10 @@ class MatchViewModel @Inject constructor(
     var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
     var playerSelected: PlayerModel? = null
 
-    val teamPosition = mutableStateOf(TeamPosition.HOME)
+    var teamPosition = TeamPosition.HOME
     val teams = mutableStateOf<List<TeamModel>>(emptyList())
+    val showSelection = mutableStateOf(false)
+
     enum class TeamPosition {
         HOME, AWAY
     }
@@ -63,6 +65,12 @@ class MatchViewModel @Inject constructor(
             val list = getTeamsFromAreaUC.getTeamsFromArea(Enums.Area.SERIEA)
             withContext(Dispatchers.Main) {
                 teams.value = list
+                if (teams.value.size > 0) {
+                    homeTeam.value = teams.value[0]
+                }
+                if (teams.value.size > 1) {
+                    homeTeam.value = teams.value[1]
+                }
             }
         }
     }
