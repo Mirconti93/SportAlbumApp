@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        NavGraph(navController = navController)
+                        NavGraph(navController = navController, mainViewModel = mainViewModel)
                     }
                 }
             }

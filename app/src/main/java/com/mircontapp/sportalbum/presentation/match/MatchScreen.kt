@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.compose.rememberNavController
 import com.mircontapp.sportalbum.R
@@ -37,9 +38,10 @@ import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun MatchScreen() {
+fun MatchScreen(navController: NavController, mainViewModel: MainViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -48,7 +50,6 @@ fun MatchScreen() {
         verticalArrangement = Arrangement.Top
     ) {
         val viewModel: MatchViewModel = hiltViewModel()
-        val navController = rememberNavController()
         Text(text = SportAlbumApplication.instance.getString(R.string.teams))
         if (viewModel.showSelection.value) {
             if (viewModel.teams.value != null) {

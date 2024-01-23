@@ -18,10 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    getAllTeamsUC: GetAllTeamsUC,
-    getAllPlayersUC: GetAllPlayersUC,
-    updateTeamUC: UpdateTeamUC,
-    insertTeamUC: InsertTeamUC
+    val getAllTeamsUC: GetAllTeamsUC,
+    val getAllPlayersUC: GetAllPlayersUC,
+    val updateTeamUC: UpdateTeamUC,
+    val insertTeamUC: InsertTeamUC
 ) : ViewModel() {
     var selectionType = mutableStateOf(SelectionType.TEAMS)
     var updateType = mutableStateOf(UpdateType.UPDATE)
@@ -39,9 +39,21 @@ class DashboardViewModel @Inject constructor(
                 teams.value = list
             }
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = getAllPlayersUC.getPlayers()
+            withContext(Dispatchers.Main) {
+                players.value = list
+            }
+        }
     }
 
     fun updateTeam(teamModel: TeamModel) {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            if (updateType.value == UpdateType.NEW) {
+                insertTeamUC.invoke(teamModel)
+            } else {
+                updateTeamUC.invoke(teamModel)
+            }
+        }
     }
 }

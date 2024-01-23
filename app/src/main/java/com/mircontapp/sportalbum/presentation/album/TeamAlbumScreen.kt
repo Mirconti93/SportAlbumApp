@@ -26,7 +26,7 @@ import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun AlbumScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,6 +34,7 @@ fun AlbumScreen(navController: NavController, mainViewModel: MainViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
+        val team = mainViewModel.teamModel
         val viewModel: AlbumViewModel = hiltViewModel()
         Text(text = SportAlbumApplication.instance.getString(R.string.teams))
         if (viewModel.teams.value != null) {

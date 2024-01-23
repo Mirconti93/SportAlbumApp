@@ -135,6 +135,7 @@
     <string name="forward">Attaccante</string>
 
     <string name="playerList">Lista Giocatori</string>
+    <string name="players">Giocatori</string>
     <string name="playerRandom">Giocatore random</string>
     <string name="sorting">Sorteggio</string>
     <string name="saveData">Salva Dati</string>
@@ -143,9 +144,11 @@
     <string name="player">Giocatore</string>
     <string name="search">Cerca</string>
     <string name="filter">Filtra</string>
-    <string name="add">Nuovo</string>
+    <string name="add">Aggiungi</string>
+    <string name="update">Modifica</string>
     <string name="ok">Ok</string>
     <string name="area">Area</string>
+    <string name="arealegend">Area Legend</string>
     <string name="gender">Genere</string>
     <string name="playStatus">Giocatori</string>
     <string name="role">Ruolo</string>
@@ -175,8 +178,10 @@
     <string name="national">Nazionale</string>
     <string name="clubLegend">Club Leggende</string>
     <string name="nationLegend">Nationale Legende</string>
-    <string name="val">Valore</string>
-    <string name="valeg">Valore leggenda</string>
+    <string name="value">Valore</string>
+    <string name="valueleg">Valore leggenda</string>
+    <string name="superlega">Superlega</string>
+    <string name="isClubLegend">Club Leggenda</string>
 
     <string name="youSure">Are you sure?</string>
     <string name="yes">Sì</string>
@@ -232,4 +237,6 @@
     <string name="allTeams">Tutte le squadre</string>
     <string name="noTeams">Nessuna squadra disponibile</string>
     <string name="notSelected">Seleziona</string>
+
+    <string name="dataUpdated">Dati aggiornati con successo!</string>
 </resources>
