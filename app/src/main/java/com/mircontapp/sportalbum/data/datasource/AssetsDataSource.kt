@@ -43,6 +43,9 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
         Log.i("BUPI", "Operation not available")
     }
 
+    override suspend fun insertPlayer(playerModel: PlayerModel) {
+        Log.i("BUPI", "Operation not available")
+    }
     private fun readFileLines(fileName: String): MutableList<String> = File(fileName).bufferedReader().readLines().toMutableList()
 
     fun playerFactory(row: String) : PlayerModel {
@@ -59,7 +62,7 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
                 fields[8],
                 Integer.parseInt(fields[9]),
                 Integer.parseInt(fields[10]),
-                fields[11],
+                PlayerHelper.roleLineUpFromString(fields[11]),
                 Integer.parseInt(fields[12]),
                 Integer.parseInt(fields[13]),
                 Integer.parseInt(fields[14]),

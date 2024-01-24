@@ -25,7 +25,7 @@ class PlayerHelper {
             return Enums.Role.PP
         }
 
-        fun roleLineUpFromString(roleString: String): Enums.RoleLineUp? {
+        fun roleLineUpFromString(roleString: String?): Enums.RoleLineUp? {
             for (role in Enums.RoleLineUp.values()) {
                 if (roleString.equals(role.toString(), ignoreCase = true)) {
                     return role

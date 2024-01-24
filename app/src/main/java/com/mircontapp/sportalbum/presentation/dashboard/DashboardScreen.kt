@@ -2,8 +2,10 @@ package com.mircontapp.sportalbum.presentation.dashboard
 
 import android.content.res.Resources.Theme
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,24 +26,30 @@ import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
 fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) {
     val viewModel: DashboardViewModel = hiltViewModel()
-    Row {
-        Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.TEAMS },
-            modifier = Modifier.background(color = if (viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)) Color.Yellow else Color.Blue)) {
-            Text(text = SportAlbumApplication.instance.getString(R.string.teams))
-        }
-        Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
-            modifier = Modifier.background(color = if (viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.PLAYERS)) Color.Yellow else Color.Blue)) {
-            Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
-        }
-    }
+    Column {
+        val isTeams = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)
+        val isPlayers = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.PLAYERS)
 
-    Row {
-        if (viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)) {
+        Row {
+           Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.TEAMS },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isTeams) OrangeYellowD else Color.Blue, contentColor = if (isTeams) Color.Black else Color.White)) {
+                Text(text = SportAlbumApplication.instance.getString(R.string.teams))
+            }
+            Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
+                Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
+            }
+        }
+
+        if (isTeams) {
             if (viewModel.teams.value != null) {
                 TeamsGrid(
                     TeamsState(
@@ -57,6 +65,13 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                 Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
             }
         } else {
+            Row {
+                Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
+                    Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
+                }
+            }
             if (viewModel.players.value != null) {
                 PlayersGrid(
                     PlayersState(

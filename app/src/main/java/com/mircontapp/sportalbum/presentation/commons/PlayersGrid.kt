@@ -36,7 +36,7 @@ import java.lang.Exception
 @Composable
 fun PlayersGrid(playersState: PlayersState) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(5),
+        columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
@@ -67,7 +67,7 @@ fun PlayerItem(name: String, modifier: Modifier) {
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                modifier = Modifier.size(50.dp, 70.dp),
+                modifier = Modifier.size(70.dp, 100.dp),
                 contentScale = ContentScale.FillHeight
             )
             Text(modifier = Modifier, text = name)

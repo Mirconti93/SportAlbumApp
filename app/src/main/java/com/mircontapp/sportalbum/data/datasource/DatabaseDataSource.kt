@@ -40,6 +40,10 @@ class DatabaseDataSource : AlbumDataSource {
         return teams
     }
 
+    override suspend fun insertPlayer(playerModel: PlayerModel) {
+        database?.playerDao()?.insert(DataMapper.entityFromPlayerModel(playerModel))
+    }
+
     override suspend fun updatePlayer(playerModel: PlayerModel) {
         database?.playerDao()?.update(DataMapper.entityFromPlayerModel(playerModel))
     }

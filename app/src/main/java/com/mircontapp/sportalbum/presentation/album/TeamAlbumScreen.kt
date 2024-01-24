@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,8 +22,11 @@ import androidx.navigation.NavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
+import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -34,17 +38,25 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        val team = mainViewModel.teamModel
-        val viewModel: AlbumViewModel = hiltViewModel()
-        Text(text = SportAlbumApplication.instance.getString(R.string.teams))
-        if (viewModel.teams.value != null) {
-            val teams = viewModel.teams.value
-            TeamsGrid(TeamsState(teams, object : OnTeamClickHandler {
-                override fun onTeamClick(teamModel: TeamModel) {
-                    TODO("Not yet implemented")
-                }
-            }))
-
+        val team = remember{ mainViewModel.teamModel }
+        val viewModel: TeamAlbumViewModel = hiltViewModel()
+        val isInited = remember {
+            viewModel.playersFromTeamLegend(team?.name)
+        }
+        viewModel.players.value
+        Text(text = team?.name ?: SportAlbumApplication.instance.getString(R.string.team))
+        if (viewModel.players.value != null) {
+            PlayersGrid(
+                PlayersState(
+                    viewModel.players.value,
+                    object : OnPlayerClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            mainViewModel.playerModel = playerModel
+                            navController.navigate(NavigationItem.EditPlayer.route)
+                        }
+                    }
+                )
+            )
 
         } else {
             Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))

@@ -54,12 +54,12 @@ fun MatchScreen(navController: NavController, mainViewModel: MainViewModel) {
         if (viewModel.showSelection.value) {
             if (viewModel.teams.value != null) {
                 TeamsGrid(TeamsState(
-                        viewModel.teams.value!!,
-                        onTeamClickHandler = object : OnTeamClickHandler {
-                            override fun onTeamClick(teamModel: TeamModel) {
-                                navController.navigate(NavigationItem.LineUps.route)
-                            }
-                        })
+                    viewModel.teams.value!!,
+                    onTeamClickHandler = object : OnTeamClickHandler {
+                        override fun onTeamClick(teamModel: TeamModel) {
+                            navController.navigate(NavigationItem.LineUps.route)
+                        }
+                    })
                 )
             } else {
                 Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))

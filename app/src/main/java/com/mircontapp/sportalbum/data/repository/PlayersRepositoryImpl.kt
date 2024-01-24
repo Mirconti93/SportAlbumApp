@@ -23,7 +23,7 @@ class PlayersRepositoryImpl(val albumDataSource: AlbumDataSource): PlayersReposi
     }
 
     override suspend fun playersFromTeamLegend(teamName: String): List<PlayerModel> {
-        return getAllPlayers().filter { teamName.equals(it.teamLegend, ignoreCase = true) }
+        return getAllPlayers().filter { teamName.equals(it?.teamLegend) }
     }
 
     override suspend fun playersFromNational(country: String, gender: Enums.Gender): List<PlayerModel> {
@@ -34,7 +34,13 @@ class PlayersRepositoryImpl(val albumDataSource: AlbumDataSource): PlayersReposi
         return getAllPlayers().filter { country == it.country && gender == it.gender && it.nationalLegend == 1 }
     }
 
+    override suspend fun insertPlayer(playerModel: PlayerModel) {
+        albumDataSource.insertPlayer(playerModel)
+    }
 
+    override suspend fun updatePlayer(playerModel: PlayerModel) {
+        albumDataSource.updatePlayer(playerModel)
+    }
 
 
 }

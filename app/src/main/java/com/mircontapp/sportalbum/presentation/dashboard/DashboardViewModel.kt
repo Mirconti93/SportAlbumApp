@@ -8,7 +8,9 @@ import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.usecases.GetAllPlayersUC
 import com.mircontapp.sportalbum.domain.usecases.GetAllTeamsUC
+import com.mircontapp.sportalbum.domain.usecases.InsertPlayerUC
 import com.mircontapp.sportalbum.domain.usecases.InsertTeamUC
+import com.mircontapp.sportalbum.domain.usecases.UpdatePlayerUC
 import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +23,9 @@ class DashboardViewModel @Inject constructor(
     val getAllTeamsUC: GetAllTeamsUC,
     val getAllPlayersUC: GetAllPlayersUC,
     val updateTeamUC: UpdateTeamUC,
-    val insertTeamUC: InsertTeamUC
+    val insertTeamUC: InsertTeamUC,
+    val insertPlayerUC: InsertPlayerUC,
+    val updatePlayerUC: UpdatePlayerUC
 ) : ViewModel() {
     var selectionType = mutableStateOf(SelectionType.TEAMS)
     var updateType = mutableStateOf(UpdateType.UPDATE)
@@ -53,6 +57,16 @@ class DashboardViewModel @Inject constructor(
                 insertTeamUC.invoke(teamModel)
             } else {
                 updateTeamUC.invoke(teamModel)
+            }
+        }
+    }
+
+    fun updatePlayer(playerModel: PlayerModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (updateType.value == UpdateType.NEW) {
+                insertPlayerUC.invoke(playerModel)
+            } else {
+                updatePlayerUC.invoke(playerModel)
             }
         }
     }

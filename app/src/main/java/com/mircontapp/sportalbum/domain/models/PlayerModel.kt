@@ -14,7 +14,7 @@ data class PlayerModel(
     val teamLegend: String?,
     val national: Int?,
     val nationalLegend: Int?,
-    val roleLineUp: String?,
+    val roleLineUp: Enums.RoleLineUp?,
     val att: Int?,
     val dif: Int?,
     val tec: Int?,

@@ -23,6 +23,7 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
+import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -40,7 +41,8 @@ fun AlbumScreen(navController: NavController, mainViewModel: MainViewModel) {
             val teams = viewModel.teams.value
             TeamsGrid(TeamsState(teams, object : OnTeamClickHandler {
                 override fun onTeamClick(teamModel: TeamModel) {
-                    TODO("Not yet implemented")
+                    mainViewModel.teamModel = teamModel
+                    navController.navigate(NavigationItem.TeamAlbum.route)
                 }
             }))
 
