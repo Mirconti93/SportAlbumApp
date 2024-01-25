@@ -9,6 +9,6 @@ import javax.inject.Inject
 
 class UpdatePlayerUC @Inject constructor(val playerRepository: PlayersRepository) {
     operator suspend fun invoke(playerModel: PlayerModel) {
-        playerRepository.insertPlayer(playerModel)
+        playerRepository.updatePlayer(playerModel)
     }
 }

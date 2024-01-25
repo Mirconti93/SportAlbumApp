@@ -8,6 +8,7 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,7 +32,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchViewModel @Inject constructor(
     val getTeamsFromAreaUC: GetTeamsFromAreaUC,
-    val getPlayersByTeamUC: GetPlayersByTeamUC
+    val getPlayersByTeamUC: GetPlayersByTeamUC,
+    val getPlayersByTeamLegendUC: GetPlayersByTeamLegendUC
 ) : ViewModel() {
     var app = SportAlbumApplication.instance
     val homeTeam: MutableLiveData<TeamModel> = MutableLiveData()
@@ -69,11 +71,31 @@ class MatchViewModel @Inject constructor(
                     homeTeam.value = teams.value[0]
                 }
                 if (teams.value.size > 1) {
-                    homeTeam.value = teams.value[1]
+                    awayTeam.value = teams.value[1]
                 }
             }
         }
     }
+
+    fun getHomePlayers(teamModel: TeamModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = getPlayersByTeamLegendUC.getPlayers(teamModel.name)
+            withContext(Dispatchers.Main) {
+                homeRoster.value = list
+            }
+        }
+    }
+
+    fun getAwayPlayers(teamModel: TeamModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = getPlayersByTeamLegendUC.getPlayers(teamModel.name)
+            withContext(Dispatchers.Main) {
+                awayRoster.value = list
+            }
+        }
+    }
+
+
 
 //    private var coachHome: CoachModel? = null
 //    private var coachAway: CoachModel? = null

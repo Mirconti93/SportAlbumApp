@@ -12,9 +12,9 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(): ViewModel()  {
 
     var routeSelected: MutableLiveData<NavigationItem> = MutableLiveData()
-
     var teamModel: TeamModel? = null
-
+    val homeTeam: TeamModel? = null
+    val awayTeam: TeamModel? = null
     var playerModel: PlayerModel? = null
 
 }
