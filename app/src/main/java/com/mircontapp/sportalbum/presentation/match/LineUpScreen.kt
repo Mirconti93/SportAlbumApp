@@ -29,12 +29,20 @@ fun LineUpScreen(navController: NavController, mainViewModel: MainViewModel) {
         Column {
             Text(text = mainViewModel.homeTeam?.name ?: "")
             LazyColumn{
-
+                items(viewModel.homeRoster.value?: emptyList()) {
+                    Text(text = it.name)
+                }
             }
         }
 
         Column {
             Text(text = mainViewModel.awayTeam?.name ?: "")
+            LazyColumn{
+                items(viewModel.homeRoster.value?: emptyList()) {
+                    Text(text = it.name)
+                }
+            }
+
         }
     }
 
