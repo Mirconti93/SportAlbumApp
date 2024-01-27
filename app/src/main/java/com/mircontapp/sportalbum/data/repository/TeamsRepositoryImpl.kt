@@ -35,6 +35,14 @@ class TeamsRepositoryImpl @Inject constructor(val albumDataSource: AlbumDataSour
         albumDataSource.insertTeam(teamModel)
     }
 
+    override suspend fun getNationalTeams(): List<TeamModel> {
+        return getAllTeams().filter { "national".equals(it.type) }.sortedBy { it.name }
+    }
+
+    override suspend fun teamsFromSuperlega(): List<TeamModel> {
+        return getAllTeams().filter { it.superlega ?: false }.sortedBy { it.name }
+    }
+
 
 
 }

@@ -11,6 +11,7 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
+import com.mircontapp.sportalbum.domain.usecases.GetTeamsSuperlegaUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +34,8 @@ import javax.inject.Inject
 class MatchViewModel @Inject constructor(
     val getTeamsFromAreaUC: GetTeamsFromAreaUC,
     val getPlayersByTeamUC: GetPlayersByTeamUC,
-    val getPlayersByTeamLegendUC: GetPlayersByTeamLegendUC
+    val getPlayersByTeamLegendUC: GetPlayersByTeamLegendUC,
+    val getTeamsSuperlegaUC: GetTeamsSuperlegaUC
 ) : ViewModel() {
     var app = SportAlbumApplication.instance
     val homeTeam: MutableLiveData<TeamModel> = MutableLiveData()
@@ -64,7 +66,7 @@ class MatchViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = getTeamsFromAreaUC.getTeamsFromArea(Enums.Area.SERIEA)
+            val list = getTeamsSuperlegaUC.getTeams()
             withContext(Dispatchers.Main) {
                 teams.value = list
                 if (teams.value.size > 0) {

@@ -11,6 +11,7 @@ import com.mircontapp.sportalbum.domain.repository.TeamsRepository
 import com.mircontapp.sportalbum.domain.usecases.GetAllPlayersUC
 import com.mircontapp.sportalbum.domain.usecases.GetAllTeamsUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
+import com.mircontapp.sportalbum.domain.usecases.GetTeamsSuperlegaUC
 import com.mircontapp.sportalbum.domain.usecases.InsertTeamUC
 import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
 import dagger.Module
@@ -64,6 +65,10 @@ class AppModule {
         return InsertTeamUC(provideTeamsRepository())
     }
 
+    @Provides
+    fun provideGetTeamsSuperlegaUC(): GetTeamsSuperlegaUC {
+        return GetTeamsSuperlegaUC(provideTeamsRepository())
+    }
 
 
 

@@ -1,5 +1,6 @@
 package com.mircontapp.sportalbum.presentation.viewmodels
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
@@ -13,8 +14,8 @@ class MainViewModel @Inject constructor(): ViewModel()  {
 
     var routeSelected: MutableLiveData<NavigationItem> = MutableLiveData()
     var teamModel: TeamModel? = null
-    val homeTeam: TeamModel? = null
-    val awayTeam: TeamModel? = null
+    val homeTeam = mutableStateOf<TeamModel?>(null)
+    val awayTeam = mutableStateOf<TeamModel?>(null)
     var playerModel: PlayerModel? = null
 
 }
