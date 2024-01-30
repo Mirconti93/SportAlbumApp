@@ -14,8 +14,8 @@ class MainViewModel @Inject constructor(): ViewModel()  {
 
     var routeSelected: MutableLiveData<NavigationItem> = MutableLiveData()
     var teamModel: TeamModel? = null
-    val homeTeam = mutableStateOf<TeamModel?>(null)
-    val awayTeam = mutableStateOf<TeamModel?>(null)
+    var homeTeam: TeamModel? = null
+    var awayTeam: TeamModel? = null
     var playerModel: PlayerModel? = null
 
 }

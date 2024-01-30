@@ -187,6 +187,7 @@
     <string name="youSure">Are you sure?</string>
     <string name="yes">Sì</string>
     <string name="no">No</string>
+    <string name="na">N/A</string>
 
     <string name="home">Home</string>
     <string name="away">Away</string>
@@ -240,4 +241,5 @@
     <string name="notSelected">Seleziona</string>
 
     <string name="dataUpdated">Dati aggiornati con successo!</string>
+    <string name="next">Avanti</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.mircontapp.sportalbum.presentation.match
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,6 +24,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -38,6 +43,7 @@ import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -57,7 +63,12 @@ fun MatchScreen(navController: NavController, mainViewModel: MainViewModel) {
                     viewModel.teams.value!!,
                     onTeamClickHandler = object : OnTeamClickHandler {
                         override fun onTeamClick(teamModel: TeamModel) {
-                            navController.navigate(NavigationItem.LineUps.route)
+                            if (viewModel.teamPosition == MatchViewModel.TeamPosition.HOME) {
+                                viewModel.homeTeam.value = teamModel
+                            } else {
+                                viewModel.awayTeam.value = teamModel
+                            }
+                            viewModel.showSelection.value = false
                         }
                     })
                 )
@@ -65,39 +76,60 @@ fun MatchScreen(navController: NavController, mainViewModel: MainViewModel) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
             }
         } else {
-            Row {
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .weight(1f)) {
-                    TeamSelected(team = viewModel.homeTeam.value?.name, object : OnClickHandler {
-                        override fun onClick() {
-                            viewModel.let {
-                                it.showSelection.value = true
-                                it.teamPosition = MatchViewModel.TeamPosition.HOME
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Row {
+                    Column(modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .weight(1f)
+                        .padding(8.dp)
+                    ) {
+                        TeamSelected(team = viewModel.homeTeam.value?.name, object : OnClickHandler {
+                            override fun onClick() {
+                                viewModel.let {
+                                    it.showSelection.value = true
+                                    it.teamPosition = MatchViewModel.TeamPosition.HOME
+                                }
                             }
-                        }
-                    })
+                        })
+                    }
+                    Column(modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .weight(1f)
+                        .padding(8.dp)) {
+                        TeamSelected(team = viewModel.awayTeam.value?.name, object : OnClickHandler {
+                            override fun onClick() {
+                                viewModel.let {
+                                    it.showSelection.value = true
+                                    it.teamPosition = MatchViewModel.TeamPosition.AWAY
+                                }
+                            }
+                        })
+                    }
                 }
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .weight(1f)) {
-                    TeamSelected(team = viewModel.awayTeam.value?.name, object : OnClickHandler {
-                        override fun onClick() {
-                            viewModel.let {
-                                it.showSelection.value = true
-                                it.teamPosition = MatchViewModel.TeamPosition.AWAY
-                            }
-                        }
-                    })
+                Button(onClick = {
+                    if (viewModel.homeTeam.value != null && viewModel.awayTeam.value != null) {
+                        mainViewModel.homeTeam = viewModel.homeTeam.value!!
+                        mainViewModel.awayTeam = viewModel.awayTeam.value!!
+                        navController.navigate(NavigationItem.LineUps.route)
+                    }
+
+                }, modifier = Modifier.background(OrangeYellowD)) {
+                    Text(text = SportAlbumApplication.instance.getString(R.string.next), color = Color.Black)
                 }
             }
+
+
         }
 
     }
 
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TeamSelected(team: String?, onClickHandler: OnClickHandler) {
@@ -108,19 +140,19 @@ fun TeamSelected(team: String?, onClickHandler: OnClickHandler) {
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.primary,
             ),
-            shape = MaterialTheme.shapes.large,
+            shape = RoundedCornerShape(8.dp),
             onClick = {onClickHandler.onClick()}
 
             ) {
             val name = if (team != null) team else SportAlbumApplication.instance.getString(R.string.notSelected)
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                .padding(16.dp, 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 val idDrawable = UIHelper.getDrawableId(name, R.drawable.empty_logo)
                 Image(
                     painter = painterResource(idDrawable),
                     contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                    modifier = Modifier.size(80.dp),
+                    modifier = Modifier.size(140.dp),
                     contentScale = ContentScale.Crop
                 )
                 Text(modifier = Modifier, text = name)

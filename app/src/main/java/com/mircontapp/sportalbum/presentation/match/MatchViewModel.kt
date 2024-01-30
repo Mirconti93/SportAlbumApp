@@ -64,6 +64,10 @@ class MatchViewModel @Inject constructor(
         HOME, AWAY
     }
 
+    enum class LineUpPlace {
+        FIELD, BENCH, TRIBUNE
+    }
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             val list = getTeamsSuperlegaUC.getTeams()
@@ -79,24 +83,65 @@ class MatchViewModel @Inject constructor(
         }
     }
 
-    fun getHomePlayers(teamModel: TeamModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = getPlayersByTeamLegendUC.getPlayers(teamModel.name)
-            withContext(Dispatchers.Main) {
-                homeRoster.value = list
+    fun initLineUp(homeT: TeamModel?, awayT: TeamModel?) {
+        if (homeT != null && awayT != null) {
+            this.homeTeam.value = homeT
+            this.awayTeam.value = awayT
+            viewModelScope.launch(Dispatchers.IO) {
+                val list = getPlayersByTeamLegendUC.getPlayers(homeTeam.value!!.name)
+                withContext(Dispatchers.Main) {
+                    homeRoster.value = list
+                    initOnFieledOrBench(TeamPosition.HOME)
+                }
+            }.invokeOnCompletion {
+                viewModelScope.launch(Dispatchers.IO) {
+                    val list = getPlayersByTeamLegendUC.getPlayers(awayTeam.value!!.name)
+                    withContext(Dispatchers.Main) {
+                        awayRoster.value = list
+                        initOnFieledOrBench(TeamPosition.AWAY)
+                    }
+                }
             }
+        }
+
+    }
+
+    fun getLineUpPlace(playerModel: PlayerModel, teamPosition: TeamPosition) : LineUpPlace {
+        if (teamPosition == TeamPosition.HOME) {
+            return if (homeEleven.value?.contains(playerModel) == true)  LineUpPlace.FIELD else LineUpPlace.BENCH
+        } else {
+            return if (awayEleven.value?.contains(playerModel) == true)  LineUpPlace.FIELD else LineUpPlace.BENCH
         }
     }
 
-    fun getAwayPlayers(teamModel: TeamModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = getPlayersByTeamLegendUC.getPlayers(teamModel.name)
-            withContext(Dispatchers.Main) {
-                awayRoster.value = list
+    //    /*** split players on field or in bench  */
+    fun initOnFieledOrBench(teamPosition: TeamPosition) {
+        val field: MutableList<PlayerModel> = ArrayList()
+        val bench: MutableList<PlayerModel> = ArrayList()
+        val teamIsHome = teamPosition == TeamPosition.HOME
+        val roster = if (teamIsHome) homeRoster.value else awayRoster.value
+        if (roster != null) {
+            val size = roster.size
+            //n di titolari 11 o meno se non ce ne sono 11
+            val starting = Math.min(11, size)
+            for (i in 0..size-1) {
+                val p = roster[i]
+                if (i < starting) {
+                    field.add(p)
+                } else {
+                    bench.add(p)
+                }
             }
         }
+        if (teamIsHome) {
+            homeEleven.setValue(field)
+            homeBench.setValue(bench)
+        } else {
+            awayEleven.setValue(field)
+            awayBench.setValue(bench)
+        }
     }
-
+    //
 
 
 //    private var coachHome: CoachModel? = null
@@ -237,56 +282,7 @@ class MatchViewModel @Inject constructor(
 //        }
 //    }
 //
-//    /*** split players on field or in bench  */
-//    fun homeOnFieledOrBench(sort: Boolean) {
-//        val field: MutableList<PlayerModel> = ArrayList()
-//        val bench: MutableList<PlayerModel> = ArrayList()
-//        if (homeRoster.value != null) {
-//            val size = homeRoster.value!!.size
-//            //n di titolari 11 o meno se non ce ne sono 11
-//            val starting = Math.min(11, size)
-//            for (i in 0 until size) {
-//                val p = homeRoster.value!![i]
-//                if (i < starting) {
-//                    field.add(p)
-//                } else {
-//                    bench.add(p)
-//                }
-//            }
-//        }
-//        if (sort) {
-//            homeEleven.setValue(PlayerDataManager.sortPlayerByRoleLU(field))
-//            homeBench.setValue(PlayerDataManager.sortPlayerByRoleLU(bench))
-//        } else {
-//            homeEleven.setValue(field)
-//            homeBench.setValue(field)
-//        }
-//    }
-//
-//    fun awayOnFieledOrBench(sort: Boolean) {
-//        val field: MutableList<PlayerModel> = ArrayList()
-//        val bench: MutableList<PlayerModel> = ArrayList()
-//        if (awayRoster.value != null) {
-//            val size = awayRoster.value!!.size
-//            val starting = Math.min(11, size)
-//            Math.min(11, size)
-//            for (i in 0 until size) {
-//                val p = awayRoster.value!![i]
-//                if (i < starting) {
-//                    field.add(p)
-//                } else {
-//                    bench.add(p)
-//                }
-//            }
-//        }
-//        if (sort) {
-//            awayEleven.setValue(PlayerDataManager.sortPlayerByRoleLU(field))
-//            awayBench.setValue(PlayerDataManager.sortPlayerByRoleLU(bench))
-//        } else {
-//            awayEleven.setValue(field)
-//            awayBench.setValue(bench)
-//        }
-//    }
+
 //
 //    fun buildMatchManager(): MatchManager {
 //        return if (match.getValue().getPossesso() === Enums.Possesso.HOME) MatchManager(
