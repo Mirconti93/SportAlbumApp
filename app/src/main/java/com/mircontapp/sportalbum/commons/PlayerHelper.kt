@@ -2,7 +2,7 @@ package com.mircontapp.sportalbum.commons
 
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.domain.models.PlayerModel
-import java.util.Collections
+
 
 class PlayerHelper {
 
@@ -70,6 +70,49 @@ class PlayerHelper {
 
 
     }
+
+    /*fun getBestInRole(role: Enums.Role): PlayerModel? {
+        var playerModel: PlayerModel? = null
+        for (p in lineUpModel.getValue().getAvailables()) {
+            if (role == p.role) {
+                if (playerModel != null) {
+                    val pVal: Int =
+                        if (lineUpModel.getValue().isLegend()) p.getValueLegend() else p.value
+                    val playerModelVal: Int = if (lineUpModel.getValue()
+                            .isLegend()
+                    ) playerModel.valueleg else playerModel.value
+                    if (pVal > playerModelVal) {
+                        playerModel = p
+                    }
+                }
+            } else {
+                playerModel = p
+            }
+        }
+        if (playerModel == null) {
+            playerModel = getBestPlayer(
+                lineUpModel.getValue().getAvailables(),
+                lineUpModel.getValue().isLegend()
+            )
+        }
+        return playerModel
+    }
+
+    fun getBestPlayer(playerModels: List<PlayerModel>?, isLegend: Boolean): PlayerModel? {
+        if (playerModels == null || playerModels.isEmpty()) {
+            return null
+        }
+        var playerModel = playerModels[0]
+        for (p in playerModels) {
+            val pVal: Int = if (isLegend) p.getValueLegend() else p.value
+            val playerModelVal: Int =
+                if (isLegend) playerModel.getValueLegend() else playerModel.value
+            if (pVal > playerModelVal) {
+                playerModel = p
+            }
+        }
+        return playerModel
+    }*/
 
 
 
