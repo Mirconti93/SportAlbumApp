@@ -1,11 +1,13 @@
 package com.mircontapp.sportalbum.presentation.match
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
@@ -68,7 +70,7 @@ class MatchViewModel @Inject constructor(
         FIELD, BENCH, TRIBUNE
     }
 
-    init {
+    fun initMatch() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = getTeamsSuperlegaUC.getTeams()
             withContext(Dispatchers.Main) {
@@ -98,6 +100,10 @@ class MatchViewModel @Inject constructor(
                     val list = getPlayersByTeamLegendUC.getPlayers(awayTeam.value!!.name)
                     withContext(Dispatchers.Main) {
                         awayRoster.value = list
+                        Log.i("BUPI", "INIT ROSTER")
+                        awayRoster.value?.forEach {
+                            Log.i("BUPI", it. name)
+                        }
                         initOnFieledOrBench(TeamPosition.AWAY)
                     }
                 }
@@ -119,29 +125,59 @@ class MatchViewModel @Inject constructor(
         val field: MutableList<PlayerModel> = ArrayList()
         val bench: MutableList<PlayerModel> = ArrayList()
         val teamIsHome = teamPosition == TeamPosition.HOME
-        val roster = if (teamIsHome) homeRoster.value else awayRoster.value
-        if (roster != null) {
-            val size = roster.size
-            //n di titolari 11 o meno se non ce ne sono 11
-            val starting = Math.min(11, size)
-            for (i in 0..size-1) {
-                val p = roster[i]
-                if (i < starting) {
-                    field.add(p)
-                } else {
-                    bench.add(p)
-                }
+        val roster = (if (teamIsHome) homeRoster.value else awayRoster.value)?.toMutableList()
+
+        Log.i("BUPI", "ROSTER")
+        roster?.forEach {
+           Log.i("BUPI", it. name)
+        }
+
+        val module = if (teamIsHome) homeTeam.value?.module else awayTeam.value?.module
+        val roles = PlayerHelper.getLineUpRoles(module)
+
+        for (roleLineUp in roles) {
+            val p = PlayerHelper.findBestPlayerInRole(roster, roleLineUp, isLegend  )
+            if (p != null) {
+                field.add(p)
+                roster?.remove(p)
             }
         }
-        if (teamIsHome) {
-            homeEleven.setValue(field)
-            homeBench.setValue(bench)
-        } else {
-            awayEleven.setValue(field)
-            awayBench.setValue(bench)
+
+        val newRoster = ArrayList(field).also {
+            it.addAll(bench)
+            it.sortedBy { it.roleMatch }
         }
+
+        if (teamIsHome) {
+            homeEleven.value = field
+            homeBench.value = roster?.toMutableList()
+            homeRoster.value = newRoster
+        } else {
+            awayEleven.value = field
+            awayBench.value = roster?.toMutableList()
+            awayRoster.value = newRoster
+        }
+
+        Log.i("BUPI", "NEW ROSTER")
+        newRoster?.forEach {
+            Log.i("BUPI", it. name)
+        }
+
     }
-    //
+
+    fun changeModule(
+        playerModels: List<PlayerModel>,
+        matchModule: Enums.MatchModule?
+    ): List<PlayerModel>? {
+        val role = PlayerHelper.getLineUpRoles(matchModule)
+        if (playerModels.size == 11 && role.size == 11) {
+            for (i in playerModels.indices) {
+                val p = playerModels[i]
+                p.roleLineUp = role[i]
+            }
+        }
+        return playerModels
+    }
 
 
 //    private var coachHome: CoachModel? = null

@@ -43,7 +43,7 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                 it
             } else {
                 dashboardViewModel.updateType.value = DashboardViewModel.UpdateType.NEW
-                PlayerModel("Player", Enums.Role.PP, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null )
+                PlayerModel("Player", Enums.Role.PP, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
             }
         }
     }
@@ -56,8 +56,8 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
     val team = remember { mutableStateOf(TextFieldValue(playerModel.team ?: "")) }
     val country = remember { mutableStateOf(TextFieldValue(playerModel.country ?: "")) }
     val birthyear = remember { mutableStateOf(TextFieldValue(playerModel.birthyear ?: "")) }
-    val value = remember { mutableStateOf(TextFieldValue(playerModel.value ?: "")) }
-    val valueleg = remember { mutableStateOf(TextFieldValue(playerModel.valueleg ?: "")) }
+    val value = remember { mutableStateOf(TextFieldValue(playerModel.value.toString() ?: "")) }
+    val valueleg = remember { mutableStateOf(TextFieldValue(playerModel.valueleg.toString() ?: "")) }
     val teamLegend = remember { mutableStateOf(TextFieldValue(playerModel.teamLegend ?: "")) }
     val national = remember { mutableStateOf(playerModel.national == 1) }
     val nationalLegend = remember { mutableStateOf(playerModel.nationalLegend == 1) }
@@ -166,8 +166,8 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                         team.value.text,
                         country.value.text,
                         birthyear.value.text,
-                        value.value.text,
-                        valueleg.value.text,
+                        value.value.text.toInt(),
+                        valueleg.value.text.toInt(),
                         teamLegend.value.text,
                         if (national.value) 1 else 0,
                         if (nationalLegend.value) 1 else 0,
@@ -181,7 +181,8 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                         fis.value.text.toInt(),
                         vel.value.text.toInt(),
                         rig.value.text.toInt(),
-                        por.value.text.toInt())
+                        por.value.text.toInt(),
+                        Enums.RoleLineUp.PAN)
                 )
                 Toast.makeText(SportAlbumApplication.instance, SportAlbumApplication.instance.getString(R.string.dataUpdated), Toast.LENGTH_LONG)
             }) {

@@ -18,8 +18,8 @@ class DataMapper {
                 team = player.team,
                 country = player.country,
                 birthyear = player.birthyear,
-                value = player.value,
-                valueleg = player.valueleg,
+                value = player.value.toString(),
+                valueleg = player.valueleg.toString(),
                 teamLegend = player.teamLegend,
                 national = player.national,
                 nationalLegend = player.nationalLegend,
@@ -45,8 +45,8 @@ class DataMapper {
                 team = player.team,
                 country = player.country,
                 birthyear = player.birthyear,
-                value = player.value,
-                valueleg = player.valueleg,
+                value = Integer.parseInt(player.value),
+                valueleg = Integer.parseInt(player.valueleg),
                 teamLegend = player.teamLegend,
                 national = player.national,
                 nationalLegend = player.nationalLegend,
@@ -61,6 +61,7 @@ class DataMapper {
                 vel = player.vel,
                 rig = player.rig,
                 por = player.por,
+                Enums.RoleLineUp.PAN
             )
         }
 

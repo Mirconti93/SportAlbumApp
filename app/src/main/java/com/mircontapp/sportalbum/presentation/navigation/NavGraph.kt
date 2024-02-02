@@ -1,7 +1,5 @@
 package com.mircontapp.sportalbum.presentation.navigation
 
-import android.content.Context
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,8 +9,8 @@ import com.mircontapp.sportalbum.presentation.album.TeamAlbumScreen
 import com.mircontapp.sportalbum.presentation.dashboard.DashboardScreen
 import com.mircontapp.sportalbum.presentation.dashboard.EditPlayerScreen
 import com.mircontapp.sportalbum.presentation.dashboard.EditTeamScreen
-import com.mircontapp.sportalbum.presentation.match.LineUpScreen
-import com.mircontapp.sportalbum.presentation.match.MatchScreen
+import com.mircontapp.sportalbum.presentation.match.MatchGameScreen
+import com.mircontapp.sportalbum.presentation.match.MatchStartScreen
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 
@@ -29,10 +27,10 @@ fun NavGraph(navController: NavHostController, mainViewModel: MainViewModel){
             DashboardScreen(navController = navController, mainViewModel)
         }
         composable(route = NavigationItem.Games.route){
-            MatchScreen(navController = navController, mainViewModel)
+            MatchStartScreen(navController = navController, mainViewModel)
         }
         composable(route = NavigationItem.LineUps.route){
-            LineUpScreen(navController = navController, mainViewModel)
+            MatchGameScreen(navController = navController, mainViewModel)
         }
         composable(route = NavigationItem.TeamAlbum.route){
             TeamAlbumScreen(navController = navController, mainViewModel)
@@ -44,7 +42,7 @@ fun NavGraph(navController: NavHostController, mainViewModel: MainViewModel){
             EditPlayerScreen(navController = navController, mainViewModel)
         }
         composable(route = NavigationItem.Match.route){
-            MatchScreen(navController = navController, mainViewModel)
+            MatchStartScreen(navController = navController, mainViewModel)
         }
     }
 }

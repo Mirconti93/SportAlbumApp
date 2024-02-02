@@ -57,8 +57,8 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
                 fields[3],
                 fields[4],
                 fields[5],
-                fields[6],
-                fields[7],
+                Integer.parseInt(fields[6]),
+                Integer.parseInt(fields[7]),
                 fields[8],
                 Integer.parseInt(fields[9]),
                 Integer.parseInt(fields[10]),
@@ -72,10 +72,11 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
                 Integer.parseInt(fields[18]),
                 Integer.parseInt(fields[19]),
                 Integer.parseInt(fields[20]),
-                Integer.parseInt(fields[21])
+                Integer.parseInt(fields[21]),
+                Enums.RoleLineUp.PAN
             )
         } else {
-            return PlayerModel(fields[0], Enums.Role.PP, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null )
+            return PlayerModel(fields[0], Enums.Role.PP, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PAN)
         }
 
     }
