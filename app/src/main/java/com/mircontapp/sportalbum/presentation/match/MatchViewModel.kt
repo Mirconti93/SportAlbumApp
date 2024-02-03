@@ -50,13 +50,14 @@ class MatchViewModel @Inject constructor(
     val minute: MutableLiveData<Int> = MutableLiveData()
 //    private var homeLUManager: LineUpDataManager? = null
 //    private var awayLUManager: LineUpDataManager? = null
-    val homeEleven: MutableLiveData<List<PlayerModel>> = MutableLiveData()
-    val awayEleven: MutableLiveData<List<PlayerModel>> = MutableLiveData()
-    val homeBench: MutableLiveData<List<PlayerModel>> = MutableLiveData()
-    val awayBench: MutableLiveData<List<PlayerModel>> = MutableLiveData()
+    val homeEleven: MutableLiveData<MutableList<PlayerModel>> = MutableLiveData()
+    val awayEleven: MutableLiveData<MutableList<PlayerModel>> = MutableLiveData()
+    val homeBench: MutableLiveData<MutableList<PlayerModel>> = MutableLiveData()
+    val awayBench: MutableLiveData<MutableList<PlayerModel>> = MutableLiveData()
     var isLegend: Boolean = true
     var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
     var playerSelected: PlayerModel? = null
+    var firstPlayerSelected: Boolean = false
 
     var teamPosition = TeamPosition.HOME
     val teams = mutableStateOf<List<TeamModel>>(emptyList())
@@ -137,31 +138,35 @@ class MatchViewModel @Inject constructor(
 
         for (roleLineUp in roles) {
             val p = PlayerHelper.findBestPlayerInRole(roster, roleLineUp, isLegend  )
+            p?.roleMatch = roleLineUp
             if (p != null) {
                 field.add(p)
                 roster?.remove(p)
             }
         }
 
+        roster?.forEach {
+            it.roleMatch = Enums.RoleLineUp.PAN
+        }
+
         val newRoster = ArrayList(field).also {
-            it.addAll(bench)
+            if (roster != null) {
+                it.addAll(roster)
+            }
             it.sortedBy { it.roleMatch }
         }
 
         if (teamIsHome) {
             homeEleven.value = field
-            homeBench.value = roster?.toMutableList()
             homeRoster.value = newRoster
         } else {
             awayEleven.value = field
-            awayBench.value = roster?.toMutableList()
             awayRoster.value = newRoster
         }
 
-        Log.i("BUPI", "NEW ROSTER")
-        newRoster?.forEach {
-            Log.i("BUPI", it. name)
-        }
+
+
+
 
     }
 
@@ -173,12 +178,38 @@ class MatchViewModel @Inject constructor(
         if (playerModels.size == 11 && role.size == 11) {
             for (i in playerModels.indices) {
                 val p = playerModels[i]
-                p.roleLineUp = role[i]
+                p.roleMatch = role[i]
             }
         }
         return playerModels
     }
 
+    fun substitutePlayer(player1: PlayerModel, player2: PlayerModel, teamPosition: TeamPosition) {
+        val teamIsHome = teamPosition == TeamPosition.HOME
+        if (player1.roleMatch == Enums.RoleLineUp.PAN) {
+            if (player2.roleMatch == Enums.RoleLineUp.PAN) {
+                return
+            } else {
+                switchPlayers(player1, player2)
+
+                if (teamIsHome) homeEleven.value?.add(player1) else awayEleven.value?.add(player1)
+            }
+        } else {
+            if (player2.roleMatch == Enums.RoleLineUp.PAN) {
+                switchPlayers(player1, player2)
+                if (teamIsHome) homeEleven.value?.add(player2) else awayEleven.value?.add(player2)
+            } else {
+                switchPlayers(player1, player2)
+            }
+        }
+    }
+
+    private fun switchPlayers(player1: PlayerModel, player2: PlayerModel) {
+        val roleMatch1 = player2.roleMatch
+        val roleMatch2 = player1.roleMatch
+        player1.roleMatch = roleMatch1
+        player2.roleMatch = roleMatch2
+    }
 
 //    private var coachHome: CoachModel? = null
 //    private var coachAway: CoachModel? = null

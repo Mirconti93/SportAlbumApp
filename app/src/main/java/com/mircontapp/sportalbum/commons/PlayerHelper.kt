@@ -305,16 +305,15 @@ class PlayerHelper {
                 return playerModel
             }
             for (p in playerModels) {
-                val vp = (if (isLegend) p.value else p.value) ?: 0
-                val vBest = (if (isLegend) playerModel?.value else playerModel?.value) ?: 0
+                val vp = (if (isLegend) p.valueleg else p.value) ?: 0
+                val vBest = (if (isLegend) playerModel?.valueleg else playerModel?.value) ?: 0
                 if (p.roleLineUp == roleLineUp && vp > vBest) {
                     playerModel = p
                     break
                 }
             }
             if (playerModel == null) {
-                for (i in 0..playerModels.size-1) {
-                    val p: PlayerModel = playerModels.get(i)
+                for (p in playerModels) {
                     if (p.role == generalRole(roleLineUp)) {
                         playerModel = p
                         break

@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.ui.theme.Green
 import com.mircontapp.sportalbum.presentation.ui.theme.LightGray
 import com.mircontapp.sportalbum.presentation.ui.theme.PaleYellow
@@ -43,7 +44,16 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
             Text(text = mainViewModel.homeTeam?.name?: "")
             LazyColumn(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
                 items(viewModel.homeRoster.value?: emptyList()) {
-                    PlayerLineUpItem(it, viewModel.getLineUpPlace(it, MatchViewModel.TeamPosition.HOME))
+                    PlayerLineUpItem(it, viewModel.getLineUpPlace(it, MatchViewModel.TeamPosition.HOME), object : OnPlayerClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            if (viewModel.playerSelected != null) {
+                                viewModel.substitutePlayer(viewModel.playerSelected!!, playerModel, MatchViewModel.TeamPosition.HOME)
+                            } else {
+                                viewModel.playerSelected = playerModel
+                            }
+
+                        }
+                    })
                 }
             }
         }
@@ -57,7 +67,16 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
             Text(text = mainViewModel.awayTeam?.name ?: "")
             LazyColumn(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
                 items(viewModel.awayRoster.value?: emptyList()) {
-                    PlayerLineUpItem(it, viewModel.getLineUpPlace(it, MatchViewModel.TeamPosition.AWAY))
+                    PlayerLineUpItem(it, viewModel.getLineUpPlace(it, MatchViewModel.TeamPosition.AWAY), object : OnPlayerClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            if (viewModel.playerSelected != null) {
+                                viewModel.substitutePlayer(viewModel.playerSelected!!, playerModel, MatchViewModel.TeamPosition.AWAY)
+                            } else {
+                                viewModel.playerSelected = playerModel
+                            }
+
+                        }
+                    })
                 }
             }
 
@@ -72,7 +91,7 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
 }
 
 @Composable
-fun PlayerLineUpItem(player: PlayerModel, lineUpPlace: MatchViewModel.LineUpPlace)  {
+fun PlayerLineUpItem(player: PlayerModel, lineUpPlace: MatchViewModel.LineUpPlace, onPlayerClickHandler: OnPlayerClickHandler)  {
     val backgroundColor = when (lineUpPlace) {
         MatchViewModel.LineUpPlace.FIELD-> Green
         MatchViewModel.LineUpPlace.BENCH-> PaleYellow
