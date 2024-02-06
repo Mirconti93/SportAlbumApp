@@ -30,11 +30,12 @@ import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import java.lang.Exception
 
 @Composable
-fun TeamsGrid(teamsState: TeamsState) {
+fun TeamsGrid(teamsState: TeamsState, modifier: Modifier) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(5),
         verticalArrangement = Arrangement.spacedBy(4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier
     ) {
         teamsState.teams.forEach {
             item {

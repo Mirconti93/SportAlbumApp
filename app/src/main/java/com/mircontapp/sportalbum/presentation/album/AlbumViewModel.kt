@@ -10,6 +10,8 @@ import com.mircontapp.sportalbum.domain.usecases.GetAllTeamsUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -18,17 +20,16 @@ import javax.inject.Inject
 class AlbumViewModel @Inject constructor(
     val teamsFromAreaOrderedUC: GetTeamsFromAreaUC,
 ) : ViewModel() {
-    val teams = mutableStateOf<List<TeamModel>>(emptyList())
+    val teams = MutableStateFlow<List<TeamModel>>(emptyList())
     val showSelection = mutableStateOf(true)
 
-    init {
+    fun getTeamsFromArea(area: Enums.Area) {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = teamsFromAreaOrderedUC.getTeamsFromArea(Enums.Area.SERIEA)
+            val list = teamsFromAreaOrderedUC.getTeamsFromArea(area)
             withContext(Dispatchers.Main) {
                 teams.value = list
             }
         }
-
     }
 
 }

@@ -23,6 +23,9 @@ import com.mircontapp.sportalbum.presentation.ui.theme.LightGray
 import com.mircontapp.sportalbum.presentation.ui.theme.PaleYellow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -61,10 +64,10 @@ class MatchViewModel @Inject constructor(
     val minute: MutableLiveData<Int> = MutableLiveData()
 //    private var homeLUManager: LineUpDataManager? = null
 //    private var awayLUManager: LineUpDataManager? = null
-    val homeEleven: MutableLiveData<MutableList<PlayerModel>> = MutableLiveData()
-    val awayEleven: MutableLiveData<MutableList<PlayerModel>> = MutableLiveData()
-    val homeBench: MutableLiveData<MutableList<PlayerModel>> = MutableLiveData()
-    val awayBench: MutableLiveData<MutableList<PlayerModel>> = MutableLiveData()
+    val homeEleven: MutableStateFlow<List<PlayerModel>> = MutableStateFlow(emptyList())
+    val awayEleven: MutableStateFlow<List<PlayerModel>> = MutableStateFlow(emptyList())
+    val homeBench: MutableStateFlow<List<PlayerModel>> = MutableStateFlow(emptyList())
+    val awayBench: MutableStateFlow<List<PlayerModel>> = MutableStateFlow(emptyList())
     var isLegend: Boolean = true
     var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
     val playerSelected: MutableLiveData<PlayerModel?> = MutableLiveData()
@@ -73,6 +76,10 @@ class MatchViewModel @Inject constructor(
     var teamPosition = TeamPosition.HOME
     val teams = mutableStateOf<List<TeamModel>>(emptyList())
     val showSelection = mutableStateOf(false)
+    val currentScreen  = mutableStateOf(Screen.LINE_UP_HOME)
+
+    val enteringPlayer: PlayerModel? = null
+    val exitingPlayer: PlayerModel? = null
 
     enum class TeamPosition {
         HOME, AWAY
@@ -80,6 +87,10 @@ class MatchViewModel @Inject constructor(
 
     enum class LineUpPlace {
         FIELD, BENCH, TRIBUNE
+    }
+
+    enum class Screen {
+        LINE_UP_HOME, LINE_UP_AWAY, MATCH
     }
 
     fun initMatch() {
@@ -159,20 +170,17 @@ class MatchViewModel @Inject constructor(
             it.roleMatch = Enums.RoleLineUp.PAN
         }
 
-        val newRoster = ArrayList(field).also {
-            if (roster != null) {
-                it.addAll(roster)
-            }
-            it.sortedBy { it.roleMatch }
-        }
+        val bench = roster?.sortedBy { it.roleMatch } ?: emptyList()
 
         if (teamIsHome) {
             homeEleven.value = field
-            _homeRoster.value = newRoster
+            homeBench.value = bench
         } else {
             awayEleven.value = field
-            _awayRoster.value = newRoster
+            awayBench.value = bench
         }
+
+
 
     }
 
@@ -200,25 +208,43 @@ class MatchViewModel @Inject constructor(
         player1.roleMatch = roleMatch1
         player2.roleMatch = roleMatch2
 
-        if (player1.roleMatch != Enums.RoleLineUp.PAN && player2.roleMatch == Enums.RoleLineUp.PAN) {
-            if (teamIsHome) {
-                homeEleven.value?.add(player2)
-                homeEleven.value?.remove(player1)
-            } else {
-                awayEleven.value?.add(player2)
-                awayEleven.value?.remove(player1)
-            }
-        } else if (player1.roleMatch == Enums.RoleLineUp.PAN && player2.roleMatch != Enums.RoleLineUp.PAN) {
-            if (teamIsHome) {
-                homeEleven.value?.add(player1)
-                homeEleven.value?.remove(player2)
-            } else {
-                awayEleven.value?.add(player1)
-                awayEleven.value?.remove(player2)
-            }
+        var eleven: MutableList<PlayerModel> = ArrayList()
+        var bench: MutableList<PlayerModel> = ArrayList()
+        if (teamIsHome) {
+            eleven.addAll(homeEleven.value)
+            bench.addAll(homeBench.value)
+        } else {
+            eleven.addAll(awayEleven.value)
+            eleven.addAll(awayBench.value)
         }
-        _homeRoster.value = homeRoster.value.also { it?.sortedBy { it.roleMatch } }
-        _awayRoster.value = awayRoster.value.also { it?.sortedBy { it.roleMatch } }
+
+        if (eleven.contains(player1) && bench.contains(player2)) {
+            eleven.add(player2)
+            eleven.remove(player1)
+            bench.add(player1)
+            bench.remove(player2)
+        } else if (bench.contains(player1) && eleven.contains(player2)) {
+            eleven.add(player1)
+            eleven.remove(player2)
+            bench.add(player2)
+            bench.remove(player1)
+        }
+
+        Log.i("BUPI", "Eleven")
+        homeEleven.value?.forEach {
+            Log.i("BUPI", it. name)
+        }
+
+        eleven = (eleven.sortedBy { it.roleMatch }?.toMutableList() ?: emptyList()).toMutableList()
+        bench = (bench.sortedBy { it.roleLineUp }?.toMutableList() ?: emptyList()).toMutableList()
+
+        if (teamIsHome) {
+            homeEleven.value = eleven
+            homeBench.value = bench
+        } else {
+            awayEleven.value = eleven
+            awayBench.value = bench
+        }
         playerSelected.value = null
     }
 

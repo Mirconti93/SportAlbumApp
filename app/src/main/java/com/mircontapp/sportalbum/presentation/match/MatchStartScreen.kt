@@ -67,7 +67,7 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                             }
                             viewModel.showSelection.value = false
                         }
-                    })
+                    }), Modifier
                 )
             } else {
                 Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))

@@ -59,7 +59,7 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                                 mainViewModel.teamModel = teamModel
                                 navController.navigate(NavigationItem.EditTeam.route)
                             }
-                        })
+                        }), Modifier
                 )
             } else {
                 Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
