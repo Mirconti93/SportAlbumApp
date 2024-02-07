@@ -1,5 +1,6 @@
 package com.mircontapp.sportalbum.commons
 
+import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mirco.sportalbum.utils.Enums.MatchModule
 import com.mirco.sportalbum.utils.Enums.RoleLineUp
@@ -304,12 +305,16 @@ class PlayerHelper {
             if (playerModels == null || playerModels.isEmpty()) {
                 return playerModel
             }
+            Log.i("BUPI", "findBestPlayerInRole")
+            var vBest = 0;
             for (p in playerModels) {
                 val vp = (if (isLegend) p.valueleg else p.value) ?: 0
-                val vBest = (if (isLegend) playerModel?.valueleg else playerModel?.value) ?: 0
+                Log.i("BUPI", "vp: " + vp + " vBest: " + vBest)
                 if (p.roleLineUp == roleLineUp && vp > vBest) {
                     playerModel = p
-                    break
+                    vBest = (if (isLegend) playerModel?.valueleg else playerModel?.value) ?: 0
+                    Log.i("BUPI", p.name + " " + playerModel?.valueleg.toString())
+
                 }
             }
             if (playerModel == null) {

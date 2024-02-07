@@ -6,12 +6,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -30,12 +33,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.data.database.Player
+import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
@@ -52,39 +57,53 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
     LaunchedEffect((Unit), block = {
         viewModel.initLineUp(mainViewModel.homeTeam, mainViewModel.awayTeam)
     })
-    Row {
-        when (viewModel.currentScreen.value) {
-            MatchViewModel.Screen.LINE_UP_HOME -> LineUpSelection(viewModel = viewModel, position = MatchViewModel.TeamPosition.HOME)
-            MatchViewModel.Screen.LINE_UP_HOME -> LineUpSelection(viewModel = viewModel, position = MatchViewModel.TeamPosition.AWAY)
-            else -> Match()
-        }
 
+    when (viewModel.currentScreen.value) {
+        MatchViewModel.Screen.LINE_UP_HOME -> LineUpSelection(viewModel = viewModel, position = MatchViewModel.TeamPosition.HOME)
+        MatchViewModel.Screen.LINE_UP_HOME -> LineUpSelection(viewModel = viewModel, position = MatchViewModel.TeamPosition.AWAY)
+        else -> Match(null)
     }
+
+
 }
 
 @Composable
-fun Match() {
+fun Match(matchModel: MatchModel?) {
+    if (matchModel != null)
+        Row {
+            Column {
+                Text(text = matchModel.home)
+            }
+            Column {
 
+            }
+            Column {
+                Text(text = matchModel.away)
+            }
+
+
+        }
 }
+
 
 @Composable
 fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosition) {
     val eleven= if (position == MatchViewModel.TeamPosition.HOME ) viewModel.homeEleven.collectAsState() else viewModel.awayEleven.collectAsState()
     val bench= if (position == MatchViewModel.TeamPosition.HOME ) viewModel.homeBench.collectAsState() else viewModel.awayBench.collectAsState()
 
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .fillMaxHeight()
-        .padding(8.dp)) {
-        val teamName = if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.name else viewModel.awayTeam.value?.name
-        Text(text = teamName ?: "")
-        Row {
+    Row {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .padding(8.dp)) {
+            val teamName = if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.name else viewModel.awayTeam.value?.name
+            Text(text = teamName ?: "")
+            Row {
 
-            LazyColumn(modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .padding(8.dp)
-                .weight(1f)) {
+                LazyColumn(modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(8.dp)
+                    .weight(1f)) {
 
                     items(eleven.value) {
                         PlayerLineUpItem(it, BlueD,
@@ -100,12 +119,12 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
                             }
                         )
                     }
-            }
-            LazyColumn(modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .weight(1f)
-                .padding(8.dp)) {
+                }
+                LazyColumn(modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(8.dp)) {
                     items(bench.value) {
                         PlayerLineUpItem(it, BlueD,
                             object : OnPlayerClickHandler {
@@ -120,10 +139,12 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
                             }
                         )
                     }
+                }
             }
-        }
 
+        }
     }
+
 }
 
 @Composable
@@ -137,16 +158,17 @@ fun PlayerLineUpItem(player: PlayerModel, backgroundColor: Color, onPlayerClickH
                 onPlayerClickHandler.onPlayerClick(player)
             },
     ) {
-        Text(text = player.name, color = White, modifier = Modifier.weight(3f))
+        Text(text = player.name, color = White, modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentWidth())
         Text(text = SportAlbumApplication.instance.getString(player.roleMatch?.text ?: R.string.na),
             modifier = Modifier
-                .padding(start = 4.dp)
-                .weight(1f),
-            color = OrangeYellowD,)
+                .padding(start = 4.dp),
+            color = Yellow
+            )
         Text(text = player.valueleg.toString(),
             modifier = Modifier
-                .padding(start = 4.dp)
-                .weight(1f),
+                .padding(start = 4.dp),
             color = OrangeYellowD)
 
 
