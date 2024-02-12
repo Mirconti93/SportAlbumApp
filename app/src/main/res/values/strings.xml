@@ -126,6 +126,8 @@
     <string name="offensiveLeftBack">Terzino Sinistro Offensivo</string>
     <string name="bench">Panchina</string>
     <string name="tribune">Tribuna</string>
+    <string name="titolars">Titolari</string>
+    <string name="module">Modulo</string>
 
 
     <string name="playerAge">anni</string>
@@ -242,4 +244,5 @@
 
     <string name="dataUpdated">Dati aggiornati con successo!</string>
     <string name="next">Avanti</string>
+
 </resources>

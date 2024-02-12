@@ -71,15 +71,14 @@ class MatchViewModel @Inject constructor(
     var isLegend: Boolean = true
     var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
     val playerSelected: MutableLiveData<PlayerModel?> = MutableLiveData()
+    var playerToChangeRole: PlayerModel? = null
     var firstPlayerSelected: Boolean = false
+    val showRoleSelection = MutableStateFlow(false)
 
     var teamPosition = TeamPosition.HOME
     val teams = mutableStateOf<List<TeamModel>>(emptyList())
     val showSelection = mutableStateOf(false)
-    val currentScreen  = mutableStateOf(Screen.LINE_UP_HOME)
-
-    val enteringPlayer: PlayerModel? = null
-    val exitingPlayer: PlayerModel? = null
+    val currentScreen  = mutableStateOf(Screen.LINE_UP_HOME_START)
 
     enum class TeamPosition {
         HOME, AWAY
@@ -90,7 +89,7 @@ class MatchViewModel @Inject constructor(
     }
 
     enum class Screen {
-        LINE_UP_HOME, LINE_UP_AWAY, MATCH
+        LINE_UP_HOME_START, LINE_UP_AWAY_START, MATCH, LINE_UP_HOME, LINE_UP_AWAY
     }
 
     fun initMatch() {
@@ -106,6 +105,18 @@ class MatchViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun nextScreen() {
+        val screen = when (currentScreen.value) {
+            Screen.LINE_UP_HOME_START -> Screen.LINE_UP_AWAY_START
+            Screen.LINE_UP_AWAY_START -> Screen.MATCH
+            Screen.LINE_UP_HOME -> Screen.MATCH
+            Screen.LINE_UP_AWAY -> Screen.MATCH
+            else -> Screen.MATCH
+        }
+        Log.i("BUPI", screen.toString())
+        currentScreen.value = screen
     }
 
     fun initLineUp(homeT: TeamModel?, awayT: TeamModel?) {
@@ -184,18 +195,29 @@ class MatchViewModel @Inject constructor(
 
     }
 
-    fun changeModule(
-        playerModels: List<PlayerModel>,
-        matchModule: Enums.MatchModule?
-    ): List<PlayerModel>? {
-        val role = PlayerHelper.getLineUpRoles(matchModule)
-        if (playerModels.size == 11 && role.size == 11) {
-            for (i in playerModels.indices) {
-                val p = playerModels[i]
-                p.roleMatch = role[i]
-            }
+    fun changeModule(teamPosition: TeamPosition, module: Enums.MatchModule) {
+        val players = ArrayList<PlayerModel>()
+        val roles = PlayerHelper.getLineUpRoles(module)
+        if (teamPosition == TeamPosition.HOME) {
+            players.addAll(homeEleven.value)
+        } else {
+            players.addAll(awayEleven.value)
         }
-        return playerModels
+        for (i in 0..players.size) {
+            if (i<roles.size) {
+                val player = players.get(i)
+                val role = roles[i]
+                player.roleMatch = role
+            }
+
+        }
+
+        if (teamPosition == TeamPosition.HOME) {
+            homeEleven.value = players
+        } else {
+            awayEleven.value = players
+        }
+
     }
 
     fun substitutePlayer(player1: PlayerModel, player2: PlayerModel, teamPosition: TeamPosition) {
@@ -246,6 +268,19 @@ class MatchViewModel @Inject constructor(
             awayBench.value = bench
         }
         playerSelected.value = null
+    }
+
+    fun changePlayerRole(teamPosition: TeamPosition) {
+        val players: MutableList<PlayerModel> = ArrayList()
+        players.addAll(homeEleven.value)
+        if (teamPosition == TeamPosition.HOME) {
+            for (p in players) {
+                if (p.name == playerToChangeRole?.name) {
+                    p.roleMatch = playerToChangeRole?.roleMatch
+                }
+            }
+        }
+        homeEleven.value = players
     }
 
     fun getBackgroundColor(playerModel: PlayerModel, position: TeamPosition) : Color {
