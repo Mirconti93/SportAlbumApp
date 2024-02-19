@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.FileDataManager
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.album.AlbumViewModel
@@ -70,6 +71,17 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
+                }
+                Button(onClick = {
+                    if (viewModel.players.value != null) {
+                        FileDataManager.writePlayers(
+                            context = SportAlbumApplication.instance.applicationContext,
+                            "players", viewModel.players.value!!
+                        )
+                    }},
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
+                    Text(text = SportAlbumApplication.instance.getString(R.string.saveData))
                 }
             }
             if (viewModel.players.value != null) {
