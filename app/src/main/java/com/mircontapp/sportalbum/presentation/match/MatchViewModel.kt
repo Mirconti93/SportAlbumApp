@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
@@ -80,6 +81,8 @@ class MatchViewModel @Inject constructor(
     val showSelection = mutableStateOf(false)
     val currentScreen  = mutableStateOf(Screen.LINE_UP_HOME_START)
 
+    var matchModel: MatchModel? = null
+
     enum class TeamPosition {
         HOME, AWAY
     }
@@ -113,7 +116,10 @@ class MatchViewModel @Inject constructor(
             Screen.LINE_UP_AWAY_START -> Screen.MATCH
             Screen.LINE_UP_HOME -> Screen.MATCH
             Screen.LINE_UP_AWAY -> Screen.MATCH
-            else -> Screen.MATCH
+            else -> {
+                matchModel = MatchModel(homeTeam.value?.name ?: "", awayTeam.value?.name ?: "")
+                Screen.MATCH
+            }
         }
         Log.i("BUPI", screen.toString())
         currentScreen.value = screen

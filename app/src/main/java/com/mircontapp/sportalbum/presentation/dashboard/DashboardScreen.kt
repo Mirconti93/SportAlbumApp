@@ -4,6 +4,9 @@ import android.content.res.Resources.Theme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ColorScheme
@@ -11,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -66,17 +71,18 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                 Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
             }
         } else {
-            Row {
+            Row(modifier = Modifier.padding(4.dp)) {
                 Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
                 }
+                Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = {
                     if (viewModel.players.value != null) {
                         FileDataManager.writePlayers(
                             context = SportAlbumApplication.instance.applicationContext,
-                            "players", viewModel.players.value!!
+                            "players.txt", viewModel.players.value!!
                         )
                     }},
                     colors = ButtonDefaults.buttonColors(
