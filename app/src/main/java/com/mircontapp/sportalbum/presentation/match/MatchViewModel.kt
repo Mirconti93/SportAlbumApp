@@ -113,13 +113,13 @@ class MatchViewModel @Inject constructor(
     fun nextScreen() {
         val screen = when (currentScreen.value) {
             Screen.LINE_UP_HOME_START -> Screen.LINE_UP_AWAY_START
-            Screen.LINE_UP_AWAY_START -> Screen.MATCH
-            Screen.LINE_UP_HOME -> Screen.MATCH
-            Screen.LINE_UP_AWAY -> Screen.MATCH
-            else -> {
+            Screen.LINE_UP_AWAY_START -> {
                 matchModel = MatchModel(homeTeam.value?.name ?: "", awayTeam.value?.name ?: "")
                 Screen.MATCH
             }
+            Screen.LINE_UP_HOME -> Screen.MATCH
+            Screen.LINE_UP_AWAY -> Screen.MATCH
+            else -> Screen.MATCH
         }
         Log.i("BUPI", screen.toString())
         currentScreen.value = screen

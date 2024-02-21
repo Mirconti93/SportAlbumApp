@@ -72,14 +72,15 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
     when (viewModel.currentScreen.value) {
         MatchViewModel.Screen.LINE_UP_HOME_START, MatchViewModel.Screen.LINE_UP_HOME -> LineUpSelection(viewModel = viewModel, position = MatchViewModel.TeamPosition.HOME)
         MatchViewModel.Screen.LINE_UP_AWAY_START, MatchViewModel.Screen.LINE_UP_AWAY -> LineUpSelection(viewModel = viewModel, position = MatchViewModel.TeamPosition.AWAY)
-        else -> Match(viewModel.matchModel)
+        else -> Match(viewModel)
     }
 
 
 }
 
 @Composable
-fun Match(matchModel: MatchModel?) {
+fun Match(matchViewModel: MatchViewModel) {
+    val matchModel = remember { matchViewModel.matchModel }
     if (matchModel != null)
         Row {
             Column {
