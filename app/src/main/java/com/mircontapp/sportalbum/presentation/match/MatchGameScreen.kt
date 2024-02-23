@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -106,139 +107,130 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
     val isRoleSelection = remember { mutableStateOf(false) }
     val isModuleSelection = remember { mutableStateOf(false) }
 
-    Row {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(8.dp)) {
-            val teamName = if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.name else viewModel.awayTeam.value?.name
-            val module =  if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.module else viewModel.awayTeam.value?.module
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = teamName ?: "" , modifier = Modifier
-                    .weight(0.7f)
-                    .padding(start = 8.dp)
-                    .size(16.dp))
-                Button(onClick = { isModuleSelection.value = true },
-                    colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
-                    modifier = Modifier
-                        .weight(0.3f)
-                        .padding(0.dp)
-                        .height(20.dp)) {
-                        Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module))
-                }
-                Button(onClick = {viewModel.nextScreen()},
-                    colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
-                    modifier = Modifier
-                        .weight(0.3f)
-                        .padding(0.dp)
-                        .height(20.dp)) {
-                    Text(text = SportAlbumApplication.instance.getString(R.string.next))
-                }
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+        .padding(8.dp)) {
+        val teamName = if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.name else viewModel.awayTeam.value?.name
+        val module =  if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.module else viewModel.awayTeam.value?.module
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = teamName ?: "" , modifier = Modifier
+                .weight(0.7f)
+                .padding(start = 8.dp),
+                fontSize = 16.sp,
+                color = OrangeYellowD)
+            Button(onClick = { isModuleSelection.value = true },
+                colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
+                modifier = Modifier
+                    .weight(0.3f)
+                    .padding(0.dp)
+                    .height(20.dp)) {
+                    Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module))
             }
-            if (isModuleSelection.value) {
-                Row {
-                    LazyRow() {
-                        items(Enums.MatchModule.values()) {
-                            Text(text = SportAlbumApplication.instance.getString(it.text),
-                                modifier = Modifier
-                                    .background(BlueD)
-                                    .clickable {
-                                        viewModel.changeModule(position, it)
-                                        isModuleSelection.value = false
-                                    })
-                            Spacer(modifier = Modifier.height(2.dp))
-                        }
-                    }
-                }
+            Button(onClick = {viewModel.nextScreen()},
+                colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
+                modifier = Modifier
+                    .weight(0.3f)
+                    .padding(0.dp)
+                    .height(20.dp)) {
+                Text(text = SportAlbumApplication.instance.getString(R.string.next))
             }
-            Row {
-                Text(SportAlbumApplication.instance.getString(R.string.titolars), modifier = Modifier
-                    .weight(0.5f)
-                    .padding(start = 8.dp))
-                Text(SportAlbumApplication.instance.getString(R.string.bench), modifier = Modifier
-                    .weight(0.5f)
-                    .padding(start = 8.dp))
-            }
-            Row {
-                LazyColumn(modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(8.dp)
-                    .weight(1f)) {
-                    items(eleven.value) {
-                        PlayerLineUpItem(it, BlueD,
-                            object : OnPlayerClickHandler {
-                                override fun onPlayerClick(playerModel: PlayerModel) {
-                                    Log.i("BUPI",  viewModel.playerSelected.value?.name ?: "Not selected")
-                                    if (viewModel.playerSelected.value != null) {
-                                        viewModel.substitutePlayer(viewModel.playerSelected.value!!, playerModel, MatchViewModel.TeamPosition.HOME)
-                                    } else {
-                                        viewModel.playerSelected.value = playerModel
-                                    }
-                                }
-                            },
-                            object: OnPlayerClickHandler {
-                                override fun onPlayerClick(playerModel: PlayerModel) {
-                                    viewModel.playerToChangeRole = playerModel
-                                    isRoleSelection.value = true
-                                }
-                            }
-                        )
-                    }
-                }
-                if (isRoleSelection.value) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(8.dp)
-                            .weight(0.2f)
-                    ) {
-                        items(Enums.RoleLineUp.values()) {
-                            Text(text = SportAlbumApplication.instance.getString(it.text),
-                                modifier = Modifier
-                                    .background(BlueD)
-                                    .clickable {
-                                        viewModel.playerToChangeRole?.roleMatch = it
-                                        viewModel.changePlayerRole(position)
-                                        isRoleSelection.value = false
-                                    })
-                            Spacer(modifier = Modifier.height(2.dp))
-                        }
-                    }
-                }
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(8.dp)
-                ) {
-                    items(bench.value) {
-                        PlayerLineUpItem(
-                            it, LightBlue,
-                            object : OnPlayerClickHandler {
-                                override fun onPlayerClick(playerModel: PlayerModel) {
-                                    Log.i(
-                                        "BUPI",
-                                        viewModel.playerSelected.value?.name ?: "Not selected"
-                                    )
-                                    if (viewModel.playerSelected.value != null) {
-                                        viewModel.substitutePlayer(
-                                            viewModel.playerSelected.value!!,
-                                            playerModel,
-                                            MatchViewModel.TeamPosition.HOME
-                                        )
-                                    } else {
-                                        viewModel.playerSelected.value = playerModel
-                                    }
-                                }
-                            }, null
-                        )
-                    }
-                }
-
-            }
-
         }
+        if (isModuleSelection.value) {
+            Row {
+                LazyRow() {
+                    items(Enums.MatchModule.values()) {
+                        Text(text = SportAlbumApplication.instance.getString(it.text),
+                            modifier = Modifier
+                                .background(BlueD)
+                                .padding(4.dp)
+                                .clickable {
+                                    viewModel.changeModule(position, it)
+                                    isModuleSelection.value = false
+                                })
+                        Spacer(modifier = Modifier.width(2.dp))
+                    }
+                }
+            }
+        }
+        Text(SportAlbumApplication.instance.getString(R.string.titolars), modifier = Modifier
+            .padding(start = 8.dp))
+
+        LazyColumn(modifier = Modifier
+            .weight(1f)
+            .padding(8.dp)) {
+            items(eleven.value) {
+                PlayerLineUpItem(it, BlueD,
+                    object : OnPlayerClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            Log.i("BUPI",  viewModel.playerSelected.value?.name ?: "Not selected")
+                            if (viewModel.playerSelected.value != null) {
+                                viewModel.substitutePlayer(viewModel.playerSelected.value!!, playerModel, MatchViewModel.TeamPosition.HOME)
+                            } else {
+                                viewModel.playerSelected.value = playerModel
+                            }
+                        }
+                    },
+                    object: OnPlayerClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            viewModel.playerToChangeRole = playerModel
+                            isRoleSelection.value = true
+                        }
+                    }
+                )
+            }
+        }
+        if (isRoleSelection.value) {
+            LazyRow(
+                modifier = Modifier
+                    .padding(8.dp)
+            ) {
+                items(Enums.RoleLineUp.values()) {
+                    Text(text = SportAlbumApplication.instance.getString(it.text),
+                        modifier = Modifier
+                            .background(BlueD)
+                            .padding(4.dp)
+                            .clickable {
+                                viewModel.playerToChangeRole?.roleMatch = it
+                                viewModel.changePlayerRole(position)
+                                isRoleSelection.value = false
+                            })
+                    Spacer(modifier = Modifier.width(2.dp))
+                }
+            }
+        }
+        Text(SportAlbumApplication.instance.getString(R.string.bench), modifier = Modifier
+            .padding(start = 8.dp))
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            items(bench.value) {
+                PlayerLineUpItem(
+                    it, LightBlue,
+                    object : OnPlayerClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            Log.i(
+                                "BUPI",
+                                viewModel.playerSelected.value?.name ?: "Not selected"
+                            )
+                            if (viewModel.playerSelected.value != null) {
+                                viewModel.substitutePlayer(
+                                    viewModel.playerSelected.value!!,
+                                    playerModel,
+                                    MatchViewModel.TeamPosition.HOME
+                                )
+                            } else {
+                                viewModel.playerSelected.value = playerModel
+                            }
+                        }
+                    }, null
+                )
+            }
+        }
+
     }
 
 }

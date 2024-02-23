@@ -5,8 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -79,37 +82,31 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row {
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .weight(1f)
-                        .padding(8.dp)
-                    ) {
-                        TeamSelected(team = viewModel.homeTeam.value?.name, object : OnClickHandler {
-                            override fun onClick() {
-                                viewModel.let {
-                                    it.showSelection.value = true
-                                    it.teamPosition = MatchViewModel.TeamPosition.HOME
-                                }
-                            }
-                        })
+
+                TeamSelected(modifier = Modifier.weight(1f),
+                    team = viewModel.homeTeam.value?.name, object : OnClickHandler {
+                    override fun onClick() {
+                        viewModel.let {
+                            it.showSelection.value = true
+                            it.teamPosition = MatchViewModel.TeamPosition.HOME
+                        }
                     }
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .weight(1f)
-                        .padding(8.dp)) {
-                        TeamSelected(team = viewModel.awayTeam.value?.name, object : OnClickHandler {
-                            override fun onClick() {
-                                viewModel.let {
-                                    it.showSelection.value = true
-                                    it.teamPosition = MatchViewModel.TeamPosition.AWAY
-                                }
-                            }
-                        })
+                })
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+
+                TeamSelected(modifier = Modifier.weight(1f),
+                    team = viewModel.awayTeam.value?.name, object : OnClickHandler {
+                    override fun onClick() {
+                        viewModel.let {
+                            it.showSelection.value = true
+                            it.teamPosition = MatchViewModel.TeamPosition.AWAY
+                        }
                     }
-                }
+                })
+
+
                 Button(onClick = {
                     if (viewModel.homeTeam.value != null && viewModel.awayTeam.value != null) {
                         mainViewModel.homeTeam = viewModel.homeTeam.value!!
@@ -132,8 +129,8 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TeamSelected(team: String?, onClickHandler: OnClickHandler) {
-    Column {
+fun TeamSelected(modifier: Modifier, team: String?, onClickHandler: OnClickHandler) {
+    Column(modifier = Modifier) {
         Card(
             modifier = Modifier.shadow(2.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
