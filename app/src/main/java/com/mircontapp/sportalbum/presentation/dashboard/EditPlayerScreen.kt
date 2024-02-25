@@ -107,9 +107,6 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
             TextField(value = teamLegend.value, onValueChange = { teamLegend.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.isClubLegend))})
 
-        }
-
-        Column {
             TextField(value = att.value, onValueChange = { att.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.att))})
 
@@ -140,8 +137,6 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
             TextField(value = por.value, onValueChange = { por.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.por))})
 
-        }
-        Column {
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
                 Checkbox(checked = national.value, onCheckedChange = {
                     national.value = it
@@ -157,7 +152,7 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
 
                 Text(text = SportAlbumApplication.instance.getString(R.string.nationLegend))
             }
-            
+
             Button(onClick = {
                 dashboardViewModel.updatePlayer(
                     PlayerModel(name.value.text,
@@ -189,8 +184,11 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                 Text(text = SportAlbumApplication.instance.getString(R.string.add))
             }
 
-
         }
+
+
+
+
     }
 
 }

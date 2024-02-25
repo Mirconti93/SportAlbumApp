@@ -21,7 +21,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
@@ -32,14 +34,14 @@ import java.lang.Exception
 @Composable
 fun TeamsGrid(teamsState: TeamsState, modifier: Modifier) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(5),
+        columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier
     ) {
         teamsState.teams.forEach {
             item {
-                TeamChoiceItem(name = it.name, modifier = Modifier.padding(8.dp).shadow(2.dp).clickable {
+                TeamChoiceItem(name = it.name, modifier = Modifier.padding(2.dp).shadow(2.dp).clickable {
                     teamsState.onTeamClickHandler.onTeamClick(it)
                 })
             }
@@ -64,10 +66,10 @@ fun TeamChoiceItem(name: String, modifier: Modifier) {
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier.size(80.dp),
                 contentScale = ContentScale.Crop
             )
-            Text(modifier = Modifier, text = name)
+            Text(modifier = Modifier, text = name, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
 
     }

@@ -157,7 +157,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
             .padding(start = 8.dp))
 
         LazyColumn(modifier = Modifier
-            .weight(1f)
+            .weight(1.1f)
             .padding(8.dp)) {
             items(eleven.value) {
                 PlayerLineUpItem(it, BlueD,
@@ -165,7 +165,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
                         override fun onPlayerClick(playerModel: PlayerModel) {
                             Log.i("BUPI",  viewModel.playerSelected.value?.name ?: "Not selected")
                             if (viewModel.playerSelected.value != null) {
-                                viewModel.substitutePlayer(viewModel.playerSelected.value!!, playerModel, MatchViewModel.TeamPosition.HOME)
+                                viewModel.substitutePlayer(viewModel.playerSelected.value!!, playerModel, position)
                             } else {
                                 viewModel.playerSelected.value = playerModel
                             }
@@ -203,7 +203,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
             .padding(start = 8.dp))
         LazyColumn(
             modifier = Modifier
-                .weight(1f)
+                .weight(0.9f)
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
@@ -220,11 +220,12 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
                                 viewModel.substitutePlayer(
                                     viewModel.playerSelected.value!!,
                                     playerModel,
-                                    MatchViewModel.TeamPosition.HOME
+                                    position
                                 )
                             } else {
                                 viewModel.playerSelected.value = playerModel
                             }
+
                         }
                     }, null
                 )

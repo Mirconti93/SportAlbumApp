@@ -243,7 +243,7 @@ class MatchViewModel @Inject constructor(
             bench.addAll(homeBench.value)
         } else {
             eleven.addAll(awayEleven.value)
-            eleven.addAll(awayBench.value)
+            bench.addAll(awayBench.value)
         }
 
         if (eleven.contains(player1) && bench.contains(player2)) {
@@ -259,7 +259,7 @@ class MatchViewModel @Inject constructor(
         }
 
         Log.i("BUPI", "Eleven")
-        homeEleven.value?.forEach {
+        awayEleven.value?.forEach {
             Log.i("BUPI", it. name)
         }
 

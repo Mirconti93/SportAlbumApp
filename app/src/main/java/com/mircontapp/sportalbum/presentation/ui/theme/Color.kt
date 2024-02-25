@@ -24,3 +24,6 @@ val Pink40 = Color(0xFF7D5260)
 val Green = Color(0xFF2ECC71)
 val LightGray = Color(0xFFEAEDED)
 val PaleYellow = Color(0xFFFCF3CF)
+
+val Red = Color(0xFFAD1714)
+val Brown = Color(0xFF904128)

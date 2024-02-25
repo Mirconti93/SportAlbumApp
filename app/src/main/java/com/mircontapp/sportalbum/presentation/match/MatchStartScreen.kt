@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -49,7 +50,8 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(),
+            .fillMaxHeight()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -58,7 +60,7 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
             viewModel.initMatch()
         })
 
-        Text(text = SportAlbumApplication.instance.getString(R.string.teams))
+        Text(text = SportAlbumApplication.instance.getString(R.string.match))
         if (viewModel.showSelection.value) {
             if (viewModel.teams.value != null) {
                 TeamsGrid(TeamsState(
@@ -80,11 +82,12 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
         } else {
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxHeight()
             ) {
 
                 TeamSelected(modifier = Modifier.weight(1f),
-                    team = viewModel.homeTeam.value?.name, object : OnClickHandler {
+                    team = viewModel.homeTeam.value, object : OnClickHandler {
                     override fun onClick() {
                         viewModel.let {
                             it.showSelection.value = true
@@ -93,11 +96,10 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                     }
                 })
 
-                Spacer(modifier = Modifier.height(8.dp))
-
+                Text(text = SportAlbumApplication.instance.getString(R.string.vs))
 
                 TeamSelected(modifier = Modifier.weight(1f),
-                    team = viewModel.awayTeam.value?.name, object : OnClickHandler {
+                    team = viewModel.awayTeam.value, object : OnClickHandler {
                     override fun onClick() {
                         viewModel.let {
                             it.showSelection.value = true
@@ -105,8 +107,7 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                         }
                     }
                 })
-
-
+                
                 Button(onClick = {
                     if (viewModel.homeTeam.value != null && viewModel.awayTeam.value != null) {
                         mainViewModel.homeTeam = viewModel.homeTeam.value!!
@@ -129,19 +130,20 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TeamSelected(modifier: Modifier, team: String?, onClickHandler: OnClickHandler) {
-    Column(modifier = Modifier) {
+fun TeamSelected(modifier: Modifier, team: TeamModel?, onClickHandler: OnClickHandler) {
+    Column(modifier = modifier.padding(16.dp, 8.dp)) {
+        val bkgColor = UIHelper.getColorByString(team?.color1)
         Card(
             modifier = Modifier.shadow(2.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primary,
+                containerColor = bkgColor,
             ),
             shape = RoundedCornerShape(8.dp),
             onClick = {onClickHandler.onClick()}
 
             ) {
-            val name = if (team != null) team else SportAlbumApplication.instance.getString(R.string.notSelected)
+            val name = if (team != null) team.name else SportAlbumApplication.instance.getString(R.string.notSelected)
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -149,7 +151,9 @@ fun TeamSelected(modifier: Modifier, team: String?, onClickHandler: OnClickHandl
                 Image(
                     painter = painterResource(idDrawable),
                     contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                    modifier = Modifier.size(140.dp),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(32.dp),
                     contentScale = ContentScale.Crop
                 )
                 Text(modifier = Modifier, text = name)

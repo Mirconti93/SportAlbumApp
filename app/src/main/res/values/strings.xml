@@ -245,4 +245,6 @@
     <string name="dataUpdated">Dati aggiornati con successo!</string>
     <string name="next">Avanti</string>
 
+    <string name="vs">vs</string>
+
 </resources>

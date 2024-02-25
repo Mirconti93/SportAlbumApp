@@ -67,7 +67,7 @@ fun PlayerItem(name: String, modifier: Modifier) {
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                modifier = Modifier.size(70.dp, 100.dp),
+                modifier = Modifier.size(140.dp, 200.dp),
                 contentScale = ContentScale.FillHeight
             )
             Text(modifier = Modifier, text = name)

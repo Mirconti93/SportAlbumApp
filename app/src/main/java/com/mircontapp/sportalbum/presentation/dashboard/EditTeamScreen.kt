@@ -79,9 +79,6 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
             TextField(value = stadium.value, onValueChange = { stadium.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.stadium))})
 
-        }
-
-        Column {
             TextField(value = color1.value, onValueChange = { color1.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.color1))})
 
@@ -94,8 +91,6 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
             TextField(value = coachlegend.value, onValueChange = { coachlegend.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.coachLegend))})
 
-        }
-        Column(modifier = Modifier.width(400.dp)) {
             TextField(value = area.value, onValueChange = { area.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.area))})
 
