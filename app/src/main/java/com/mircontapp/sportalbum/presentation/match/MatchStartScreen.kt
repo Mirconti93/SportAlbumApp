@@ -139,7 +139,7 @@ fun TeamSelected(modifier: Modifier, team: TeamModel?, onClickHandler: OnClickHa
             colors = CardDefaults.cardColors(
                 containerColor = bkgColor,
             ),
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(4.dp),
             onClick = {onClickHandler.onClick()}
 
             ) {

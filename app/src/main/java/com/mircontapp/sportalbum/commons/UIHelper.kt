@@ -9,8 +9,11 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
 import com.mircontapp.sportalbum.presentation.ui.theme.Brown
 import com.mircontapp.sportalbum.presentation.ui.theme.Green
+import com.mircontapp.sportalbum.presentation.ui.theme.LightBlue
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.ui.theme.Pink80
+import com.mircontapp.sportalbum.presentation.ui.theme.Purple40
+import com.mircontapp.sportalbum.presentation.ui.theme.Purple80
 import com.mircontapp.sportalbum.presentation.ui.theme.Red
 import java.util.ResourceBundle
 
@@ -24,8 +27,12 @@ class UIHelper {
         const val BLUE = "blu"
         const val YELLOW = "giallo"
         const val GREEN = "verde"
+        const val LIGHT_BLUE = "azzurro"
         const val BROWN = "marrone"
+        const val VIOLET = "viola"
         const val PINK = "rosa"
+
+
         fun getDrawableId(resourceName: String, placeholder: Int): Int {
             val name = resourceName.replace(" ", "_").lowercase()
             val id = try {
@@ -45,8 +52,10 @@ class UIHelper {
                 BLUE -> BlueD
                 YELLOW -> OrangeYellowD
                 GREEN -> Green
+                LIGHT_BLUE -> LightBlue
                 BROWN -> Brown
                 PINK -> Pink80
+                VIOLET -> Purple40
                 else -> BlueD
             }
 

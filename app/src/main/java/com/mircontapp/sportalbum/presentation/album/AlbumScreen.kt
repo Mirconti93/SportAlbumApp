@@ -75,7 +75,7 @@ fun AlbumScreen(navController: NavController, mainViewModel: MainViewModel) {
                     mainViewModel.teamModel = teamModel
                     navController.navigate(NavigationItem.TeamAlbum.route)
                 }
-            }), Modifier.fillMaxHeight())
+            }), Modifier.fillMaxHeight().padding(4.dp))
 
 
         } else {

@@ -25,10 +25,10 @@ class TeamAlbumViewModel @Inject constructor(
     val players = mutableStateOf<List<PlayerModel>>(emptyList())
     val showSelection = mutableStateOf(true)
 
-    fun playersFromTeamLegend(teamName: String?) :Boolean {
-        if (teamName != null) {
+    fun playersFromTeamLegend(team: TeamModel?) :Boolean {
+        if (team != null) {
             viewModelScope.launch(Dispatchers.IO) {
-                val list = getPlayersByTeamLegendUC.getPlayers(teamName)
+                val list = getPlayersByTeamLegendUC.getPlayers(team)
                 withContext(Dispatchers.Main) {
                     players.value = list
                 }

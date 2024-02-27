@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +19,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -41,7 +43,7 @@ fun TeamsGrid(teamsState: TeamsState, modifier: Modifier) {
     ) {
         teamsState.teams.forEach {
             item {
-                TeamChoiceItem(name = it.name, modifier = Modifier.padding(2.dp).shadow(2.dp).clickable {
+                TeamChoiceItem(team = it, modifier = Modifier.padding(4.dp).shadow(2.dp).clickable {
                     teamsState.onTeamClickHandler.onTeamClick(it)
                 })
             }
@@ -51,25 +53,25 @@ fun TeamsGrid(teamsState: TeamsState, modifier: Modifier) {
 }
 
 @Composable
-fun TeamChoiceItem(name: String, modifier: Modifier) {
+fun TeamChoiceItem(team: TeamModel, modifier: Modifier) {
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
         ),
-        shape = MaterialTheme.shapes.large,
+        shape = RoundedCornerShape(4.dp),
 
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            val idDrawable = UIHelper.getDrawableId(name, R.drawable.empty_logo)
+            val idDrawable = UIHelper.getDrawableId(team.name, R.drawable.empty_logo)
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
                 modifier = Modifier.size(80.dp),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.FillWidth
             )
-            Text(modifier = Modifier, text = name, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(modifier = Modifier, text = team.name, fontSize = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
 
     }

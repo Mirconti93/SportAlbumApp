@@ -41,7 +41,7 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
         val team = remember{ mainViewModel.teamModel }
         val viewModel: TeamAlbumViewModel = hiltViewModel()
         val isInited = remember {
-            viewModel.playersFromTeamLegend(team?.name)
+            viewModel.playersFromTeamLegend(team)
         }
         viewModel.players.value
         Text(text = team?.name ?: SportAlbumApplication.instance.getString(R.string.team))

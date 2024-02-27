@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.presentation.navigation.NavGraph
@@ -49,9 +50,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            mainViewModel.routeSelected.observe(this) {
-                navController.navigate(it.route)
-            }
 
 
 
@@ -59,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
                     bottomBar = {
-                        BottomBarNavigation(arrayListOf(
+                        BottomBarNavigation(navController, arrayListOf(
                             NavigationItem.Album,
                             NavigationItem.Dashboard,
                             NavigationItem.Games
@@ -82,7 +80,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun BottomBarNavigation(items: List<NavigationItem>) {
+    fun BottomBarNavigation(navController: NavController, items: List<NavigationItem>) {
         Box (
             Modifier.background(MaterialTheme.colorScheme.primary)
         ) {
@@ -95,7 +93,7 @@ class MainActivity : ComponentActivity() {
 
                 items.forEach {
                     IconButton(onClick = {
-                        mainViewModel.routeSelected.value = it
+                        navController.navigate(it.route)
                     }) {
                         Icon(
                             imageVector = it.icon,
@@ -121,7 +119,7 @@ class MainActivity : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun GreetingPreview() {
-        BottomBarNavigation(arrayListOf(
+        BottomBarNavigation(navController = rememberNavController(), arrayListOf(
             NavigationItem.Album,
             NavigationItem.Dashboard,
             NavigationItem.Games

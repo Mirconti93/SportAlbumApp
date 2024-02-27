@@ -73,8 +73,7 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
     var rig = remember{ mutableStateOf(TextFieldValue(playerModel.rig.toString())) }
     var por = remember{ mutableStateOf(TextFieldValue(playerModel.por.toString())) }
 
-
-    Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
+    Row(modifier = Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
         Column {
 
             TextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
@@ -84,10 +83,8 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.role)) })
 
             TextField(value = roleLineUp.value, onValueChange = { roleLineUp.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.superlega))})
+                label = {Text(text = SportAlbumApplication.instance.getString(R.string.roleLineUp))})
 
-            TextField(value = gender.value, onValueChange = { gender.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.gender)) })
 
             TextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
@@ -95,47 +92,71 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
             TextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.country)) })
 
-            TextField(value = birthyear.value, onValueChange = { birthyear.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.birthyear))})
-
-            TextField(value = value.value, onValueChange = { value.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.value))})
-
-            TextField(value = valueleg.value, onValueChange = { valueleg.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.valueleg))})
-
             TextField(value = teamLegend.value, onValueChange = { teamLegend.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.isClubLegend))})
 
-            TextField(value = att.value, onValueChange = { att.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.att))})
 
-            TextField(value = dif.value, onValueChange = { dif.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.dif))})
+            Row {
+                TextField(value = birthyear.value, onValueChange = { birthyear.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.birthyear))})
 
-            TextField(value = tec.value, onValueChange = { tec.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.tec))})
+                TextField(value = gender.value, onValueChange = { gender.value = it }, modifier = textFieldModifier.weight(1f),
+                    label = { Text(text = SportAlbumApplication.instance.getString(R.string.gender)) })
 
-            TextField(value = dri.value, onValueChange = { dri.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.dri))})
+            }
 
-            TextField(value = fin.value, onValueChange = { fin.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.fin))})
 
-            TextField(value = bal.value, onValueChange = { bal.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.bal))})
 
-            TextField(value = fis.value, onValueChange = { fis.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.fis))})
+            Row {
+                TextField(value = valueleg.value, onValueChange = { valueleg.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.valueleg))})
 
-            TextField(value = vel.value, onValueChange = { vel.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.vel))})
+                TextField(value = value.value, onValueChange = { value.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.value))})
+            }
 
-            TextField(value = rig.value, onValueChange = { rig.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.rig))})
+            Row {
+                TextField(value = att.value, onValueChange = { att.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.att))})
 
-            TextField(value = por.value, onValueChange = { por.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.por))})
+                TextField(value = dif.value, onValueChange = { dif.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.dif))})
+            }
+
+            Row {
+                TextField(value = tec.value, onValueChange = { tec.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.tec))})
+
+                TextField(value = dri.value, onValueChange = { dri.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.dri))})
+            }
+
+            Row {
+                TextField(value = fin.value, onValueChange = { fin.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.fin))})
+
+                TextField(value = bal.value, onValueChange = { bal.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.bal))})
+
+            }
+
+            Row {
+                TextField(value = fis.value, onValueChange = { fis.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.fis))})
+
+                TextField(value = vel.value, onValueChange = { vel.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.vel))})
+
+            }
+
+            Row {
+                TextField(value = rig.value, onValueChange = { rig.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.rig))})
+
+                TextField(value = por.value, onValueChange = { por.value = it}, modifier = textFieldModifier.weight(1f),
+                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.por))})
+            }
+
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
                 Checkbox(checked = national.value, onCheckedChange = {

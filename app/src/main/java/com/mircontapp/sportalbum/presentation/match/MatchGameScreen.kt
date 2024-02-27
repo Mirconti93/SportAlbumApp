@@ -3,6 +3,7 @@ package com.mircontapp.sportalbum.presentation.match
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -41,6 +42,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.Color.Companion.Yellow
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,6 +52,7 @@ import androidx.navigation.NavController
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.data.database.Player
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
@@ -84,14 +89,29 @@ fun Match(matchViewModel: MatchViewModel) {
     val matchModel = remember { matchViewModel.matchModel }
     if (matchModel != null)
         Row {
-            Column {
+            Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = matchModel.home)
+                Spacer(modifier = Modifier.height(8.dp))
+                Image(
+                    painter = painterResource(UIHelper.getDrawableId(matchModel.home, R.drawable.empty_logo)),
+                    contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
+                    modifier = Modifier.size(80.dp),
+                    contentScale = ContentScale.FillWidth
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = matchModel.homeScore.toString(), fontSize = 40.sp, fontWeight = FontWeight.Bold)
             }
-            Column {
-
-            }
-            Column {
+            Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = matchModel.away)
+                Spacer(modifier = Modifier.height(8.dp))
+                Image(
+                    painter = painterResource(UIHelper.getDrawableId(matchModel.away, R.drawable.empty_logo)),
+                    contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
+                    modifier = Modifier.size(80.dp),
+                    contentScale = ContentScale.FillWidth
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = matchModel.awayScore.toString(), fontSize = 40.sp, fontWeight = FontWeight.Bold)
             }
 
 
@@ -115,24 +135,19 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
         val module =  if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.module else viewModel.awayTeam.value?.module
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = teamName ?: "" , modifier = Modifier
-                .weight(0.7f)
+                .weight(0.5f)
                 .padding(start = 8.dp),
                 fontSize = 16.sp,
                 color = OrangeYellowD)
-            Button(onClick = { isModuleSelection.value = true },
-                colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
-                modifier = Modifier
-                    .weight(0.3f)
-                    .padding(0.dp)
-                    .height(20.dp)) {
-                    Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module))
-            }
+
+            Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module), modifier = Modifier.clickable { isModuleSelection.value = true  }, fontSize = 16.sp)
+            Spacer(modifier = Modifier.width(8.dp))
             Button(onClick = {viewModel.nextScreen()},
                 colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
                 modifier = Modifier
-                    .weight(0.3f)
-                    .padding(0.dp)
-                    .height(20.dp)) {
+                    .weight(0.25f)
+                    .padding(2.dp)
+                    .height(35.dp)) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.next))
             }
         }

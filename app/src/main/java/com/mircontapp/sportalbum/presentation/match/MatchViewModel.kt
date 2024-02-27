@@ -114,7 +114,7 @@ class MatchViewModel @Inject constructor(
         val screen = when (currentScreen.value) {
             Screen.LINE_UP_HOME_START -> Screen.LINE_UP_AWAY_START
             Screen.LINE_UP_AWAY_START -> {
-                matchModel = MatchModel(homeTeam.value?.name ?: "", awayTeam.value?.name ?: "")
+                matchModel = MatchModel(homeTeam.value?.name ?: "", awayTeam.value?.name ?: "", 0, 0)
                 Screen.MATCH
             }
             Screen.LINE_UP_HOME -> Screen.MATCH
@@ -130,14 +130,14 @@ class MatchViewModel @Inject constructor(
             this.homeTeam.value = homeT
             this.awayTeam.value = awayT
             viewModelScope.launch(Dispatchers.IO) {
-                val list = getPlayersByTeamLegendUC.getPlayers(homeTeam.value!!.name)
+                val list = getPlayersByTeamLegendUC.getPlayers(homeTeam.value!!)
                 withContext(Dispatchers.Main) {
                     _homeRoster.value = list.toMutableList()
                     initOnFieledOrBench(TeamPosition.HOME)
                 }
             }.invokeOnCompletion {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val list = getPlayersByTeamLegendUC.getPlayers(awayTeam.value!!.name)
+                    val list = getPlayersByTeamLegendUC.getPlayers(awayTeam.value!!)
                     withContext(Dispatchers.Main) {
                         _awayRoster.value = list.toMutableList()
                         Log.i("BUPI", "INIT ROSTER")

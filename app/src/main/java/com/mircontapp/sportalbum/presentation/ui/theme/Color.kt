@@ -26,4 +26,4 @@ val LightGray = Color(0xFFEAEDED)
 val PaleYellow = Color(0xFFFCF3CF)
 
 val Red = Color(0xFFAD1714)
-val Brown = Color(0xFF904128)
+val Brown = Color(0xFFA34D51)
