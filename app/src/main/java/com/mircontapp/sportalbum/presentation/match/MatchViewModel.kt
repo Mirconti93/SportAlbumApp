@@ -81,7 +81,7 @@ class MatchViewModel @Inject constructor(
     val showSelection = mutableStateOf(false)
     val currentScreen  = mutableStateOf(Screen.LINE_UP_HOME_START)
 
-    var matchModel: MatchModel? = null
+    var matchModel: MutableStateFlow<MatchModel> = MutableStateFlow(initMatchModel())
 
     enum class TeamPosition {
         HOME, AWAY
@@ -114,7 +114,7 @@ class MatchViewModel @Inject constructor(
         val screen = when (currentScreen.value) {
             Screen.LINE_UP_HOME_START -> Screen.LINE_UP_AWAY_START
             Screen.LINE_UP_AWAY_START -> {
-                matchModel = MatchModel(homeTeam.value?.name ?: "", awayTeam.value?.name ?: "", 0, 0)
+                matchModel.value = initMatchModel()
                 Screen.MATCH
             }
             Screen.LINE_UP_HOME -> Screen.MATCH
@@ -124,6 +124,20 @@ class MatchViewModel @Inject constructor(
         Log.i("BUPI", screen.toString())
         currentScreen.value = screen
     }
+
+    private fun initMatchModel(): MatchModel {
+        return MatchModel(
+            homeTeam.value?.name ?: "",
+            awayTeam.value?.name ?: "",
+            0,
+            0,
+            0,
+            ArrayList(),
+            ArrayList(),
+            ArrayList()
+        )
+    }
+
 
     fun initLineUp(homeT: TeamModel?, awayT: TeamModel?) {
         if (homeT != null && awayT != null) {

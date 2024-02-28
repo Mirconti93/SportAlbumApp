@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -86,36 +87,63 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
 
 @Composable
 fun Match(matchViewModel: MatchViewModel) {
-    val matchModel = remember { matchViewModel.matchModel }
-    if (matchModel != null)
+    val matchModel = matchViewModel.matchModel.collectAsState()
+    Column(verticalArrangement = Arrangement.Top) {
         Row {
-            Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = matchModel.home)
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = matchModel.value.home, fontSize = 16.sp, color = OrangeYellowD)
                 Spacer(modifier = Modifier.height(8.dp))
                 Image(
-                    painter = painterResource(UIHelper.getDrawableId(matchModel.home, R.drawable.empty_logo)),
+                    painter = painterResource(
+                        UIHelper.getDrawableId(
+                            matchModel.value.home,
+                            R.drawable.empty_logo
+                        )
+                    ),
                     contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
                     modifier = Modifier.size(80.dp),
                     contentScale = ContentScale.FillWidth
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = matchModel.homeScore.toString(), fontSize = 40.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = matchModel.value.homeScore.toString(),
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                )
             }
-            Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = matchModel.away)
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = matchModel.value.away, fontSize = 16.sp, color = OrangeYellowD)
                 Spacer(modifier = Modifier.height(8.dp))
                 Image(
-                    painter = painterResource(UIHelper.getDrawableId(matchModel.away, R.drawable.empty_logo)),
+                    painter = painterResource(
+                        UIHelper.getDrawableId(
+                            matchModel.value.away,
+                            R.drawable.empty_logo
+                        )
+                    ),
                     contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
                     modifier = Modifier.size(80.dp),
                     contentScale = ContentScale.FillWidth
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = matchModel.awayScore.toString(), fontSize = 40.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = matchModel.value.awayScore.toString(),
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
+
 
 
         }
+    }
+
 }
 
 
@@ -269,7 +297,6 @@ fun PlayerLineUpItem(player: PlayerModel, backgroundColor: Color, onPlayerClickH
                 .padding(start = 4.dp)
                 .weight(1f),
             color = OrangeYellowD)
-        val roleString = if (onRoleClick != null) SportAlbumApplication.instance.getString(player.roleMatch?.text ?: R.string.na) else SportAlbumApplication.instance.getString(player.roleLineUp?.text ?: R.string.na)
         Text(text = SportAlbumApplication.instance.getString(player.roleMatch?.text ?: R.string.na),
             modifier = Modifier
                 .padding(start = 4.dp)

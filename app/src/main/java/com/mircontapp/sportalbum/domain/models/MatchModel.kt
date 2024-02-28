@@ -5,4 +5,9 @@ data class MatchModel(
     val away: String,
     val homeScore: Int,
     val awayScore: Int,
+    val minute: Int,
+    val marcatoriHome: MutableList<MarcatoreModel>,
+    val marcatoriAway: MutableList<MarcatoreModel>,
+    val comment: MutableList<String>,
+
 )
