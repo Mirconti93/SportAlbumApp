@@ -73,7 +73,7 @@ class MatchViewModel @Inject constructor(
     val awayBench: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
     var isLegend: Boolean = true
     var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
-    val playerSelected: MutableLiveData<PlayerModel?> = MutableLiveData()
+    val playerSelected: MutableLiveData<PlayerMatchModel?> = MutableLiveData()
     var playerToChangeRole: PlayerMatchModel? = null
     var firstPlayerSelected: Boolean = false
     val showRoleSelection = MutableStateFlow(false)

@@ -1,18 +1,12 @@
 package com.mircontapp.sportalbum.presentation.match
 
-import android.text.style.BackgroundColorSpan
 import android.util.Log
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,18 +18,14 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,18 +44,13 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
-import com.mircontapp.sportalbum.data.database.Player
-import com.mircontapp.sportalbum.domain.models.MatchModel
+import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
-import com.mircontapp.sportalbum.presentation.commons.OnItemClickHandler
+import com.mircontapp.sportalbum.presentation.commons.OnPlayerMatchClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
-import com.mircontapp.sportalbum.presentation.dashboard.DashboardViewModel
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
-import com.mircontapp.sportalbum.presentation.ui.theme.Green
 import com.mircontapp.sportalbum.presentation.ui.theme.LightBlue
-import com.mircontapp.sportalbum.presentation.ui.theme.LightGray
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
-import com.mircontapp.sportalbum.presentation.ui.theme.PaleYellow
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -204,8 +189,8 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
             .padding(8.dp)) {
             items(eleven.value) {
                 PlayerLineUpItem(it, BlueD,
-                    object : OnPlayerClickHandler {
-                        override fun onPlayerClick(playerModel: PlayerModel) {
+                    object : OnPlayerMatchClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerMatchModel) {
                             Log.i("BUPI",  viewModel.playerSelected.value?.name ?: "Not selected")
                             if (viewModel.playerSelected.value != null) {
                                 viewModel.substitutePlayer(viewModel.playerSelected.value!!, playerModel, position)
@@ -214,8 +199,8 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
                             }
                         }
                     },
-                    object: OnPlayerClickHandler {
-                        override fun onPlayerClick(playerModel: PlayerModel) {
+                    object: OnPlayerMatchClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerMatchModel) {
                             viewModel.playerToChangeRole = playerModel
                             isRoleSelection.value = true
                         }
@@ -253,8 +238,8 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
             items(bench.value) {
                 PlayerLineUpItem(
                     it, LightBlue,
-                    object : OnPlayerClickHandler {
-                        override fun onPlayerClick(playerModel: PlayerModel) {
+                    object : OnPlayerMatchClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerMatchModel) {
                             Log.i(
                                 "BUPI",
                                 viewModel.playerSelected.value?.name ?: "Not selected"
@@ -280,7 +265,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
 }
 
 @Composable
-fun PlayerLineUpItem(player: PlayerModel, backgroundColor: Color, onPlayerClickHandler: OnPlayerClickHandler, onRoleClick: OnPlayerClickHandler?)  {
+fun PlayerLineUpItem(player: PlayerMatchModel, backgroundColor: Color, onPlayerClickHandler: OnPlayerMatchClickHandler, onRoleClick: OnPlayerMatchClickHandler?)  {
     Row(
         modifier = Modifier
             .background(backgroundColor, shape = RoundedCornerShape(2.dp))
