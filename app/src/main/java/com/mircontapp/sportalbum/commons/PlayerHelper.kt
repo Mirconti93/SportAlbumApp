@@ -4,6 +4,7 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mirco.sportalbum.utils.Enums.MatchModule
 import com.mirco.sportalbum.utils.Enums.RoleLineUp
+import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 
 
@@ -300,8 +301,8 @@ class PlayerHelper {
             }
             return roleLineUp
         }
-        fun findBestPlayerInRole(playerModels: List<PlayerModel>?, roleLineUp: RoleLineUp, isLegend: Boolean): PlayerModel? {
-            var playerModel: PlayerModel? = null
+        fun findBestPlayerInRole(playerModels: List<PlayerMatchModel>?, roleLineUp: RoleLineUp, isLegend: Boolean): PlayerMatchModel? {
+            var playerModel: PlayerMatchModel? = null
             if (playerModels == null || playerModels.isEmpty()) {
                 return playerModel
             }

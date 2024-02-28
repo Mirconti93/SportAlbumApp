@@ -11,7 +11,9 @@ import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.data.datasource.DataMapper
 import com.mircontapp.sportalbum.domain.models.MatchModel
+import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
@@ -65,14 +67,14 @@ class MatchViewModel @Inject constructor(
     val minute: MutableLiveData<Int> = MutableLiveData()
 //    private var homeLUManager: LineUpDataManager? = null
 //    private var awayLUManager: LineUpDataManager? = null
-    val homeEleven: MutableStateFlow<List<PlayerModel>> = MutableStateFlow(emptyList())
-    val awayEleven: MutableStateFlow<List<PlayerModel>> = MutableStateFlow(emptyList())
-    val homeBench: MutableStateFlow<List<PlayerModel>> = MutableStateFlow(emptyList())
-    val awayBench: MutableStateFlow<List<PlayerModel>> = MutableStateFlow(emptyList())
+    val homeEleven: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
+    val awayEleven: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
+    val homeBench: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
+    val awayBench: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
     var isLegend: Boolean = true
     var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
     val playerSelected: MutableLiveData<PlayerModel?> = MutableLiveData()
-    var playerToChangeRole: PlayerModel? = null
+    var playerToChangeRole: PlayerMatchModel? = null
     var firstPlayerSelected: Boolean = false
     val showRoleSelection = MutableStateFlow(false)
 
@@ -132,9 +134,15 @@ class MatchViewModel @Inject constructor(
             0,
             0,
             0,
+            Enums.Possesso.HOME,
+            Enums.Fase.CENTROCAMPO,
+            Enums.Evento.NONE,
+            false,
             ArrayList(),
             ArrayList(),
-            ArrayList()
+            ArrayList(),
+            null,
+            null
         )
     }
 
@@ -166,34 +174,28 @@ class MatchViewModel @Inject constructor(
 
     }
 
-    fun getLineUpPlace(playerModel: PlayerModel, teamPosition: TeamPosition) : LineUpPlace {
-        if (teamPosition == TeamPosition.HOME) {
-            return if (homeEleven.value?.contains(playerModel) == true)  LineUpPlace.FIELD else LineUpPlace.BENCH
-        } else {
-            return if (awayEleven.value?.contains(playerModel) == true)  LineUpPlace.FIELD else LineUpPlace.BENCH
-        }
-    }
-
     //    /*** split players on field or in bench  */
     fun initOnFieledOrBench(teamPosition: TeamPosition) {
-        val field: MutableList<PlayerModel> = ArrayList()
         val teamIsHome = teamPosition == TeamPosition.HOME
-        val roster = (if (teamIsHome) homeRoster.value else awayRoster.value)?.toMutableList()
 
-        Log.i("BUPI", "ROSTER")
-        roster?.forEach {
-           Log.i("BUPI", it. name)
+        val field: MutableList<PlayerMatchModel> = ArrayList()
+        val roster: MutableList<PlayerMatchModel> = ArrayList()
+        if (teamIsHome)  {
+            homeRoster.value?.forEach {
+                roster.add(DataMapper.playerMatchFromPlayer(it))
+            }
+        } else {
+            awayRoster.value?.forEach {
+                roster.add(DataMapper.playerMatchFromPlayer(it))
+            }
         }
 
         val module = if (teamIsHome) homeTeam.value?.module else awayTeam.value?.module
         val roles = PlayerHelper.getLineUpRoles(module)
 
         for (roleLineUp in roles) {
-            val p = PlayerHelper.findBestPlayerInRole(roster, roleLineUp, isLegend  )
-            p?.roleMatch = roleLineUp
-            if (p != null) {
-                field.add(p)
-                roster?.remove(p)
+            PlayerHelper.findBestPlayerInRole(roster, roleLineUp, isLegend )?.let {playerModel->
+                playerModel?.roleMatch = roleLineUp
             }
         }
 
@@ -201,7 +203,7 @@ class MatchViewModel @Inject constructor(
             it.roleMatch = Enums.RoleLineUp.PAN
         }
 
-        val bench = roster?.sortedBy { it.roleMatch } ?: emptyList()
+        val bench = roster?.sortedBy { it.roleLineUp } ?: emptyList()
 
         if (teamIsHome) {
             homeEleven.value = field
@@ -211,12 +213,10 @@ class MatchViewModel @Inject constructor(
             awayBench.value = bench
         }
 
-
-
     }
 
     fun changeModule(teamPosition: TeamPosition, module: Enums.MatchModule) {
-        val players = ArrayList<PlayerModel>()
+        val players = ArrayList<PlayerMatchModel>()
         val roles = PlayerHelper.getLineUpRoles(module)
         if (teamPosition == TeamPosition.HOME) {
             players.addAll(homeEleven.value)
@@ -240,7 +240,7 @@ class MatchViewModel @Inject constructor(
 
     }
 
-    fun substitutePlayer(player1: PlayerModel, player2: PlayerModel, teamPosition: TeamPosition) {
+    fun substitutePlayer(player1: PlayerMatchModel, player2: PlayerMatchModel, teamPosition: TeamPosition) {
         val teamIsHome = teamPosition == TeamPosition.HOME
 
         if (player1.roleMatch == Enums.RoleLineUp.PAN && player2.roleMatch == Enums.RoleLineUp.PAN) return
@@ -250,8 +250,8 @@ class MatchViewModel @Inject constructor(
         player1.roleMatch = roleMatch1
         player2.roleMatch = roleMatch2
 
-        var eleven: MutableList<PlayerModel> = ArrayList()
-        var bench: MutableList<PlayerModel> = ArrayList()
+        var eleven: MutableList<PlayerMatchModel> = ArrayList()
+        var bench: MutableList<PlayerMatchModel> = ArrayList()
         if (teamIsHome) {
             eleven.addAll(homeEleven.value)
             bench.addAll(homeBench.value)
@@ -291,28 +291,20 @@ class MatchViewModel @Inject constructor(
     }
 
     fun changePlayerRole(teamPosition: TeamPosition) {
-        val players: MutableList<PlayerModel> = ArrayList()
+        val players: MutableList<PlayerMatchModel> = ArrayList()
         players.addAll(homeEleven.value)
         if (teamPosition == TeamPosition.HOME) {
             for (p in players) {
-                if (p.name == playerToChangeRole?.name) {
-                    p.roleMatch = playerToChangeRole?.roleMatch
+                playerToChangeRole?.let {
+                    if (p.name == it?.name) {
+                        p.roleMatch = it.roleMatch
+                    }
                 }
             }
         }
         homeEleven.value = players
     }
 
-    fun getBackgroundColor(playerModel: PlayerModel, position: TeamPosition) : Color {
-       return if (playerModel.name.equals(playerSelected.value?.name)) Green
-            else {
-                when (getLineUpPlace(playerModel, position)) {
-                    LineUpPlace.FIELD -> BlueD
-                    LineUpPlace.BENCH -> PaleYellow
-                    else -> LightGray
-            }
-        }
-    }
 
 
 

@@ -2,7 +2,7 @@ package com.mircontapp.sportalbum.domain.models
 
 import com.mirco.sportalbum.utils.Enums
 
-data class PlayerModel(
+data class PlayerMatchModel(
     val name: String,
     var role: Enums.Role,
     var gender: Enums.Gender?,
@@ -25,4 +25,8 @@ data class PlayerModel(
     val vel: Int,
     val rig: Int,
     val por: Int,
+    var roleMatch: Enums.RoleLineUp,
+    var isEspulso: Boolean,
+    var isAmmonito: Boolean,
+    var goals: List<Int>,
 )

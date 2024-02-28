@@ -43,7 +43,7 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                 it
             } else {
                 dashboardViewModel.updateType.value = DashboardViewModel.UpdateType.NEW
-                PlayerModel("Player", Enums.Role.PP, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null)
+                PlayerModel("Player", Enums.Role.PP, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PPM, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50)
             }
         }
     }
@@ -187,7 +187,7 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                         teamLegend.value.text,
                         if (national.value) 1 else 0,
                         if (nationalLegend.value) 1 else 0,
-                        PlayerHelper.roleLineUpFromString(roleLineUp.value.text),
+                        PlayerHelper.roleLineUpFromString(roleLineUp.value.text) ?: Enums.RoleLineUp.PTC,
                         att.value.text.toInt(),
                         dif.value.text.toInt(),
                         tec.value.text.toInt(),
@@ -197,8 +197,7 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                         fis.value.text.toInt(),
                         vel.value.text.toInt(),
                         rig.value.text.toInt(),
-                        por.value.text.toInt(),
-                        Enums.RoleLineUp.PAN)
+                        por.value.text.toInt())
                 )
                 Toast.makeText(SportAlbumApplication.instance, SportAlbumApplication.instance.getString(R.string.dataUpdated), Toast.LENGTH_LONG)
             }) {

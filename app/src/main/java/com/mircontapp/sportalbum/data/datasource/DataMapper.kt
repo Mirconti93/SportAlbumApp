@@ -5,6 +5,7 @@ import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.commons.TeamHelper
 import com.mircontapp.sportalbum.data.database.Player
 import com.mircontapp.sportalbum.data.database.Team
+import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 
@@ -50,18 +51,17 @@ class DataMapper {
                 teamLegend = player.teamLegend,
                 national = player.national,
                 nationalLegend = player.nationalLegend,
-                roleLineUp = PlayerHelper.roleLineUpFromString(player.roleLineUp),
-                att = player.att,
-                dif = player.dif,
-                tec = player.tec,
-                dri = player.dri,
-                fin = player.fin,
-                bal = player.bal,
-                fis = player.fis,
-                vel = player.vel,
-                rig = player.rig,
-                por = player.por,
-                Enums.RoleLineUp.PAN
+                roleLineUp = PlayerHelper.roleLineUpFromString(player.roleLineUp) ?:Enums.RoleLineUp.PTC,
+                att = player.att?: 50,
+                dif = player.dif?: 50,
+                tec = player.tec?: 50,
+                dri = player.dri?: 50,
+                fin = player.fin?: 50,
+                bal = player.bal?: 50,
+                fis = player.fis?: 50,
+                vel = player.vel?: 50,
+                rig = player.rig?: 50,
+                por = player.por?: 50
             )
         }
 
@@ -100,5 +100,37 @@ class DataMapper {
                 module = team.module.name.substring(1)
             )
         }
+
+        fun playerMatchFromPlayer(player: PlayerModel): PlayerMatchModel {
+            return PlayerMatchModel(
+                name = player.name,
+                role = player.role,
+                gender = player.gender ?: Enums.Gender.OTHER,
+                team = player.team,
+                country = player.country,
+                birthyear = player.birthyear,
+                value = player.value,
+                valueleg = player.valueleg,
+                teamLegend = player.teamLegend,
+                national = player.national,
+                nationalLegend = player.nationalLegend,
+                roleLineUp = player.roleLineUp,
+                att = player.att?: 50,
+                dif = player.dif?: 50,
+                tec = player.tec?: 50,
+                dri = player.dri?: 50,
+                fin = player.fin?: 50,
+                bal = player.bal?: 50,
+                fis = player.fis?: 50,
+                vel = player.vel?: 50,
+                rig = player.rig?: 50,
+                por = player.por?: 50,
+                roleMatch = player.roleLineUp,
+                isAmmonito = false,
+                isEspulso = false,
+                goals = ArrayList()
+            )
+        }
     }
+
 }
