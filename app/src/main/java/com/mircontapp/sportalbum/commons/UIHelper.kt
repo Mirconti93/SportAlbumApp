@@ -15,6 +15,7 @@ import com.mircontapp.sportalbum.presentation.ui.theme.Pink80
 import com.mircontapp.sportalbum.presentation.ui.theme.Purple40
 import com.mircontapp.sportalbum.presentation.ui.theme.Purple80
 import com.mircontapp.sportalbum.presentation.ui.theme.Red
+import java.lang.StringBuilder
 import java.util.ResourceBundle
 
 class UIHelper {
@@ -59,6 +60,22 @@ class UIHelper {
                 else -> BlueD
             }
 
+        }
+
+        fun minifiyName(name: String): String {
+            name.split(" ").let { list ->
+                var minified = ""
+                for ( i in 0..list.size-1) {
+                    if (i != list.size-1 && !list[i].isEmpty()) {
+                        minified += list[i].substring(0,1) + ". "
+                    } else {
+                        minified += list[i]
+                    }
+
+                }
+                return minified
+
+            }
         }
 
     }

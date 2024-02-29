@@ -116,7 +116,9 @@ class MatchViewModel @Inject constructor(
         val screen = when (currentScreen.value) {
             Screen.LINE_UP_HOME_START -> Screen.LINE_UP_AWAY_START
             Screen.LINE_UP_AWAY_START -> {
-                matchModel.value = initMatchModel()
+                matchModel.value.home = homeTeam.value?.name ?: ""
+                matchModel.value.away = awayTeam.value?.name ?: ""
+                updatePlayersInMatch()
                 Screen.MATCH
             }
             Screen.LINE_UP_HOME -> Screen.MATCH
@@ -125,6 +127,13 @@ class MatchViewModel @Inject constructor(
         }
         Log.i("BUPI", screen.toString())
         currentScreen.value = screen
+    }
+
+    private fun updatePlayersInMatch() {
+        matchModel.value.let {
+            it.playersHome = homeEleven.value.toMutableList()
+            it.playersAway= awayEleven.value.toMutableList()
+        }
     }
 
     private fun initMatchModel(): MatchModel {
@@ -195,7 +204,11 @@ class MatchViewModel @Inject constructor(
 
         for (roleLineUp in roles) {
             PlayerHelper.findBestPlayerInRole(roster, roleLineUp, isLegend )?.let {playerModel->
-                playerModel?.roleMatch = roleLineUp
+                playerModel.let {
+                    it.roleMatch = roleLineUp
+                    field.add(it)
+                    roster.remove(it)
+                }
             }
         }
 

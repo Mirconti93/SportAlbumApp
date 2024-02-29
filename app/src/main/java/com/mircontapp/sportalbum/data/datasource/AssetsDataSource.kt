@@ -75,7 +75,7 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
                 Integer.parseInt(fields[21])
             )
         } else {
-            return PlayerModel(fields[0], Enums.Role.PP, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PAN)
+            return PlayerHelper.buildPlayerModel(fields[0])
         }
 
     }

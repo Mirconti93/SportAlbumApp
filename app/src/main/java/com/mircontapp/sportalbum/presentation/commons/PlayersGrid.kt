@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
@@ -70,7 +71,7 @@ fun PlayerItem(name: String, modifier: Modifier) {
                 modifier = Modifier.size(140.dp, 200.dp),
                 contentScale = ContentScale.FillHeight
             )
-            Text(modifier = Modifier, text = name)
+            Text(modifier = Modifier, text = name, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
 
     }

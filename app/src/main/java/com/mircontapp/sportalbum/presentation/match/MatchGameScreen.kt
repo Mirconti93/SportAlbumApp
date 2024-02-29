@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,6 +45,7 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerMatchClickHandler
@@ -72,63 +74,98 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
 
 @Composable
 fun Match(matchViewModel: MatchViewModel) {
-    val matchModel = matchViewModel.matchModel.collectAsState()
-    Column(verticalArrangement = Arrangement.Top) {
-        Row {
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = matchModel.value.home, fontSize = 16.sp, color = OrangeYellowD)
-                Spacer(modifier = Modifier.height(8.dp))
-                Image(
-                    painter = painterResource(
-                        UIHelper.getDrawableId(
-                            matchModel.value.home,
-                            R.drawable.empty_logo
-                        )
-                    ),
-                    contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                    modifier = Modifier.size(80.dp),
-                    contentScale = ContentScale.FillWidth
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = matchModel.value.homeScore.toString(),
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
-                )
+    matchViewModel.matchModel.collectAsState().let {matchModel->
+
+        Column(modifier = Modifier.fillMaxHeight()) {
+            Row(modifier = Modifier.padding(16.dp, 8.dp)) {
+                MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.HOME )
+                MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.AWAY )
             }
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = matchModel.value.away, fontSize = 16.sp, color = OrangeYellowD)
-                Spacer(modifier = Modifier.height(8.dp))
+            Row(modifier = Modifier.padding(8.dp, 0.dp)) {
+                PlayersInMatch(modifier = Modifier.weight(0.3f), viewModel = matchViewModel, MatchViewModel.TeamPosition.HOME)
+                PlayersInMatch(modifier = Modifier.weight(0.3f), viewModel = matchViewModel, MatchViewModel.TeamPosition.AWAY)
+            }
+
+            Row(modifier = Modifier.padding(16.dp, 8.dp)) {
                 Image(
-                    painter = painterResource(
-                        UIHelper.getDrawableId(
-                            matchModel.value.away,
-                            R.drawable.empty_logo
-                        )
-                    ),
+                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
                     contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                    modifier = Modifier.size(80.dp),
+                    modifier = Modifier.weight(0.4f),
                     contentScale = ContentScale.FillWidth
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = matchModel.value.awayScore.toString(),
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold
+                Spacer(modifier = Modifier.width(8.dp))
+                Image(
+                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.coprotagonista ?: "", R.drawable.no_photo_icon)),
+                    contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
+                    modifier = Modifier.weight(0.4f),
+                    contentScale = ContentScale.FillWidth
                 )
             }
 
+            val messages = mutableListOf<String>(
+                SportAlbumApplication.instance.applicationContext.getString(R.string.telecronacaAtt1),
+                SportAlbumApplication.instance.applicationContext.getString(R.string.telecronacaAtt2),
+                SportAlbumApplication.instance.applicationContext.getString(R.string.telecronacaBal1)
+                
+            )
+            LazyColumn() {
+                items(messages) { 
+                    Text(text = it)
+                }
+            }
+
+            Button(onClick = { }) {
+                Text(text = SportAlbumApplication.instance.applicationContext.getString(R.string.next))
+
+            }
 
 
         }
+
+
     }
 
+
+
+
+}
+
+@Composable
+fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: MatchViewModel.TeamPosition) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        val teamName =  if (position == MatchViewModel.TeamPosition.HOME) matchModel.home else matchModel.away
+        val score = if (position == MatchViewModel.TeamPosition.HOME) matchModel.homeScore else matchModel.awayScore
+        Text(text = teamName, fontSize = 16.sp, color = OrangeYellowD)
+        Spacer(modifier = Modifier.height(8.dp))
+        Image(
+            painter = painterResource(
+                UIHelper.getDrawableId(
+                    teamName,
+                    R.drawable.empty_logo
+                )
+            ),
+            contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
+            modifier = Modifier.size(80.dp),
+            contentScale = ContentScale.FillWidth
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = score.toString(),
+            fontSize = 40.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: MatchViewModel.TeamPosition) {
+    LazyColumn(modifier = modifier) {
+        val players = if (position == MatchViewModel.TeamPosition.HOME) viewModel.matchModel.value.playersHome else viewModel.matchModel.value.playersAway
+        items(players ?: emptyList()) {
+            Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+
+    }
 }
 
 
@@ -185,7 +222,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
             .padding(start = 8.dp))
 
         LazyColumn(modifier = Modifier
-            .weight(1.1f)
+            .weight(1.15f)
             .padding(8.dp)) {
             items(eleven.value) {
                 PlayerLineUpItem(it, BlueD,
@@ -231,7 +268,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
             .padding(start = 8.dp))
         LazyColumn(
             modifier = Modifier
-                .weight(0.9f)
+                .weight(0.85f)
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {

@@ -43,7 +43,7 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                 it
             } else {
                 dashboardViewModel.updateType.value = DashboardViewModel.UpdateType.NEW
-                PlayerModel("Player", Enums.Role.PP, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PPM, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50)
+                PlayerHelper.buildPlayerModel("Player")
             }
         }
     }
@@ -199,9 +199,9 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                         rig.value.text.toInt(),
                         por.value.text.toInt())
                 )
-                Toast.makeText(SportAlbumApplication.instance, SportAlbumApplication.instance.getString(R.string.dataUpdated), Toast.LENGTH_LONG)
+                navController.popBackStack()
             }) {
-                Text(text = SportAlbumApplication.instance.getString(R.string.add))
+                Text(text = SportAlbumApplication.instance.getString(R.string.update))
             }
 
         }

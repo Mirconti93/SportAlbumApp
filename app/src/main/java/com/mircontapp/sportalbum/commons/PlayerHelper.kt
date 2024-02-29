@@ -357,6 +357,10 @@ class PlayerHelper {
             }
         }
 
+        fun buildPlayerModel(name: String): PlayerModel {
+            return PlayerModel(name, Enums.Role.PP, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PPM, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50)
+        }
+
 
     }
 
