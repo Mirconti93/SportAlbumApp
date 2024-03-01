@@ -87,7 +87,7 @@ fun Match(matchViewModel: MatchViewModel) {
             Row(modifier = Modifier.padding(8.dp, 0.dp)) {
 
                 PlayersInMatch(modifier = Modifier
-                    .weight(0.35f)
+                    .weight(0.35f).padding(2.dp)
                     .background(UIHelper.getColorByString(matchViewModel.homeTeam.value?.color1)), viewModel = matchViewModel, MatchViewModel.TeamPosition.HOME)
                 Image(
                     painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
@@ -96,7 +96,7 @@ fun Match(matchViewModel: MatchViewModel) {
                     contentScale = ContentScale.FillWidth
                 )
                 PlayersInMatch(modifier = Modifier
-                    .weight(0.35f)
+                    .weight(0.35f).padding(2.dp)
                     .background(UIHelper.getColorByString(matchViewModel.awayTeam.value?.color1)), viewModel = matchViewModel, MatchViewModel.TeamPosition.AWAY)
             }
 

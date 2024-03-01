@@ -329,6 +329,7 @@ class MatchViewModel @Inject constructor(
         match.minute += 1
         match.playersHome = homeEleven.value.toMutableList()
         match.playersAway = homeEleven.value.toMutableStateList()
+        matchModel.value = match
 
     }
 
