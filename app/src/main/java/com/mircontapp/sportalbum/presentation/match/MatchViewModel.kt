@@ -1,8 +1,10 @@
 package com.mircontapp.sportalbum.presentation.match
 
+import MatchUC
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -318,6 +320,21 @@ class MatchViewModel @Inject constructor(
         homeEleven.value = players
     }
 
+    fun nextAction() {
+        val match = when (matchModel.value.fase) {
+            Enums.Fase.CENTROCAMPO -> MatchUC().centrocampo(matchModel.value)
+            Enums.Fase.ATTACCO -> MatchUC().centrocampo(matchModel.value)
+            else -> MatchUC().centrocampo(matchModel.value)
+        }
+        match.minute += 1
+        match.playersHome = homeEleven.value.toMutableList()
+        match.playersAway = homeEleven.value.toMutableStateList()
+
+    }
+
+
+}
+
 
 
 
@@ -600,4 +617,3 @@ class MatchViewModel @Inject constructor(
 //
 
 
-}

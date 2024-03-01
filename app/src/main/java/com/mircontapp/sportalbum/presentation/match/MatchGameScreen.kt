@@ -28,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
@@ -76,45 +77,40 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
 fun Match(matchViewModel: MatchViewModel) {
     matchViewModel.matchModel.collectAsState().let {matchModel->
 
-        Column(modifier = Modifier.fillMaxHeight()) {
+        Column(modifier = Modifier.fillMaxHeight(), horizontalAlignment = CenterHorizontally) {
             Row(modifier = Modifier.padding(16.dp, 8.dp)) {
-                MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.HOME )
+                MatchScore(modifier = Modifier
+                    .padding(4.dp, 2.dp)
+                    .weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.HOME )
                 MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.AWAY )
             }
             Row(modifier = Modifier.padding(8.dp, 0.dp)) {
-                PlayersInMatch(modifier = Modifier.weight(0.3f), viewModel = matchViewModel, MatchViewModel.TeamPosition.HOME)
-                PlayersInMatch(modifier = Modifier.weight(0.3f), viewModel = matchViewModel, MatchViewModel.TeamPosition.AWAY)
-            }
 
-            Row(modifier = Modifier.padding(16.dp, 8.dp)) {
+                PlayersInMatch(modifier = Modifier
+                    .weight(0.35f)
+                    .background(UIHelper.getColorByString(matchViewModel.homeTeam.value?.color1)), viewModel = matchViewModel, MatchViewModel.TeamPosition.HOME)
                 Image(
                     painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
-                    contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                    modifier = Modifier.weight(0.4f),
+                    contentDescription = "Team icon",
+                    modifier = Modifier.weight(0.3f),
                     contentScale = ContentScale.FillWidth
                 )
-                Spacer(modifier = Modifier.width(8.dp))
-                Image(
-                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.coprotagonista ?: "", R.drawable.no_photo_icon)),
-                    contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                    modifier = Modifier.weight(0.4f),
-                    contentScale = ContentScale.FillWidth
-                )
+                PlayersInMatch(modifier = Modifier
+                    .weight(0.35f)
+                    .background(UIHelper.getColorByString(matchViewModel.awayTeam.value?.color1)), viewModel = matchViewModel, MatchViewModel.TeamPosition.AWAY)
             }
 
-            val messages = mutableListOf<String>(
-                SportAlbumApplication.instance.applicationContext.getString(R.string.telecronacaAtt1),
-                SportAlbumApplication.instance.applicationContext.getString(R.string.telecronacaAtt2),
-                SportAlbumApplication.instance.applicationContext.getString(R.string.telecronacaBal1)
-                
-            )
-            LazyColumn() {
-                items(messages) { 
-                    Text(text = it)
+            matchModel.value.comment.let {
+                if (it.size>0) {
+                    Text(text = matchModel.value.comment[0])
                 }
+                if (it.size>1) {
+                    Text(text = matchModel.value.comment[1])
+                }
+
             }
 
-            Button(onClick = { }) {
+            Button(onClick = { matchViewModel.nextAction() }) {
                 Text(text = SportAlbumApplication.instance.applicationContext.getString(R.string.next))
 
             }
