@@ -85,7 +85,7 @@ class MatchViewModel @Inject constructor(
     val showSelection = mutableStateOf(false)
     val currentScreen  = mutableStateOf(Screen.LINE_UP_HOME_START)
 
-    var matchModel: MutableStateFlow<MatchModel> = MutableStateFlow(initMatchModel())
+    val matchModel: MutableStateFlow<MatchModel> = MutableStateFlow(initMatchModel())
 
     enum class TeamPosition {
         HOME, AWAY
@@ -326,10 +326,23 @@ class MatchViewModel @Inject constructor(
             Enums.Fase.ATTACCO -> MatchUC().centrocampo(matchModel.value)
             else -> MatchUC().centrocampo(matchModel.value)
         }
-        match.minute += 1
-        match.playersHome = homeEleven.value.toMutableList()
-        match.playersAway = homeEleven.value.toMutableStateList()
-        matchModel.value = match
+
+        matchModel.value = MatchModel(
+            match.home,
+            match.away,
+            match.homeScore,
+            match.awayScore,
+            match.minute + 1,
+            match.possesso,
+            match.fase,
+            match.evento,
+            match.isLegend,
+            homeEleven.value.toMutableList(),
+            awayEleven.value.toMutableList(),
+            match.comment,
+            match.protagonista,
+            match.coprotagonista
+        )
 
     }
 

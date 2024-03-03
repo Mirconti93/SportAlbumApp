@@ -1,6 +1,7 @@
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 
@@ -100,7 +101,7 @@ class MatchUC() {
             }
         }
 
-        matchModel.comment.add(messaggio)
+        matchModel.comment.add(CommentModel(messaggio, matchModel.minute, matchModel.possesso))
         return matchModel
     }
 }

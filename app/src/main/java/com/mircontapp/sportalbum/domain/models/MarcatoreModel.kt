@@ -1,6 +1,9 @@
 package com.mircontapp.sportalbum.domain.models
 
-data class MarcatoreModel(
-    val name: String,
-    val minute: Int
+import com.mirco.sportalbum.utils.Enums
+
+data class CommentModel(
+    val text: String,
+    val minute: Int,
+    val possesso: Enums.Possesso
 )

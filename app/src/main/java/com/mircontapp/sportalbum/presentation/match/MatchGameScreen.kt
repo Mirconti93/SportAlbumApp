@@ -75,46 +75,45 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
 
 @Composable
 fun Match(matchViewModel: MatchViewModel) {
-    matchViewModel.matchModel.collectAsState().let {matchModel->
+    val matchModel = matchViewModel.matchModel.collectAsState()
 
-        Column(modifier = Modifier.fillMaxHeight(), horizontalAlignment = CenterHorizontally) {
-            Row(modifier = Modifier.padding(16.dp, 8.dp)) {
-                MatchScore(modifier = Modifier
-                    .padding(4.dp, 2.dp)
-                    .weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.HOME )
-                MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.AWAY )
-            }
-            Row(modifier = Modifier.padding(8.dp, 0.dp)) {
+    Column(modifier = Modifier.fillMaxHeight(), horizontalAlignment = CenterHorizontally) {
+        Row(modifier = Modifier.padding(16.dp, 8.dp)) {
+            MatchScore(modifier = Modifier
+                .padding(4.dp, 2.dp)
+                .weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.HOME )
+            MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.AWAY )
+        }
+        Row(modifier = Modifier.padding(8.dp, 0.dp)) {
 
-                PlayersInMatch(modifier = Modifier
-                    .weight(0.35f).padding(2.dp)
-                    .background(UIHelper.getColorByString(matchViewModel.homeTeam.value?.color1)), viewModel = matchViewModel, MatchViewModel.TeamPosition.HOME)
-                Image(
-                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
-                    contentDescription = "Team icon",
-                    modifier = Modifier.weight(0.3f),
-                    contentScale = ContentScale.FillWidth
-                )
-                PlayersInMatch(modifier = Modifier
-                    .weight(0.35f).padding(2.dp)
-                    .background(UIHelper.getColorByString(matchViewModel.awayTeam.value?.color1)), viewModel = matchViewModel, MatchViewModel.TeamPosition.AWAY)
-            }
+            PlayersInMatch(modifier = Modifier
+                .weight(0.35f), viewModel = matchViewModel, MatchViewModel.TeamPosition.HOME)
+            Image(
+                painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
+                contentDescription = "Team icon",
+                modifier = Modifier
+                    .weight(0.3f)
+                    .padding(2.dp),
+                contentScale = ContentScale.FillWidth
+            )
+            PlayersInMatch(modifier = Modifier
+                .weight(0.35f), viewModel = matchViewModel, MatchViewModel.TeamPosition.AWAY)
+        }
 
+        Column(modifier = Modifier.weight(1f).padding(8.dp)) {
             matchModel.value.comment.let {
                 if (it.size>0) {
-                    Text(text = matchModel.value.comment[0])
+                    Text(text = matchModel.value.comment[it.size-1].text)
                 }
                 if (it.size>1) {
-                    Text(text = matchModel.value.comment[1])
+                    Text(text = matchModel.value.comment[it.size-2].text)
                 }
 
             }
+        }
 
-            Button(onClick = { matchViewModel.nextAction() }) {
-                Text(text = SportAlbumApplication.instance.applicationContext.getString(R.string.next))
-
-            }
-
+        Button(onClick = { matchViewModel.nextAction() }) {
+            Text(text = SportAlbumApplication.instance.applicationContext.getString(R.string.next))
 
         }
 
@@ -157,8 +156,13 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: MatchViewMo
 fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: MatchViewModel.TeamPosition) {
     LazyColumn(modifier = modifier) {
         val players = if (position == MatchViewModel.TeamPosition.HOME) viewModel.matchModel.value.playersHome else viewModel.matchModel.value.playersAway
+        val bgColor = if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.color1 else viewModel.homeTeam.value?.color2
         items(players ?: emptyList()) {
-            Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
+                .padding(2.dp)
+                .background(UIHelper.getColorByString( bgColor))
+                .fillMaxWidth(), color = UIHelper.getTeamTextColor(bgColor ?: ""))
+            Spacer(modifier = Modifier.height(1.dp))
         }
 
     }
@@ -308,12 +312,10 @@ fun PlayerLineUpItem(player: PlayerMatchModel, backgroundColor: Color, onPlayerC
                 onPlayerClickHandler.onPlayerClick(player)
             },
     ) {
-        Text(text = player.name, color = White, modifier = Modifier
-            .wrapContentWidth())
+        Text(text = player.name, color = White, modifier = Modifier.weight(1f))
         Text(text = player.valueleg.toString(),
             modifier = Modifier
-                .padding(start = 4.dp)
-                .weight(1f),
+                .padding(start = 4.dp),
             color = OrangeYellowD)
         Text(text = SportAlbumApplication.instance.getString(player.roleMatch?.text ?: R.string.na),
             modifier = Modifier

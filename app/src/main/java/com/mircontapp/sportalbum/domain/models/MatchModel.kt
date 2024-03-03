@@ -14,7 +14,7 @@ data class MatchModel(
     var isLegend: Boolean,
     var playersHome: MutableList<PlayerMatchModel>,
     var playersAway: MutableList<PlayerMatchModel>,
-    var comment: MutableList<String>,
+    var comment: MutableList<CommentModel>,
     var protagonista: String?,
     var coprotagonista: String?
 )

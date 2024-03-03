@@ -78,5 +78,12 @@ class UIHelper {
             }
         }
 
+        fun getTeamTextColor(bgColor: String): Color {
+            return when (bgColor) {
+                YELLOW, WHITE -> Color.Black
+                else -> Color.White
+            }
+        }
+
     }
 }
