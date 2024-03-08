@@ -1,8 +1,11 @@
 package com.mircontapp.sportalbum.presentation.match
 
+import android.util.LayoutDirection
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +21,8 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
@@ -82,6 +88,7 @@ fun Match(matchViewModel: MatchViewModel) {
             MatchScore(modifier = Modifier
                 .padding(4.dp, 2.dp)
                 .weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.HOME )
+            Text(text = matchModel.value.minute.toString() + "'", modifier = Modifier.padding(8.dp, 20.dp))
             MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.AWAY )
         }
         Row(modifier = Modifier.padding(8.dp, 0.dp)) {
@@ -100,7 +107,9 @@ fun Match(matchViewModel: MatchViewModel) {
                 .weight(0.35f), viewModel = matchViewModel, MatchViewModel.TeamPosition.AWAY)
         }
 
-        Column(modifier = Modifier.weight(1f).padding(8.dp)) {
+        Column(modifier = Modifier
+            .weight(1f)
+            .padding(8.dp)) {
             matchModel.value.comment.let {
                 if (it.size>0) {
                     Text(text = matchModel.value.comment[it.size-1].text)
@@ -160,7 +169,7 @@ fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Matc
         items(players ?: emptyList()) {
             Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
                 .padding(2.dp)
-                .background(UIHelper.getColorByString( bgColor))
+                .background(UIHelper.getColorByString(bgColor))
                 .fillMaxWidth(), color = UIHelper.getTeamTextColor(bgColor ?: ""))
             Spacer(modifier = Modifier.height(1.dp))
         }
@@ -190,16 +199,8 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
                 fontSize = 16.sp,
                 color = OrangeYellowD)
 
-            Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module), modifier = Modifier.clickable { isModuleSelection.value = true  }, fontSize = 16.sp)
+            Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module), modifier = Modifier.clickable { isModuleSelection.value = true  }.border(width = 1.dp, color = White, shape = CircleShape), fontSize = 16.sp)
             Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = {viewModel.nextScreen()},
-                colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
-                modifier = Modifier
-                    .weight(0.25f)
-                    .padding(2.dp)
-                    .height(35.dp)) {
-                Text(text = SportAlbumApplication.instance.getString(R.string.next))
-            }
         }
         if (isModuleSelection.value) {
             Row {
@@ -295,6 +296,14 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
                     }, null
                 )
             }
+        }
+
+        Button(onClick = {viewModel.nextScreen()},
+            colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
+            modifier = Modifier
+                .padding(2.dp)
+                .height(35.dp).align(End)) {
+            Text(text = SportAlbumApplication.instance.getString(R.string.next))
         }
 
     }
