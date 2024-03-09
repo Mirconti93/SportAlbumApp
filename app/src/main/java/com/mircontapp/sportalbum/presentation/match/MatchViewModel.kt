@@ -323,7 +323,7 @@ class MatchViewModel @Inject constructor(
     fun nextAction() {
         val match = when (matchModel.value.fase) {
             Enums.Fase.CENTROCAMPO -> MatchUC().centrocampo(matchModel.value)
-            Enums.Fase.ATTACCO -> MatchUC().centrocampo(matchModel.value)
+            Enums.Fase.ATTACCO -> MatchUC().attacco(matchModel.value)
             else -> MatchUC().centrocampo(matchModel.value)
         }
 

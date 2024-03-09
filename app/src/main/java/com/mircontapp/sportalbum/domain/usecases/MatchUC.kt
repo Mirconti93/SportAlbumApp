@@ -163,44 +163,42 @@ class MatchUC() {
                 String.format(context.getString(R.string.telecronacaAtt2), protagonistaA)
             }
             //punizione
-        } /*else if (diff >= 0 && diff < 0.4) {
-            matchModel.setFase(Enums.Fase.PUNIZIONE)
+        } else if (diff >= 0 && diff < 0.4) {
+            matchModel.fase = Enums.Fase.PUNIZIONE
             if (diff >= 0.3 && diff < 0.32) {
-                matchModel.setEvento(Enums.Evento.ESPULSIONE)
+                matchModel.evento = Enums.Evento.ESPULSIONE
                 messaggio = String.format(context.getString(R.string.telecronacaEsp), protagonistaD)
             } else if (diff >= 0.32 && diff < 0.4) {
-                matchModel.setEvento(Enums.Evento.AMMONIZIONE)
+                matchModel.evento = Enums.Evento.AMMONIZIONE
                 messaggio = String.format(context.getString(R.string.telecronacaAmm), protagonistaD)
             }
-            matchModel.setProtagonista(protagonistaA)
-            matchModel.setCoprotagonista(protagonistaD)
-            matchModel.setAzione(attA.toInt())
+            matchModel.protagonista = protagonistaA
+            matchModel.coprotagonista = protagonistaD
+
             messaggio = messaggio + " " + String.format(
                 context.getString(R.string.telecronacaPun),
                 protagonistaD
             )
             //calcio di rigore
         } else if (diff >= 0.4 && diff < 0.5) {
-            matchModel.setFase(Enums.Fase.RIGORE)
+            matchModel.fase = Enums.Fase.RIGORE
             if (diff >= 0.45 && diff < 0.47) {
-                matchModel.setEvento(Enums.Evento.ESPULSIONE)
+                matchModel.evento = Enums.Evento.ESPULSIONE
                 messaggio = String.format(context.getString(R.string.telecronacaEsp), protagonistaD)
             } else if (diff >= 0.47 && diff < 0.5) {
-                matchModel.setEvento(Enums.Evento.AMMONIZIONE)
+                matchModel.evento = Enums.Evento.AMMONIZIONE
                 messaggio = String.format(context.getString(R.string.telecronacaAmm), protagonistaD)
             }
-            matchModel.setProtagonista(protagonistaA)
-            matchModel.setCoprotagonista(protagonistaD)
-            matchModel.setAzione(attA.toInt())
-            messaggio =
-                messaggio + String.format(context.getString(R.string.telecronacaRig), protagonistaA)
+            matchModel.protagonista = protagonistaA
+            matchModel.coprotagonista = protagonistaD
+            messaggio = messaggio + String.format(context.getString(R.string.telecronacaRig), protagonistaA)
             //vince la squadra difendente
         } else {
-            matchModel.setFase(Enums.Fase.CENTROCAMPO)
-            matchModel.setEvento(Enums.Evento.NONE)
-            matchModel.setProtagonista(protagonistaD)
-            matchModel.setAzione(attA.toInt())
-            matchModel.setPossesso(if (matchModel.getPossesso() === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
+            matchModel.fase = Enums.Fase.CENTROCAMPO
+            matchModel.evento = Enums.Evento.NONE
+            matchModel.protagonista = protagonistaD
+
+            matchModel.possesso = (if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
             messaggio = if (diff < 5) {
                 String.format(context.getString(R.string.telecronacaDif1), protagonistaD)
             } else if (diff < 10) {
@@ -209,8 +207,8 @@ class MatchUC() {
                 String.format(context.getString(R.string.telecronacaDif3), protagonistaD)
             }
         }
-        matchModel.setStato(matchModel.getPossesso().ordinal())
-        matchModel.setMessaggio(messaggio ?: protagonistaA)*/
+
+        matchModel.comment.add(CommentModel(messaggio, matchModel.minute, matchModel.possesso))
         return matchModel
     }
 }
