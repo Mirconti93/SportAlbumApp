@@ -71,8 +71,8 @@ fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) 
     })
 
     when (viewModel.currentScreen.value) {
-        MatchViewModel.Screen.LINE_UP_HOME_START, MatchViewModel.Screen.LINE_UP_HOME -> LineUpSelection(viewModel = viewModel, position = MatchViewModel.TeamPosition.HOME)
-        MatchViewModel.Screen.LINE_UP_AWAY_START, MatchViewModel.Screen.LINE_UP_AWAY -> LineUpSelection(viewModel = viewModel, position = MatchViewModel.TeamPosition.AWAY)
+        MatchViewModel.Screen.LINE_UP_HOME_START, MatchViewModel.Screen.LINE_UP_HOME -> LineUpSelection(viewModel = viewModel, position = Enums.Possesso.HOME)
+        MatchViewModel.Screen.LINE_UP_AWAY_START, MatchViewModel.Screen.LINE_UP_AWAY -> LineUpSelection(viewModel = viewModel, position = Enums.Possesso.AWAY)
         else -> Match(viewModel)
     }
 
@@ -87,24 +87,33 @@ fun Match(matchViewModel: MatchViewModel) {
         Row(modifier = Modifier.padding(16.dp, 8.dp)) {
             MatchScore(modifier = Modifier
                 .padding(4.dp, 2.dp)
-                .weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.HOME )
+                .weight(1f), matchModel = matchModel.value, position = Enums.Possesso.HOME )
             Text(text = matchModel.value.minute.toString() + "'", modifier = Modifier.padding(8.dp, 20.dp))
-            MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = MatchViewModel.TeamPosition.AWAY )
+            MatchScore(modifier = Modifier.weight(1f), matchModel = matchModel.value, position = Enums.Possesso.AWAY )
         }
         Row(modifier = Modifier.padding(8.dp, 0.dp)) {
 
             PlayersInMatch(modifier = Modifier
-                .weight(0.35f), viewModel = matchViewModel, MatchViewModel.TeamPosition.HOME)
-            Image(
-                painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
-                contentDescription = "Team icon",
-                modifier = Modifier
-                    .weight(0.3f)
-                    .padding(2.dp),
-                contentScale = ContentScale.FillWidth
-            )
+                .weight(0.35f), viewModel = matchViewModel, Enums.Possesso.HOME)
+            Column(modifier = Modifier
+                .weight(0.3f)
+                .padding(2.dp),) {
+                Image(
+                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
+                    contentDescription = "Team icon",
+                    contentScale = ContentScale.FillWidth
+                )
+                Image(
+                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
+                    contentDescription = "Team icon",
+                    modifier = Modifier.padding(8.dp),
+                    contentScale = ContentScale.FillWidth
+                )
+            }
+
+
             PlayersInMatch(modifier = Modifier
-                .weight(0.35f), viewModel = matchViewModel, MatchViewModel.TeamPosition.AWAY)
+                .weight(0.35f), viewModel = matchViewModel, Enums.Possesso.AWAY)
         }
 
         Column(modifier = Modifier
@@ -135,10 +144,10 @@ fun Match(matchViewModel: MatchViewModel) {
 }
 
 @Composable
-fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: MatchViewModel.TeamPosition) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        val teamName =  if (position == MatchViewModel.TeamPosition.HOME) matchModel.home else matchModel.away
-        val score = if (position == MatchViewModel.TeamPosition.HOME) matchModel.homeScore else matchModel.awayScore
+fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: Enums.Possesso) {
+    Column(modifier = modifier, horizontalAlignment = CenterHorizontally) {
+        val teamName =  if (position == Enums.Possesso.HOME) matchModel.home else matchModel.away
+        val score = if (position == Enums.Possesso.HOME) matchModel.homeScore else matchModel.awayScore
         Text(text = teamName, fontSize = 16.sp, color = OrangeYellowD)
         Spacer(modifier = Modifier.height(8.dp))
         Image(
@@ -158,14 +167,21 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: MatchViewMo
             fontSize = 40.sp,
             fontWeight = FontWeight.Bold
         )
+
+        LazyColumn(modifier = Modifier.height(40.dp)) {
+            items(matchModel.marcatori.filter { it.possesso == position }) {
+                Text(text = it.minute.toString() + " " + it.text)
+            }
+
+        }
     }
 }
 
 @Composable
-fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: MatchViewModel.TeamPosition) {
+fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enums.Possesso) {
     LazyColumn(modifier = modifier) {
-        val players = if (position == MatchViewModel.TeamPosition.HOME) viewModel.matchModel.value.playersHome else viewModel.matchModel.value.playersAway
-        val bgColor = if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.color1 else viewModel.homeTeam.value?.color2
+        val players = if (position == Enums.Possesso.HOME) viewModel.matchModel.value.playersHome else viewModel.matchModel.value.playersAway
+        val bgColor = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.color1 else viewModel.homeTeam.value?.color2
         items(players ?: emptyList()) {
             Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
                 .padding(2.dp)
@@ -179,9 +195,9 @@ fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Matc
 
 
 @Composable
-fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosition) {
-    val eleven= if (position == MatchViewModel.TeamPosition.HOME ) viewModel.homeEleven.collectAsState() else viewModel.awayEleven.collectAsState()
-    val bench= if (position == MatchViewModel.TeamPosition.HOME ) viewModel.homeBench.collectAsState() else viewModel.awayBench.collectAsState()
+fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
+    val eleven= if (position == Enums.Possesso.HOME ) viewModel.homeEleven.collectAsState() else viewModel.awayEleven.collectAsState()
+    val bench= if (position == Enums.Possesso.HOME ) viewModel.homeBench.collectAsState() else viewModel.awayBench.collectAsState()
 
     val isRoleSelection = remember { mutableStateOf(false) }
     val isModuleSelection = remember { mutableStateOf(false) }
@@ -190,8 +206,8 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
         .fillMaxWidth()
         .fillMaxHeight()
         .padding(8.dp)) {
-        val teamName = if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.name else viewModel.awayTeam.value?.name
-        val module =  if (position == MatchViewModel.TeamPosition.HOME) viewModel.homeTeam.value?.module else viewModel.awayTeam.value?.module
+        val teamName = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.name else viewModel.awayTeam.value?.name
+        val module =  if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.module else viewModel.awayTeam.value?.module
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = teamName ?: "" , modifier = Modifier
                 .weight(0.5f)
@@ -199,7 +215,9 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
                 fontSize = 16.sp,
                 color = OrangeYellowD)
 
-            Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module), modifier = Modifier.clickable { isModuleSelection.value = true  }.border(width = 1.dp, color = White, shape = CircleShape), fontSize = 16.sp)
+            Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module), modifier = Modifier
+                .clickable { isModuleSelection.value = true }
+                .border(width = 1.dp, color = White, shape = CircleShape), fontSize = 16.sp)
             Spacer(modifier = Modifier.width(8.dp))
         }
         if (isModuleSelection.value) {
@@ -302,7 +320,8 @@ fun LineUpSelection(viewModel: MatchViewModel, position: MatchViewModel.TeamPosi
             colors = ButtonDefaults.buttonColors(containerColor = OrangeYellowD, contentColor = Black),
             modifier = Modifier
                 .padding(2.dp)
-                .height(35.dp).align(End)) {
+                .height(35.dp)
+                .align(End)) {
             Text(text = SportAlbumApplication.instance.getString(R.string.next))
         }
 

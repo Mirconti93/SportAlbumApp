@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
@@ -67,7 +68,7 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                     viewModel.teams.value!!,
                     onTeamClickHandler = object : OnTeamClickHandler {
                         override fun onTeamClick(teamModel: TeamModel) {
-                            if (viewModel.teamPosition == MatchViewModel.TeamPosition.HOME) {
+                            if (viewModel.teamPosition == Enums.Possesso.HOME) {
                                 viewModel.homeTeam.value = teamModel
                             } else {
                                 viewModel.awayTeam.value = teamModel
@@ -91,7 +92,7 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                     override fun onClick() {
                         viewModel.let {
                             it.showSelection.value = true
-                            it.teamPosition = MatchViewModel.TeamPosition.HOME
+                            it.teamPosition = Enums.Possesso.HOME
                         }
                     }
                 })
@@ -103,7 +104,7 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                     override fun onClick() {
                         viewModel.let {
                             it.showSelection.value = true
-                            it.teamPosition = MatchViewModel.TeamPosition.AWAY
+                            it.teamPosition = Enums.Possesso.AWAY
                         }
                     }
                 })

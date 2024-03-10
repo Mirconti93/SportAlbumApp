@@ -127,8 +127,7 @@ class DataMapper {
                 por = player.por?: 50,
                 roleMatch = player.roleLineUp,
                 isAmmonito = false,
-                isEspulso = false,
-                goals = ArrayList()
+                isEspulso = false
             )
         }
     }

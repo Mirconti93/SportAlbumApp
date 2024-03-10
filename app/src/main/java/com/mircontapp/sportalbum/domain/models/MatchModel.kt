@@ -16,5 +16,6 @@ data class MatchModel(
     var playersAway: MutableList<PlayerMatchModel>,
     var comment: MutableList<CommentModel>,
     var protagonista: String?,
-    var coprotagonista: String?
+    var coprotagonista: String?,
+    var marcatori: MutableList<MarcatoreModel>
 )
