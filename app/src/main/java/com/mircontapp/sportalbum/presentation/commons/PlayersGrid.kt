@@ -81,7 +81,7 @@ fun PlayerItem(player: PlayerModel, modifier: Modifier) {
                 contentScale = ContentScale.FillHeight
             )
             Text(modifier = Modifier, text = player.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Row(modifier = Modifier.padding(2.dp, 8.dp)) {
+            Row(modifier = Modifier.padding(8.dp, 2.dp)) {
                 Text(modifier = Modifier.weight(1f), text = SportAlbumApplication.instance.getString(player.role.code), color = OrangeYellowD)
                 Text(modifier = Modifier, text = player.valueleg.toString(), color = OrangeYellowD)
             }

@@ -189,7 +189,7 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: Enums.Posse
 fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enums.Possesso) {
     LazyColumn(modifier = modifier) {
         val players = if (position == Enums.Possesso.HOME) viewModel.matchModel.value.playersHome else viewModel.matchModel.value.playersAway
-        val bgColor = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.color1 else viewModel.homeTeam.value?.color2
+        val bgColor = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.color1 else viewModel.awayTeam.value?.color1
         items(players ?: emptyList()) {
             Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
                 .padding(2.dp)
