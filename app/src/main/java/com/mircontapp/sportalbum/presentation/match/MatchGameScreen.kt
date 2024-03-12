@@ -26,6 +26,9 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -97,18 +100,23 @@ fun Match(matchViewModel: MatchViewModel) {
                 .weight(0.35f), viewModel = matchViewModel, Enums.Possesso.HOME)
             Column(modifier = Modifier
                 .weight(0.3f)
-                .padding(2.dp),) {
+                .padding(2.dp), horizontalAlignment = CenterHorizontally) {
                 Image(
-                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
+                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.giocatore)),
                     contentDescription = "Team icon",
-                    contentScale = ContentScale.FillWidth
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.height(100.dp)
                 )
-                Image(
-                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.no_photo_icon)),
-                    contentDescription = "Team icon",
-                    modifier = Modifier.padding(8.dp),
-                    contentScale = ContentScale.FillWidth
-                )
+                val idDrawable = UIHelper.getDrawableId(matchModel.value.coprotagonista ?: "", R.drawable.giocatore)
+                if (idDrawable > 0) {
+                    Image(
+                        painter = painterResource(idDrawable),
+                        contentDescription = "Team icon",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.height(80.dp)
+
+                    )
+                }
             }
 
 
@@ -215,9 +223,13 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
                 fontSize = 16.sp,
                 color = OrangeYellowD)
 
-            Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module), modifier = Modifier
-                .clickable { isModuleSelection.value = true }
-                .border(width = 1.dp, color = White, shape = CircleShape), fontSize = 16.sp)
+            Card(colors = CardDefaults.cardColors(
+                containerColor = OrangeYellowD,
+            ), shape = RoundedCornerShape(20.dp)) {
+                Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module), modifier = Modifier
+                    .clickable { isModuleSelection.value = true })
+            }
+
             Spacer(modifier = Modifier.width(8.dp))
         }
         if (isModuleSelection.value) {
@@ -241,7 +253,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
             .padding(start = 8.dp))
 
         LazyColumn(modifier = Modifier
-            .weight(1.15f)
+            .weight(1.2f)
             .padding(8.dp)) {
             items(eleven.value) {
                 PlayerLineUpItem(it, BlueD,
@@ -287,7 +299,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
             .padding(start = 8.dp))
         LazyColumn(
             modifier = Modifier
-                .weight(0.85f)
+                .weight(0.8f)
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {

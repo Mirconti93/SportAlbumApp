@@ -3,6 +3,7 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.CommentModel
+import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 
@@ -64,6 +65,7 @@ class MatchUC() {
             matchModel.fase = Enums.Fase.ATTACCO
             matchModel.evento = Enums.Evento.NONE
             matchModel.protagonista = protagonistaA
+            matchModel.coprotagonista = protagonistaD
             messaggio = if (diff > -8) {
                 String.format(context.getString(R.string.telecronacaCen1), protagonistaA)
             } else if (diff > -15) {
@@ -92,6 +94,7 @@ class MatchUC() {
             matchModel.fase = Enums.Fase.CENTROCAMPO
             matchModel.evento = Enums.Evento.RECUPERO
             matchModel.protagonista = protagonistaD
+            matchModel.coprotagonista = protagonistaA
             matchModel.possesso = if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME
             messaggio = if (diff > 15) {
                 String.format(context.getString(R.string.telecronacaBal3), protagonistaD)
@@ -157,6 +160,7 @@ class MatchUC() {
             matchModel.fase = Enums.Fase.CONCLUSIONE
             matchModel.evento = Enums.Evento.NONE
             matchModel.protagonista = protagonistaA
+            matchModel.coprotagonista = protagonistaD
             messaggio = if (diff < 10) {
                 String.format(context.getString(R.string.telecronacaAtt1), protagonistaA)
             } else {
@@ -197,6 +201,7 @@ class MatchUC() {
             matchModel.fase = Enums.Fase.CENTROCAMPO
             matchModel.evento = Enums.Evento.NONE
             matchModel.protagonista = protagonistaD
+            matchModel.coprotagonista = protagonistaA
 
             matchModel.possesso = (if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
             messaggio = if (diff < 5) {
@@ -245,9 +250,9 @@ class MatchUC() {
         for (defender in defenders) {
             val partecipa = Math.random() * 100.0
             if (defender.role !== Enums.Role.PT && partecipa > defender.roleMatch.partDif && !defender.isEspulso) {
-
                 pot = defender.dif / 4.0 + defender.bal / 4.0 +defender.fis / 4.0 + defender.vel / 4.0
                 dado = Math.random() * pot
+
                 difPower += dado
                 part++
             }
@@ -258,11 +263,11 @@ class MatchUC() {
         val portiere = defenders.findLast { playerMatchModel -> playerMatchModel.roleMatch == Enums.RoleLineUp.PTC} ?: defenders.get(0)
         pot = portiere.por / 2.0 + portiere.bal / 4.0 + portiere.dif / 4.0
 
-        val fixed = if (matchModel.isLegend) portiere.valueleg else portiere.value
-        val parata = fixed ?: 0 / 2.0 + Math.random() * pot / 2.0 + difPower
+        val fixed = (if (matchModel.isLegend) portiere.valueleg else portiere.value) ?: 0
+        val parata = Math.random() * fixed / 2.0 + Math.random() * pot / 2.0 + difPower
         val context: Context = SportAlbumApplication.instance.applicationContext
         var messaggio = ""
-        val diff = parata.toDouble() - finA
+        val diff = parata - finA
 
         //segna l'attaccante
         if (diff < 0) {
@@ -275,6 +280,7 @@ class MatchUC() {
             }
             matchModel.protagonista = protagonistaA
             matchModel.coprotagonista = portiere.name
+            matchModel.marcatori.add(MarcatoreModel(protagonistaA, matchModel.minute, matchModel.possesso))
             messaggio = if (diff < 0 && diff >= -4) {
                 String.format(
                     context.getString(R.string.telecronacaGol1),
@@ -291,6 +297,7 @@ class MatchUC() {
                     goleador?.name
                 )
             }
+
             matchModel.possesso = if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME
 
             //è rigore
