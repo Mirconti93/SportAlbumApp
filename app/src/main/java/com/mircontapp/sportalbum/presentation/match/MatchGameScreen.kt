@@ -108,7 +108,7 @@ fun Match(matchViewModel: MatchViewModel) {
                     modifier = Modifier.height(100.dp)
                 )
                 val idDrawable = UIHelper.getDrawableId(matchModel.value.coprotagonista ?: "", R.drawable.giocatore)
-                if (idDrawable > 0) {
+                if (idDrawable != R.drawable.giocatore) {
                     Image(
                         painter = painterResource(idDrawable),
                         contentDescription = "Team icon",
