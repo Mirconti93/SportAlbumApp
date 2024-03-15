@@ -63,6 +63,7 @@ import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
 import com.mircontapp.sportalbum.presentation.ui.theme.LightBlue
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
+import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -129,10 +130,21 @@ fun Match(matchViewModel: MatchViewModel) {
             .padding(8.dp)) {
             matchModel.value.comment.let {
                 if (it.size>0) {
-                    Text(text = matchModel.value.comment[it.size-1].text)
+                    val comment = matchModel.value.comment[it.size-1]
+                    val bckColor = if (comment.possesso == Enums.Possesso.HOME) matchViewModel.homeTeam.value?.color1 else matchViewModel.awayTeam.value?.color1
+                    val textColor = UIHelper.getTeamTextColor(bckColor)
+                    Text(text = comment.text, modifier = Modifier
+                        .fillMaxWidth()
+                        .background(UIHelper.getColorByString(bckColor), RoundedCornerShape(2.dp)), color = textColor)
                 }
                 if (it.size>1) {
-                    Text(text = matchModel.value.comment[it.size-2].text)
+                    Spacer(modifier = Modifier.height(2.dp))
+                    val comment = matchModel.value.comment[it.size-2]
+                    val bckColor = if (comment.possesso == Enums.Possesso.HOME) matchViewModel.homeTeam.value?.color1 else matchViewModel.awayTeam.value?.color1
+                    val textColor = UIHelper.getTeamTextColor(bckColor)
+                    Text(text = comment.text, modifier = Modifier
+                        .fillMaxWidth()
+                        .background(UIHelper.getColorByString(bckColor), RoundedCornerShape(2.dp)), color = textColor)
                 }
 
             }
@@ -156,7 +168,7 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: Enums.Posse
     Column(modifier = modifier, horizontalAlignment = CenterHorizontally) {
         val teamName =  if (position == Enums.Possesso.HOME) matchModel.home else matchModel.away
         val score = if (position == Enums.Possesso.HOME) matchModel.homeScore else matchModel.awayScore
-        Text(text = teamName, fontSize = 16.sp, color = OrangeYellowD)
+        Text(text = teamName, fontSize = 16.sp, color = YellowD)
         Spacer(modifier = Modifier.height(8.dp))
         Image(
             painter = painterResource(
@@ -173,12 +185,13 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: Enums.Posse
         Text(
             text = score.toString(),
             fontSize = 40.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = OrangeYellowD
         )
 
-        LazyColumn(modifier = Modifier.height(40.dp)) {
+        LazyColumn(modifier = Modifier.height(80.dp)) {
             items(matchModel.marcatori.filter { it.possesso == position }) {
-                Text(text = it.minute.toString() + " " + it.text)
+                Text(text = it.minute.toString() + "' " + UIHelper.minifiyName(it.text), fontSize = 10.sp)
             }
 
         }
@@ -190,7 +203,7 @@ fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enum
     LazyColumn(modifier = modifier) {
         val players = if (position == Enums.Possesso.HOME) viewModel.matchModel.value.playersHome else viewModel.matchModel.value.playersAway
         val bgColor = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.color1 else viewModel.awayTeam.value?.color1
-        items(players ?: emptyList()) {
+        items(players) {
             Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
                 .padding(2.dp)
                 .background(UIHelper.getColorByString(bgColor))
@@ -226,7 +239,8 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
             Card(colors = CardDefaults.cardColors(
                 containerColor = OrangeYellowD,
             ), shape = RoundedCornerShape(20.dp)) {
-                Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module), modifier = Modifier
+                Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module),
+                    modifier = Modifier.padding(4.dp, 1.dp)
                     .clickable { isModuleSelection.value = true })
             }
 
