@@ -1,4 +1,5 @@
 import android.content.Context
+import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
@@ -30,6 +31,7 @@ class MatchUC() {
                 pot = attacker.tec / 2.0 + attacker.dri / 4.0 + attacker.vel / 4.0
                 fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
                 dado = fixed / 2.0 + Math.random() * pot / 2.0
+                Log.i("BUPIAZIONE:", "cen att "+ attacker.name + " " +  dado)
                 if (dado > cenA) {
                     cenA = dado
                     protagonistaA = attacker.name
@@ -49,6 +51,7 @@ class MatchUC() {
                 pot = defender.dif / 2.0 + defender.bal / 4.0 + defender.vel / 4.0
                 fixed = if (matchModel.isLegend) defender.valueleg?.toDouble() ?: 0.0 else defender.value?.toDouble() ?: 0.0
                 dado = fixed / 2.0 + Math.random() * pot / 2.0
+                Log.i("BUPIAZIONE:", "cen dif "+ defender.name + " " +  dado)
                 if (dado > cenD) {
                     cenD = dado
                     protagonistaD = defender.name
@@ -124,7 +127,9 @@ class MatchUC() {
 
                 pot = attacker.att / 4.0 + attacker.dri / 4.0 + attacker.tec / 4.0 + attacker.vel / 4.0
                 val fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
-                dado = fixed / 4.0 + Math.random() * pot / 4.0 * 3.0
+                dado = fixed * 0.25 + Math.random() * pot * 0.75
+                Log.i("BUPIAZIONE:", "att att "+ attacker.name + " " +  dado)
+
                 if (dado > attA) {
                     attA = dado
                     protagonistaA = attacker.name
@@ -143,7 +148,9 @@ class MatchUC() {
 
                 pot = defender.dif / 4.0 + defender.bal / 4.0 + defender.fis / 4.0 + defender.vel / 4.0
                 val fixed = if (matchModel.isLegend) defender.valueleg?.toDouble() ?: 0.0 else defender.value?.toDouble() ?: 0.0
-                dado = fixed / 4.0 + Math.random() * pot / 4.0 * 3.0
+                dado = fixed * 0.25 + pot * 0.25 + Math.random() * pot * 0.5
+                Log.i("BUPIAZIONE:", "att dif "+ defender.name + " " +  dado)
+
                 if (dado > difD) {
                     difD = dado
                     protagonistaD = defender.name
@@ -237,7 +244,9 @@ class MatchUC() {
 
                 pot = attacker.fin / 2.0 + attacker.att / 4.0 + attacker.vel / 4.0
                 val fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
-                dado = Math.random() * fixed / 2 + Math.random() * pot / 2
+                dado = fixed * 0.25 + Math.random() * pot  * 0.75
+                Log.i("BUPIAZIONE:", "fin att "+ attacker.name + " " +  dado)
+
                 if (dado > finA) {
                     finA = dado
                     protagonistaA = attacker.name
@@ -251,20 +260,24 @@ class MatchUC() {
             val partecipa = Math.random() * 100.0
             if (defender.role !== Enums.Role.PT && partecipa > defender.roleMatch.partDif && !defender.isEspulso) {
                 pot = defender.dif / 4.0 + defender.bal / 4.0 +defender.fis / 4.0 + defender.vel / 4.0
-                dado = Math.random() * pot
+                dado = pot * 0.25 + Math.random() * pot  * 0.75
 
                 difPower += dado
                 part++
             }
         }
         if (part > 0) {
-            difPower = difPower / part / 2
+            difPower = difPower / part / 2.0
         }
+        Log.i("BUPIAZIONE:", "fin dif " +  difPower)
+
         val portiere = defenders.findLast { playerMatchModel -> playerMatchModel.roleMatch == Enums.RoleLineUp.PTC} ?: defenders.get(0)
         pot = portiere.por / 2.0 + portiere.bal / 4.0 + portiere.dif / 4.0
 
         val fixed = (if (matchModel.isLegend) portiere.valueleg else portiere.value) ?: 0
-        val parata = Math.random() * fixed / 2.0 + Math.random() * pot / 2.0 + difPower
+        val parata = fixed  * 0.25 + pot * 0.25 + Math.random() * pot * 0.5 + difPower
+        Log.i("BUPIAZIONE:", "fin por "+ portiere.name + " " +  parata)
+
         val context: Context = SportAlbumApplication.instance.applicationContext
         var messaggio = ""
         val diff = parata - finA
