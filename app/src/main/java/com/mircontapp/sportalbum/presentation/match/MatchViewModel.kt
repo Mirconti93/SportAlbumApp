@@ -323,6 +323,7 @@ class MatchViewModel @Inject constructor(
             Enums.Fase.CENTROCAMPO -> MatchUC().centrocampo(matchModel.value)
             Enums.Fase.ATTACCO -> MatchUC().attacco(matchModel.value)
             Enums.Fase.CONCLUSIONE -> MatchUC().conclusione(matchModel.value)
+            Enums.Fase.PUNIZIONE -> MatchUC().punizione(matchModel.value)
             else -> MatchUC().centrocampo(matchModel.value)
         }
 

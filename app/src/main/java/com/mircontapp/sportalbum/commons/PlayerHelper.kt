@@ -361,6 +361,16 @@ class PlayerHelper {
             return PlayerModel(name, Enums.Role.PP, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PPM, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50)
         }
 
+        fun isPortiere(p: PlayerMatchModel): Boolean {
+            return p.roleMatch == RoleLineUp.PTC || p.roleMatch == RoleLineUp.PTM
+        }
+
+        fun getValue(p: PlayerMatchModel?, isLegend: Boolean): Double {
+            val value = if (isLegend) p?.valueleg?.toDouble() else p?.value?.toDouble()
+            return value ?: 0.0
+        }
+
+
 
     }
 

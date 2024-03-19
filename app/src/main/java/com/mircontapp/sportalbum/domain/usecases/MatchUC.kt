@@ -3,6 +3,7 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
@@ -370,440 +371,257 @@ class MatchUC() {
         matchModel.comment.add(CommentModel(messaggio, matchModel.minute, matchModel.possesso))
         return matchModel
     }
+
+    fun punizione(matchModel: MatchModel): MatchModel {
+        val attackers = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersHome else matchModel.playersAway
+        val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
+
+        val tiratori = ArrayList<PlayerMatchModel>().also { it.addAll(attackers) }
+        val tiratore1 = tiratori.removeAt(findTiratore(tiratori))
+        val tiratore2 = tiratori.removeAt(findTiratore(tiratori))
+        val soglia: Double = tiratore1.rig * 2.0
+        val tot: Double = soglia + tiratore2.rig
+        val dado = Math.random() * tot
+        val tiratore = if (dado < soglia) tiratore1 else tiratore2
+
+        defenders.isEmpty()
+
+        var portiere: PlayerMatchModel? = defenders.find { PlayerHelper.isPortiere(it)}
+        if (portiere == null && !defenders.isEmpty()) {
+            portiere = defenders.get(0)
+        }
+
+        val finA = -1.0
+        val pot = 0.0
+        val fix = 0.0
+        val matchModelUpdated = if (matchModel.evento == Enums.Evento.PUNIZIONE_DIRETTA) {
+            punizioneDiretta(matchModel, tiratore, portiere)
+        } else {
+            punizioneDiretta(matchModel, tiratore, portiere)
+            //todo
+            //punizioneGiocata(matchModel, tiratore, portiere)
+        }
+        return matchModelUpdated
+    }
+
+    private fun punizioneDiretta(matchModel: MatchModel, tiratore: PlayerMatchModel, portiere: PlayerMatchModel?): MatchModel {
+        val protagonistaA = ""
+        val goleador = tiratore
+        var finA = -1.0
+        var pot = tiratore?.rig?.toDouble() ?: 0.0
+        val dado = 0.0
+
+        var fix = PlayerHelper.getValue(tiratore, matchModel.isLegend)
+        finA = fix * 0.5 + Math.random() * pot * 0.5
+        portiere?.let {
+            pot = it.por * 0.5 + it.bal * 0.25 + it.dif * 0.25
+        }
+
+        fix = PlayerHelper.getValue(portiere, matchModel.isLegend)
+        val parata = fix * 0.75 + Math.random() * pot  * 0.25
+        val diff = parata - finA
+        val context: Context = SportAlbumApplication.instance.applicationContext
+        var messaggio: String? = ""
+
+        //gol su punizione
+        messaggio = if (diff < 0) {
+            matchModel.fase = Enums.Fase.CENTROCAMPO
+            matchModel.evento = Enums.Evento.GOAL
+            if (matchModel.possesso === Enums.Possesso.HOME) {
+                matchModel.homeScore = matchModel.homeScore + 1
+            } else {
+                matchModel.awayScore = matchModel.awayScore + 1
+            }
+            if (tiratore != null && matchModel.marcatori != null) {
+                val marcatoreModel = MarcatoreModel(tiratore.name, matchModel.minute, matchModel.possesso)
+                matchModel.marcatori.add(marcatoreModel)
+            }
+            matchModel.protagonista = protagonistaA
+            matchModel.coprotagonista = portiere?.name ?: ""
+            if (diff < 0 && diff >= -4) {
+                java.lang.String.format(
+                    context.getString(R.string.telecronacaPun1),
+                    tiratore.name
+                )
+            } else {
+                String.format(
+                    context.getString(R.string.telecronacaPun2),
+                    tiratore.name
+                )
+            }
+            //vince la squadra difendente
+        } else {
+            matchModel.fase = Enums.Fase.CENTROCAMPO
+            matchModel.evento = Enums.Evento.NONE
+            matchModel.protagonista = portiere?.name
+            matchModel.coprotagonista = protagonistaA
+            if (diff >= 2 && diff < 4) {
+                String.format(
+                    context.getString(R.string.telecronacaPar1),
+                    tiratore.name,
+                    portiere?.name
+                )
+            } else {
+                String.format(
+                    context.getString(R.string.telecronacaPar2),
+                    tiratore.name,
+                    portiere?.name
+                )
+            }
+        }
+        matchModel.comment.add(CommentModel(messaggio ?: "", matchModel.minute, matchModel.possesso))
+        matchModel.possesso = if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME
+        return matchModel
+    }
+
+    /*private fun punizioneGiocata(matchModel: MatchModel, tiratore: PlayerMatchModel, portiere: PlayerMatchModel?): MatchModel {
+        var protagonistaA = ""
+        var goleador: PlayerMatchModel? = null
+        var finA = -1.0
+        var pot = 0.0
+        var fix = 0.0
+        var dado = 0.0
+        pot = tiratore.getPlayerStatsModel().getRig() / 4 * 3 + tiratore.getPlayerStatsModel()
+            .getTec() / 4
+        fix = if (matchManager.getLegend()) tiratore.getValueLegend() else tiratore.getValue()
+        finA = fix / 2 + Math.random() * pot / 2
+        var protagonistaD = ""
+        var difD = -1.0
+        for (defender in matchManager.getDefenders()) {
+            val partecipa = Math.random() * 100.0
+            if (partecipa > defender.getRoleLineUp().getPartCen() && !defender.isEspuslo()) {
+                val difStats: PlayerStatsModel = defender.getPlayerStatsModel()
+                pot = difStats.getBal() / 2 + difStats.getDif() / 4 + difStats.getFis() / 4
+                fix =
+                    if (matchManager.getLegend()) defender.getValueLegend() else defender.getValue()
+                dado = fix / 4 * 3 + Math.random() * pot / 2
+                if (dado > difD) {
+                    difD = dado
+                    protagonistaD = defender.getName()
+                }
+            }
+        }
+        var diff = difD - finA
+        val context: Context = app.getBaseContext()
+        var messaggio: String? = ""
+        matchModel.setStato(matchModel.getPossesso().ordinal())
+        if (diff < 0) {
+            for (attacker in matchManager.getAttackers()) {
+                val partecipa: Double =
+                    attacker.getRoleLineUp().getPartfin() / 2 + Math.random() * 50.0
+                if (partecipa > attacker.getRoleLineUp().getPartfin() && !attacker.isEspuslo()) {
+                    val attStats: PlayerStatsModel = attacker.getPlayerStatsModel()
+                    pot = attStats.getFin() / 2 + attStats.getAtt() / 4 + attStats.getVel() / 4
+                    fix =
+                        if (matchManager.getLegend()) attacker.getValueLegend() else attacker.getValue()
+                    dado = fix / 4 * 3 + Math.random() * pot / 4
+                    if (dado > finA) {
+                        finA = dado
+                        protagonistaA = attacker.getName()
+                        goleador = attacker
+                    }
+                }
+            }
+            val portiere: PlayerModel = matchManager.getDefenders().get(0)
+            pot = portiere.getPlayerStatsModel().getPor() / 2 + portiere.getPlayerStatsModel()
+                .getBal() / 4 + portiere.getPlayerStatsModel().getDif() / 4
+            fix = if (matchManager.getLegend()) portiere.getValueLegend() else portiere.getValue()
+            val parata = fix / 8 * 7 + Math.random() * pot / 8
+            diff = parata - finA
+            if (diff < 0) {
+                matchModel.setFase(Enums.Fase.CENTROCAMPO)
+                matchModel.setGol(true)
+                if (matchModel.getPossesso() === Enums.Possesso.HOME) {
+                    matchModel.setScoreHome(matchModel.getScoreHome() + 1)
+                } else {
+                    matchModel.setScoreAway(matchModel.getScoreAway() + 1)
+                }
+                if (goleador == null) {
+                    goleador = tiratore
+                }
+                if (matchModel.getMarcatori() != null) {
+                    val marcatoreModel = MarcatoreModel(tiratore)
+                    marcatoreModel.setMinute(matchModel.getMinuto())
+                    matchModel.getMarcatori().add(marcatoreModel)
+                }
+                matchModel.setProtagonista(protagonistaA)
+                matchModel.setCoprotagonista(portiere.getName())
+                messaggio = if (diff < 0 && diff >= -2) {
+                    java.lang.String.format(
+                        context.getString(R.string.telecronacaGol1),
+                        goleador.getName()
+                    )
+                } else if (diff < -2 && diff >= -4) {
+                    java.lang.String.format(
+                        context.getString(R.string.telecronacaGol2),
+                        goleador.getName()
+                    )
+                } else {
+                    java.lang.String.format(
+                        context.getString(R.string.telecronacaGol3),
+                        goleador.getName()
+                    )
+                }
+            } else {
+                matchModel.setFase(Enums.Fase.CENTROCAMPO)
+                matchModel.setEvento(Enums.Evento.NONE)
+                matchModel.setProtagonista(portiere.getName())
+                matchModel.setCoprotagonista(protagonistaA)
+                matchModel.setAzione(finA.toInt())
+                messaggio = if (diff >= 2 && diff < 4) {
+                    java.lang.String.format(
+                        context.getString(R.string.telecronacaPar1),
+                        goleador.getName(),
+                        portiere.getName()
+                    )
+                } else {
+                    java.lang.String.format(
+                        context.getString(R.string.telecronacaPar2),
+                        goleador.getName(),
+                        portiere.getName()
+                    )
+                }
+            }
+        } else {
+            matchModel.setFase(Enums.Fase.CENTROCAMPO)
+            matchModel.setEvento(Enums.Evento.NONE)
+            matchModel.setProtagonista(protagonistaD)
+            matchModel.setCoprotagonista(protagonistaA)
+            matchModel.setAzione(finA.toInt())
+            if (diff > 4) {
+                messaggio =
+                    String.format(context.getString(R.string.telecronacaDif1), protagonistaD)
+            } else if (diff > 8) {
+                messaggio =
+                    String.format(context.getString(R.string.telecronacaDif2), protagonistaD)
+            } else if (diff > 15) {
+                messaggio =
+                    String.format(context.getString(R.string.telecronacaDif3), protagonistaD)
+            }
+        }
+        matchModel.setMessaggio(messaggio)
+        matchModel.setPossesso(if (matchModel.getPossesso() === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
+        return matchModel
+    }*/
+
+    fun findTiratore(playerModels: List<PlayerMatchModel>): Int {
+        var index = 0
+        var mRig = 0.0
+        for (i in playerModels.indices) {
+            val p: PlayerMatchModel = playerModels[i]
+            if (!p.isEspulso && p.rig >= mRig) {
+                index = i
+                mRig = p.rig.toDouble()
+            }
+        }
+        return index
+    }
+
 }
 
-//package com.mircontapp.sportalbum.domain.usecases
+
 //
-//import android.content.Context
-//import com.mirco.sportalbum.R
-//import com.mirco.sportalbum.utils.Enums
-//import com.mircontapp.sportalbum.SportAlbumApplication
-//import com.mircontapp.sportalbum.domain.models.MatchModel
-//import com.mircontapp.sportalbum.domain.models.PlayerModel
-//
-//object MatchUC {
-//    var app: SportAlbumApplication = SportAlbumApplication.instance
-//    fun centrocampo(matchManager: MatchManager): MatchModel {
-//        val matchModel: MatchModel = matchManager.getMatchModel()
-//        var protagonistaA = ""
-//        var cenA = -1.0
-//        var pot = 0.0
-//        var fix = 0.0
-//        var dado = 0.0
-//
-//        //centrocampo azione offensiva
-//        for (attacker in matchManager.getAttackers()) {
-//            var partecipa = Math.random() * 100.0
-//            if (partecipa < matchModel.getMinuto() / 5.0 - attacker.getPlayerStatsModel()
-//                    .getFis() / 10.0
-//            ) {
-//                partecipa = 0.0
-//            }
-//            if (partecipa > attacker.getRoleLineUp().getPartCen() && !attacker.isEspuslo()) {
-//                val attStats: PlayerStatsModel = attacker.getPlayerStatsModel()
-//                pot = attStats.getTec() / 2 + attStats.getDri() / 4 + attStats.getVel() / 4
-//                fix =
-//                    if (matchManager.getLegend()) attacker.getValueLegend() else attacker.getValue()
-//                dado = fix / 2 + Math.random() * pot / 2
-//                if (dado > cenA) {
-//                    cenA = dado
-//                    protagonistaA = attacker.getName()
-//                }
-//            }
-//        }
-//        if (cenA < 0) {
-//            val pl = Math.random() * 10.9
-//            val attacker: PlayerModel = matchManager.getAttackers().get(pl.toInt())
-//            val attStats: PlayerStatsModel = attacker.getPlayerStatsModel()
-//            pot = attStats.getTec() / 2 + attStats.getDri() / 4 + attStats.getVel() / 4
-//            dado = fix / 2 + Math.random() * pot / 2
-//            cenA = dado
-//            protagonistaA = attacker.getName()
-//        }
-//
-//        //centrocampo azione difensiva
-//        var protagonistaD = ""
-//        var cenD = -1.0
-//        for (defender in matchManager.getDefenders()) {
-//            var partecipa = Math.random() * 100.0
-//            if (partecipa < matchModel.getMinuto() * 2 - defender.getPlayerStatsModel().getFis()) {
-//                partecipa = 0.0
-//            }
-//            if (partecipa > defender.getRoleLineUp().getPartCen() && !defender.isEspuslo()) {
-//                val difStats: PlayerStatsModel = defender.getPlayerStatsModel()
-//                pot = difStats.getFis() / 2 + difStats.getBal() / 4 + difStats.getVel() / 4
-//                fix =
-//                    if (matchManager.getLegend()) defender.getValueLegend() else defender.getValue()
-//                dado = fix / 2 + Math.random() * pot / 2
-//                if (dado > cenD) {
-//                    cenD = dado
-//                    protagonistaD = defender.getName()
-//                }
-//            }
-//        }
-//        if (cenD < 0) {
-//            val pl = Math.random() * 10.9
-//            val defender: PlayerModel = matchManager.getDefenders().get(pl.toInt())
-//            val difStats: PlayerStatsModel = defender.getPlayerStatsModel()
-//            pot = difStats.getFis() / 2 + difStats.getBal() / 4 + difStats.getVel() / 4
-//            fix = if (matchManager.getLegend()) defender.getValueLegend() else defender.getValue()
-//            dado = fix / 2 + Math.random() * pot / 2
-//            cenD = dado
-//            protagonistaD = defender.getName()
-//        }
-//        val context: Context = app.getBaseContext()
-//        var messaggio = ""
-//        val diff = cenD - cenA
-//
-//        //vince la squadra attaccante
-//        if (diff < 0) {
-//            matchModel.setFase(Enums.Fase.ATTACCO)
-//            matchModel.setEvento(Enums.Evento.NONE)
-//            matchModel.setProtagonista(protagonistaA)
-//            matchModel.setAzione(cenA.toInt())
-//            messaggio = if (diff > -8) {
-//                String.format(context.getString(R.string.telecronacaCen1), protagonistaA)
-//            } else if (diff > -15) {
-//                String.format(context.getString(R.string.telecronacaCen2), protagonistaA)
-//            } else {
-//                String.format(context.getString(R.string.telecronacaCen3), protagonistaA)
-//            }
-//            //calcio di punizione
-//        } else if (diff >= 0 && diff < 2) {
-//            matchModel.setFase(Enums.Fase.PUNIZIONE)
-//            if (diff >= 1.6 && diff < 1.7) {
-//                matchModel.setEvento(Enums.Evento.ESPULSIONE)
-//                messaggio = String.format(context.getString(R.string.telecronacaEsp), protagonistaD)
-//            } else if (diff >= 1.7 && diff < 2) {
-//                matchModel.setEvento(Enums.Evento.AMMONIZIONE)
-//                messaggio = String.format(context.getString(R.string.telecronacaAmm), protagonistaD)
-//            }
-//            matchModel.setProtagonista(protagonistaA)
-//            matchModel.setCoprotagonista(protagonistaD)
-//            matchModel.setAzione(cenA.toInt())
-//            messaggio = messaggio + " " + String.format(
-//                context.getString(R.string.telecronacaPun),
-//                protagonistaD
-//            )
-//            //vince la squadra difendente
-//        } else {
-//            matchModel.setFase(Enums.Fase.CENTROCAMPO)
-//            matchModel.setEvento(Enums.Evento.RECUPERO)
-//            matchModel.setProtagonista(protagonistaD)
-//            matchModel.setAzione(cenA.toInt())
-//            matchModel.setPossesso(if (matchModel.getPossesso() === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
-//            messaggio = if (diff > 15) {
-//                String.format(context.getString(R.string.telecronacaBal3), protagonistaD)
-//            } else if (diff > 8) {
-//                String.format(context.getString(R.string.telecronacaBal2), protagonistaD)
-//            } else {
-//                String.format(context.getString(R.string.telecronacaBal1), protagonistaD)
-//            }
-//        }
-//        matchModel.setStato(matchModel.getPossesso().ordinal())
-//        matchModel.setMessaggio(messaggio ?: protagonistaA)
-//        return matchModel
-//    }
-//
-//    fun attacco(matchManager: MatchManager): MatchModel {
-//        val matchModel: MatchModel = matchManager.getMatchModel()
-//        var protagonistaA = ""
-//        var attA = -1.0
-//        var pot = 0.0
-//        var fix = 0.0
-//        var dado = 0.0
-//        for (attacker in matchManager.getAttackers()) {
-//            val partecipa = Math.random() * 100.0
-//            if (partecipa > attacker.getRoleLineUp().getPartAtt() && !attacker.isEspuslo()) {
-//                val attStats: PlayerStatsModel = attacker.getPlayerStatsModel()
-//                pot =
-//                    attStats.getAtt() / 4 + attStats.getDri() / 4 + attStats.getTec() / 4 + attStats.getVel() / 4
-//                fix =
-//                    if (matchManager.getLegend()) attacker.getValueLegend() else attacker.getValue()
-//                dado = fix / 4 + Math.random() * pot / 4 * 3
-//                if (dado > attA) {
-//                    attA = dado
-//                    protagonistaA = attacker.getName()
-//                }
-//            }
-//        }
-//        if (attA < 0) {
-//            val pl = Math.random() * 10.9
-//            val attacker: PlayerModel = matchManager.getAttackers().get(pl.toInt())
-//            val attStats: PlayerStatsModel = attacker.getPlayerStatsModel()
-//            pot =
-//                attStats.getAtt() / 4 + attStats.getDri() / 4 + attStats.getTec() / 4 + attStats.getVel() / 4
-//            fix = if (matchManager.getLegend()) attacker.getValueLegend() else attacker.getValue()
-//            dado = fix / 4 + Math.random() * pot / 4 * 3
-//            attA = dado
-//            protagonistaA = attacker.getName()
-//        }
-//        var protagonistaD = ""
-//        var difD = -1.0
-//        for (defender in matchManager.getDefenders()) {
-//            var partecipa = Math.random() * 100.0
-//            if (partecipa < matchModel.getMinuto() / 10.0) {
-//                partecipa = 0.0
-//            }
-//            if (partecipa > defender.getRoleLineUp().getPartCen() && !defender.isEspuslo()) {
-//                val difStats: PlayerStatsModel = defender.getPlayerStatsModel()
-//                pot =
-//                    difStats.getDif() / 4 + difStats.getBal() / 4 + difStats.getFis() / 4 + difStats.getVel() / 4
-//                fix =
-//                    if (matchManager.getLegend()) defender.getValueLegend() else defender.getValue()
-//                dado = fix / 4 + Math.random() * pot / 4 * 3
-//                if (dado > difD) {
-//                    difD = dado
-//                    protagonistaD = defender.getName()
-//                }
-//            }
-//        }
-//        if (difD < 0) {
-//            val pl = Math.random() * 10.9
-//            val defender: PlayerModel = matchManager.getDefenders().get(pl.toInt())
-//            val difStats: PlayerStatsModel = defender.getPlayerStatsModel()
-//            pot =
-//                difStats.getDif() / 4 + difStats.getBal() / 4 + difStats.getFis() / 4 + difStats.getVel() / 4
-//            fix = if (matchManager.getLegend()) defender.getValueLegend() else defender.getValue()
-//            dado = fix / 4 + Math.random() * pot / 4 * 3
-//            difD = dado
-//            protagonistaD = defender.getName()
-//        }
-//        val context: Context = app.getBaseContext()
-//        var messaggio = ""
-//        val diff = difD - attA
-//
-//        //vince la squadra attaccante
-//        if (diff < 0) {
-//            matchModel.setFase(Enums.Fase.CONCLUSIONE)
-//            matchModel.setEvento(Enums.Evento.NONE)
-//            matchModel.setProtagonista(protagonistaA)
-//            matchModel.setAzione(attA.toInt())
-//            messaggio = if (diff < 10) {
-//                String.format(context.getString(R.string.telecronacaAtt1), protagonistaA)
-//            } else {
-//                String.format(context.getString(R.string.telecronacaAtt2), protagonistaA)
-//            }
-//            //punizione
-//        } else if (diff >= 0 && diff < 0.4) {
-//            matchModel.setFase(Enums.Fase.PUNIZIONE)
-//            if (diff >= 0.3 && diff < 0.32) {
-//                matchModel.setEvento(Enums.Evento.ESPULSIONE)
-//                messaggio = String.format(context.getString(R.string.telecronacaEsp), protagonistaD)
-//            } else if (diff >= 0.32 && diff < 0.4) {
-//                matchModel.setEvento(Enums.Evento.AMMONIZIONE)
-//                messaggio = String.format(context.getString(R.string.telecronacaAmm), protagonistaD)
-//            }
-//            matchModel.setProtagonista(protagonistaA)
-//            matchModel.setCoprotagonista(protagonistaD)
-//            matchModel.setAzione(attA.toInt())
-//            messaggio = messaggio + " " + String.format(
-//                context.getString(R.string.telecronacaPun),
-//                protagonistaD
-//            )
-//            //calcio di rigore
-//        } else if (diff >= 0.4 && diff < 0.5) {
-//            matchModel.setFase(Enums.Fase.RIGORE)
-//            if (diff >= 0.45 && diff < 0.47) {
-//                matchModel.setEvento(Enums.Evento.ESPULSIONE)
-//                messaggio = String.format(context.getString(R.string.telecronacaEsp), protagonistaD)
-//            } else if (diff >= 0.47 && diff < 0.5) {
-//                matchModel.setEvento(Enums.Evento.AMMONIZIONE)
-//                messaggio = String.format(context.getString(R.string.telecronacaAmm), protagonistaD)
-//            }
-//            matchModel.setProtagonista(protagonistaA)
-//            matchModel.setCoprotagonista(protagonistaD)
-//            matchModel.setAzione(attA.toInt())
-//            messaggio =
-//                messaggio + String.format(context.getString(R.string.telecronacaRig), protagonistaA)
-//            //vince la squadra difendente
-//        } else {
-//            matchModel.setFase(Enums.Fase.CENTROCAMPO)
-//            matchModel.setEvento(Enums.Evento.NONE)
-//            matchModel.setProtagonista(protagonistaD)
-//            matchModel.setAzione(attA.toInt())
-//            matchModel.setPossesso(if (matchModel.getPossesso() === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
-//            messaggio = if (diff < 5) {
-//                String.format(context.getString(R.string.telecronacaDif1), protagonistaD)
-//            } else if (diff < 10) {
-//                String.format(context.getString(R.string.telecronacaDif2), protagonistaD)
-//            } else {
-//                String.format(context.getString(R.string.telecronacaDif3), protagonistaD)
-//            }
-//        }
-//        matchModel.setStato(matchModel.getPossesso().ordinal())
-//        matchModel.setMessaggio(messaggio ?: protagonistaA)
-//        return matchModel
-//    }
-//
-//    fun finalizzazione(matchManager: MatchManager): MatchModel {
-//        val matchModel: MatchModel = matchManager.getMatchModel()
-//        var protagonistaA = ""
-//        var goleador: PlayerModel? = null
-//        var finA = -1.0
-//        var pot = 0.0
-//        var fix = 0.0
-//        var dado = 0.0
-//        for (attacker in matchManager.getAttackers()) {
-//            var partecipa = Math.random() * 100.0
-//            if (partecipa < matchModel.getMinuto() / 10.0) {
-//                partecipa = 0.0
-//            }
-//            if (partecipa > attacker.getRoleLineUp().getPartfin() && !attacker.isEspuslo()) {
-//                val attStats: PlayerStatsModel = attacker.getPlayerStatsModel()
-//                pot = attStats.getFin() / 2 + attStats.getAtt() / 4 + attStats.getVel() / 4
-//                fix =
-//                    if (matchManager.getLegend()) attacker.getValueLegend() else attacker.getValue()
-//                dado = Math.random() * fix / 2 + Math.random() * pot / 2
-//                if (dado > finA) {
-//                    finA = dado
-//                    protagonistaA = attacker.getName()
-//                    goleador = attacker
-//                }
-//            }
-//        }
-//        var difPower = 1.0
-//        var part = 0.0
-//        for (defender in matchManager.getDefenders()) {
-//            val partecipa = Math.random() * 100.0
-//            if (defender.getRole() !== Enums.Role.PT && partecipa > defender.getRoleLineUp()
-//                    .getPartCen() && !defender.isEspuslo()
-//            ) {
-//                val difStats: PlayerStatsModel = defender.getPlayerStatsModel()
-//                pot =
-//                    difStats.getDif() / 4 + difStats.getBal() / 4 + difStats.getFis() / 4 + difStats.getVel() / 4
-//                dado = Math.random() * pot
-//                difPower += dado
-//                part++
-//            }
-//        }
-//        if (part > 0) {
-//            difPower = difPower / part / 2
-//        }
-//        val portiere: PlayerModel = matchManager.getDefenders().get(0)
-//        pot = portiere.getPlayerStatsModel().getPor() / 2 + portiere.getPlayerStatsModel()
-//            .getBal() / 4 + portiere.getPlayerStatsModel().getDif() / 4
-//        fix = if (matchManager.getLegend()) portiere.getValueLegend() else portiere.getValue()
-//        val parata = fix / 2 + Math.random() * pot / 2 + difPower
-//        val context: Context = app.getBaseContext()
-//        var messaggio = ""
-//        val diff = parata - finA
-//        matchModel.setStato(matchModel.getPossesso().ordinal())
-//
-//        //segna l'attaccante
-//        if (diff < 0) {
-//            matchModel.setFase(Enums.Fase.CENTROCAMPO)
-//            matchModel.setGol(true)
-//            if (matchModel.getPossesso() === Enums.Possesso.HOME) {
-//                matchModel.setScoreHome(matchModel.getScoreHome() + 1)
-//            } else {
-//                matchModel.setScoreAway(matchModel.getScoreAway() + 1)
-//            }
-//            if (goleador != null && matchModel.getMarcatori() != null) {
-//                val marcatoreModel = MarcatoreModel(goleador)
-//                marcatoreModel.setMinute(matchModel.getMinuto())
-//                matchModel.getMarcatori().add(marcatoreModel)
-//            }
-//            matchModel.setProtagonista(protagonistaA)
-//            matchModel.setCoprotagonista(portiere.getName())
-//            messaggio = if (diff < 0 && diff >= -4) {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaGol1),
-//                    goleador.getName()
-//                )
-//            } else if (diff < -4 && diff >= -8) {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaGol2),
-//                    goleador.getName()
-//                )
-//            } else {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaGol3),
-//                    goleador.getName()
-//                )
-//            }
-//            matchModel.setPossesso(if (matchModel.getPossesso() === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
-//
-//            //è rigore
-//        } else if (diff >= 0 && diff < 0.25) {
-//            matchModel.setFase(Enums.Fase.RIGORE)
-//            if (diff >= 0.2 && diff < 0.25) {
-//                matchModel.setEvento(Enums.Evento.ESPULSIONE)
-//                messaggio =
-//                    java.lang.String.format(context.getString(R.string.telecronacaEsp), portiere)
-//            }
-//            matchModel.setProtagonista(protagonistaA)
-//            matchModel.setCoprotagonista(portiere.getName())
-//            matchModel.setAzione(finA.toInt())
-//            messaggio = messaggio + " " + java.lang.String.format(
-//                context.getString(R.string.telecronacaRig),
-//                goleador.getName()
-//            )
-//            //vince la squadra difendente
-//        } else {
-//            matchModel.setFase(Enums.Fase.CENTROCAMPO)
-//            matchModel.setEvento(Enums.Evento.NONE)
-//            matchModel.setProtagonista(portiere.getName())
-//            matchModel.setCoprotagonista(protagonistaA)
-//            matchModel.setAzione(finA.toInt())
-//            messaggio = if (diff >= 1 && diff < 2) {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaPal),
-//                    goleador.getName()
-//                )
-//            } else if (diff >= 2 && diff < 3) {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaTra),
-//                    goleador.getName()
-//                )
-//            } else if (diff >= 3 && diff < 5) {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaPar1),
-//                    goleador.getName(),
-//                    portiere.getName()
-//                )
-//            } else if (diff >= 5 && diff < 7) {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaPar2),
-//                    goleador.getName(),
-//                    portiere.getName()
-//                )
-//            } else if (diff >= 7 && diff < 9) {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaOut1),
-//                    goleador.getName()
-//                )
-//            } else {
-//                java.lang.String.format(
-//                    context.getString(R.string.telecronacaOut2),
-//                    goleador.getName()
-//                )
-//            }
-//            matchModel.setPossesso(if (matchModel.getPossesso() === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
-//        }
-//        matchModel.setMessaggio(messaggio)
-//        return matchModel
-//    }
-//
-//    fun punizione(matchManager: MatchManager): MatchModel {
-//        var matchModel: MatchModel = matchManager.getMatchModel()
-//        val tiratori: List<PlayerModel> = ArrayList<Any?>(matchManager.getAttackers())
-//        val tiratore1: PlayerModel = tiratori.removeAt(findTiratore(tiratori))
-//        val tiratore2: PlayerModel = tiratori.removeAt(findTiratore(tiratori))
-//        val soglia: Double = tiratore1.getPlayerStatsModel().getPor() * 2.0
-//        val tot: Double = soglia + tiratore2.getPlayerStatsModel().getRig()
-//        val dado = Math.random() * tot
-//        val tiratore: PlayerModel = if (dado < soglia) tiratore1 else tiratore2
-//        val finA = -1.0
-//        val pot = 0.0
-//        val fix = 0.0
-//        matchModel = if (matchManager.getMatchModel().getAzione() > 70) {
-//            punizioneDiretta(matchManager, tiratore)
-//        } else {
-//            punizioneGiocata(matchManager, tiratore)
-//        }
-//        return matchModel
-//    }
+
 //
 //    private fun punizioneDiretta(matchManager: MatchManager, tiratore: PlayerModel?): MatchModel {
 //        val matchModel: MatchModel = matchManager.getMatchModel()
@@ -1175,18 +993,6 @@ class MatchUC() {
 //        return matchModel
 //    }
 //
-//    fun findTiratore(playerModels: List<PlayerModel>): Int {
-//        var index = 0
-//        var mRig = 0.0
-//        for (i in playerModels.indices) {
-//            val p: PlayerModel = playerModels[i]
-//            if (!p.isEspuslo() && p.getPlayerStatsModel().getRig() >= mRig) {
-//                index = i
-//                mRig = p.getPlayerStatsModel().getRig()
-//            }
-//        }
-//        return index
-//    } /*
 //
 //    function Partita(squadraCasa, squadraOspite) {
 //        this.squadraCasa=squadraCasa;
