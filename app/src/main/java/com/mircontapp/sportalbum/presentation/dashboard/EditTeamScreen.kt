@@ -45,7 +45,7 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
         }
     }
 
-    val textFieldModifier: Modifier = Modifier.padding(4.dp)
+    val textFieldModifier: Modifier = Modifier.padding(2.dp)
 
     val name = remember { mutableStateOf(TextFieldValue(teamModel.name)) }
     val city = remember { mutableStateOf(TextFieldValue(teamModel.city ?: "")) }
@@ -96,6 +96,10 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
 
             TextField(value = arealegend.value, onValueChange = { arealegend.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.arealegend))})
+
+            TextField(value = module.value, onValueChange = { module.value = it}, modifier = textFieldModifier,
+                label = {Text(text = SportAlbumApplication.instance.getString(R.string.module))})
+
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 32.dp)) {
                 Checkbox(checked = isSuperlega.value ?: false, onCheckedChange = {

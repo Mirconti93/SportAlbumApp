@@ -14,6 +14,9 @@ import com.mircontapp.sportalbum.domain.usecases.UpdatePlayerUC
 import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -36,19 +39,13 @@ class DashboardViewModel @Inject constructor(
     enum class SelectionType { PLAYERS, TEAMS }
     enum class UpdateType { NEW, UPDATE }
 
+    private val _editUIState = MutableStateFlow(EditUIState(false))
+    val editUIState: StateFlow<EditUIState> get() = _editUIState
+
+
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = getAllTeamsUC.getAllTeams()
-            withContext(Dispatchers.Main) {
-                teams.value = list
-            }
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = getAllPlayersUC.getPlayers()
-            withContext(Dispatchers.Main) {
-                players.value = list
-            }
-        }
+        loadTeams()
+        loadPlayers()
     }
 
     fun updateTeam(teamModel: TeamModel) {
@@ -59,6 +56,7 @@ class DashboardViewModel @Inject constructor(
                 updateTeamUC.invoke(teamModel)
             }
         }
+        loadTeams()
     }
 
     fun updatePlayer(playerModel: PlayerModel) {
@@ -69,5 +67,30 @@ class DashboardViewModel @Inject constructor(
                 updatePlayerUC.invoke(playerModel)
             }
         }
+        loadPlayers()
     }
+
+    fun loadPlayers() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = getAllTeamsUC.getAllTeams()
+            withContext(Dispatchers.Main) {
+                teams.value = list
+            }
+        }
+    }
+
+    fun loadTeams() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = getAllPlayersUC.getPlayers()
+            withContext(Dispatchers.Main) {
+                players.value = list
+            }
+        }
+    }
+
+    fun showTeamsSelection(visible: Boolean) {
+        _editUIState.update { current -> current.copy(visible) }
+    }
+
+    data class EditUIState(var teamSelectionVisible: Boolean)
 }

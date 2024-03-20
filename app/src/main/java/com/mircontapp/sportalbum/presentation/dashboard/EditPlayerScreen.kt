@@ -79,15 +79,21 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
             TextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.name)) })
 
-            TextField(value = role.value, onValueChange = { role.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.role)) })
-
-            TextField(value = roleLineUp.value, onValueChange = { roleLineUp.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.roleLineUp))})
-
-
             TextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
+
+
+            Row {
+                TextField(value = role.value,
+                    onValueChange = { role.value = it },
+                    modifier = textFieldModifier,
+                    label = { Text(text = SportAlbumApplication.instance.getString(R.string.role)) })
+
+                TextField(value = roleLineUp.value,
+                    onValueChange = { roleLineUp.value = it },
+                    modifier = textFieldModifier,
+                    label = { Text(text = SportAlbumApplication.instance.getString(R.string.roleLineUp)) })
+            }
 
             TextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.country)) })
@@ -104,8 +110,6 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                     label = { Text(text = SportAlbumApplication.instance.getString(R.string.gender)) })
 
             }
-
-
 
             Row {
                 TextField(value = valueleg.value, onValueChange = { valueleg.value = it}, modifier = textFieldModifier.weight(1f),
