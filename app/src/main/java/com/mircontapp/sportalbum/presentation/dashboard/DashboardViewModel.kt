@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.enums.EnumEntries
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
@@ -32,10 +33,16 @@ class DashboardViewModel @Inject constructor(
 ) : ViewModel() {
     var selectionType = mutableStateOf(SelectionType.TEAMS)
     var updateType = mutableStateOf(UpdateType.UPDATE)
-    val teams = mutableStateOf<List<TeamModel>>(emptyList())
-    val players = mutableStateOf<List<PlayerModel>>(emptyList())
+    private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
+    val teams: StateFlow<List<TeamModel>> get() = _teams
+    private val _players = MutableStateFlow<List<PlayerModel>>(emptyList())
+    val players: StateFlow<List<PlayerModel>> get() = _players
+
     val team = mutableStateOf<TeamModel?>(null)
     val player = mutableStateOf<PlayerModel?>(null)
+
+    private val _areas = MutableStateFlow(Enums.Area.values().toList())
+    val areas: StateFlow<List<Enums.Area>> get() = _areas
     enum class SelectionType { PLAYERS, TEAMS }
     enum class UpdateType { NEW, UPDATE }
 
@@ -74,7 +81,7 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val list = getAllTeamsUC.getAllTeams()
             withContext(Dispatchers.Main) {
-                teams.value = list
+                _teams.value = list
             }
         }
     }
@@ -83,7 +90,7 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val list = getAllPlayersUC.getPlayers()
             withContext(Dispatchers.Main) {
-                players.value = list
+                _players.value = list
             }
         }
     }

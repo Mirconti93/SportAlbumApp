@@ -17,7 +17,7 @@ class TeamHelper {
         fun findModuleEnum(keyText: String?): Enums.MatchModule {
             for (m in Enums.MatchModule.values()) {
                 val text = "M" + keyText
-                if (text.equals(m.toString(), ignoreCase = true)) {
+                if (text.equals(m.name, ignoreCase = true)) {
                     return m
                 }
             }

@@ -66,7 +66,7 @@ class UIHelper {
             name.split(" ").let { list ->
                 var minified = ""
                 for ( i in 0..list.size-1) {
-                    if (i != list.size-1 && !list[i].isEmpty()) {
+                    if (i != list.size-1 && list[i].length > 3) {
                         minified += list[i].substring(0,1) + ". "
                     } else {
                         minified += list[i]

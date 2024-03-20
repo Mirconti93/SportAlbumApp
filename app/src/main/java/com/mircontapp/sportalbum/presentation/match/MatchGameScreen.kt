@@ -240,7 +240,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
                 containerColor = OrangeYellowD,
             ), shape = RoundedCornerShape(20.dp)) {
                 Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module),
-                    modifier = Modifier.padding(4.dp, 1.dp)
+                    modifier = Modifier.padding(8.dp, 2.dp)
                     .clickable { isModuleSelection.value = true })
             }
 

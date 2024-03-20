@@ -12,6 +12,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
@@ -26,6 +27,7 @@ import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.album.AlbumViewModel
 import com.mircontapp.sportalbum.presentation.album.PlayersGrid
+import com.mircontapp.sportalbum.presentation.album.PlayersShortList
 import com.mircontapp.sportalbum.presentation.album.PlayersState
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
@@ -42,6 +44,9 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         val isTeams = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)
         val isPlayers = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.PLAYERS)
 
+        val players = viewModel.players.collectAsState()
+        val teams = viewModel.teams.collectAsState()
+
         Row {
            Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.TEAMS },
                 colors = ButtonDefaults.buttonColors(
@@ -56,10 +61,10 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         }
 
         if (isTeams) {
-            if (viewModel.teams.value != null) {
+            if (teams.value != null) {
                 TeamsGrid(
                     TeamsState(
-                        viewModel.teams.value!!,
+                        teams.value!!,
                         onTeamClickHandler = object : OnTeamClickHandler {
                             override fun onTeamClick(teamModel: TeamModel) {
                                 mainViewModel.teamModel = teamModel
@@ -79,7 +84,7 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = {
-                    if (viewModel.players.value != null) {
+                    if (players.value != null) {
                         FileDataManager.writePlayers(
                             context = SportAlbumApplication.instance.applicationContext,
                             "players.txt", viewModel.players.value!!
@@ -90,20 +95,18 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                     Text(text = SportAlbumApplication.instance.getString(R.string.saveData))
                 }
             }
-            if (viewModel.players.value != null) {
-                PlayersGrid(
-                    PlayersState(
-                        viewModel.players.value!!,
-                        onPlayerClickHandler = object : OnPlayerClickHandler {
-                            override fun onPlayerClick(playerModel: PlayerModel) {
-                                mainViewModel.playerModel = playerModel
-                                navController.navigate(NavigationItem.EditPlayer.route)
-                            }
-                        })
-                )
-            } else {
-                Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
-            }
+
+            PlayersShortList(
+                PlayersState(
+                    players.value,
+                    onPlayerClickHandler = object : OnPlayerClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            mainViewModel.playerModel = playerModel
+                            navController.navigate(NavigationItem.EditPlayer.route)
+                        }
+                    })
+            )
+
         }
     }
 
