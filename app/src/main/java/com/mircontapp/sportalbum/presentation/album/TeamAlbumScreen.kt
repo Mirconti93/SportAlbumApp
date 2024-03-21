@@ -49,7 +49,7 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
         viewModel.players.value.let {players ->
             PlayersGrid(
                 PlayersState(
-                    players.sortedBy { it.name },
+                    players.sortedBy { it.roleLineUp },
                     object : OnPlayerClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
                             mainViewModel.playerModel = playerModel

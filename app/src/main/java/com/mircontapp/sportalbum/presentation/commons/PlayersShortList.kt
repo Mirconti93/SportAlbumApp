@@ -48,7 +48,7 @@ fun PlayersShortList(playersState: PlayersState) {
         playersState.players.forEach {
             item {
                 PlayerListItem(it, modifier = Modifier
-                    .padding(8.dp)
+                    .padding(2.dp)
                     .shadow(2.dp)
                     .clickable {
                         playersState.onPlayerClickHandler.onPlayerClick(it)
