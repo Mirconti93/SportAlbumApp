@@ -82,16 +82,15 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
             TextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
 
-
             Row {
                 TextField(value = role.value,
                     onValueChange = { role.value = it },
-                    modifier = textFieldModifier,
+                    modifier = textFieldModifier.weight(1f),
                     label = { Text(text = SportAlbumApplication.instance.getString(R.string.role)) })
 
                 TextField(value = roleLineUp.value,
                     onValueChange = { roleLineUp.value = it },
-                    modifier = textFieldModifier,
+                    modifier = textFieldModifier.weight(1f),
                     label = { Text(text = SportAlbumApplication.instance.getString(R.string.roleLineUp)) })
             }
 

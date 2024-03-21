@@ -45,10 +45,11 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
         }
         viewModel.players.value
         Text(text = team?.name ?: SportAlbumApplication.instance.getString(R.string.team))
-        if (viewModel.players.value != null) {
+
+        viewModel.players.value.let {players ->
             PlayersGrid(
                 PlayersState(
-                    viewModel.players.value,
+                    players.sortedBy { it.name },
                     object : OnPlayerClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
                             mainViewModel.playerModel = playerModel
@@ -57,9 +58,6 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
                     }
                 )
             )
-
-        } else {
-            Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
         }
 
     }
