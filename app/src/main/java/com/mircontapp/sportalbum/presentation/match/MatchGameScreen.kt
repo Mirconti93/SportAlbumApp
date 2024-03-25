@@ -61,6 +61,7 @@ import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerMatchClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
+import com.mircontapp.sportalbum.presentation.ui.theme.Green
 import com.mircontapp.sportalbum.presentation.ui.theme.LightBlue
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
@@ -219,7 +220,7 @@ fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enum
 fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
     val eleven= if (position == Enums.Possesso.HOME ) viewModel.homeEleven.collectAsState() else viewModel.awayEleven.collectAsState()
     val bench= if (position == Enums.Possesso.HOME ) viewModel.homeBench.collectAsState() else viewModel.awayBench.collectAsState()
-
+    val playerSelected = viewModel.playerSelected.collectAsState()
     val isRoleSelection = remember { mutableStateOf(false) }
     val isModuleSelection = remember { mutableStateOf(false) }
 
@@ -240,8 +241,9 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
                 containerColor = OrangeYellowD,
             ), shape = RoundedCornerShape(20.dp)) {
                 Text(text = SportAlbumApplication.instance.getString(module?.text ?: R.string.module),
-                    modifier = Modifier.padding(8.dp, 2.dp)
-                    .clickable { isModuleSelection.value = true })
+                    modifier = Modifier
+                        .padding(8.dp, 2.dp)
+                        .clickable { isModuleSelection.value = true })
             }
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -270,7 +272,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
             .weight(1.2f)
             .padding(8.dp)) {
             items(eleven.value) {
-                PlayerLineUpItem(it, BlueD,
+                PlayerLineUpItem(it, if (it.name.equals(playerSelected.value?.name)) Green else BlueD,
                     object : OnPlayerMatchClickHandler {
                         override fun onPlayerClick(playerModel: PlayerMatchModel) {
                             Log.i("BUPI",  viewModel.playerSelected.value?.name ?: "Not selected")
@@ -319,7 +321,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.Possesso) {
         ) {
             items(bench.value) {
                 PlayerLineUpItem(
-                    it, LightBlue,
+                    it, if (it.name.equals(playerSelected.value?.name)) Green else LightBlue,
                     object : OnPlayerMatchClickHandler {
                         override fun onPlayerClick(playerModel: PlayerMatchModel) {
                             Log.i(

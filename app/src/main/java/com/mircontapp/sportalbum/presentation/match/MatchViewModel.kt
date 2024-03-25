@@ -75,7 +75,7 @@ class MatchViewModel @Inject constructor(
     val awayBench: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
     var isLegend: Boolean = true
     var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
-    val playerSelected: MutableLiveData<PlayerMatchModel?> = MutableLiveData()
+    val playerSelected: MutableStateFlow<PlayerMatchModel?> = MutableStateFlow(null)
     var playerToChangeRole: PlayerMatchModel? = null
     var firstPlayerSelected: Boolean = false
     val showRoleSelection = MutableStateFlow(false)
@@ -183,7 +183,7 @@ class MatchViewModel @Inject constructor(
 
     }
 
-    //    /*** split players on field or in bench  */
+    /*** split players on field or in bench  */
     fun initOnFieledOrBench(teamPosition: Enums.Possesso) {
         val teamIsHome = teamPosition == Enums.Possesso.HOME
 
