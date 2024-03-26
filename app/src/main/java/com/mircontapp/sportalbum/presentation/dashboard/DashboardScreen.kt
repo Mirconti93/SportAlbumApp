@@ -58,6 +58,15 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                     containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
             }
+            Button(onClick = {
+                if (isPlayers) {
+                    navController.navigate(NavigationItem.EditPlayer.route)
+                } else {
+                    navController.navigate(NavigationItem.EditTeam.route)
+                }
+            }) {
+                Text(text = SportAlbumApplication.instance.getString(R.string.newItem))
+            }
         }
 
         if (isTeams) {
@@ -82,6 +91,7 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                         containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
                 }
+                Spacer(modifier = Modifier.width(8.dp))
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = {
                     if (players.value != null) {
