@@ -10,9 +10,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
@@ -37,6 +41,8 @@ import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) {
     val viewModel: DashboardViewModel = hiltViewModel()
@@ -53,11 +59,13 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                     containerColor = if (isTeams) OrangeYellowD else Color.Blue, contentColor = if (isTeams) Color.Black else Color.White)) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.teams))
             }
+            Spacer(modifier = Modifier.width(8.dp))
             Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
             }
+            Spacer(modifier = Modifier.width(8.dp))
             Button(onClick = {
                 if (isPlayers) {
                     navController.navigate(NavigationItem.EditPlayer.route)
@@ -67,57 +75,58 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
             }) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.newItem))
             }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(onClick = {
+                if (players.value != null) {
+                    FileDataManager.writePlayers(
+                        context = SportAlbumApplication.instance.applicationContext,
+                        "players.txt", viewModel.players.value!!
+                    )
+                }},
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
+                Text(text = SportAlbumApplication.instance.getString(R.string.saveData))
+            }
         }
+        var searchQuery = remember { mutableStateOf("") }
+        Column {
+            if (isTeams) {
+                /*TextField(value = searchQuery, onValueChange = {
+                    searchQuery.value = searchQuery
+                    viewModel.filterTeams(searchQuery)
 
-        if (isTeams) {
-            if (teams.value != null) {
-                TeamsGrid(
-                    TeamsState(
-                        teams.value!!,
-                        onTeamClickHandler = object : OnTeamClickHandler {
-                            override fun onTeamClick(teamModel: TeamModel) {
-                                mainViewModel.teamModel = teamModel
-                                navController.navigate(NavigationItem.EditTeam.route)
-                            }
-                        }), Modifier.padding(4.dp)
-                )
+                })*/
+                teams.value.let {
+                    TeamsGrid(
+                        TeamsState(
+                            it,
+                            onTeamClickHandler = object : OnTeamClickHandler {
+                                override fun onTeamClick(teamModel: TeamModel) {
+                                    mainViewModel.teamModel = teamModel
+                                    navController.navigate(NavigationItem.EditTeam.route)
+                                }
+                            }), Modifier.padding(4.dp)
+                    )
+                }
+
             } else {
-                Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
-            }
-        } else {
-            Row(modifier = Modifier.padding(4.dp)) {
-                Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
-                    Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                Spacer(modifier = Modifier.width(8.dp))
-                Button(onClick = {
-                    if (players.value != null) {
-                        FileDataManager.writePlayers(
-                            context = SportAlbumApplication.instance.applicationContext,
-                            "players.txt", viewModel.players.value!!
-                        )
-                    }},
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
-                    Text(text = SportAlbumApplication.instance.getString(R.string.saveData))
-                }
-            }
 
-            PlayersShortList(
-                PlayersState(
-                    players.value,
-                    onPlayerClickHandler = object : OnPlayerClickHandler {
-                        override fun onPlayerClick(playerModel: PlayerModel) {
-                            mainViewModel.playerModel = playerModel
-                            navController.navigate(NavigationItem.EditPlayer.route)
-                        }
-                    })
-            )
+                //TextField(value = viewModel.playerSearchText, onValueChange = {viewModel.filterPlayers(it)})
+                PlayersShortList(
+                    PlayersState(
+                        players.value,
+                        onPlayerClickHandler = object : OnPlayerClickHandler {
+                            override fun onPlayerClick(playerModel: PlayerModel) {
+                                mainViewModel.playerModel = playerModel
+                                navController.navigate(NavigationItem.EditPlayer.route)
+                            }
+                        })
+                )
 
+            }
         }
+
+
     }
 
 }

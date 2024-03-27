@@ -8,6 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +40,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.End
+import androidx.compose.ui.Alignment.Companion.Start
+import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
@@ -201,18 +205,31 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: Enums.Posse
 
 @Composable
 fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enums.Possesso) {
-    LazyColumn(modifier = modifier) {
-        val players = if (position == Enums.Possesso.HOME) viewModel.matchModel.value.playersHome else viewModel.matchModel.value.playersAway
-        val bgColor = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.color1 else viewModel.awayTeam.value?.color1
-        items(players) {
-            Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
-                .padding(2.dp)
-                .background(UIHelper.getColorByString(bgColor))
-                .fillMaxWidth(), color = UIHelper.getTeamTextColor(bgColor ?: ""))
-            Spacer(modifier = Modifier.height(1.dp))
+    Column(modifier = modifier) {
+        val coach = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.coach else viewModel.awayTeam.value?.coach
+        coach?.let {
+            Text(text = SportAlbumApplication.instance.getString(R.string.coach) + " " + coach, fontSize = 10.sp,  maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
+        LazyColumn {
+            val players = if (position == Enums.Possesso.HOME) viewModel.homeEleven.value else viewModel.awayEleven.value
+            val bgColor = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.color1 else viewModel.awayTeam.value?.color1
+            items(players) {
+                Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
+                    .padding(2.dp)
+                    .background(UIHelper.getColorByString(bgColor))
+                    .fillMaxWidth(), color = UIHelper.getTeamTextColor(bgColor ?: ""))
+                Spacer(modifier = Modifier.height(1.dp))
+            }
 
+        }
+        Button(onClick = {
+            viewModel.currentScreen.value = if (position == Enums.Possesso.HOME)  MatchViewModel.Screen.LINE_UP_HOME else MatchViewModel.Screen.LINE_UP_AWAY
+        }, shape = RoundedCornerShape(4.dp)) {
+            Text(text = SportAlbumApplication.instance.getString(R.string.change))
+        }
     }
+
+
 }
 
 

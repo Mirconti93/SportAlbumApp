@@ -1,6 +1,7 @@
 package com.mircontapp.sportalbum.presentation.dashboard
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
@@ -33,6 +34,9 @@ class DashboardViewModel @Inject constructor(
 ) : ViewModel() {
     var selectionType = mutableStateOf(SelectionType.TEAMS)
     var updateType = mutableStateOf(UpdateType.UPDATE)
+    private var allTeams: List<TeamModel> = emptyList()
+    private var allPlayers: List<PlayerModel> = emptyList()
+
     private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
     val teams: StateFlow<List<TeamModel>> get() = _teams
     private val _players = MutableStateFlow<List<PlayerModel>>(emptyList())
@@ -48,7 +52,6 @@ class DashboardViewModel @Inject constructor(
 
     private val _editUIState = MutableStateFlow(EditUIState(false))
     val editUIState: StateFlow<EditUIState> get() = _editUIState
-
 
     init {
         loadTeams()
@@ -79,24 +82,42 @@ class DashboardViewModel @Inject constructor(
 
     fun loadPlayers() {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = getAllTeamsUC.getAllTeams()
+            val list = getAllPlayersUC.getPlayers()
             withContext(Dispatchers.Main) {
-                _teams.value = list
+                allPlayers = list
+                _players.value = list
             }
         }
     }
 
     fun loadTeams() {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = getAllPlayersUC.getPlayers()
+            val list = getAllTeamsUC.getAllTeams()
             withContext(Dispatchers.Main) {
-                _players.value = list
+                allTeams = list
+                _teams.value = list
             }
         }
     }
 
     fun showTeamsSelection(visible: Boolean) {
         _editUIState.update { current -> current.copy(visible) }
+    }
+
+    fun filterTeams(text: String) {
+        var teams = allTeams.filter { it.name.contains(text) || it.area?.name?.contains(text) ?: false  }
+        if (teams.isNullOrEmpty()) {
+            teams = allTeams
+        }
+        _teams.value = teams
+    }
+
+    fun filterPlayers(text: String) {
+        var players = allPlayers.filter { it.name.contains(text) || it.team?.contains(text) ?: false  }
+        if (players.isNullOrEmpty()) {
+            players = allPlayers
+        }
+        _players.value = players
     }
 
     data class EditUIState(var teamSelectionVisible: Boolean)
