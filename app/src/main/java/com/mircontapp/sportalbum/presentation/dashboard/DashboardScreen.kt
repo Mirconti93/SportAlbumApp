@@ -1,7 +1,5 @@
 package com.mircontapp.sportalbum.presentation.dashboard
 
-import android.content.res.Resources.Theme
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,8 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -42,7 +38,6 @@ import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) {
     val viewModel: DashboardViewModel = hiltViewModel()
@@ -75,7 +70,11 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
             }) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.newItem))
             }
-            Spacer(modifier = Modifier.width(8.dp))
+
+        }
+
+        var searchQuery = remember { mutableStateOf("") }
+        Column {
             Button(onClick = {
                 if (players.value != null) {
                     FileDataManager.writePlayers(
@@ -87,9 +86,6 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                     containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.saveData))
             }
-        }
-        var searchQuery = remember { mutableStateOf("") }
-        Column {
             if (isTeams) {
                 /*TextField(value = searchQuery, onValueChange = {
                     searchQuery.value = searchQuery
