@@ -194,7 +194,7 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: Enums.Posse
             color = OrangeYellowD
         )
 
-        LazyColumn(modifier = Modifier.height(80.dp)) {
+        LazyColumn(modifier = Modifier.height(70.dp)) {
             items(matchModel.marcatori.filter { it.possesso == position }) {
                 Text(text = it.minute.toString() + "' " + UIHelper.minifiyName(it.text), fontSize = 10.sp)
             }
@@ -208,7 +208,7 @@ fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enum
     Column(modifier = modifier) {
         val coach = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.coach else viewModel.awayTeam.value?.coach
         coach?.let {
-            Text(text = SportAlbumApplication.instance.getString(R.string.coach) + " " + coach, fontSize = 10.sp,  maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = SportAlbumApplication.instance.getString(R.string.coach) + " " + UIHelper.minifiyName(coach), fontSize = 10.sp,  maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         LazyColumn {
             val players = if (position == Enums.Possesso.HOME) viewModel.homeEleven.value else viewModel.awayEleven.value
@@ -218,7 +218,7 @@ fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enum
                     .padding(2.dp)
                     .background(UIHelper.getColorByString(bgColor))
                     .fillMaxWidth(), color = UIHelper.getTeamTextColor(bgColor ?: ""))
-                Spacer(modifier = Modifier.height(1.dp))
+                Spacer(modifier = Modifier.height(0.5.dp))
             }
 
         }

@@ -163,14 +163,14 @@ class MatchViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 val list = getPlayersByTeamLegendUC.getPlayers(homeTeam.value!!)
                 withContext(Dispatchers.Main) {
-                    _homeRoster.value = list.toMutableList()
+                    _homeRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                     initOnFieledOrBench(Enums.Possesso.HOME)
                 }
             }.invokeOnCompletion {
                 viewModelScope.launch(Dispatchers.IO) {
                     val list = getPlayersByTeamLegendUC.getPlayers(awayTeam.value!!)
                     withContext(Dispatchers.Main) {
-                        _awayRoster.value = list.toMutableList()
+                        _awayRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                         Log.i("BUPI", "INIT ROSTER")
                         awayRoster.value?.forEach {
                             Log.i("BUPI", it. name)
@@ -324,6 +324,7 @@ class MatchViewModel @Inject constructor(
             Enums.Fase.ATTACCO -> MatchUC().attacco(matchModel.value)
             Enums.Fase.CONCLUSIONE -> MatchUC().conclusione(matchModel.value)
             Enums.Fase.PUNIZIONE -> MatchUC().punizione(matchModel.value)
+            Enums.Fase.RIGORE -> MatchUC().rigoreDiretto(matchModel.value)
             else -> MatchUC().centrocampo(matchModel.value)
         }
 
