@@ -30,7 +30,7 @@ class TeamAlbumViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 val list = getPlayersByTeamLegendUC.getPlayers(team)
                 withContext(Dispatchers.Main) {
-                    players.value = list
+                    players.value = list.sortedWith(compareBy<PlayerModel> { it.roleLineUp }.thenByDescending { it.valueleg })
                 }
             }
         }

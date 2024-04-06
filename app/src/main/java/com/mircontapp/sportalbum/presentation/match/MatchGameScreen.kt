@@ -107,6 +107,7 @@ fun Match(matchViewModel: MatchViewModel) {
             Column(modifier = Modifier
                 .weight(0.3f)
                 .padding(2.dp), horizontalAlignment = CenterHorizontally) {
+                Spacer(modifier = Modifier.height(8.dp))
                 Image(
                     painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.giocatore)),
                     contentDescription = "Team icon",
@@ -115,6 +116,7 @@ fun Match(matchViewModel: MatchViewModel) {
                 )
                 val idDrawable = UIHelper.getDrawableId(matchModel.value.coprotagonista ?: "", R.drawable.giocatore)
                 if (idDrawable != R.drawable.giocatore) {
+                    Spacer(modifier = Modifier.height(8.dp))
                     Image(
                         painter = painterResource(idDrawable),
                         contentDescription = "Team icon",
