@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -50,17 +52,27 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
 
         Row {
            Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.TEAMS },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isTeams) OrangeYellowD else Color.Blue, contentColor = if (isTeams) Color.Black else Color.White)) {
-                Text(text = SportAlbumApplication.instance.getString(R.string.teams))
+               shape = RoundedCornerShape(2.dp),
+               colors = ButtonDefaults.buttonColors(containerColor = if (isTeams) OrangeYellowD else Color.Blue, contentColor = if (isTeams) Color.Black else Color.White)) {
+               Text(text = SportAlbumApplication.instance.getString(R.string.teams))
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(4.dp))
             Button(onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
+                shape = RoundedCornerShape(2.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.playerList))
             }
-            Spacer(modifier = Modifier.width(8.dp))
+        }
+
+        Row {
+            /*var searchQuery = remember { mutableStateOf("") }
+            TextField(value = searchQuery, onValueChange = {
+                searchQuery.value = searchQuery
+                viewModel.filterTeams(searchQuery)
+            })*/
+
+
             Button(onClick = {
                 if (isPlayers) {
                     navController.navigate(NavigationItem.EditPlayer.route)
@@ -70,11 +82,7 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
             }) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.newItem))
             }
-
-        }
-
-        var searchQuery = remember { mutableStateOf("") }
-        Column {
+            Spacer(modifier = Modifier.width(8.dp))
             Button(onClick = {
                 if (players.value != null) {
                     FileDataManager.writePlayers(
@@ -86,12 +94,13 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                     containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                 Text(text = SportAlbumApplication.instance.getString(R.string.saveData))
             }
-            if (isTeams) {
-                /*TextField(value = searchQuery, onValueChange = {
-                    searchQuery.value = searchQuery
-                    viewModel.filterTeams(searchQuery)
+        }
 
-                })*/
+
+        Column {
+
+            if (isTeams) {
+
                 teams.value.let {
                     TeamsGrid(
                         TeamsState(
