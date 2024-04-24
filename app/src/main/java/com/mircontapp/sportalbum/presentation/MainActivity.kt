@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                             .fillMaxWidth()
                             .fillMaxHeight(),
-                        verticalArrangement = Arrangement.Center,
+                        verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         NavGraph(navController = navController, mainViewModel = mainViewModel)

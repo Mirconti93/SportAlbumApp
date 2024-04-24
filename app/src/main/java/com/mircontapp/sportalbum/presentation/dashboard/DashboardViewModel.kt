@@ -1,7 +1,6 @@
 package com.mircontapp.sportalbum.presentation.dashboard
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
@@ -16,12 +15,14 @@ import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.enums.EnumEntries
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
@@ -37,10 +38,18 @@ class DashboardViewModel @Inject constructor(
     private var allTeams: List<TeamModel> = emptyList()
     private var allPlayers: List<PlayerModel> = emptyList()
 
+    private val _searchUIState = MutableStateFlow(SearchUIState(false, null))
+    val searchUIState: StateFlow<SearchUIState> get() = _searchUIState
+
     private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
-    val teams: StateFlow<List<TeamModel>> get() = _teams
+    val teams = searchUIState.combine(_teams) { searchUIState, teams ->
+        filterTeams(searchUIState.searchingText)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _teams.value)
+
     private val _players = MutableStateFlow<List<PlayerModel>>(emptyList())
-    val players: StateFlow<List<PlayerModel>> get() = _players
+    val players = searchUIState.combine(_players) { searchUIState, players ->
+        filterPlayers(searchUIState.searchingText)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _players.value)
 
     val team = mutableStateOf<TeamModel?>(null)
     val player = mutableStateOf<PlayerModel?>(null)
@@ -50,8 +59,6 @@ class DashboardViewModel @Inject constructor(
     enum class SelectionType { PLAYERS, TEAMS }
     enum class UpdateType { NEW, UPDATE }
 
-    private val _editUIState = MutableStateFlow(EditUIState(false))
-    val editUIState: StateFlow<EditUIState> get() = _editUIState
 
     init {
         loadTeams()
@@ -100,25 +107,31 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    fun showTeamsSelection(visible: Boolean) {
-        _editUIState.update { current -> current.copy(visible) }
+    fun searchVisibility(visible: Boolean) {
+        _searchUIState.update { current -> current.copy(teamSelectionVisible = visible, searchingText = null) }
     }
 
-    fun filterTeams(text: String) {
+    fun onSearch(text: String) {
+        _searchUIState.update { current -> current.copy(teamSelectionVisible = _searchUIState.value.teamSelectionVisible, searchingText = text) }
+    }
+
+    fun filterTeams(text: String?) : List<TeamModel> {
+        if (text.isNullOrEmpty()) return allTeams
         var teams = allTeams.filter { it.name.contains(text) || it.area?.name?.contains(text) ?: false  }
         if (teams.isNullOrEmpty()) {
             teams = allTeams
         }
-        _teams.value = teams
+        return teams
     }
 
-    fun filterPlayers(text: String) {
+    fun filterPlayers(text: String?) : List<PlayerModel> {
+        if (text.isNullOrEmpty()) return allPlayers
         var players = allPlayers.filter { it.name.contains(text) || it.team?.contains(text) ?: false  }
         if (players.isNullOrEmpty()) {
             players = allPlayers
         }
-        _players.value = players
+        return players
     }
 
-    data class EditUIState(var teamSelectionVisible: Boolean)
+    data class SearchUIState(var teamSelectionVisible: Boolean, var searchingText: String?)
 }

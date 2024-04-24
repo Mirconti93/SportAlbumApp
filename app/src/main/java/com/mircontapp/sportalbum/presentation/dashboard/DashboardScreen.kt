@@ -1,16 +1,22 @@
 package com.mircontapp.sportalbum.presentation.dashboard
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -36,14 +42,16 @@ import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.ui.theme.LightBlue
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 
+@ExperimentalMaterial3Api
 @Composable
 fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) {
     val viewModel: DashboardViewModel = hiltViewModel()
-    Column {
+    Column(verticalArrangement = Arrangement.Top) {
         val isTeams = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)
         val isPlayers = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.PLAYERS)
 
@@ -66,12 +74,6 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         }
 
         Row {
-            /*var searchQuery = remember { mutableStateOf("") }
-            TextField(value = searchQuery, onValueChange = {
-                searchQuery.value = searchQuery
-                viewModel.filterTeams(searchQuery)
-            })*/
-
 
             Button(onClick = {
                 if (isPlayers) {
@@ -98,9 +100,18 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
 
 
         Column {
+            val searchUIState = viewModel.searchUIState.collectAsState()
+            TextField(value = searchUIState.value.searchingText ?: "",
+                onValueChange = { newValue -> viewModel.onSearch(newValue) },
+                modifier = Modifier.fillMaxWidth().width(32.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.LightGray, // Cambia il colore dello sfondo
+                    textColor = Color.White// Cambia il colore del testo
+                ),
+                label = {Text(SportAlbumApplication.instance.getString(R.string.search))}
+            )
 
             if (isTeams) {
-
                 teams.value.let {
                     TeamsGrid(
                         TeamsState(
@@ -116,7 +127,6 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
 
             } else {
 
-                //TextField(value = viewModel.playerSearchText, onValueChange = {viewModel.filterPlayers(it)})
                 PlayersShortList(
                     PlayersState(
                         players.value,

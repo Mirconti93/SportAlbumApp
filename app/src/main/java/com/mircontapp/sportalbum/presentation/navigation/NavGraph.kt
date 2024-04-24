@@ -1,5 +1,6 @@
 package com.mircontapp.sportalbum.presentation.navigation
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -13,7 +14,7 @@ import com.mircontapp.sportalbum.presentation.match.MatchGameScreen
 import com.mircontapp.sportalbum.presentation.match.MatchStartScreen
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
-
+@ExperimentalMaterial3Api
 @Composable
 fun NavGraph(navController: NavHostController, mainViewModel: MainViewModel){
     NavHost(
