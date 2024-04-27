@@ -13,8 +13,8 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 
 
 class DatabaseDataSource : AlbumDataSource {
-    val players: MutableList<PlayerModel> = ArrayList()
-    val teams: MutableList<TeamModel> = ArrayList()
+    private val players: MutableList<PlayerModel> = ArrayList()
+    private val teams: MutableList<TeamModel> = ArrayList()
     val database: AppDatabase?
 
     init {
