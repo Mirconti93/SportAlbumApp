@@ -1,6 +1,7 @@
 package com.mircontapp.sportalbum.presentation.dashboard
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,6 +49,7 @@ import com.mircontapp.sportalbum.presentation.album.PlayersShortList
 import com.mircontapp.sportalbum.presentation.album.PlayersState
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
+import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
@@ -68,6 +71,8 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         val players = viewModel.players.collectAsState()
         val teams = viewModel.teams.collectAsState()
 
+        Text(SportAlbumApplication.instance.getString(R.string.edit), textAlign = TextAlign.Center)
+
         Row {
             TabRow(selectedTabIndex = viewModel.selectionType.value.ordinal) {
                 Tab(selected = isTeams,
@@ -86,12 +91,12 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         val searchUIState = viewModel.searchUIState.collectAsState()
         TextField(value = searchUIState.value.searchingText ?: "",
             onValueChange = { newValue -> viewModel.onSearch(newValue) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().border(1.dp, color = BlueD, shape=RoundedCornerShape(4.dp)).padding(2.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = LightBlue, // Cambia il colore dello sfondo
                 textColor = Color.White// Cambia il colore del testo
             ),
-            textStyle = TextStyle(fontSize = 14.sp),
+            textStyle = TextStyle(fontSize = 14.sp, lineHeight = 16.sp),
             leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "") },
             label = { Text(SportAlbumApplication.instance.getString(R.string.search)) }
         )
@@ -143,9 +148,17 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                     onPlayerClickHandler = object : OnPlayerClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
                             mainViewModel.playerModel = playerModel
+                            navController.navigate(NavigationItem.Sticker.route)
+                        }
+                    },
+                    onEditClickHandler = object : OnEditClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            mainViewModel.playerModel = playerModel
                             navController.navigate(NavigationItem.EditPlayer.route)
                         }
-                    })
+                    }
+                ),
+
             )
 
         }

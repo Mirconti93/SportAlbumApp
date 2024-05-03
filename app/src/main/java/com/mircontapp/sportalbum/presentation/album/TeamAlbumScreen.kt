@@ -24,6 +24,7 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
@@ -53,10 +54,17 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
                     object : OnPlayerClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
                             mainViewModel.playerModel = playerModel
+                            navController.navigate(NavigationItem.Sticker.route)
+                        }
+                    },
+                    object : OnEditClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            mainViewModel.playerModel = playerModel
                             navController.navigate(NavigationItem.EditPlayer.route)
                         }
-                    }
-                )
+                    },
+
+                    )
             )
         }
 

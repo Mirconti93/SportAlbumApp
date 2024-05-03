@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.mircontapp.sportalbum.presentation.album.AlbumScreen
+import com.mircontapp.sportalbum.presentation.album.StickerScreen
 import com.mircontapp.sportalbum.presentation.album.TeamAlbumScreen
 import com.mircontapp.sportalbum.presentation.dashboard.DashboardScreen
 import com.mircontapp.sportalbum.presentation.dashboard.EditPlayerScreen
@@ -35,6 +36,9 @@ fun NavGraph(navController: NavHostController, mainViewModel: MainViewModel){
         }
         composable(route = NavigationItem.TeamAlbum.route){
             TeamAlbumScreen(navController = navController, mainViewModel)
+        }
+        composable(route = NavigationItem.Sticker.route){
+            StickerScreen(navController = navController, mainViewModel)
         }
         composable(route = NavigationItem.EditTeam.route){
             EditTeamScreen(navController = navController, mainViewModel)

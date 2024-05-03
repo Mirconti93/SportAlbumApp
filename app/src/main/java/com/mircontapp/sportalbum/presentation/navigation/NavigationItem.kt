@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class NavigationItem(var route: String, var icon: ImageVector, var title: String) {
     object Album : NavigationItem("album", Icons.Default.Home, "Album")
     object TeamAlbum : NavigationItem("team_album", Icons.Default.Home, "Album")
+    object Sticker : NavigationItem("sticker", Icons.Default.Home, "Album")
     object Dashboard : NavigationItem("dashboard", Icons.Default.List, "Dashboard")
     object Games : NavigationItem("games", Icons.Default.Favorite, "Games")
     object EditTeam : NavigationItem("edit_team", Icons.Default.List, "Edit team")

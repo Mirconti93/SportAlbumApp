@@ -33,6 +33,7 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
@@ -47,7 +48,7 @@ fun PlayersGrid(playersState: PlayersState) {
     ) {
         playersState.players.forEach {
             item {
-                PlayerItem(it, modifier = Modifier
+                PlayerItem(it, onEditClickHandler = playersState.onEditClickHandler, modifier = Modifier
                     .padding(8.dp)
                     .shadow(2.dp)
                     .clickable {
@@ -60,7 +61,7 @@ fun PlayersGrid(playersState: PlayersState) {
 }
 
 @Composable
-fun PlayerItem(player: PlayerModel, modifier: Modifier) {
+fun PlayerItem(player: PlayerModel, onEditClickHandler: OnEditClickHandler, modifier: Modifier) {
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -81,7 +82,7 @@ fun PlayerItem(player: PlayerModel, modifier: Modifier) {
                 contentScale = ContentScale.FillHeight
             )
             Text(modifier = Modifier, text = player.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Row(modifier = Modifier.padding(8.dp, 2.dp)) {
+            Row(modifier = Modifier.padding(8.dp, 2.dp).clickable { onEditClickHandler.onPlayerClick(player) }) {
                 Text(modifier = Modifier.weight(1f), text = SportAlbumApplication.instance.getString(player.role.code), color = OrangeYellowD)
                 Text(modifier = Modifier, text = player.valueleg.toString(), color = OrangeYellowD)
             }
@@ -92,4 +93,4 @@ fun PlayerItem(player: PlayerModel, modifier: Modifier) {
 }
 
 @Stable
-data class PlayersState(val players: List<PlayerModel>, val onPlayerClickHandler: OnPlayerClickHandler)
+data class PlayersState(val players: List<PlayerModel>, val onPlayerClickHandler: OnPlayerClickHandler, val onEditClickHandler: OnEditClickHandler)
