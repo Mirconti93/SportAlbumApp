@@ -325,7 +325,6 @@ class MatchViewModel @Inject constructor(
             Enums.Fase.CONCLUSIONE -> MatchUC().conclusione(matchModel.value)
             Enums.Fase.PUNIZIONE -> MatchUC().punizione(matchModel.value)
             Enums.Fase.RIGORE -> MatchUC().rigoreDiretto(matchModel.value)
-            else -> MatchUC().centrocampo(matchModel.value)
         }
 
         matchModel.value = MatchModel(
@@ -338,8 +337,8 @@ class MatchViewModel @Inject constructor(
             match.fase,
             match.evento,
             match.isLegend,
-            homeEleven.value.toMutableList(),
-            awayEleven.value.toMutableList(),
+            updateEnergy(homeEleven.value),
+            updateEnergy(awayEleven.value),
             match.comment,
             match.protagonista,
             match.coprotagonista,
@@ -349,6 +348,15 @@ class MatchViewModel @Inject constructor(
     }
 
 
+}
+
+private fun updateEnergy(players: List<PlayerMatchModel>) : MutableList<PlayerMatchModel>{
+    return players.toMutableList().also { list->
+        list.forEach {
+            it.energy -= 1 - (it.fis/200.0) - ((it.fis/200.0)*Math.random())
+            //Log.i("BUPI MIN PLAYED", it.name + " " + it.energy.toString())
+        }
+    }
 }
 
 

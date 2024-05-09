@@ -40,9 +40,7 @@ fun StickerScreen(navController: NavController, mainViewModel: MainViewModel) {
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(32.dp, 8.dp),
+                modifier = Modifier.fillMaxWidth().padding(32.dp, 8.dp),
                 contentScale = ContentScale.FillWidth
             )
             Row(modifier = Modifier.padding(32.dp, 2.dp), verticalAlignment = Alignment.CenterVertically) {

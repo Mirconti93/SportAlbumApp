@@ -28,4 +28,5 @@ data class PlayerMatchModel(
     var roleMatch: Enums.RoleLineUp,
     var isEspulso: Boolean,
     var isAmmonito: Boolean,
+    var energy: Double,
 )

@@ -127,7 +127,8 @@ class DataMapper {
                 por = player.por?: 50,
                 roleMatch = player.roleLineUp,
                 isAmmonito = false,
-                isEspulso = false
+                isEspulso = false,
+                energy = 100.0
             )
         }
     }

@@ -24,12 +24,7 @@ class MatchUC() {
 
         //centrocampo azione offensiva
         for (attacker in attackers) {
-            var partecipa = Math.random() * 100.0
-            if (partecipa < matchModel.minute / 5.0 - attacker.fis / 10.0
-            ) {
-                partecipa = 0.0
-            }
-            if (partecipa > attacker.roleMatch.getPartCen() && !attacker.isAmmonito) {
+            if (partecipa(attacker, attacker.roleMatch.getPartCen())) {
                 pot = attacker.tec / 2.0 + attacker.dri / 4.0 + attacker.vel / 4.0
                 fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
                 dado = fixed / 2.0 + Math.random() * pot / 2.0
@@ -45,11 +40,7 @@ class MatchUC() {
         var protagonistaD = ""
         var cenD = -1.0
         for (defender in defenders) {
-            var partecipa = Math.random() * 100.0
-            if (partecipa < matchModel.minute * 2 - defender.fis) {
-                partecipa = 0.0
-            }
-            if (partecipa > defender.roleLineUp.getPartCen() && !defender.isEspulso) {
+            if (partecipa(defender, defender.roleLineUp.getPartCen())) {
                 pot = defender.dif / 2.0 + defender.bal / 4.0 + defender.vel / 4.0
                 fixed = if (matchModel.isLegend) defender.valueleg?.toDouble() ?: 0.0 else defender.value?.toDouble() ?: 0.0
                 dado = fixed / 2.0 + Math.random() * pot / 2.0
@@ -124,9 +115,7 @@ class MatchUC() {
         val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
 
         for (attacker in attackers) {
-            val partecipa = Math.random() * 100.0
-            if (partecipa > attacker.roleMatch.partAtt && !attacker.isEspulso) {
-
+            if (partecipa(attacker, attacker.roleMatch.getPartAtt())) {
                 pot = attacker.att / 4.0 + attacker.dri / 4.0 + attacker.tec / 4.0 + attacker.vel / 4.0
                 val fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
                 dado = fixed * 0.25 + Math.random() * pot * 0.75
@@ -142,12 +131,7 @@ class MatchUC() {
         var protagonistaD = ""
         var difD = -1.0
         for (defender in defenders) {
-            var partecipa = Math.random() * 100.0
-            if (partecipa < matchModel.minute / 10.0) {
-                partecipa = 0.0
-            }
-            if (partecipa > defender.roleMatch.partDif && !defender.isEspulso) {
-
+            if (partecipa(defender, defender.roleMatch.getPartDif())) {
                 pot = defender.dif / 4.0 + defender.bal / 4.0 + defender.fis / 4.0 + defender.vel / 4.0
                 val fixed = if (matchModel.isLegend) defender.valueleg?.toDouble() ?: 0.0 else defender.value?.toDouble() ?: 0.0
                 dado = fixed * 0.25 + pot * 0.25 + Math.random() * pot * 0.5
@@ -238,11 +222,7 @@ class MatchUC() {
         var dado = 0.0
         var goleador : PlayerMatchModel? = null
         for (attacker in attackers) {
-            var partecipa = Math.random() * 100.0
-            if (partecipa < matchModel.minute / 10.0) {
-                partecipa = 0.0
-            }
-            if (partecipa > attacker.roleMatch.partfin && !attacker.isEspulso) {
+            if (partecipa(attacker, attacker.roleMatch.getPartfin())) {
 
                 pot = attacker.fin / 2.0 + attacker.att / 4.0 + attacker.vel / 4.0
                 val fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
@@ -250,6 +230,7 @@ class MatchUC() {
                 Log.i("BUPIAZIONE:", "fin att "+ attacker.name + " " +  dado)
 
                 if (dado > finA) {
+                    Log.i("GOLEADOR:", "goleador:"+ goleador?.name + " " +  dado)
                     finA = dado
                     protagonistaA = attacker.name
                     goleador = attacker
@@ -273,7 +254,7 @@ class MatchUC() {
         }
         Log.i("BUPIAZIONE:", "fin dif " +  difPower)
 
-        val portiere = defenders.findLast { playerMatchModel -> playerMatchModel.roleMatch == Enums.RoleLineUp.PTC} ?: defenders.get(0)
+        val portiere = defenders.find { playerMatchModel -> playerMatchModel.roleMatch == Enums.RoleLineUp.PTC} ?: defenders.get(0)
         pot = portiere.por / 2.0 + portiere.bal / 4.0 + portiere.dif / 4.0
 
         val fixed = (if (matchModel.isLegend) portiere.valueleg else portiere.value) ?: 0
@@ -282,6 +263,7 @@ class MatchUC() {
 
         val context: Context = SportAlbumApplication.instance.applicationContext
         var messaggio = ""
+        Log.i("TENTATIVO:", "parata:"+ parata + " finA:" +  finA)
         val diff = parata - finA
 
         //segna l'attaccante
@@ -486,8 +468,7 @@ class MatchUC() {
         var protagonistaD = ""
         var difD = -1.0
         for (defender in defenders) {
-            val partecipa = Math.random() * 100.0
-            if (partecipa > defender.roleLineUp.getPartCen() && !defender.isEspulso) {
+            if (partecipa(defender, defender.roleLineUp.getPartCen())) {
                 pot = defender.bal * 0.5 + defender.dif * 0.25 + defender.fis * 0.25
                 fix = PlayerHelper.getValue(defender, matchModel.isLegend)
                 dado = fix * 0.75 + Math.random() * 0.25
@@ -502,9 +483,7 @@ class MatchUC() {
         var messaggio: String? = ""
         if (diff < 0) {
             for (attacker in attackers) {
-                val partecipa: Double =
-                    attacker.roleLineUp.getPartfin() * 0.5 + Math.random() * 50.0
-                if (partecipa > attacker.roleLineUp.getPartfin() && !attacker.isEspulso) {
+                if (partecipa(attacker, attacker.roleLineUp.getPartfin())) {
                     pot = attacker.bal * 0.5 + attacker.att * 0.25 + attacker.fin * 0.25
                     fix = PlayerHelper.getValue(attacker, matchModel.isLegend)
                     dado = fix * 0.5 + Math.random() * 0.5
@@ -669,7 +648,7 @@ class MatchUC() {
         return matchModel
     }
 
-    fun findTiratore(playerModels: List<PlayerMatchModel>): Int {
+    private fun findTiratore(playerModels: List<PlayerMatchModel>): Int {
         var index = 0
         var mRig = 0.0
         for (i in playerModels.indices) {
@@ -682,9 +661,17 @@ class MatchUC() {
         return index
     }
 
-    fun findGoalkeeper(playerModels: List<PlayerMatchModel>): PlayerMatchModel {
+    private fun findGoalkeeper(playerModels: List<PlayerMatchModel>): PlayerMatchModel {
         return playerModels.find { PlayerHelper.isPortiere(it)} ?: playerModels.get(0)
     }
+
+    private fun partecipa(playerMatchModel: PlayerMatchModel, partRole: Double): Boolean {
+        if (playerMatchModel.isEspulso) return false
+        return (Math.random()*100.0).let {
+            return (it < playerMatchModel.energy && it > partRole)
+        }
+    }
+
 
 
 }
