@@ -1,11 +1,12 @@
 package com.mircontapp.sportalbum.presentation.match
 
-import MatchUC
+import AttaccoUC
+import CentrocampoUC
+import ConclusioneUC
+import PunizioneUC
+import RigoreUC
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,15 +23,9 @@ import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsSuperlegaUC
-import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
-import com.mircontapp.sportalbum.presentation.ui.theme.Green
-import com.mircontapp.sportalbum.presentation.ui.theme.LightGray
-import com.mircontapp.sportalbum.presentation.ui.theme.PaleYellow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -320,11 +315,11 @@ class MatchViewModel @Inject constructor(
 
     fun nextAction() {
         val match = when (matchModel.value.fase) {
-            Enums.Fase.CENTROCAMPO -> MatchUC().centrocampo(matchModel.value)
-            Enums.Fase.ATTACCO -> MatchUC().attacco(matchModel.value)
-            Enums.Fase.CONCLUSIONE -> MatchUC().conclusione(matchModel.value)
-            Enums.Fase.PUNIZIONE -> MatchUC().punizione(matchModel.value)
-            Enums.Fase.RIGORE -> MatchUC().rigoreDiretto(matchModel.value)
+            Enums.Fase.CENTROCAMPO -> CentrocampoUC().centrocampo(matchModel.value)
+            Enums.Fase.ATTACCO -> AttaccoUC().attacco(matchModel.value)
+            Enums.Fase.CONCLUSIONE -> ConclusioneUC().conclusione(matchModel.value)
+            Enums.Fase.PUNIZIONE -> PunizioneUC().punizione(matchModel.value)
+            Enums.Fase.RIGORE -> RigoreUC().rigoreDiretto(matchModel.value)
         }
 
         matchModel.value = MatchModel(

@@ -95,7 +95,9 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = LightBlue, // Cambia il colore dello sfondo
                 textColor = Color.White// Cambia il colore del testo
+
             ),
+            shape = RoundedCornerShape(4.dp),
             textStyle = TextStyle(fontSize = 14.sp, lineHeight = 16.sp),
             leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "") },
             label = { Text(SportAlbumApplication.instance.getString(R.string.search)) }
