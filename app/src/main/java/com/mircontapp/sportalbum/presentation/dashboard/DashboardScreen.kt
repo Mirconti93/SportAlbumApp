@@ -71,19 +71,21 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         val players = viewModel.players.collectAsState()
         val teams = viewModel.teams.collectAsState()
 
-        Text(SportAlbumApplication.instance.getString(R.string.edit), textAlign = TextAlign.Center)
+        Text(SportAlbumApplication.instance.getString(R.string.dashboard), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(2.dp, 8.dp))
+
+
 
         Row {
-            TabRow(selectedTabIndex = viewModel.selectionType.value.ordinal) {
+            TabRow(selectedTabIndex = viewModel.selectionType.value.ordinal, modifier = Modifier.height(40.dp)) {
                 Tab(selected = isTeams,
                     onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.TEAMS },
                     text = {Text(SportAlbumApplication.instance.getString(R.string.teams), color = if (isTeams) Color.Black else Color.White)},
-                    modifier = Modifier.background(color = if (isTeams) OrangeYellowD else BlueD)
+                    modifier = Modifier.background(color = if (isTeams) OrangeYellowD else BlueD).height(40.dp)
                 )
                 Tab(selected = isPlayers,
                     onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
                     text = {Text(SportAlbumApplication.instance.getString(R.string.playerList), color = if (isPlayers) Color.Black else Color.White)},
-                    modifier = Modifier.background(color = if (isPlayers) OrangeYellowD else BlueD)
+                    modifier = Modifier.background(color = if (isPlayers) OrangeYellowD else BlueD).height(40.dp)
                 )
             }
         }
@@ -91,20 +93,21 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         val searchUIState = viewModel.searchUIState.collectAsState()
         TextField(value = searchUIState.value.searchingText ?: "",
             onValueChange = { newValue -> viewModel.onSearch(newValue) },
-            modifier = Modifier.fillMaxWidth().border(1.dp, color = BlueD, shape=RoundedCornerShape(4.dp)).padding(2.dp),
+            modifier = Modifier.fillMaxWidth().border(1.dp, color = BlueD, shape=RoundedCornerShape(4.dp)),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = LightBlue, // Cambia il colore dello sfondo
-                textColor = Color.White// Cambia il colore del testo
-
+                textColor = Color.White,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent// Cambia il colore del testo
             ),
             shape = RoundedCornerShape(4.dp),
             textStyle = TextStyle(fontSize = 14.sp, lineHeight = 16.sp),
             leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "") },
-            label = { Text(SportAlbumApplication.instance.getString(R.string.search)) }
+            //label = { Text(SportAlbumApplication.instance.getString(R.string.search)) }
         )
 
         Row {
-
             Button(onClick = {
                 if (isPlayers) {
                     navController.navigate(NavigationItem.EditPlayer.route)
@@ -143,7 +146,6 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
             }
 
         } else {
-
             PlayersShortList(
                 PlayersState(
                     players.value,
@@ -162,11 +164,6 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                 ),
 
             )
-
         }
-
-
-
     }
-
 }
