@@ -93,7 +93,7 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         val searchUIState = viewModel.searchUIState.collectAsState()
         TextField(value = searchUIState.value.searchingText ?: "",
             onValueChange = { newValue -> viewModel.onSearch(newValue) },
-            modifier = Modifier.fillMaxWidth().border(1.dp, color = BlueD, shape=RoundedCornerShape(4.dp)),
+            modifier = Modifier.fillMaxWidth().border(1.dp, color = BlueD, shape=RoundedCornerShape(4.dp)).height(56.dp),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = LightBlue, // Cambia il colore dello sfondo
                 textColor = Color.White,

@@ -96,9 +96,7 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                         }
                     }
                 })
-
                 Text(text = SportAlbumApplication.instance.getString(R.string.vs))
-
                 TeamSelected(modifier = Modifier.weight(1f),
                     team = viewModel.awayTeam.value, object : OnClickHandler {
                     override fun onClick() {
@@ -108,7 +106,6 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                         }
                     }
                 })
-                
                 Button(onClick = {
                     if (viewModel.homeTeam.value != null && viewModel.awayTeam.value != null) {
                         mainViewModel.homeTeam = viewModel.homeTeam.value!!
@@ -121,7 +118,6 @@ fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel)
                     Text(text = SportAlbumApplication.instance.getString(R.string.next))
                 }
             }
-
 
         }
 
