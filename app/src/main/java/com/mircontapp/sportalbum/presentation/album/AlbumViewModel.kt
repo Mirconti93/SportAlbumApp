@@ -21,7 +21,6 @@ class AlbumViewModel @Inject constructor(
     val teamsFromAreaOrderedUC: GetTeamsFromAreaUC,
 ) : ViewModel() {
     val teams = MutableStateFlow<List<TeamModel>>(emptyList())
-    val showSelection = mutableStateOf(true)
 
     fun getTeamsFromArea(area: Enums.Area) {
         viewModelScope.launch(Dispatchers.IO) {

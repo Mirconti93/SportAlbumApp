@@ -73,8 +73,6 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
 
         Text(SportAlbumApplication.instance.getString(R.string.dashboard), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(2.dp, 8.dp))
 
-
-
         Row {
             TabRow(selectedTabIndex = viewModel.selectionType.value.ordinal, modifier = Modifier.height(40.dp)) {
                 Tab(selected = isTeams,
