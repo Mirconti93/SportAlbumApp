@@ -99,8 +99,8 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
                             DescriptionText(label = SportAlbumApplication.instance.getString(R.string.coach), value = team.coachlegend)
                         }
                     }
-                    Spacer(modifier = Modifier.width(20.dp).background(color = UIHelper.getColorByString(team.color1)))
-                    Spacer(modifier = Modifier.width(20.dp).background(color = UIHelper.getColorByString(team.color2)))
+                    Spacer(modifier = Modifier.height(1.dp).background(color = UIHelper.getColorByString(team.color1)).fillMaxWidth())
+                    Spacer(modifier = Modifier.height(1.dp).background(color = UIHelper.getColorByString(team.color2)).fillMaxWidth())
                 }
             }
         }
