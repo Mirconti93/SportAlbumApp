@@ -138,6 +138,7 @@ class PunizioneUC() {
         val context: Context = SportAlbumApplication.instance.applicationContext
         var messaggio: String? = ""
         if (diff < 0) {
+            finA = -1.0
             for (attacker in attackers) {
                 if (MatchHelper.partecipa(attacker, attacker.roleLineUp.getPartfin())) {
                     pot = attacker.bal * 0.5 + attacker.att * 0.25 + attacker.fin * 0.25

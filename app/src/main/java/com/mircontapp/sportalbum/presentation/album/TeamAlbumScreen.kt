@@ -76,14 +76,13 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
 
             ) {
                 Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
 
                     Text(modifier = Modifier, text = team.name, fontSize = 20.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
 
                     val idDrawable = UIHelper.getDrawableId(team.name, R.drawable.empty_logo)
                     Row(modifier = Modifier
-                        .padding(8.dp, 2.dp)
+                        .padding(8.dp, 8.dp)
                         .fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
                         Image(
                             painter = painterResource(idDrawable),
@@ -99,8 +98,8 @@ fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) 
                             DescriptionText(label = SportAlbumApplication.instance.getString(R.string.coach), value = team.coachlegend)
                         }
                     }
-                    Spacer(modifier = Modifier.height(1.dp).background(color = UIHelper.getColorByString(team.color1)).fillMaxWidth())
-                    Spacer(modifier = Modifier.height(1.dp).background(color = UIHelper.getColorByString(team.color2)).fillMaxWidth())
+                    Spacer(modifier = Modifier.height(4.dp).background(color = UIHelper.getColorByString(team.color1)).fillMaxWidth())
+                    Spacer(modifier = Modifier.height(4.dp).background(color = UIHelper.getColorByString(team.color2)).fillMaxWidth())
                 }
             }
         }
