@@ -141,8 +141,10 @@ fun Match(matchViewModel: MatchViewModel) {
                     val bckColor = if (comment.possesso == Enums.Possesso.HOME) matchViewModel.homeTeam.value?.color1 else matchViewModel.awayTeam.value?.color1
                     val textColor = UIHelper.getTeamTextColor(bckColor)
                     Text(text = "${comment.minute}' ${comment.text}", modifier = Modifier
-                        .fillMaxWidth().padding(8.dp, 2.dp)
-                        .background(UIHelper.getColorByString(bckColor), RoundedCornerShape(2.dp)), color = textColor)
+                        .fillMaxWidth()
+                        .background(UIHelper.getColorByString(bckColor), RoundedCornerShape(2.dp))
+                        .padding(8.dp, 2.dp),
+                        color = textColor)
                 }
                 if (it.size>1) {
                     Spacer(modifier = Modifier.height(2.dp))
@@ -150,8 +152,11 @@ fun Match(matchViewModel: MatchViewModel) {
                     val bckColor = if (comment.possesso == Enums.Possesso.HOME) matchViewModel.homeTeam.value?.color1 else matchViewModel.awayTeam.value?.color1
                     val textColor = UIHelper.getTeamTextColor(bckColor)
                     Text(text = "${comment.minute}' ${comment.text}", modifier = Modifier
-                        .fillMaxWidth().padding(8.dp, 2.dp)
-                        .background(UIHelper.getColorByString(bckColor), RoundedCornerShape(2.dp)), color = textColor)
+                        .fillMaxWidth()
+                        .background(UIHelper.getColorByString(bckColor), RoundedCornerShape(2.dp))
+                        .padding(8.dp, 2.dp),
+                        color = textColor)
+
                 }
 
             }
@@ -159,7 +164,6 @@ fun Match(matchViewModel: MatchViewModel) {
 
         Button(onClick = { matchViewModel.nextAction() }) {
             Text(text = SportAlbumApplication.instance.applicationContext.getString(R.string.next))
-
         }
 
 
