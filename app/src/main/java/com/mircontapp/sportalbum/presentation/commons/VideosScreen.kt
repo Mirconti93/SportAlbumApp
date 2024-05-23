@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -23,9 +24,14 @@ import kotlinx.coroutines.flow.forEach
 @Composable
 fun VideosScreen(navController: NavController, mainViewModel: MainViewModel) {
     Column {
+
         val videosViewModel: VideosViewModel = hiltViewModel();
-        Text(text = SportAlbumApplication.instance.getString(R.string.media), textAlign = TextAlign.Center, color = Color.White)
+
         mainViewModel.playerModel?.let {player->
+            LaunchedEffect((Unit), block = {
+                videosViewModel.getVideosByName(player.name)
+            })
+            Text(text = SportAlbumApplication.instance.getString(R.string.media), textAlign = TextAlign.Center, color = Color.White)
             Text(text = player.name, textAlign = TextAlign.Center, fontSize = 16.sp, color = OrangeYellowD)
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(1.dp),
