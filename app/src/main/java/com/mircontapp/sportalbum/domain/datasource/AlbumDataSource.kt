@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.data.datasource
+package com.mircontapp.sportalbum.domain.datasource
 
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel

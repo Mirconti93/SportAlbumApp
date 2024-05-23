@@ -2,18 +2,14 @@ package com.mircontapp.sportalbum
 
 import android.app.Application
 import android.util.Log
-import com.mircontapp.sportalbum.data.database.AppDatabase
-import com.mircontapp.sportalbum.data.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.data.datasource.AssetsDataSource
 import com.mircontapp.sportalbum.data.datasource.DatabaseDataSource
 import com.mircontapp.sportalbum.data.repository.PlayersRepositoryImpl
 import com.mircontapp.sportalbum.data.repository.TeamsRepositoryImpl
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltAndroidApp
 class SportAlbumApplication: Application() {
