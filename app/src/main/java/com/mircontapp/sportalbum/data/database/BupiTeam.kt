@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "bupi_team")
 class BupiTeam (
     @PrimaryKey val name: String,
-    var description: String
+    var area: String
 )
 
 

@@ -313,7 +313,7 @@ Dessena_Cagliari_8
 Deulofeu_Tenerife_1
 Di Criscio_Mambol_4
 Di Livio_Firenze_6
-Di Maria_Lisbona_1
+Di Maria_Madrid_1
 Di Meco_Marsiglia_2
 Di Michele_San Lorenzo_11
 Di Natale_Lainate_10
@@ -382,7 +382,7 @@ Ferdinand_Manchester_2
 Fermat_Lione_2
 Ferrante_Torino_11
 Ferrari_Genova_2
-Figo_Madrid_8
+Figo_Lisbona_8
 Filangeri_Pescara_2
 Fili_Torino_8
 Finzi_Niuppin_5

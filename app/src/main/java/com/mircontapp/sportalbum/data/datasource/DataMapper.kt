@@ -3,8 +3,12 @@ package com.mircontapp.sportalbum.data.datasource
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.commons.TeamHelper
+import com.mircontapp.sportalbum.data.database.BupiPlayer
+import com.mircontapp.sportalbum.data.database.BupiTeam
 import com.mircontapp.sportalbum.data.database.Player
 import com.mircontapp.sportalbum.data.database.Team
+import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
+import com.mircontapp.sportalbum.domain.models.BupiTeamModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
@@ -131,6 +135,26 @@ class DataMapper {
                 energy = 100.0
             )
         }
+
+        fun bupiPlayerFromEntity(bupiPlayer: BupiPlayer): BupiPlayerModel{
+            return BupiPlayerModel(bupiPlayer.name, bupiPlayer.team ?: "Free", bupiPlayer.role?.toIntOrNull())
+        }
+
+        fun entityFromBupiPlayer(bupiPlayerModel: BupiPlayerModel) : BupiPlayer {
+            return BupiPlayer(bupiPlayerModel.name, bupiPlayerModel.team, bupiPlayerModel.role.toString())
+        }
+
+        fun bupiTeamFromEntity(bupiTeam: BupiTeam): BupiTeamModel{
+            return BupiTeamModel(bupiTeam.name, bupiTeam.area)
+        }
+
+        fun entityFromBupiTeam(bupiTeamModel: BupiTeamModel) : BupiTeam {
+            return BupiTeam(bupiTeamModel.name, bupiTeamModel.area)
+        }
+
+
+
+
     }
 
 }

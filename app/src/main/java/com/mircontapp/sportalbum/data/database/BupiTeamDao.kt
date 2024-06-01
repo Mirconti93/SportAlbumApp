@@ -10,6 +10,9 @@ interface BupiTeamDao {
     @Insert
     fun insertAll(vararg teams: BupiTeam)
 
+    @Insert
+    fun insertAll(teams: List<BupiTeam>)
+
     @Delete
     fun delete(team: BupiTeam)
 

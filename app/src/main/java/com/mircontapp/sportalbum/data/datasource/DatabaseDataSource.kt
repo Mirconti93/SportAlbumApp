@@ -2,9 +2,13 @@ package com.mircontapp.sportalbum.data.datasource
 
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.data.database.AppDatabase
+import com.mircontapp.sportalbum.data.database.BupiPlayer
+import com.mircontapp.sportalbum.data.database.BupiTeam
 import com.mircontapp.sportalbum.data.database.Player
 import com.mircontapp.sportalbum.data.database.Team
 import com.mircontapp.sportalbum.domain.datasource.AlbumDataSource
+import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
+import com.mircontapp.sportalbum.domain.models.BupiTeamModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 
@@ -63,6 +67,18 @@ class DatabaseDataSource : AlbumDataSource {
         val playerEntities = ArrayList<Player>()
         players?.forEach { playerEntities.add(DataMapper.entityFromPlayerModel(it)) }
         database?.playerDao()?.insertAll(playerEntities)
+    }
+
+    fun insertAllBupiTeams(teams: List<BupiTeamModel>?) {
+        val teamsEntities = ArrayList<BupiTeam>()
+        teams?.forEach { teamsEntities.add(DataMapper.entityFromBupiTeam(it)) }
+        database?.bupiTeamDao()?.insertAll(teamsEntities)
+    }
+
+    fun insertAllBupiPlayers(players: List<BupiPlayerModel>?) {
+        val playerEntities = ArrayList<BupiPlayer>()
+        players?.forEach { playerEntities.add(DataMapper.entityFromBupiPlayer(it)) }
+        database?.bupiDao()?.insertAll(playerEntities)
     }
 
 

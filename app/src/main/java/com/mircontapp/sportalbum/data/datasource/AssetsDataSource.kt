@@ -5,6 +5,8 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.domain.datasource.AlbumDataSource
+import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
+import com.mircontapp.sportalbum.domain.models.BupiTeamModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import java.io.File
@@ -86,6 +88,25 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
             return TeamModel(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], PlayerHelper.findAreaEnum(fields[8]), Enums.Area.OTHER, false, fields[7], "", Enums.MatchModule.M442)
         } else {
             return TeamModel("Team", "", "", "", "", "", "", Enums.Area.OTHER,Enums.Area.OTHER,false,"",  "",Enums.MatchModule.M442)
+        }
+    }
+
+    fun bupiPlayerFactory(row: String) : BupiPlayerModel {
+        val fields = row.split("_")
+        if (fields.size >= 2) {
+            return BupiPlayerModel(fields[0], fields[1], fields[2].toIntOrNull())
+        } else {
+            return BupiPlayerModel("Team", "", 1)
+        }
+    }
+
+
+    fun bupiTeamFactory(row: String) : BupiTeamModel {
+        val fields = row.split("_")
+        if (fields.size >= 2) {
+            return BupiTeamModel(fields[0], fields[1])
+        } else {
+            return BupiTeamModel("Team", "")
         }
     }
 
