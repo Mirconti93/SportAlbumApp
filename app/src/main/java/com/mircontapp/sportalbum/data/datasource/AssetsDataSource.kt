@@ -5,6 +5,7 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.domain.datasource.AlbumDataSource
+import com.mircontapp.sportalbum.domain.datasource.BupiDataSource
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.BupiTeamModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
@@ -12,11 +13,13 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 import java.io.File
 
 
-class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
+class AssetsDataSource(val assets: AssetManager) : AlbumDataSource, BupiDataSource {
     val players: MutableList<PlayerModel> = ArrayList()
     val teams: MutableList<TeamModel> = ArrayList()
     val PLAYERS_FILE_NAME = "players.txt"
     val TEAMS_FILE_NAME = "teams.txt"
+    val BUPI_PLAYERS_FILE_NAME = "bupi.txt"
+    val BUPI_TEAMS_FILE_NAME = "bupi_teams.txt"
 
     override suspend fun fetchPlayers(): List<PlayerModel>? {
         assets?.open(PLAYERS_FILE_NAME)?.bufferedReader()?.forEachLine {
@@ -49,6 +52,38 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
         Log.i("BUPI", "Operation not available")
     }
     private fun readFileLines(fileName: String): MutableList<String> = File(fileName).bufferedReader().readLines().toMutableList()
+
+    override suspend fun fetchBupiPlayers(): List<BupiPlayerModel>? {
+        val list = ArrayList<BupiPlayerModel>()
+        assets?.open(BUPI_PLAYERS_FILE_NAME)?.bufferedReader()?.forEachLine {
+            list.add(bupiPlayerFactory(it))
+        }
+        return list
+    }
+
+    override suspend fun fetchBupiTeams(): List<BupiTeamModel>? {
+        val list = ArrayList<BupiTeamModel>()
+        assets?.open(BUPI_TEAMS_FILE_NAME)?.bufferedReader()?.forEachLine {
+            list.add(bupiTeamFactory(it))
+        }
+        return list
+    }
+
+    override suspend fun insertBupiPlayer(bupiPlayerModel: BupiPlayerModel) {
+        Log.i("BUPI", "Operation not available")
+    }
+
+    override suspend fun updateBupiPlayer(bupiPlayerModel: BupiPlayerModel) {
+        Log.i("BUPI", "Operation not available")
+    }
+
+    override suspend fun updateBupiTeam(bupiTeamModel: BupiTeamModel) {
+        Log.i("BUPI", "Operation not available")
+    }
+
+    override suspend fun insertBupiTeam(bupiTeamModel: BupiTeamModel) {
+        Log.i("BUPI", "Operation not available")
+    }
 
     fun playerFactory(row: String) : PlayerModel {
         val fields = row.split("_")
@@ -93,9 +128,11 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
 
     fun bupiPlayerFactory(row: String) : BupiPlayerModel {
         val fields = row.split("_")
-        if (fields.size >= 2) {
+        if (fields.size >= 3) {
             return BupiPlayerModel(fields[0], fields[1], fields[2].toIntOrNull())
-        } else {
+        } else if (fields.size == 2) {
+            return BupiPlayerModel(fields[0], fields[1], 1)
+        } else{
             return BupiPlayerModel("Team", "", 1)
         }
     }
@@ -109,10 +146,6 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource {
             return BupiTeamModel("Team", "")
         }
     }
-
-
-
-
 
 
 }

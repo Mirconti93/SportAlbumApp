@@ -4,6 +4,8 @@ import android.app.Application
 import android.util.Log
 import com.mircontapp.sportalbum.data.datasource.AssetsDataSource
 import com.mircontapp.sportalbum.data.datasource.DatabaseDataSource
+import com.mircontapp.sportalbum.data.repository.BupiPlayersRepositoryImpl
+import com.mircontapp.sportalbum.data.repository.BupiTeamsRepositoryImpl
 import com.mircontapp.sportalbum.data.repository.PlayersRepositoryImpl
 import com.mircontapp.sportalbum.data.repository.TeamsRepositoryImpl
 import dagger.hilt.android.HiltAndroidApp
@@ -25,6 +27,9 @@ class SportAlbumApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+
+        //insertToDB()
     }
 
     private fun insertToDB() {
@@ -37,9 +42,14 @@ class SportAlbumApplication: Application() {
             val players = repoP.getAllPlayers()
             Log.i("BUPI", "Players:" + players.size.toString())
 
+            val bupiPlayers = BupiPlayersRepositoryImpl(dataSource).getAllPlayers()
+            val bupiTeams = BupiTeamsRepositoryImpl(dataSource).getAllTeams()
+
             val databaseDS = DatabaseDataSource()
             databaseDS.insertAllTeams(teams)
             databaseDS.insertAllPlayers(players)
+            databaseDS.insertAllBupiPlayers(bupiPlayers)
+            databaseDS.insertAllBupiTeams(bupiTeams)
 
         }
     }

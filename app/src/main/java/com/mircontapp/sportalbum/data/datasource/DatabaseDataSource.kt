@@ -59,26 +59,26 @@ class DatabaseDataSource : AlbumDataSource {
 
     fun insertAllTeams(teams: List<TeamModel>?) {
         val teamsEntities = ArrayList<Team>()
-        teams?.forEach { teamsEntities.add(DataMapper.entityFromTeamModel(it)) }
-        database?.teamDao()?.insertAll(teamsEntities)
+        teams?.forEach { teamsEntities.add(DataMapper.entityFromTeamModel(it))}
+        database?.teamDao()?.insertAll(teamsEntities.distinctBy{it.name})
     }
 
     fun insertAllPlayers(players: List<PlayerModel>?) {
         val playerEntities = ArrayList<Player>()
         players?.forEach { playerEntities.add(DataMapper.entityFromPlayerModel(it)) }
-        database?.playerDao()?.insertAll(playerEntities)
+        database?.playerDao()?.insertAll(playerEntities.distinctBy{it.name})
     }
 
     fun insertAllBupiTeams(teams: List<BupiTeamModel>?) {
         val teamsEntities = ArrayList<BupiTeam>()
         teams?.forEach { teamsEntities.add(DataMapper.entityFromBupiTeam(it)) }
-        database?.bupiTeamDao()?.insertAll(teamsEntities)
+        database?.bupiTeamDao()?.insertAll(teamsEntities.distinctBy{it.name})
     }
 
     fun insertAllBupiPlayers(players: List<BupiPlayerModel>?) {
         val playerEntities = ArrayList<BupiPlayer>()
         players?.forEach { playerEntities.add(DataMapper.entityFromBupiPlayer(it)) }
-        database?.bupiDao()?.insertAll(playerEntities)
+        database?.bupiDao()?.insertAll(playerEntities.distinctBy{it.name})
     }
 
 
