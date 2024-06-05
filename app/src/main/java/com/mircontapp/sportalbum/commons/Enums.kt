@@ -367,6 +367,22 @@ class Enums {
         }
     }
 
+    enum class PlayStyle(
+        val att: Int,
+        val dif: Int,
+        val tec: Int,
+        val dri: Int,
+        val fin: Int,
+        val bal: Int,
+        val fis: Int,
+        val vel: Int,
+        val rig: Int,
+        val por: Int
+    ) {
+        NORMAL(50, 50, 50, 50, 50, 50, 50, 50, 50, 50)
+
+    }
+
     enum class Gender(override val text: Int) : EnumWriteble {
         M(R.string.men), F(R.string.women), OTHER(R.string.all);
 

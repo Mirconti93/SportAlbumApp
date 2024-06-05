@@ -28,8 +28,7 @@ class SportAlbumApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-
-        //insertToDB()
+        insertToDB()
     }
 
     private fun insertToDB() {

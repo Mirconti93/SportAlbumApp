@@ -18,15 +18,6 @@ data class Player (
     val national: Int?,
     val nationalLegend: Int?,
     val roleLineUp: String?,
-    val att: Int?,
-    val dif: Int?,
-    val tec: Int?,
-    val dri: Int?,
-    val fin: Int?,
-    val bal: Int?,
-    val fis: Int?,
-    val vel: Int?,
-    val rig: Int?,
-    val por: Int?,
+    val style: String?
 )
 

@@ -29,16 +29,7 @@ class DataMapper {
                 national = player.national,
                 nationalLegend = player.nationalLegend,
                 roleLineUp = player.roleLineUp?.name,
-                att = player.att,
-                dif = player.dif,
-                tec = player.tec,
-                dri = player.dri,
-                fin = player.fin,
-                bal = player.bal,
-                fis = player.fis,
-                vel = player.vel,
-                rig = player.rig,
-                por = player.por,
+                style = player.style?.name
             )
         }
 
@@ -56,16 +47,7 @@ class DataMapper {
                 national = player.national,
                 nationalLegend = player.nationalLegend,
                 roleLineUp = PlayerHelper.roleLineUpFromString(player.roleLineUp) ?:Enums.RoleLineUp.PTC,
-                att = player.att?: 50,
-                dif = player.dif?: 50,
-                tec = player.tec?: 50,
-                dri = player.dri?: 50,
-                fin = player.fin?: 50,
-                bal = player.bal?: 50,
-                fis = player.fis?: 50,
-                vel = player.vel?: 50,
-                rig = player.rig?: 50,
-                por = player.por?: 50
+                style = player.
             )
         }
 

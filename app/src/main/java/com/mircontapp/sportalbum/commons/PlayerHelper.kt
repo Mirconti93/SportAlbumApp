@@ -47,6 +47,16 @@ class PlayerHelper {
             return Enums.Gender.OTHER
         }
 
+        fun styleFromString(styleString: String?): Enums.PlayStyle? {
+            for (style in Enums.PlayStyle.values()) {
+                if (styleString.equals(style.toString(), ignoreCase = true)) {
+                    return style
+                }
+            }
+            return Enums.PlayStyle.NORMAL
+        }
+
+
         fun sortPlayerByRole(players: List<PlayerModel>): List<PlayerModel> {
             return players.sortedBy { it?.role }
         }
@@ -358,7 +368,7 @@ class PlayerHelper {
         }
 
         fun buildPlayerModel(name: String): PlayerModel {
-            return PlayerModel(name, Enums.Role.PP, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PPM, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50)
+            return PlayerModel(name, Enums.Role.PP, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PPM, Enums.PlayStyle.NORMAL)
         }
 
         fun isPortiere(p: PlayerMatchModel): Boolean {
