@@ -116,21 +116,21 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun filterTeams(text: String?) : List<TeamModel> {
-        if (text.isNullOrEmpty()) return allTeams
-        var teams = allTeams.filter { it.name.contains(text) || it.area?.name?.contains(text) ?: false  }
-        if (teams.isNullOrEmpty()) {
-            teams = allTeams
-        }
+        var teams =
+            if (text.isNullOrEmpty()) allTeams
+            else {
+                allTeams.filter { it.name.contains(text) || it.area?.name?.contains(text) ?: false  }
+            }
         return teams
     }
 
     fun filterPlayers(text: String?) : List<PlayerModel> {
-        if (text.isNullOrEmpty()) return allPlayers
-        var players = allPlayers.filter { it.name.contains(text) || it.team?.contains(text) ?: false  }
-        if (players.isNullOrEmpty()) {
-            players = allPlayers
-        }
-        return players
+        var players =
+            if (text.isNullOrEmpty()) allPlayers
+            else {
+                allPlayers.filter { it.name.contains(text) || it.team?.contains(text) ?: false  }
+            }
+        return players.sortedByDescending { it.valueleg }
     }
 
     data class SearchUIState(var teamSelectionVisible: Boolean, var searchingText: String?)

@@ -38,6 +38,7 @@ import androidx.navigation.NavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.domain.models.toPlayerMatchModel
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
@@ -45,7 +46,7 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
 fun StickerScreen(navController: NavController, mainViewModel: MainViewModel) {
-    mainViewModel.playerModel?.let { player->
+    mainViewModel.playerModel?.toPlayerMatchModel(true)?.let { player->
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -65,21 +66,21 @@ fun StickerScreen(navController: NavController, mainViewModel: MainViewModel) {
             }
             Row(modifier = Modifier.padding(32.dp, 2.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text(modifier = Modifier.weight(1f), text = player.country ?: "", color = YellowD)
-                ValueCard(label = null, value = player.valueleg ?: 50)
+                ValueCard(label = null, value = player.valueleg?.toDouble() ?: 50.0, true)
             }
             Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.att), value = player.att)
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.dif), value = player.dif)
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.tec), value = player.tec)
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.dri), value = player.dri)
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.fin), value = player.fin)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.att), value = player.att, false)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.dif), value = player.dif, false)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.tec), value = player.tec, false)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.dri), value = player.dri, false)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.fin), value = player.fin, false)
             }
             Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.bal), value = player.bal)
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.fis), value = player.fis)
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.vel), value = player.vel)
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.rig), value = player.rig)
-                ValueCard(label = SportAlbumApplication.instance.getString(R.string.por), value = player.por)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.bal), value = player.bal, false)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.fis), value = player.fis, false)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.vel), value = player.vel, false)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.rig), value = player.rig, false)
+                ValueCard(label = SportAlbumApplication.instance.getString(R.string.por), value = player.por, false)
             }
         }
     }
@@ -87,12 +88,12 @@ fun StickerScreen(navController: NavController, mainViewModel: MainViewModel) {
 }
 
 @Composable
-fun ValueCard(label: String?, value: Int) {
+fun ValueCard(label: String?, value: Double, isEditable: Boolean) {
     val isEditing = remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .padding(4.dp)
-            .clickable { isEditing.value = !isEditing.value },
+            .clickable { if (isEditable) isEditing.value = !isEditing.value },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -120,7 +121,7 @@ fun ValueCard(label: String?, value: Int) {
                     )
                 }
             } else {
-                Text(text = value.toString(), color = OrangeYellowD, fontSize = 16.sp)
+                Text(text = value.toInt().toString(), color = OrangeYellowD, fontSize = 16.sp)
             }
         }
     }

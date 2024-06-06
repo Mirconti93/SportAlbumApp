@@ -62,16 +62,8 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
     val national = remember { mutableStateOf(playerModel.national == 1) }
     val nationalLegend = remember { mutableStateOf(playerModel.nationalLegend == 1) }
     var roleLineUp = remember{ mutableStateOf(TextFieldValue(playerModel.roleLineUp?.name?:"")) }
-    var att = remember{ mutableStateOf(TextFieldValue(playerModel.att.toString())) }
-    var dif = remember{ mutableStateOf(TextFieldValue(playerModel.dif.toString())) }
-    var tec = remember{ mutableStateOf(TextFieldValue(playerModel.tec.toString())) }
-    var dri = remember{ mutableStateOf(TextFieldValue(playerModel.dri.toString())) }
-    var fin = remember{ mutableStateOf(TextFieldValue(playerModel.fin.toString())) }
-    var bal = remember{ mutableStateOf(TextFieldValue(playerModel.bal.toString())) }
-    var fis = remember{ mutableStateOf(TextFieldValue(playerModel.fis.toString())) }
-    var vel = remember{ mutableStateOf(TextFieldValue(playerModel.vel.toString())) }
-    var rig = remember{ mutableStateOf(TextFieldValue(playerModel.rig.toString())) }
-    var por = remember{ mutableStateOf(TextFieldValue(playerModel.por.toString())) }
+    var style = remember{ mutableStateOf(TextFieldValue(playerModel.style?.name?:"")) }
+
 
     Row(modifier = Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
         Column {
@@ -118,47 +110,8 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                     label = {Text(text = SportAlbumApplication.instance.getString(R.string.value))})
             }
 
-            Row {
-                TextField(value = att.value, onValueChange = { att.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.att))})
-
-                TextField(value = dif.value, onValueChange = { dif.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.dif))})
-            }
-
-            Row {
-                TextField(value = tec.value, onValueChange = { tec.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.tec))})
-
-                TextField(value = dri.value, onValueChange = { dri.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.dri))})
-            }
-
-            Row {
-                TextField(value = fin.value, onValueChange = { fin.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.fin))})
-
-                TextField(value = bal.value, onValueChange = { bal.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.bal))})
-
-            }
-
-            Row {
-                TextField(value = fis.value, onValueChange = { fis.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.fis))})
-
-                TextField(value = vel.value, onValueChange = { vel.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.vel))})
-
-            }
-
-            Row {
-                TextField(value = rig.value, onValueChange = { rig.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.rig))})
-
-                TextField(value = por.value, onValueChange = { por.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.por))})
-            }
+            TextField(value = style.value, onValueChange = { style.value = it},
+                label = {Text(text = SportAlbumApplication.instance.getString(R.string.stylePlay))})
 
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
@@ -191,16 +144,8 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
                         if (national.value) 1 else 0,
                         if (nationalLegend.value) 1 else 0,
                         PlayerHelper.roleLineUpFromString(roleLineUp.value.text) ?: Enums.RoleLineUp.PTC,
-                        att.value.text.toInt(),
-                        dif.value.text.toInt(),
-                        tec.value.text.toInt(),
-                        dri.value.text.toInt(),
-                        fin.value.text.toInt(),
-                        bal.value.text.toInt(),
-                        fis.value.text.toInt(),
-                        vel.value.text.toInt(),
-                        rig.value.text.toInt(),
-                        por.value.text.toInt())
+                        style = Enums.PlayStyle.NORMAL
+                    )
                 )
                 navController.popBackStack()
             }) {
