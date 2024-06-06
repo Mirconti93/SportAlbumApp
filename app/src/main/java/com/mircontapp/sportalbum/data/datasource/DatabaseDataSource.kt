@@ -6,11 +6,17 @@ import com.mircontapp.sportalbum.data.database.BupiPlayer
 import com.mircontapp.sportalbum.data.database.BupiTeam
 import com.mircontapp.sportalbum.data.database.Player
 import com.mircontapp.sportalbum.data.database.Team
+import com.mircontapp.sportalbum.data.database.playerModelFromEntity
+import com.mircontapp.sportalbum.data.database.teamModelFromEntity
 import com.mircontapp.sportalbum.domain.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.BupiTeamModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.domain.models.entityFromBupiPlayer
+import com.mircontapp.sportalbum.domain.models.entityFromBupiTeam
+import com.mircontapp.sportalbum.domain.models.entityFromPlayerModel
+import com.mircontapp.sportalbum.domain.models.entityFromTeamModel
 
 
 class DatabaseDataSource : AlbumDataSource {
@@ -25,7 +31,7 @@ class DatabaseDataSource : AlbumDataSource {
     override suspend fun fetchPlayers(): List<PlayerModel>? {
         if (players.isEmpty()) {
             database?.playerDao()?.getAll()?.forEach { player ->
-                players.add(DataMapper.playerModelFromEntity(player))
+                players.add(player.playerModelFromEntity())
             }
         }
         return players
@@ -34,7 +40,7 @@ class DatabaseDataSource : AlbumDataSource {
     override suspend fun fetchTeams(): List<TeamModel>? {
         if (teams.isEmpty()) {
             database?.teamDao()?.getAll()?.forEach {
-                    team ->teams.add(DataMapper.teamModelFromEntity(team))
+                    team ->teams.add(team.teamModelFromEntity())
             }
         }
 
@@ -42,42 +48,42 @@ class DatabaseDataSource : AlbumDataSource {
     }
 
     override suspend fun insertPlayer(playerModel: PlayerModel) {
-        database?.playerDao()?.insert(DataMapper.entityFromPlayerModel(playerModel))
+        database?.playerDao()?.insert(playerModel.entityFromPlayerModel())
     }
 
     override suspend fun updatePlayer(playerModel: PlayerModel) {
-        database?.playerDao()?.update(DataMapper.entityFromPlayerModel(playerModel))
+        database?.playerDao()?.update(playerModel.entityFromPlayerModel())
     }
 
     override suspend fun updateTeam(teamModel: TeamModel) {
-        database?.teamDao()?.update(DataMapper.entityFromTeamModel(teamModel))
+        database?.teamDao()?.update(teamModel.entityFromTeamModel())
     }
 
     override suspend fun insertTeam(teamModel: TeamModel) {
-        database?.teamDao()?.insert(DataMapper.entityFromTeamModel(teamModel))
+        database?.teamDao()?.insert(teamModel.entityFromTeamModel())
     }
 
     fun insertAllTeams(teams: List<TeamModel>?) {
         val teamsEntities = ArrayList<Team>()
-        teams?.forEach { teamsEntities.add(DataMapper.entityFromTeamModel(it))}
+        teams?.forEach { teamsEntities.add(it.entityFromTeamModel())}
         database?.teamDao()?.insertAll(teamsEntities.distinctBy{it.name})
     }
 
     fun insertAllPlayers(players: List<PlayerModel>?) {
         val playerEntities = ArrayList<Player>()
-        players?.forEach { playerEntities.add(DataMapper.entityFromPlayerModel(it)) }
+        players?.forEach { playerEntities.add(it.entityFromPlayerModel()) }
         database?.playerDao()?.insertAll(playerEntities.distinctBy{it.name})
     }
 
     fun insertAllBupiTeams(teams: List<BupiTeamModel>?) {
         val teamsEntities = ArrayList<BupiTeam>()
-        teams?.forEach { teamsEntities.add(DataMapper.entityFromBupiTeam(it)) }
+        teams?.forEach { teamsEntities.add(it.entityFromBupiTeam()) }
         database?.bupiTeamDao()?.insertAll(teamsEntities.distinctBy{it.name})
     }
 
     fun insertAllBupiPlayers(players: List<BupiPlayerModel>?) {
         val playerEntities = ArrayList<BupiPlayer>()
-        players?.forEach { playerEntities.add(DataMapper.entityFromBupiPlayer(it)) }
+        players?.forEach { playerEntities.add(it.entityFromBupiPlayer()) }
         database?.bupiDao()?.insertAll(playerEntities.distinctBy{it.name})
     }
 

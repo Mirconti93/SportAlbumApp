@@ -87,7 +87,7 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource, BupiDataSour
 
     fun playerFactory(row: String) : PlayerModel {
         val fields = row.split("_")
-        if (fields.size>=22) {
+        if (fields.size>12) {
             return PlayerModel(
                 fields[0], PlayerHelper.roleFromString(fields[1]) ?: Enums.Role.PP,
                 PlayerHelper.genderFromString(fields[2]),
@@ -96,20 +96,11 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource, BupiDataSour
                 fields[5],
                 Integer.parseInt(fields[6]),
                 Integer.parseInt(fields[7]),
-                fields[8],
+                "Free",
+                Integer.parseInt(fields[8]),
                 Integer.parseInt(fields[9]),
-                Integer.parseInt(fields[10]),
-                PlayerHelper.roleLineUpFromString(fields[11]) ?: Enums.RoleLineUp.PTC,
-                Integer.parseInt(fields[12]),
-                Integer.parseInt(fields[13]),
-                Integer.parseInt(fields[14]),
-                Integer.parseInt(fields[15]),
-                Integer.parseInt(fields[16]),
-                Integer.parseInt(fields[17]),
-                Integer.parseInt(fields[18]),
-                Integer.parseInt(fields[19]),
-                Integer.parseInt(fields[20]),
-                Integer.parseInt(fields[21])
+                PlayerHelper.roleLineUpFromString(fields[10]) ?: Enums.RoleLineUp.PTC,
+                PlayerHelper.styleFromString(fields[11])
             )
         } else {
             return PlayerHelper.buildPlayerModel(fields[0])
@@ -120,7 +111,7 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource, BupiDataSour
     fun teamFactory(row: String) : TeamModel {
         val fields = row.split("_")
         if (fields.size >= 2) {
-            return TeamModel(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], PlayerHelper.findAreaEnum(fields[8]), Enums.Area.OTHER, false, fields[7], "", Enums.MatchModule.M442)
+            return TeamModel(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6], PlayerHelper.findAreaEnum(fields[8]), Enums.Area.OTHER, false, fields[7], fields[7], Enums.MatchModule.M442)
         } else {
             return TeamModel("Team", "", "", "", "", "", "", Enums.Area.OTHER,Enums.Area.OTHER,false,"",  "",Enums.MatchModule.M442)
         }

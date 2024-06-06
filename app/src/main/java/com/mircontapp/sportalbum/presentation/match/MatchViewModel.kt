@@ -14,11 +14,11 @@ import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.PlayerHelper
-import com.mircontapp.sportalbum.data.datasource.DataMapper
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.domain.models.toPlayerMatchModel
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
@@ -186,11 +186,11 @@ class MatchViewModel @Inject constructor(
         val roster: MutableList<PlayerMatchModel> = ArrayList()
         if (teamIsHome)  {
             homeRoster.value?.forEach {
-                roster.add(DataMapper.playerMatchFromPlayer(it))
+                roster.add(it.toPlayerMatchModel(isLegend))
             }
         } else {
             awayRoster.value?.forEach {
-                roster.add(DataMapper.playerMatchFromPlayer(it))
+                roster.add(it.toPlayerMatchModel(isLegend))
             }
         }
 

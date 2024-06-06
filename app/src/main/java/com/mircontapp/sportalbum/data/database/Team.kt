@@ -2,6 +2,8 @@ package com.mircontapp.sportalbum.data.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.mircontapp.sportalbum.commons.TeamHelper
+import com.mircontapp.sportalbum.domain.models.TeamModel
 
 @Entity(tableName = "team")
 class Team (
@@ -19,5 +21,23 @@ class Team (
     val coachlegend: String?,
     val module: String?,
 )
+
+fun Team.teamModelFromEntity() : TeamModel {
+    return TeamModel(
+        name = this.name,
+        city = this.city,
+        country = this.country,
+        type = this.type,
+        color1 =  this.color1,
+        color2 = this.color2,
+        stadium = this.stadium,
+        area = TeamHelper.findAreaEnum(this.area),
+        arealegend = TeamHelper.findAreaEnum(this.arealegend),
+        superlega = this.superlega,
+        coach = this.coach,
+        coachlegend = this.coachlegend,
+        module = TeamHelper.findModuleEnum(this.module)
+    )
+}
 
 

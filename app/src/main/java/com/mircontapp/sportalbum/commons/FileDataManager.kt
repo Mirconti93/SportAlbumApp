@@ -17,7 +17,7 @@ class FileDataManager() {
         fun writePlayers(context: Context, name: String?, players: List<PlayerModel?>) {
             val list: MutableList<String> = ArrayList()
             players.forEach {
-                list.add("${it?.name}_${it?.role}_${it?.gender}_${it?.team}_${it?.country}_${it?.birthyear}_${it?.value}_${it?.valueleg}_${it?.teamLegend}_${it?.national}_${it?.nationalLegend}_${it?.roleLineUp}_${it?.att}_${it?.dif}_${it?.tec}_${it?.dri}_${it?.fin}_${it?.bal}_${it?.fis}_${it?.vel}_${it?.rig}_${it?.por}")
+                list.add("${it?.name}_${it?.role}_${it?.gender}_${it?.team}_${it?.country}_${it?.birthyear}_${it?.value}_${it?.valueleg}_${it?.teamLegend}_${it?.national}_${it?.nationalLegend}_${it?.roleLineUp}_${it?.style}")
             }
             writeFileOnInternalStorage(context, name, list)
         }
