@@ -32,7 +32,7 @@ fun PlayersShortList(playersState: PlayersState) {
                     .padding(2.dp)
                     .shadow(2.dp)
                     .clickable {
-                        playersState.onPlayerClickHandler.onPlayerClick(it)
+                        playersState.onEditClickHandler.onPlayerClick(it)
                     })
             }
         }
