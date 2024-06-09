@@ -382,7 +382,7 @@ class PlayerHelper {
 
         fun getMatchValue(stat: Int, value: Int) : Double {
             //the value is a weight for the specified stat
-            return (stat*2.0)*(value/100.0)
+            return value*(stat/100.0)
 
         }
 
