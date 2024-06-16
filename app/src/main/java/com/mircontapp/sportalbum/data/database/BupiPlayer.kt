@@ -11,7 +11,7 @@ data class BupiPlayer (
     var role: String?
 )
 
-fun BupiPlayer.entityFromBupiPlayer() : BupiPlayer {
-    return BupiPlayer(this.name, this.team, this.role.toString())
+fun BupiPlayer.bupiPlayerFromEntity() : BupiPlayerModel {
+    return BupiPlayerModel(this.name, this.team ?: "Free", this.role?.toIntOrNull())
 }
 

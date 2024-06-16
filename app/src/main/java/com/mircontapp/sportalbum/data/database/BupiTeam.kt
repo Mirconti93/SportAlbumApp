@@ -10,7 +10,7 @@ class BupiTeam (
     var area: String
 )
 
-fun BupiTeam.entityFromBupiTeam() : BupiTeamModel {
+fun BupiTeam.bupiTeamModelFromEntity() : BupiTeamModel {
     return BupiTeamModel(this.name, this.area)
 }
 

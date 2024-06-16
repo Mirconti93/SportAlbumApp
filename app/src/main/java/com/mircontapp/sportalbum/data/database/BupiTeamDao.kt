@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface BupiTeamDao {
@@ -11,7 +12,11 @@ interface BupiTeamDao {
     fun insertAll(vararg teams: BupiTeam)
 
     @Insert
-    fun insertAll(teams: List<BupiTeam>)
+    fun insert(team: BupiTeam)
+
+
+    @Update
+    fun update(team: BupiTeam)
 
     @Delete
     fun delete(team: BupiTeam)

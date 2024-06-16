@@ -1,13 +1,19 @@
 package com.mircontapp.sportalbum.commons.di
 
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.data.datasource.BupiDataSourceImpl
 import com.mircontapp.sportalbum.domain.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.data.datasource.DatabaseDataSource
 import com.mircontapp.sportalbum.data.datasource.FirebaseDataSource
+import com.mircontapp.sportalbum.data.repository.BupiPlayersRepositoryImpl
+import com.mircontapp.sportalbum.data.repository.BupiTeamsRepositoryImpl
 import com.mircontapp.sportalbum.data.repository.MediaRepositoryImpl
 import com.mircontapp.sportalbum.data.repository.PlayersRepositoryImpl
 import com.mircontapp.sportalbum.data.repository.TeamsRepositoryImpl
+import com.mircontapp.sportalbum.domain.datasource.BupiDataSource
 import com.mircontapp.sportalbum.domain.datasource.MediaDataSource
+import com.mircontapp.sportalbum.domain.repository.BupiPlayersRepository
+import com.mircontapp.sportalbum.domain.repository.BupiTeamsRepository
 import com.mircontapp.sportalbum.domain.repository.MediaRepository
 import com.mircontapp.sportalbum.domain.repository.PlayersRepository
 import com.mircontapp.sportalbum.domain.repository.TeamsRepository
@@ -40,6 +46,11 @@ class AppModule {
     }
 
     @Provides
+    fun provideBupiDataSource(): BupiDataSource {
+        return BupiDataSourceImpl()
+    }
+
+    @Provides
     fun provideTeamsRepository(): TeamsRepository {
         return TeamsRepositoryImpl(provideAlbumDataSource())
     }
@@ -52,6 +63,16 @@ class AppModule {
     @Provides
     fun provideMediaRepository() : MediaRepository {
         return MediaRepositoryImpl(provideMediaDataSource())
+    }
+
+    @Provides
+    fun provideBupiTeamsRepository(): BupiTeamsRepository {
+        return BupiTeamsRepositoryImpl(provideBupiDataSource())
+    }
+
+    @Provides
+    fun provideBupiPlayersRepository(): BupiPlayersRepository {
+        return BupiPlayersRepositoryImpl(provideBupiDataSource())
     }
 
     @Provides
