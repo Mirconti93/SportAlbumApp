@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.dashboard
+package com.mircontapp.sportalbum.presentation.bupi
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,7 +40,6 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.FileDataManager
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
-import com.mircontapp.sportalbum.domain.models.toShortItem
 import com.mircontapp.sportalbum.presentation.album.ShortList
 import com.mircontapp.sportalbum.presentation.album.PlayersState
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
@@ -48,7 +47,6 @@ import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
@@ -59,9 +57,12 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 @ExperimentalMaterial3Api
 @Composable
 fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) {
-    val viewModel: DashboardViewModel = hiltViewModel()
+    val viewModel: BupiViewModel = hiltViewModel()
     Column(verticalArrangement = Arrangement.Top) {
-        val isTeams = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)
+        val isPlayers = remember {
+            true
+        }
+        /*val isTeams = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)
         val isPlayers = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.PLAYERS)
 
         val players = viewModel.players.collectAsState()
@@ -88,7 +89,7 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                         .height(40.dp)
                 )
             }
-        }
+        }*/
 
         val searchUIState = viewModel.searchUIState.collectAsState()
 
@@ -123,10 +124,10 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = {
-                    if (players.value != null) {
-                        FileDataManager.writePlayers(
+                    if (viewModel.bupiPlayers.value != null) {
+                        FileDataManager.writeBupiPlayers(
                             context = SportAlbumApplication.instance.applicationContext,
-                            "players.txt", viewModel.players.value!!
+                            "players.txt", viewModel.bupiPlayers.value
                         )
                     }},
                     colors = ButtonDefaults.buttonColors(
@@ -159,9 +160,9 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
 
         }*/
 
-        if (isTeams) {
+        /*if (isTeams) {
             teams.value.let {
-                TeamsGrid(
+                ShortList(
                     TeamsState(
                         it,
                         onTeamClickHandler = object : OnTeamClickHandler {
@@ -174,9 +175,9 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
             }
 
         } else {
-            val shortItemList = ArrayList<ShortListItem>()
-            players.value.forEach {
-                shortItemList.add(it.toShortItem(
+            ShortList(
+                PlayersState(
+                    players.value,
                     onPlayerClickHandler = object : OnPlayerClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
                             mainViewModel.playerModel = playerModel
@@ -189,11 +190,9 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                             navController.navigate(NavigationItem.EditPlayer.route)
                         }
                     }
-                ))
-            }
-            ShortList(
-                shortItemList
+                ),
+
             )
-        }
+        }*/
     }
 }

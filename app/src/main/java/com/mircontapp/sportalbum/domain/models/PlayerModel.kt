@@ -3,6 +3,9 @@ package com.mircontapp.sportalbum.domain.models
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.data.database.Player
+import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
+import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
+import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 
 data class PlayerModel(
     val name: String,
@@ -72,4 +75,28 @@ fun PlayerModel.entityFromPlayerModel() : Player {
         style = this.style?.name
     )
 }
+
+fun PlayerModel.toShortItem(onPlayerClickHandler: OnPlayerClickHandler, onEditClickHandler: OnEditClickHandler) : ShortListItem {
+    val playerModel = this
+    return object :ShortListItem {
+        override fun getTitle(): String {
+            return playerModel.name
+        }
+
+        override fun getSubtitle(): String {
+            return playerModel.team?: "Free"
+        }
+
+        override fun onItemClick() {
+            onPlayerClickHandler.onPlayerClick(playerModel)
+        }
+
+        override fun onEditClick() {
+            onEditClickHandler.onPlayerClick(playerModel)
+        }
+
+    }
+
+}
+
 

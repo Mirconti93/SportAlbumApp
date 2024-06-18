@@ -76,7 +76,7 @@ class DatabaseDataSource : AlbumDataSource {
     }
 
     fun insertAllBupiTeams(teams: List<BupiTeamModel>?) {
-        val teamsEntities = ArrayList<BupiTeam>()
+        val teamsEntities = ArrayList<BupiTeamModel>()
         teams?.forEach { teamsEntities.add(it.entityFromBupiTeam()) }
         database?.bupiTeamDao()?.insertAll(teamsEntities.distinctBy{it.name})
     }

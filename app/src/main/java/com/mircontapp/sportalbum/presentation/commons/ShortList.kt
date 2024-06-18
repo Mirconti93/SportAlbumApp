@@ -18,21 +18,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 
 @Composable
-fun PlayersShortList(playersState: PlayersState) {
+fun ShortList(items: List<ShortListItem>) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(1.dp),
     ) {
-        playersState.players.forEach {
+        items.forEach {
             item {
                 PlayerListItem(it, modifier = Modifier
                     .padding(2.dp)
                     .shadow(2.dp)
                     .clickable {
-                        playersState.onEditClickHandler.onPlayerClick(it)
+                        it.onItemClick()
                     })
             }
         }
@@ -41,7 +41,7 @@ fun PlayersShortList(playersState: PlayersState) {
 }
 
 @Composable
-fun PlayerListItem(player: PlayerModel, modifier: Modifier) {
+fun PlayerListItem(item: ShortListItem, modifier: Modifier) {
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -55,8 +55,8 @@ fun PlayerListItem(player: PlayerModel, modifier: Modifier) {
             .fillMaxWidth()
             .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Row(modifier = Modifier.padding(2.dp)) {
-                Text(modifier = Modifier.weight(1f), text = player.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(modifier = Modifier, text = player.team.toString(), color = OrangeYellowD, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(modifier = Modifier.weight(1f), text = item.getTitle(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(modifier = Modifier, text = item.getSubtitle(), color = OrangeYellowD, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
 

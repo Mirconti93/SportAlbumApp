@@ -5,13 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.presentation.commons.SearchUIState
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.domain.models.toShortItem
 import com.mircontapp.sportalbum.domain.usecases.GetAllPlayersUC
 import com.mircontapp.sportalbum.domain.usecases.GetAllTeamsUC
 import com.mircontapp.sportalbum.domain.usecases.InsertPlayerUC
 import com.mircontapp.sportalbum.domain.usecases.InsertTeamUC
 import com.mircontapp.sportalbum.domain.usecases.UpdatePlayerUC
 import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
+import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -107,6 +110,8 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+
+
     fun searchVisibility(visible: Boolean) {
         _searchUIState.update { current -> current.copy(teamSelectionVisible = visible, searchingText = null) }
     }
@@ -133,5 +138,5 @@ class DashboardViewModel @Inject constructor(
         return players.sortedByDescending { it.valueleg }
     }
 
-    data class SearchUIState(var teamSelectionVisible: Boolean, var searchingText: String?)
+
 }
