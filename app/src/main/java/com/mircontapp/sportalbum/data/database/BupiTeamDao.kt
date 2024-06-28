@@ -9,7 +9,7 @@ import androidx.room.Update
 @Dao
 interface BupiTeamDao {
     @Insert
-    fun insertAll(vararg teams: BupiTeam)
+    fun insertAll(teams: List<BupiTeam>)
 
     @Insert
     fun insert(team: BupiTeam)
