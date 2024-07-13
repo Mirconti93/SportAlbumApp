@@ -37,7 +37,7 @@ class DashboardViewModel @Inject constructor(
     val updatePlayerUC: UpdatePlayerUC
 ) : ViewModel() {
     var selectionType = mutableStateOf(SelectionType.TEAMS)
-    var updateType = mutableStateOf(UpdateType.UPDATE)
+    var updateType = mutableStateOf(Enums.UpdateType.UPDATE)
     private var allTeams: List<TeamModel> = emptyList()
     private var allPlayers: List<PlayerModel> = emptyList()
 
@@ -60,7 +60,7 @@ class DashboardViewModel @Inject constructor(
     private val _areas = MutableStateFlow(Enums.Area.values().toList())
     val areas: StateFlow<List<Enums.Area>> get() = _areas
     enum class SelectionType { PLAYERS, TEAMS }
-    enum class UpdateType { NEW, UPDATE }
+
 
 
     init {
@@ -70,7 +70,7 @@ class DashboardViewModel @Inject constructor(
 
     fun updateTeam(teamModel: TeamModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (updateType.value == UpdateType.NEW) {
+            if (updateType.value == Enums.UpdateType.NEW) {
                 insertTeamUC.invoke(teamModel)
             } else {
                 updateTeamUC.invoke(teamModel)
@@ -81,7 +81,7 @@ class DashboardViewModel @Inject constructor(
 
     fun updatePlayer(playerModel: PlayerModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (updateType.value == UpdateType.NEW) {
+            if (updateType.value == Enums.UpdateType.NEW) {
                 insertPlayerUC.invoke(playerModel)
             } else {
                 updatePlayerUC.invoke(playerModel)

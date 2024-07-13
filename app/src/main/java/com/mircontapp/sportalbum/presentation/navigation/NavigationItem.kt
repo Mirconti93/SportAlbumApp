@@ -1,6 +1,7 @@
 package com.mircontapp.sportalbum.presentation.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
@@ -16,5 +17,9 @@ sealed class NavigationItem(var route: String, var icon: ImageVector, var title:
     object EditPlayer : NavigationItem("edit_player", Icons.Default.List, "Edit players")
     object LineUps : NavigationItem("line_up", Icons.Default.Favorite, "Line Up")
     object Match : NavigationItem("match", Icons.Default.Favorite, "Match")
+    object Bupi : NavigationItem("bupi",Icons.Default.Face, "Bupi")
+    object BupiPlayer : NavigationItem("bupi_player", Icons.Default.Face, "BupiPlayers")
+    object BupiPlayerEdit : NavigationItem("bupi_player_edit", Icons.Default.Face, "BupiPlayerEdit")
+    object BupiTeamEdit : NavigationItem("bupi_team_edit", Icons.Default.Face, "BupiTeamEdit")
 
 }

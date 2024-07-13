@@ -8,6 +8,10 @@ import androidx.navigation.compose.composable
 import com.mircontapp.sportalbum.presentation.album.AlbumScreen
 import com.mircontapp.sportalbum.presentation.album.StickerScreen
 import com.mircontapp.sportalbum.presentation.album.TeamAlbumScreen
+import com.mircontapp.sportalbum.presentation.bupi.BupiPlayerScreen
+import com.mircontapp.sportalbum.presentation.bupi.BupiScreen
+import com.mircontapp.sportalbum.presentation.bupi.EditBupiPlayerScreen
+import com.mircontapp.sportalbum.presentation.bupi.EditBupiTeamScreen
 import com.mircontapp.sportalbum.presentation.dashboard.DashboardScreen
 import com.mircontapp.sportalbum.presentation.dashboard.EditPlayerScreen
 import com.mircontapp.sportalbum.presentation.dashboard.EditTeamScreen
@@ -48,6 +52,18 @@ fun NavGraph(navController: NavHostController, mainViewModel: MainViewModel){
         }
         composable(route = NavigationItem.Match.route){
             MatchStartScreen(navController = navController, mainViewModel)
+        }
+        composable(route = NavigationItem.Bupi.route){
+            BupiScreen(navController = navController)
+        }
+        composable(route = NavigationItem.BupiPlayer.route){
+            BupiPlayerScreen(navController = navController)
+        }
+        composable(route = NavigationItem.BupiPlayerEdit.route){
+            EditBupiPlayerScreen(navController = navController)
+        }
+        composable(route = NavigationItem.BupiTeamEdit.route){
+            EditBupiTeamScreen(navController = navController)
         }
     }
 }

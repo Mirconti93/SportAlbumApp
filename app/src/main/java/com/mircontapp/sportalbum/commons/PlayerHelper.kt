@@ -4,6 +4,7 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mirco.sportalbum.utils.Enums.MatchModule
 import com.mirco.sportalbum.utils.Enums.RoleLineUp
+import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 
@@ -369,6 +370,10 @@ class PlayerHelper {
 
         fun buildPlayerModel(name: String): PlayerModel {
             return PlayerModel(name, Enums.Role.PP, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PPM, Enums.PlayStyle.NORMAL)
+        }
+
+        fun buildBupiPlayerModel(name: String): BupiPlayerModel {
+            return BupiPlayerModel(name, "Free", 0)
         }
 
         fun isPortiere(p: PlayerMatchModel): Boolean {

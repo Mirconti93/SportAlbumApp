@@ -502,4 +502,6 @@ class Enums {
         FEMININO("_feminino"), FEMENINO("_femenino"), WOMEN("_women"), CF("_cf");
 
     }
+
+    enum class UpdateType { NEW, UPDATE }
 }

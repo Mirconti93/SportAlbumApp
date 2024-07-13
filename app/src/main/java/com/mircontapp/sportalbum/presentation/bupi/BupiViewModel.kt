@@ -1,9 +1,12 @@
 package com.mircontapp.sportalbum.presentation.bupi
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.BupiTeamModel
+import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.SearchUIState
 import com.mircontapp.sportalbum.domain.repository.BupiPlayersRepository
 import com.mircontapp.sportalbum.domain.repository.BupiTeamsRepository
@@ -41,6 +44,11 @@ class BupiViewModel @Inject constructor(
         filterPlayers(searchUIState.searchingText)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _bupiPlayers.value)
 
+    var updateType = mutableStateOf(Enums.UpdateType.UPDATE)
+
+    var selectedBupiPlayer: BupiPlayerModel? = null
+    var selectedBupiTeam: BupiTeamModel? = null
+
     init{
         loadTeams()
         loadPlayers()
@@ -59,6 +67,16 @@ class BupiViewModel @Inject constructor(
     fun loadPlayers() {
         viewModelScope.launch(Dispatchers.IO) {
             val list = bupiPlayersRepository.getAllPlayers()
+            withContext(Dispatchers.Main) {
+                allPlayers = list
+                _bupiPlayers.value = list
+            }
+        }
+    }
+
+    fun bupiPlayersByTeam(team: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = bupiPlayersRepository.playersFromTeam(team)
             withContext(Dispatchers.Main) {
                 allPlayers = list
                 _bupiPlayers.value = list
@@ -86,6 +104,17 @@ class BupiViewModel @Inject constructor(
 
     fun onSearch(text: String) {
         _searchUIState.update { current -> current.copy(teamSelectionVisible = _searchUIState.value.teamSelectionVisible, searchingText = text) }
+    }
+
+    fun updatePlayer(bupiPlayerModel: BupiPlayerModel) {
+        viewModelScope.launch {
+            if (updateType.value == Enums.UpdateType.NEW) {
+                bupiPlayersRepository.insertPlayer(bupiPlayerModel)
+            } else {
+                bupiPlayersRepository.updatePlayer(bupiPlayerModel)
+            }
+        }
+
     }
 
 

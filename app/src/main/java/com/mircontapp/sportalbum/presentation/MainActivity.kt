@@ -120,6 +120,7 @@ class MainActivity : ComponentActivity() {
         BottomBarNavigation(navController = rememberNavController(), arrayListOf(
             NavigationItem.Album,
             NavigationItem.Dashboard,
+            NavigationItem.Bupi,
             NavigationItem.Games
         ))
     }

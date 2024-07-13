@@ -40,7 +40,6 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.FileDataManager
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
-import com.mircontapp.sportalbum.domain.models.toShortItem
 import com.mircontapp.sportalbum.presentation.album.ShortList
 import com.mircontapp.sportalbum.presentation.album.PlayersState
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
@@ -48,7 +47,6 @@ import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
@@ -58,38 +56,40 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @ExperimentalMaterial3Api
 @Composable
-fun BupiScreen(navController: NavController) {
+fun BupiPlayerScreen(navController: NavController) {
     val viewModel: BupiViewModel = hiltViewModel()
     Column(verticalArrangement = Arrangement.Top) {
-        val isTeams = remember {
-            mutableStateOf(true)
+        val isPlayers = remember {
+            true
         }
+        /*val isTeams = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)
+        val isPlayers = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.PLAYERS)
 
-        val players = viewModel.bupiPlayers.collectAsState()
-        val teams = viewModel.bupiTeams.collectAsState()
+        val players = viewModel.players.collectAsState()
+        val teams = viewModel.teams.collectAsState()
 
         Text(SportAlbumApplication.instance.getString(R.string.dashboard), textAlign = TextAlign.Center, modifier = Modifier
             .fillMaxWidth()
             .padding(2.dp, 8.dp))
 
         Row {
-            TabRow(selectedTabIndex = 0, modifier = Modifier.height(40.dp)) {
-                Tab(selected = isTeams.value,
-                    onClick = { isTeams.value = true },
-                    text = {Text(SportAlbumApplication.instance.getString(R.string.teams), color = if (isTeams.value) Color.Black else Color.White)},
+            TabRow(selectedTabIndex = viewModel.selectionType.value.ordinal, modifier = Modifier.height(40.dp)) {
+                Tab(selected = isTeams,
+                    onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.TEAMS },
+                    text = {Text(SportAlbumApplication.instance.getString(R.string.teams), color = if (isTeams) Color.Black else Color.White)},
                     modifier = Modifier
-                        .background(color = if (isTeams.value) OrangeYellowD else BlueD)
+                        .background(color = if (isTeams) OrangeYellowD else BlueD)
                         .height(40.dp)
                 )
-                Tab(selected = !isTeams.value,
-                    onClick = { isTeams },
-                    text = {Text(SportAlbumApplication.instance.getString(R.string.playerList), color = if (!isTeams.value) Color.Black else Color.White)},
+                Tab(selected = isPlayers,
+                    onClick = { viewModel.selectionType.value = DashboardViewModel.SelectionType.PLAYERS },
+                    text = {Text(SportAlbumApplication.instance.getString(R.string.playerList), color = if (isPlayers) Color.Black else Color.White)},
                     modifier = Modifier
-                        .background(color = if (!isTeams.value) OrangeYellowD else BlueD)
+                        .background(color = if (isPlayers) OrangeYellowD else BlueD)
                         .height(40.dp)
                 )
             }
-        }
+        }*/
 
         val searchUIState = viewModel.searchUIState.collectAsState()
 
@@ -114,7 +114,7 @@ fun BupiScreen(navController: NavController) {
                 )
             } else {
                 Button(onClick = {
-                    if (!isTeams.value) {
+                    if (isPlayers) {
                         navController.navigate(NavigationItem.EditPlayer.route)
                     } else {
                         navController.navigate(NavigationItem.EditTeam.route)
@@ -131,7 +131,7 @@ fun BupiScreen(navController: NavController) {
                         )
                     }},
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (!isTeams.value) OrangeYellowD else Color.Blue, contentColor = if (!isTeams.value) Color.Black else Color.White)) {
+                        containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.saveData))
                 }
             }
@@ -160,24 +160,39 @@ fun BupiScreen(navController: NavController) {
 
         }*/
 
-        if (isTeams.value) {
-
-            val shortItemList = ArrayList<ShortListItem>()
-            players.value.forEach {
-                shortItemList.add(it.toShortItem {
-                    navController.navigate(NavigationItem.BupiPlayerEdit.route)
-                })
+        /*if (isTeams) {
+            teams.value.let {
+                ShortList(
+                    TeamsState(
+                        it,
+                        onTeamClickHandler = object : OnTeamClickHandler {
+                            override fun onTeamClick(teamModel: TeamModel) {
+                                mainViewModel.teamModel = teamModel
+                                navController.navigate(NavigationItem.EditTeam.route)
+                            }
+                        }), Modifier.padding(4.dp)
+                )
             }
-            ShortList(items = shortItemList)
 
         } else {
-            val shortItemList = ArrayList<ShortListItem>()
-            players.value.forEach {
-                shortItemList.add(it.toShortItem {
-                    navController.navigate(NavigationItem.BupiPlayerEdit.route)
-                })
-            }
-            ShortList(items = shortItemList)
-        }
+            ShortList(
+                PlayersState(
+                    players.value,
+                    onPlayerClickHandler = object : OnPlayerClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            mainViewModel.playerModel = playerModel
+                            navController.navigate(NavigationItem.Sticker.route)
+                        }
+                    },
+                    onEditClickHandler = object : OnEditClickHandler {
+                        override fun onPlayerClick(playerModel: PlayerModel) {
+                            mainViewModel.playerModel = playerModel
+                            navController.navigate(NavigationItem.EditPlayer.route)
+                        }
+                    }
+                ),
+
+            )
+        }*/
     }
 }
