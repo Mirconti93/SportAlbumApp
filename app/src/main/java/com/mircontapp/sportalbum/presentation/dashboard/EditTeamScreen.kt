@@ -39,7 +39,7 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
             if (it != null) {
                 it
             } else {
-                dashboardViewModel.updateType.value = DashboardViewModel.UpdateType.NEW
+                dashboardViewModel.updateType.value = Enums.UpdateType.NEW
                 TeamModel("New", "", "", "", "", "", "", Enums.Area.OTHER, Enums.Area.OTHER,false,"", "", Enums.MatchModule.M442)
             }
         }
@@ -129,7 +129,7 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
                 )
                 Toast.makeText(SportAlbumApplication.instance, SportAlbumApplication.instance.getString(R.string.dataUpdated), Toast.LENGTH_LONG)
             }) {
-                Text(text = if (dashboardViewModel.updateType.value == DashboardViewModel.UpdateType.NEW)
+                Text(text = if (dashboardViewModel.updateType.value == Enums.UpdateType.NEW)
                     SportAlbumApplication.instance.getString(R.string.add)
                     else SportAlbumApplication.instance.getString(R.string.update))
             }

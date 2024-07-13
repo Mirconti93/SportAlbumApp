@@ -39,10 +39,10 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
     val playerModel = remember {
         mainViewModel.playerModel.let {
             if (it != null) {
-                dashboardViewModel.updateType.value = DashboardViewModel.UpdateType.UPDATE
+                dashboardViewModel.updateType.value = Enums.UpdateType.UPDATE
                 it
             } else {
-                dashboardViewModel.updateType.value = DashboardViewModel.UpdateType.NEW
+                dashboardViewModel.updateType.value = Enums.UpdateType.NEW
                 PlayerHelper.buildPlayerModel("Player")
             }
         }
