@@ -48,6 +48,7 @@ fun EditBupiPlayerScreen(navController: NavController) {
 
     val name = remember { mutableStateOf(TextFieldValue(player.name)) }
     val team = remember { mutableStateOf(TextFieldValue(player.team)) }
+    val country = remember { mutableStateOf(TextFieldValue(player.country ?: "")) }
     val role = remember { mutableStateOf(TextFieldValue(player.role.toString())) }
 
     Row(modifier = Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
@@ -59,14 +60,19 @@ fun EditBupiPlayerScreen(navController: NavController) {
             TextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
 
+            TextField(value = country.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
+                label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
+
             TextField(value = role.value, onValueChange = { role.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.role)) })
 
 
             Button(onClick = {
                 bupiViewModel.updatePlayer(
-                    BupiPlayerModel(name.value.text,
+                    BupiPlayerModel(
+                        name.value.text,
                         team.value.text,
+                        country.value.text,
                         role.value.text.toInt()
                     )
                 )

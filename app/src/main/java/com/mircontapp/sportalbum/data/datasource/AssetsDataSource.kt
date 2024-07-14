@@ -120,11 +120,11 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource, BupiDataSour
     fun bupiPlayerFactory(row: String) : BupiPlayerModel {
         val fields = row.split("_")
         if (fields.size >= 3) {
-            return BupiPlayerModel(fields[0], fields[1], fields[2].toIntOrNull())
+            return BupiPlayerModel(fields[0], fields[1], "Free", fields[2].toIntOrNull())
         } else if (fields.size == 2) {
-            return BupiPlayerModel(fields[0], fields[1], 1)
+            return BupiPlayerModel(fields[0], fields[1], "Free", 1)
         } else{
-            return BupiPlayerModel("Team", "", 1)
+            return BupiPlayerModel("Player", "", "Free", 1)
         }
     }
 

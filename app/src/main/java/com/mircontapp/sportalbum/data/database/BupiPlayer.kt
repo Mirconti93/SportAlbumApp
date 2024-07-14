@@ -8,10 +8,11 @@ import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 data class BupiPlayer (
     @PrimaryKey val name: String,
     val team: String?,
+    val country: String?,
     var role: String?
 )
 
 fun BupiPlayer.bupiPlayerFromEntity() : BupiPlayerModel {
-    return BupiPlayerModel(this.name, this.team ?: "Free", this.role?.toIntOrNull())
+    return BupiPlayerModel(this.name, this.team ?: "Free", this.country, this.role?.toIntOrNull())
 }
 

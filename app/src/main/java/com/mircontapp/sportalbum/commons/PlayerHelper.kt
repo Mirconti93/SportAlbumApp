@@ -373,7 +373,7 @@ class PlayerHelper {
         }
 
         fun buildBupiPlayerModel(name: String): BupiPlayerModel {
-            return BupiPlayerModel(name, "Free", 0)
+            return BupiPlayerModel(name, "Free", "Free", 0)
         }
 
         fun isPortiere(p: PlayerMatchModel): Boolean {

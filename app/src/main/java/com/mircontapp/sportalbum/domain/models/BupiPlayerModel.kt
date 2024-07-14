@@ -8,11 +8,12 @@ import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 data class BupiPlayerModel(
     val name: String,
     var team: String,
+    var country: String?,
     val role: Int?
 )
 
 fun BupiPlayerModel.entityFromBupiPlayer() : BupiPlayer {
-    return BupiPlayer(this.name, this.team, this.role.toString())
+    return BupiPlayer(this.name, this.team, this.country, this.role.toString())
 }
 
 fun BupiPlayerModel.toShortItem(onItemClick : () -> Unit) : ShortListItem {
