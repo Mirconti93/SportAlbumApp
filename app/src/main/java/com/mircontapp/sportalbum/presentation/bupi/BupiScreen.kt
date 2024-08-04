@@ -127,7 +127,7 @@ fun BupiScreen(navController: NavController) {
                     if (viewModel.bupiPlayers.value != null) {
                         FileDataManager.writeBupiPlayers(
                             context = SportAlbumApplication.instance.applicationContext,
-                            "players.txt", viewModel.bupiPlayers.value
+                            "bupi.txt", viewModel.bupiPlayers.value
                         )
                     }},
                     colors = ButtonDefaults.buttonColors(
@@ -161,11 +161,11 @@ fun BupiScreen(navController: NavController) {
         }*/
 
         if (isTeams.value) {
-
             val shortItemList = ArrayList<ShortListItem>()
-            players.value.forEach {
+            teams.value.forEach {
                 shortItemList.add(it.toShortItem {
-                    navController.navigate(NavigationItem.BupiPlayerEdit.route)
+                    viewModel.bupiPlayersByTeam(it.name)
+                    isTeams.value = false
                 })
             }
             ShortList(items = shortItemList)
@@ -174,6 +174,7 @@ fun BupiScreen(navController: NavController) {
             val shortItemList = ArrayList<ShortListItem>()
             players.value.forEach {
                 shortItemList.add(it.toShortItem {
+                    viewModel.selectedBupiPlayer = it
                     navController.navigate(NavigationItem.BupiPlayerEdit.route)
                 })
             }
