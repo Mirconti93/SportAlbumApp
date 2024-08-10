@@ -134,7 +134,7 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource, BupiDataSour
         if (fields.size >= 2) {
             return BupiTeamModel(fields[0], fields[1])
         } else {
-            return BupiTeamModel("Team", "")
+            return BupiTeamModel(fields[0], "")
         }
     }
 

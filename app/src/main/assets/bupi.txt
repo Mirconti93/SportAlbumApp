@@ -1,8 +1,8 @@
 A. Berezutski_Mosca_1
 A. Cole_Dover_1
-A. Lucarelli_Parma_2
+A. Lucarelli_Rovetta_2
 A. Scott_London Reds_1
-A. Serena_Torino_11
+A. Serena_Bratto_11
 Abily_Lione_6
 Abraham_London Reds_11
 Acerbi_Olr_1
@@ -24,7 +24,7 @@ Aguero_Manchester Blue_11
 Aleixandri_Granada_2
 Alex Morgan_San Francisco_11
 Alex Sandro_Senfrensis_4
-Alexia_Madrigal_1
+Alexia_Barcelona_1
 Allan_Castione_5
 Allison_Liverpool_1
 Altobelli_Cerete Alto_1
@@ -58,7 +58,7 @@ Arshavin_Mosca_1
 Arthur_Mallorca_1
 Asante_London Reds_5
 Asensio_Tenerife_8
-Asinello_Niuppin_1
+Asinello_Free_1
 Asllani_Shire_1
 Aubameyang_Lille_10
 Avogadro_Torino_7
@@ -79,7 +79,7 @@ Barbierato_Real Cesate_9
 Barbra_Barcellona_9
 Bardsley_Shire_1
 Barella_Mollett_6
-Baresi_Clusone_2
+Baresi_Free_2
 Barkley_Everton_1
 Barone_Palermo_5
 Baronio_Venezia_1
@@ -98,10 +98,10 @@ Beckham_Manchester_7
 Beerensteyn_Utrecht_1
 Behrami_Onore_6
 Bellamy_Liverpool White_1
-Bellingham_Southampton_9
+Bellingham_Liverpool_9
 Belotti_Torino_11
 Benassi_Torino_6
-Benatia_Lille_2
+Benatia_Senfrensis_2
 Bennarrivo_Parma_4
 Bentivoglio_Verona_5
 Benzema_London_11
@@ -130,9 +130,9 @@ Biraghi_Empoli_4
 Birindelli_Presolana_4
 Biwa_Friulana_10
 Bjarnasson_Pescara_6
-Black_Niuppin_3
+Black_New York_3
 Blundell_Watford_2
-Bobby Cane_Songavazzo_5
+Bobby Cane_Nanchino_5
 Bocca_Songavazzo_3
 Bocchetti_Milano_4
 Bode_Brema_1
@@ -149,15 +149,14 @@ Borghi_Castione_5
 Borja Valero_Firenze_7
 Borriello_Genova_11
 Bouahddi_Lione_1
-Bovo_Onore_2
-BrConti_Roma_8
+Bovo_Torino_2
 Branko_Rhodense_2
 Brasifedi_Mollett_2
 Breitner_Berlino_4
 Bremer_Songavazzo_2
 Bresciano_Olr_1
 Bressan_Pescara_6
-Brienza_Milano_10
+Brienza_Palermo_10
 Brighi_Verona_6
 Bright_London_2
 Brio_San Lorenzo_5
@@ -170,23 +169,23 @@ Buchanan_Lione_2
 Buffon_Niuppin_1
 Buhl_Monaco_11
 Bulgarfe_Genova_5
-Burdisso_Onore_2
+Burdisso_Roma_2
 Busquets_Barcellona_5
 Bussaglia_Lione_5
 C. Lucarelli_Rovetta_11
 C. Sinclair_Portland_9
 CCmaita8_Venezia_6
 CCmaslo8_Olr_1
-Cabrini_Clusone_4
+Cabrini_Free_4
 Cacciatore_Rovetta_2
-Cafu_Lainate_3
-Cagnolino_Senfrensis_11
+Cafu_Rio R_3
+Cagnolino_Nanchino_11
 Calabria_Olr_1
 Caldara_Rovetta_2
 Callejon_Napoli_8
 Calvi_Milano_1
 Cambiasso_Niuppin_5
-Camoranesi_Lainate_8
+Camoranesi_Songavazzo_8
 Campagnaro_Napoli_2
 Candreva_Olr_8
 Cantor_St Pietroburgo_2
@@ -195,7 +194,7 @@ Capryol_Torreboldone_9
 Cardano_Mappett_6
 Cardone_Real Cesate_2
 Carissimi_Novezio_6
-Carney_Dover_8
+Carney_Shire_8
 Carragher_Liverpool_2
 Carrera_Rovetta_3
 Carrick_Manchester_5
@@ -209,12 +208,12 @@ Cassetti_Roma_3
 Castagne_Rovetta _1
 Castan_Coritiba_1
 Castellazzi_Genova_1
-Castellini_Pescara_4
+Castellini_Torino_4
 Castrovilli_Firenze_7
 Catley_Miami_1
 Cauet_Paris_5
 Cavagna_Venezia_1
-Cavani_Valencia_10
+Cavani_Paris_10
 Cavendish_Watford_1
 Ccmaarg8_Cordoba_6
 Ccmaing8_Reginald_1
@@ -232,13 +231,13 @@ Cigarini_Fino Del Monte_5
 Clelland_Mollett_10
 Clementi_Presolana_4
 Cocu_Olandese_1
-Colucci_Nanet_1
+Colucci_Lecce_1
 Comparelli_Milano_2
 Conceicao_Porto_7
 Congofe_Real Cesate_2
 Congoma_Lainate_1
 Conti_Torreboldone_3
-Conticchio_Novezio_2
+Conticchio_Lecce_2
 Cordoba_Senfrensis_2
 Corini_Verona_5
 Coriolis_Nizza_1
@@ -257,14 +256,14 @@ Crespo_Clusone_11
 Crippa_Parma_6
 Cris_Rio B_1
 Criscito_Genova_4
-Cristiane_Paris_10
-Cristiano Ronaldo_London_9
+Cristiane_Brasilia_10
+Cristiano Ronaldo_Madrid_9
 Crnogorcevic_Frankfurt_9
 Cuadrado_Senfrensis_8
 Cuthbert_Edinburgh_1
 Cutrone_Castione_11
-D Ambrosio_Torino_4
-D'Agostino_Mambol_5
+D Ambrosio_Milano_4
+D Agostino_Friulana_5
 D. Zenoni_Fino Del Monte_1
 Da Vinci_Firenze_1
 Dabritz_Amburgo_5
@@ -277,8 +276,8 @@ Dani Alves_Barcellona_1
 Dani Olmo_Valenciar_7
 Danna_Verona_2
 Darmian_Mollett_3
-Datti_Clusone_1
-David Silva_Manchester Blue_8
+Datti_Nanchino_1
+David Silva_Valencia_8
 Davids_Aja_1
 Davison_Southampton_4
 DcGer_Barcellona_2
@@ -286,9 +285,9 @@ Dcmadan5_Copenhagen_2
 Dcmaola4_London_2
 De Agostini_Torreboldone_3
 De Ascentis_Torino_5
-De Bruyne_Barcellona_7
-De Gea_Madrid_1
-De Maio_Onore_2
+De Bruyne_London_7
+De Gea_Birmingham_1
+De Maio_Verona_2
 De Napoli_Napoli_5
 De Roon_Clusone_5
 De Rossi_Roma_5
@@ -298,7 +297,7 @@ De Silvestri_Bologna_3
 De Vanna_Melbourne_6
 De Vrij_Clusone_2
 Debinha_Rio Y_9
-Deco_Madrid_7
+Deco_Lisbona_7
 Dekker_Rotterdam_1
 Del Grosso_Bari_4
 Del Piero_Senfrensis_10
@@ -338,7 +337,7 @@ Dog_Genova_11
 Donadel_Pescara_5
 Donati_Rovetta_5
 Doni_Fino Del Monte_1
-Doni P_Rio B_1
+Doni P_Roma_1
 Donipor_Recife_1
 Donnarumma_Mollett_1
 Doorsoun_Frankfurt_1
@@ -361,13 +360,12 @@ El Sharaawy_Mambol_9
 Eldest_Rovetta_8
 England_Leeds_1
 Erikkson_London_2
-Eriksson_Shire_1
-Eros_Monaco_1
+Eros_Niuppin_1
 Ertz_Houston_1
 Esther_Zaragozza_9
-Etoo_Lainate_1
+Etoo_Pechino_1
 Evans_Reginald_1
-F. Couto_Oporto_2
+F. Couto_Lisbona_2
 F. De Boer_Aja_1
 F. Williams_Liverpool_7
 Fabio_Torreboldone_5
@@ -376,7 +374,7 @@ Falcone_Genova_2
 Faraday_London Reds_8
 Faraoni_Verona_3
 Favalli_Rhodense_4
-Fazio_Cordova_2
+Fazio_San Lorenzo_2
 Fekir_Lille_1
 Ferdinand_Manchester_2
 Fermat_Lione_2
@@ -386,14 +384,13 @@ Figo_Lisbona_8
 Filangeri_Pescara_2
 Fili_Torino_8
 Finzi_Niuppin_5
-Fiore_Onore_7
-Firmino_Liverpool_11
-Firmino_San Paolo_11
+Fiore_Friulana_7
+Firmino_Rio R_11
 Flaherty_London White_1
 Floccari_Real Cesate_10
 Florenzi_Roma_3
 Floro Flores_Novezio_1
-Fontolan_Bologna_7
+Fontolan_Bari_7
 Foord_San Francisco_1
 Fortunato_Dorga_1
 Fowler_Coolidge_1
@@ -424,16 +421,16 @@ Gastaldello_Pescara_2
 Gattuso_Mollett_5
 Gauss_Monaco_7
 Gerrard_Liverpool_7
-Gervinho_dOVER_1
+Gervinho_Birmingham_1
 Geyoro_Paris_7
 Giaccherini_Verona_9
-Giacinti_Olr_11
+Giacinti_Roma_11
 Giallino_New York_1
-Giannellini_Manchester_9
+Giannellini_Rio R_9
 Giannichedda_Niuppin_5
 Giggs_Manchester_9
 Gignac_Lione_11
-Gilardino_Fino Del Monte_1
+Gilardino_Olr_1
 Giovinco_Toronto_10
 Girelli_Clusone_10
 Giroud_Marsiglia_11
@@ -442,7 +439,7 @@ Giuliano_Roma_7
 Giunti_Milano_5
 Given_Dover_1
 Glionna_Torino_10
-Gobbi_Airoldi_1
+Gobbi_San Lorenzo_1
 Goessling_Stoccarda_4
 Goldoni_Venezia_1
 Gollini_Rovetta_1
@@ -465,10 +462,10 @@ Guardalben_Bari_1
 Guarino_Olr_1
 Guendouzi_Marsiglia_5
 Gullit_Manchester Blue_8
-Gundogan_Amburgo_5
+Gundogan_Manchester Blue_5
 Gwinn_Amburgo_1
 Gyan_Accra_11
-Hakimi_Madrid_3
+Hakimi_Mollett_3
 Halland_Reginald_1
 Halley_Manchester Blue_4
 Hampton_Bristol_1
@@ -485,10 +482,9 @@ Hegerberg_Valencia_11
 Hegering_Wolfsburg_1
 Heitinga_Aja_1
 Helveg_Venezia_1
-Hemp_Liverpool White_1
+Hemp_Manchester Blue_1
 Henry_Reginald_1
 Hernani_Porto_6
-Herscell_Colonia_1
 Herschel_Everton_1
 Hierro_Madrid_5
 Higuain_Songavazzo_11
@@ -502,14 +498,14 @@ Huntelaar_Olandese_1
 Huth_Berlino_5
 Hysaj_Songavazzo_3
 Iago Aspas_Malaga_1
-Iaquinta_Real Cesate_11
-Ibrahimovic_Manchester_11
+Iaquinta_Onore_11
+Ibrahimovic_Moller_11
 Icardi_Los Angeles_1
 Iezzo_Napoli_1
 Iganshevic_Spartak Mosca_1
 Ilic_Bari_5
 Ilicic_Songavazzo_9
-Immobile_Onore_11
+Immobile_Toreboldone_11
 Inglese_Verona_11
 Insigne_Napoli_9
 Inzaghi_Mollett_11
@@ -537,7 +533,7 @@ Javi Martinez_Bilbao_5
 Jenny Hermoso_Madrid Rojo_1
 Jesus Navas_Siviglia_8
 Ji_Newcastle_1
-Joao Felix_Oporto_1
+Joao Felix_Lisbona_1
 Joao Moutinho_Lisbona_6
 Joao Pedro_Castione_1
 Joao Pinto_Lisbona_1
@@ -545,7 +541,7 @@ Joe Cole_London Reds_1
 Joel Obi_Torino_5
 Jonk_Rotterdam_1
 Jorghensen_Mappett_5
-Jorginho_Clusone_5
+Jorginho_Senfrensis_5
 Jovetic_Firenze_10
 Juan_Rio R_1
 Juan J_Sao Paulo B_1
@@ -557,7 +553,7 @@ K.Toure_Manchester Blue_2
 Kaagman_Utrecht_1
 Subotic_Dortmund_2
 Kagawa_Dortmund_9
-Kaka_Lainate_7
+Kaka_Madrid_7
 Kaladze_Songavazzo_2
 Kante_London_5
 Karchaoui_Paris_4
@@ -589,7 +585,7 @@ Kumagai_Dover_1
 Kurtic_Presolana_6
 Kuyt_Eindhoven_1
 Kuzmanovic_Onore_6
-Kvara_Genova_9
+Kvara_Napoli_9
 L Lazzari_San Lorenzo_3
 L. Oliveira_Cagliari_11
 L. Suarez_Barcellona_11
@@ -654,7 +650,7 @@ Maldini_Mollett_4
 Maliama_Presolana_4
 Malika_Torino_2
 Malmm_Senfrensis_7
-Malouda_Montecarlo_9
+Malouda_London_9
 Mandaragora_Novezio_5
 Mandzukic_Zagabria_11
 Manferdini_Fino Del Monte_1
@@ -711,7 +707,7 @@ Miedema_Monaco_1
 Mijelde_London Reds_4
 Milanetto _Genova_7
 Milinkovic_Senfrensis_6
-Milito_Niuppin_11
+D. Milito_Niuppin_11
 Minamino_Tokyo_8
 Miranda_Rio R_2
 Mirante_Rhodense_1
@@ -752,10 +748,10 @@ Nego_Milano_2
 Negredo_Siviglia_11
 Neper_Edinburgh_1
 Nervo_Bologna_7
-Nesta_Senfrensis_2
+Nesta_Dover_2
 Neuer_Monaco_1
 Newton_London_5
-Neymar_Madrid_9
+Neymar_Rio R_9
 Nigeniu_Bari_9
 Nikolaevich_Spartak Mosca_1
 Nobbs_Birmingham_7
@@ -771,7 +767,7 @@ Ogbonna_Castione_2
 Olamamd_Olandese_1
 Orlandi_Firenze_9
 Orsetto_Senfrensis_1
-Orsolini_Rovetta_8
+Orsolini_Bologna_8
 Oshoala_Almeria_10
 Osimhen_Castione_11
 Osio_Parma_7
@@ -796,8 +792,8 @@ Pandev_Genova_9
 Panico_Firenze_11
 Panucci_Lainate_3
 Papertotti_Roma_11
-Pappagallino_Lainate_8
-Papu_Songavazzo_9
+Pappagallino_Free_8
+Papu_Lainate_9
 Paramatti_Bologna_2
 Paredes_Napoli_5
 Parisi_Nanet_1
@@ -829,7 +825,7 @@ Perisset_Bordeaux_4
 Perraud Magnain_Tolosa_1
 Perrotta_Roma_7
 Perry_Torreboldone_2
-Pescioletto_Barcellona_7
+Pescioletto_Clusone_7
 Pesciolino_Niuppin_10
 Pessotto_Bologna_3
 Petagna_Castione_11
@@ -839,11 +835,11 @@ Piemonte_Bari_11
 Pinamonti_Olr_11
 Pini_Airoldi_1
 Pique_Barcellona_2
-Pirlo_Senfrensis_5
+Pirlo_Dover_5
 Pirone_San Lorenzo_8
 Pisano_Cagliari_1
 Piva_Onore_5
-Pizarro_Torreboldone_5
+Pizarro_Roma_5
 Pizzarro_Brema_1
 Pogba_Dover_1
 Poggi_Friulana_11
@@ -886,7 +882,7 @@ Rapinoe_New York_9
 Rauch_Wolfsburg_3
 Raul_Madrid Rojo_10
 Raul Meireles_Porto_6
-Recoba_Venezia_10
+Recoba_Montevideo_10
 Regini_Mambol_2
 Reiten_Reading_1
 Reiziger_Aja_1
@@ -938,7 +934,7 @@ Salvai_Senfrensis_2
 Sammarco_Verona_5
 Sammer_Dortmund_2
 Samuel_Niuppin_2
-Sanchez_Mappett_9
+Sanchez_Montecarlo_9
 Sanderson_Leeds_1
 Sandokan_Songavazzo_10
 Sansone_Nanet_1
@@ -1016,11 +1012,10 @@ Sudafrife_Novezio_9
 Suhle_Frankfurt_2
 Sullo_Lecce_5
 Suso_Madrigal_1
-Svetl_Birmingham_1
+Svetl_Songavazzo_1
 Tacchinardi_Mambol_5
 Tacconi_Airoldi_1
 Taddei_Roma_8
-Tamarino_Recife_8
 Tamarino_Barcellona_9
 Tamires_Rio R_4
 Tancredi_Roma_1
@@ -1085,7 +1080,7 @@ Van Breukelen_Eindhoven_1
 Van Bronchnost_Olandese_4
 Van De Sanden_Rotterdam_8
 Van Der Sar_Olandese_1
-Van Dijk_Liverpool_2
+Van Dijk_Madrid_2
 Van Persie_Olandese_1
 Van Veenendaal_Aja_1
 Van de Donk_Olandese_1
@@ -1164,7 +1159,7 @@ Pajor_Amburgo_11
 Polli_Empoli_11
 Vecino_Empoli_5
 Maccarone_Empoli_11
-Di Marco_Verona_4
+Di Marco_Lainate_4
 Traore_Castione_7
 Lauriente_Castione_8
 Xabi Alonso_Liverpool_5
@@ -1190,4 +1185,6 @@ Democrito_Niuppin_2
 Kim_Napoli
 Forlan_Siviglia
 Bacca_Siviglia
+Kalou_London
+Almeyda_Niuppin
 
