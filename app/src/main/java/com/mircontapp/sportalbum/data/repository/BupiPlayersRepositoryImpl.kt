@@ -16,7 +16,11 @@ class BupiPlayersRepositoryImpl(val bupiDataSource: BupiDataSource): BupiPlayers
     }
 
     override suspend fun insertPlayer(bupiPlayerModel: BupiPlayerModel) {
-        bupiDataSource.insertBupiPlayer(bupiPlayerModel)
+        if (getAllPlayers().find { it.name == bupiPlayerModel.name } != null) {
+            updatePlayer(bupiPlayerModel)
+        } else {
+            bupiDataSource.insertBupiPlayer(bupiPlayerModel)
+        }
     }
 
     override suspend fun updatePlayer(bupiPlayerModel: BupiPlayerModel) {
