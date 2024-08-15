@@ -25,21 +25,20 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.TeamHelper
+import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.BupiTeamModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditBupiTeamScreen(navController: NavController) {
+fun EditBupiTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
     val bupiViewModel: BupiViewModel = hiltViewModel()
     val team = remember {
-        bupiViewModel.selectedBupiTeam.let {
+        mainViewModel.selectedBupiTeam.let {
             if (it != null) {
-                bupiViewModel.updateType.value = Enums.UpdateType.UPDATE
                 it
             } else {
-                bupiViewModel.updateType.value = Enums.UpdateType.NEW
                 BupiTeamModel("Team", "")
             }
         }
@@ -48,10 +47,8 @@ fun EditBupiTeamScreen(navController: NavController) {
     val textFieldModifier: Modifier = Modifier.padding(2.dp)
 
     val name = remember { mutableStateOf(TextFieldValue(team.name)) }
-    val area = remember { mutableStateOf(TextFieldValue(team.area)) }
+    val area = remember { mutableStateOf(TextFieldValue(team.area ?:"")) }
 
-
-    Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
         Column {
 
             TextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
@@ -60,9 +57,19 @@ fun EditBupiTeamScreen(navController: NavController) {
             TextField(value = area.value, onValueChange = { area.value = it}, modifier = textFieldModifier,
                 label = {Text(text = SportAlbumApplication.instance.getString(R.string.area))})
 
+            Button(onClick = {
+                bupiViewModel.updateTeam(
+                    BupiTeamModel(
+                        name.value.text,
+                        area.value.text
+                    )
+                )
+                navController.popBackStack()
+            }) {
+                Text(text = SportAlbumApplication.instance.getString(R.string.update))
+            }
 
         }
-    }
 
 }
 

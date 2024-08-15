@@ -46,8 +46,6 @@ class BupiViewModel @Inject constructor(
 
     var updateType = mutableStateOf(Enums.UpdateType.UPDATE)
 
-    var selectedBupiPlayer: BupiPlayerModel? = null
-    var selectedBupiTeam: BupiTeamModel? = null
 
     init{
         loadTeams()
@@ -84,20 +82,22 @@ class BupiViewModel @Inject constructor(
         }
     }
 
-    fun filterTeams(text: String?) : List<BupiTeamModel> {
+    fun filterTeams(team: String?) : List<BupiTeamModel> {
+        val text = team?.lowercase()
         var teams =
             if (text.isNullOrEmpty()) allTeams
             else {
-                allTeams.filter { it.name.contains(text) || it.area?.contains(text) ?: false  }
+                allTeams.filter { it.name.lowercase().contains(text) || it.area?.lowercase()?.contains(text) ?: false  }
             }
         return teams
     }
 
-    fun filterPlayers(text: String?) : List<BupiPlayerModel> {
+    fun filterPlayers(player: String?) : List<BupiPlayerModel> {
+        val text = player?.lowercase()
         var players =
             if (text.isNullOrEmpty()) allPlayers
             else {
-                allPlayers.filter { it.name.contains(text) || it.team.contains(text)   }
+                allPlayers.filter { it.name.lowercase().contains(text) || it.team.lowercase().contains(text)   }
             }
         return players
     }
@@ -108,13 +108,14 @@ class BupiViewModel @Inject constructor(
 
     fun updatePlayer(bupiPlayerModel: BupiPlayerModel) {
         viewModelScope.launch {
-            if (updateType.value == Enums.UpdateType.NEW) {
-                bupiPlayersRepository.insertPlayer(bupiPlayerModel)
-            } else {
-                bupiPlayersRepository.updatePlayer(bupiPlayerModel)
-            }
+            bupiPlayersRepository.updatePlayer(bupiPlayerModel)
         }
+    }
 
+    fun updateTeam(bupiTeamModel: BupiTeamModel) {
+        viewModelScope.launch {
+            bupiTeamsRepository.updateTeam(bupiTeamModel)
+        }
     }
 
 

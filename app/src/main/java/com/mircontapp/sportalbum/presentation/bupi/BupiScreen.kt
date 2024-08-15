@@ -58,12 +58,11 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @ExperimentalMaterial3Api
 @Composable
-fun BupiScreen(navController: NavController) {
+fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
     val viewModel: BupiViewModel = hiltViewModel()
     Column(verticalArrangement = Arrangement.Top) {
-        val isTeams = remember {
-            mutableStateOf(true)
-        }
+        val isTeams = remember { mutableStateOf(true) }
+        val isEditTeams = remember { mutableStateOf(false) }
 
         val players = viewModel.bupiPlayers.collectAsState()
         val teams = viewModel.bupiTeams.collectAsState()
@@ -82,7 +81,7 @@ fun BupiScreen(navController: NavController) {
                         .height(40.dp)
                 )
                 Tab(selected = !isTeams.value,
-                    onClick = { isTeams },
+                    onClick = { isTeams.value = false },
                     text = {Text(SportAlbumApplication.instance.getString(R.string.playerList), color = if (!isTeams.value) Color.Black else Color.White)},
                     modifier = Modifier
                         .background(color = if (!isTeams.value) OrangeYellowD else BlueD)
@@ -113,11 +112,21 @@ fun BupiScreen(navController: NavController) {
                         .padding(16.dp, 8.dp),
                 )
             } else {
+                if (isTeams.value) {
+                    Button(onClick = {
+                        isEditTeams.value.let {
+                            isEditTeams.value = !it
+                        }
+                    }) {
+                        Text(text = SportAlbumApplication.instance.getString(R.string.edit))
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
                 Button(onClick = {
                     if (!isTeams.value) {
-                        navController.navigate(NavigationItem.EditPlayer.route)
+                        navController.navigate(NavigationItem.BupiPlayerEdit.route)
                     } else {
-                        navController.navigate(NavigationItem.EditTeam.route)
+                        navController.navigate(NavigationItem.BupiTeamEdit.route)
                     }
                 }) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.newItem))
@@ -164,8 +173,12 @@ fun BupiScreen(navController: NavController) {
             val shortItemList = ArrayList<ShortListItem>()
             teams.value.forEach {
                 shortItemList.add(it.toShortItem {
-                    viewModel.bupiPlayersByTeam(it.name)
-                    isTeams.value = false
+                    if (isEditTeams.value) {
+                        navController.navigate(NavigationItem.BupiTeamEdit.route)
+                    } else {
+                        viewModel.bupiPlayersByTeam(it.name)
+                        isTeams.value = false
+                    }
                 })
             }
             ShortList(items = shortItemList)
@@ -174,7 +187,7 @@ fun BupiScreen(navController: NavController) {
             val shortItemList = ArrayList<ShortListItem>()
             players.value.forEach {
                 shortItemList.add(it.toShortItem {
-                    viewModel.selectedBupiPlayer = it
+                    mainViewModel.selectedBupiPlayer = it
                     navController.navigate(NavigationItem.BupiPlayerEdit.route)
                 })
             }

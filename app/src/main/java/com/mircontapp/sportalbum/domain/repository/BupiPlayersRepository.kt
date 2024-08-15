@@ -8,6 +8,5 @@ interface BupiPlayersRepository {
 
     suspend fun getAllPlayers(): List<BupiPlayerModel>
     suspend fun playersFromTeam(teamName: String) : List<BupiPlayerModel>
-    suspend fun insertPlayer(player: BupiPlayerModel)
     suspend fun updatePlayer(player: BupiPlayerModel)
 }

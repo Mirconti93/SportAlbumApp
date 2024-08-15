@@ -8,6 +8,5 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 interface BupiTeamsRepository {
     suspend fun getAllTeams(): List<BupiTeamModel>
     suspend fun teamsFromArea(area: String) : List<BupiTeamModel>
-    suspend fun insertTeam(teamModel: BupiTeamModel)
     suspend fun updateTeam(teamModel: BupiTeamModel)
 }

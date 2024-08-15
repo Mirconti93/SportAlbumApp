@@ -54,16 +54,16 @@ fun NavGraph(navController: NavHostController, mainViewModel: MainViewModel){
             MatchStartScreen(navController = navController, mainViewModel)
         }
         composable(route = NavigationItem.Bupi.route){
-            BupiScreen(navController = navController)
+            BupiScreen(navController = navController, mainViewModel)
         }
         composable(route = NavigationItem.BupiPlayer.route){
             BupiPlayerScreen(navController = navController)
         }
         composable(route = NavigationItem.BupiPlayerEdit.route){
-            EditBupiPlayerScreen(navController = navController)
+            EditBupiPlayerScreen(navController = navController, mainViewModel)
         }
         composable(route = NavigationItem.BupiTeamEdit.route){
-            EditBupiTeamScreen(navController = navController)
+            EditBupiTeamScreen(navController = navController, mainViewModel)
         }
     }
 }

@@ -16,11 +16,11 @@ class BupiTeamsRepositoryImpl @Inject constructor(val bupiDataSource: BupiDataSo
     }
 
     override suspend fun updateTeam(bupiTeamModel: BupiTeamModel) {
-        bupiDataSource.updateBupiTeam(bupiTeamModel)
-    }
-
-    override suspend fun insertTeam(bupiTeamModel: BupiTeamModel) {
-        bupiDataSource.insertBupiTeam(bupiTeamModel)
+        if (getAllTeams().find { it.name == bupiTeamModel.name } != null) {
+            bupiDataSource.updateBupiTeam(bupiTeamModel)
+        } else {
+            bupiDataSource.insertBupiTeam(bupiTeamModel)
+        }
     }
 
 }

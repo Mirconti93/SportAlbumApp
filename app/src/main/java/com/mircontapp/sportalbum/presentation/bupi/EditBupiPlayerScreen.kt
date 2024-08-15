@@ -29,11 +29,10 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditBupiPlayerScreen(navController: NavController) {
+fun EditBupiPlayerScreen(navController: NavController, mainViewModel: MainViewModel) {
     val bupiViewModel: BupiViewModel = hiltViewModel()
-
     val player = remember {
-        bupiViewModel.selectedBupiPlayer.let {
+        mainViewModel.selectedBupiPlayer.let {
             if (it != null) {
                 bupiViewModel.updateType.value = Enums.UpdateType.UPDATE
                 it
@@ -60,7 +59,7 @@ fun EditBupiPlayerScreen(navController: NavController) {
             TextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
 
-            TextField(value = country.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
+            TextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
 
             TextField(value = role.value, onValueChange = { role.value = it }, modifier = textFieldModifier,
@@ -73,7 +72,7 @@ fun EditBupiPlayerScreen(navController: NavController) {
                         name.value.text,
                         team.value.text,
                         country.value.text,
-                        role.value.text.toInt()
+                        role.value.text.toIntOrNull()
                     )
                 )
                 navController.popBackStack()

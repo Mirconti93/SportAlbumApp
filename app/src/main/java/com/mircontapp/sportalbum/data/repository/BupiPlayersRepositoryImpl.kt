@@ -15,17 +15,14 @@ class BupiPlayersRepositoryImpl(val bupiDataSource: BupiDataSource): BupiPlayers
         return getAllPlayers().filter { it.team.equals(teamName) }
     }
 
-    override suspend fun insertPlayer(bupiPlayerModel: BupiPlayerModel) {
+    override suspend fun updatePlayer(bupiPlayerModel: BupiPlayerModel) {
         if (getAllPlayers().find { it.name == bupiPlayerModel.name } != null) {
-            updatePlayer(bupiPlayerModel)
+            bupiDataSource.updateBupiPlayer(bupiPlayerModel)
         } else {
             bupiDataSource.insertBupiPlayer(bupiPlayerModel)
         }
     }
 
-    override suspend fun updatePlayer(bupiPlayerModel: BupiPlayerModel) {
-        bupiDataSource.updateBupiPlayer(bupiPlayerModel)
-    }
 
 
 }
