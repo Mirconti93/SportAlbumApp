@@ -138,7 +138,7 @@ Bocchetti_Milano_4
 Bode_Brema_1
 Boga_Castione_9
 Bohr_Frankfurt_8
-Bojinov_Cerete Alto_1
+Bojinov_Lecce_1
 Boli_Marsiglia_2
 Boltzmann_Vienna_1
 Bombardini_San Lorenzo_4
@@ -224,7 +224,7 @@ Cento_Clusone_9
 Cerci_Torino_8
 Cernoia_Lainate_6
 Chapman_Shire_9
-Chevanton_Rhodense_11
+Chevanton_Lecce_11
 Chiellini_Mollett_2
 Chivu_Roma_2
 Cigarini_Fino Del Monte_5
@@ -934,7 +934,7 @@ Salvai_Senfrensis_2
 Sammarco_Verona_5
 Sammer_Dortmund_2
 Samuel_Niuppin_2
-Sanchez_Montecarlo_9
+Sanchez_Marsiglia_9
 Sanderson_Leeds_1
 Sandokan_Songavazzo_10
 Sansone_Nanet_1
@@ -965,7 +965,7 @@ Sembrant_Senfrensis_2
 Semioli_Verona_8
 Semshov_Mosca_1
 Sensi_Songavazzo_6
-Sensini_Rhodense_2
+Sensini_Friulana_2
 Serturini_Roma_9
 Shaqiri_Shire_1
 Shevchenko_Mollett_10
@@ -999,7 +999,7 @@ Sportiello_San Lorenzo_1
 Stam_Manchester_2
 Staniforth_West Bromwich_1
 Stanway_Manchester Blue_10
-Stendardo_Presolana_2
+Stendardo_Lecce_2
 Sterling_Liverpool_9
 Stokes_Coolidge_1
 Stones_Reginald_1
@@ -1049,7 +1049,7 @@ Torrent_Marsiglia_3
 Torres_Liverpool_11
 Torricelli_Firenze_2
 Tortelli_San Lorenzo_5
-Tosto_Airoldi_1
+Tosto_Empoli_1
 Totti_Roma_10
 Toulalan_Montecarlo_1
 Tounkara_Paris_2
@@ -1169,7 +1169,7 @@ Rodman_Washington_10
 Brozovic_Senfrensis_5
 Donovan_Los Angeles_10
 Leroux_Los Angeles_10
-Hijulmand_San Lorenzo_6
+Hijulmand_Lecce_6
 Raspadori_San Lorenzo_11
 Damaris_Eindhoven_5
 Frattesi_Rovetta_7
@@ -1179,7 +1179,7 @@ Becao_Friulana
 Udogie_Friulana
 Okoli_Castione
 Scalvini_Clusone
-C. Zanetti_Friulana
+C. Zanetti_Firenze
 M. Thuram_Stoccarda_10
 Democrito_Niuppin_2
 Kim_Napoli
@@ -1187,4 +1187,13 @@ Forlan_Siviglia
 Bacca_Siviglia
 Kalou_London
 Almeyda_Niuppin
+Samardzic_Castione
+C. Zapata_Friulana
+Obodo_Friulana
+Zaccagni_Verona
+Halfredsson_Verona
+Beccari_Bari
+Kutuzov_Lecce
+
+
 

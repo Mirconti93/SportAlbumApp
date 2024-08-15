@@ -12,6 +12,7 @@ import com.mircontapp.sportalbum.domain.repository.BupiPlayersRepository
 import com.mircontapp.sportalbum.domain.repository.BupiTeamsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -67,7 +68,7 @@ class BupiViewModel @Inject constructor(
             val list = bupiPlayersRepository.getAllPlayers()
             withContext(Dispatchers.Main) {
                 allPlayers = list
-                _bupiPlayers.value = list
+                _bupiPlayers.value = list.sortedBy { it.role }
             }
         }
     }
@@ -82,24 +83,18 @@ class BupiViewModel @Inject constructor(
         }
     }
 
-    fun filterTeams(team: String?) : List<BupiTeamModel> {
-        val text = team?.lowercase()
-        var teams =
-            if (text.isNullOrEmpty()) allTeams
+    fun filterTeams(text: String?) : List<BupiTeamModel> {
+        return if (text.isNullOrEmpty()) allTeams
             else {
-                allTeams.filter { it.name.lowercase().contains(text) || it.area?.lowercase()?.contains(text) ?: false  }
+                allTeams.filter { it.name.contains(text, ignoreCase = true) || it.area?.contains(text, ignoreCase = true) ?: false  }
             }
-        return teams
     }
 
-    fun filterPlayers(player: String?) : List<BupiPlayerModel> {
-        val text = player?.lowercase()
-        var players =
-            if (text.isNullOrEmpty()) allPlayers
+    fun filterPlayers(text: String?) : List<BupiPlayerModel> {
+        return if (text.isNullOrEmpty()) allPlayers
             else {
-                allPlayers.filter { it.name.lowercase().contains(text) || it.team.lowercase().contains(text)   }
+                allPlayers.filter { it.name.contains(text, ignoreCase = true) || it.team.contains(text, ignoreCase = true)   }
             }
-        return players
     }
 
     fun onSearch(text: String) {
@@ -107,14 +102,18 @@ class BupiViewModel @Inject constructor(
     }
 
     fun updatePlayer(bupiPlayerModel: BupiPlayerModel) {
-        viewModelScope.launch {
+        viewModelScope.async(Dispatchers.IO) {
             bupiPlayersRepository.updatePlayer(bupiPlayerModel)
+        }.invokeOnCompletion {
+            loadPlayers()
         }
     }
 
     fun updateTeam(bupiTeamModel: BupiTeamModel) {
-        viewModelScope.launch {
+        viewModelScope.async(Dispatchers.IO) {
             bupiTeamsRepository.updateTeam(bupiTeamModel)
+        }.invokeOnCompletion {
+            loadTeams()
         }
     }
 

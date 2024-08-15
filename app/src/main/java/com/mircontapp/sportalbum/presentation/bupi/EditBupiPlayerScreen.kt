@@ -60,11 +60,10 @@ fun EditBupiPlayerScreen(navController: NavController, mainViewModel: MainViewMo
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
 
             TextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
+                label = { Text(text = SportAlbumApplication.instance.getString(R.string.country)) })
 
             TextField(value = role.value, onValueChange = { role.value = it }, modifier = textFieldModifier,
                 label = { Text(text = SportAlbumApplication.instance.getString(R.string.role)) })
-
 
             Button(onClick = {
                 bupiViewModel.updatePlayer(
@@ -81,9 +80,6 @@ fun EditBupiPlayerScreen(navController: NavController, mainViewModel: MainViewMo
             }
 
         }
-
-
-
 
     }
 

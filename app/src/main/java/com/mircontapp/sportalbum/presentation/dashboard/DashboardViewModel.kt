@@ -110,8 +110,6 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-
-
     fun searchVisibility(visible: Boolean) {
         _searchUIState.update { current -> current.copy(teamSelectionVisible = visible, searchingText = null) }
     }
@@ -121,21 +119,19 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun filterTeams(text: String?) : List<TeamModel> {
-        var teams =
-            if (text.isNullOrEmpty()) allTeams
+        return if (text.isNullOrEmpty()) allTeams
             else {
-                allTeams.filter { it.name.contains(text) || it.area?.name?.contains(text) ?: false  }
-            }
-        return teams
+                allTeams.filter { it.name.lowercase().contains(text, ignoreCase = true) }
+            }.sortedByDescending { it.area }
+
     }
 
     fun filterPlayers(text: String?) : List<PlayerModel> {
-        var players =
-            if (text.isNullOrEmpty()) allPlayers
+        return if (text.isNullOrEmpty()) allPlayers
             else {
-                allPlayers.filter { it.name.contains(text) || it.team?.contains(text) ?: false  }
-            }
-        return players.sortedByDescending { it.valueleg }
+                allPlayers.filter { it.name.contains(text) || it.team?.contains(text, ignoreCase = true) ?: false  }
+            }.sortedByDescending { it.valueleg }
+
     }
 
 
