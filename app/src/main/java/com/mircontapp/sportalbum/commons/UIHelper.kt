@@ -3,6 +3,9 @@ package com.mircontapp.sportalbum.commons
 import android.content.Context
 import android.content.res.Resources
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.widget.Placeholder
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
@@ -83,6 +86,10 @@ class UIHelper {
                 YELLOW, WHITE -> Color.Black
                 else -> Color.White
             }
+        }
+
+        fun getTextInEditStyle() : TextStyle {
+            return TextStyle(fontSize = 14.sp, color = Color.White)
         }
 
     }

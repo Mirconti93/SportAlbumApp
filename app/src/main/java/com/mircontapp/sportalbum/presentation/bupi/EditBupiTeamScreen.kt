@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -25,6 +26,8 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.TeamHelper
+import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.customTextEdit
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.BupiTeamModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
@@ -44,18 +47,15 @@ fun EditBupiTeamScreen(navController: NavController, mainViewModel: MainViewMode
         }
     }
 
-    val textFieldModifier: Modifier = Modifier.padding(2.dp)
-
     val name = remember { mutableStateOf(TextFieldValue(team.name)) }
     val area = remember { mutableStateOf(TextFieldValue(team.area ?:"")) }
 
         Column {
 
-            TextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.name)) })
+            BasicTextField(value = name.value, onValueChange = { name.value = it }, modifier = Modifier.customTextEdit(), textStyle = UIHelper.getTextInEditStyle())
 
-            TextField(value = area.value, onValueChange = { area.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.area))})
+            BasicTextField(value = area.value, onValueChange = { area.value = it}, modifier = Modifier.customTextEdit(),
+                textStyle = UIHelper.getTextInEditStyle() )
 
             Button(onClick = {
                 bupiViewModel.updateTeam(

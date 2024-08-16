@@ -38,6 +38,8 @@ import androidx.navigation.NavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.FileDataManager
+import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.customTextEdit
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.album.ShortList
@@ -106,11 +108,8 @@ fun BupiPlayerScreen(navController: NavController) {
                 BasicTextField(
                     value = searchUIState.value.searchingText ?: "",
                     onValueChange = { newValue -> viewModel.onSearch(newValue)},
-                    textStyle = TextStyle(fontSize = 14.sp, color = Color.White),
-                    modifier = Modifier
-                        .background(color = BlueL, shape = RoundedCornerShape(4.dp))
-                        .fillMaxWidth()
-                        .padding(16.dp, 8.dp),
+                    textStyle = UIHelper.getTextInEditStyle() ,
+                    modifier = Modifier.customTextEdit(),
                 )
             } else {
                 Button(onClick = {

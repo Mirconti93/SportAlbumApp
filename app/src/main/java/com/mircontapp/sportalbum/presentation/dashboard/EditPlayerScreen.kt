@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -27,6 +28,7 @@ import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.commons.TeamHelper
+import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
@@ -68,50 +70,50 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
     Row(modifier = Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
         Column {
 
-            TextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.name)) })
+            BasicTextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
+                textStyle = UIHelper.getTextInEditStyle())
 
-            TextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
+            BasicTextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
+                textStyle = UIHelper.getTextInEditStyle())
 
             Row {
-                TextField(value = role.value,
+                BasicTextField(value = role.value,
                     onValueChange = { role.value = it },
                     modifier = textFieldModifier.weight(1f),
-                    label = { Text(text = SportAlbumApplication.instance.getString(R.string.role)) })
+                    textStyle = UIHelper.getTextInEditStyle())
 
-                TextField(value = roleLineUp.value,
+                BasicTextField(value = roleLineUp.value,
                     onValueChange = { roleLineUp.value = it },
                     modifier = textFieldModifier.weight(1f),
-                    label = { Text(text = SportAlbumApplication.instance.getString(R.string.roleLineUp)) })
+                    textStyle = UIHelper.getTextInEditStyle())
             }
 
-            TextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.country)) })
+            BasicTextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
+                textStyle = UIHelper.getTextInEditStyle())
 
-            TextField(value = teamLegend.value, onValueChange = { teamLegend.value = it}, modifier = textFieldModifier,
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.isClubLegend))})
+            BasicTextField(value = teamLegend.value, onValueChange = { teamLegend.value = it}, modifier = textFieldModifier,
+                textStyle = UIHelper.getTextInEditStyle())
 
 
             Row {
-                TextField(value = birthyear.value, onValueChange = { birthyear.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.birthyear))})
+                BasicTextField(value = birthyear.value, onValueChange = { birthyear.value = it}, modifier = textFieldModifier.weight(1f),
+                    textStyle = UIHelper.getTextInEditStyle())
 
-                TextField(value = gender.value, onValueChange = { gender.value = it }, modifier = textFieldModifier.weight(1f),
-                    label = { Text(text = SportAlbumApplication.instance.getString(R.string.gender)) })
+                BasicTextField(value = gender.value, onValueChange = { gender.value = it }, modifier = textFieldModifier.weight(1f),
+                    textStyle = UIHelper.getTextInEditStyle())
 
             }
 
             Row {
-                TextField(value = valueleg.value, onValueChange = { valueleg.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.valueleg))})
+                BasicTextField(value = valueleg.value, onValueChange = { valueleg.value = it}, modifier = textFieldModifier.weight(1f),
+                    textStyle = UIHelper.getTextInEditStyle())
 
-                TextField(value = value.value, onValueChange = { value.value = it}, modifier = textFieldModifier.weight(1f),
-                    label = {Text(text = SportAlbumApplication.instance.getString(R.string.value))})
+                BasicTextField(value = value.value, onValueChange = { value.value = it}, modifier = textFieldModifier.weight(1f),
+                    textStyle = UIHelper.getTextInEditStyle())
             }
 
-            TextField(value = style.value, onValueChange = { style.value = it},
-                label = {Text(text = SportAlbumApplication.instance.getString(R.string.stylePlay))})
+            BasicTextField(value = style.value, onValueChange = { style.value = it},
+                textStyle = UIHelper.getTextInEditStyle())
 
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {

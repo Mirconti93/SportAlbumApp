@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -15,14 +16,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.customTextEdit
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
@@ -42,8 +48,6 @@ fun EditBupiPlayerScreen(navController: NavController, mainViewModel: MainViewMo
             }
         }
     }
-    
-    val textFieldModifier: Modifier = Modifier.padding(4.dp)
 
     val name = remember { mutableStateOf(TextFieldValue(player.name)) }
     val team = remember { mutableStateOf(TextFieldValue(player.team)) }
@@ -53,17 +57,13 @@ fun EditBupiPlayerScreen(navController: NavController, mainViewModel: MainViewMo
     Row(modifier = Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
         Column {
 
-            TextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.name)) })
+            BasicTextField(value = name.value, textStyle = UIHelper.getTextInEditStyle() , onValueChange = { name.value = it }, modifier = Modifier.customTextEdit())
 
-            TextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.team)) })
+            BasicTextField(value = team.value, textStyle = UIHelper.getTextInEditStyle() , onValueChange = { team.value = it }, modifier = Modifier.customTextEdit(),)
 
-            TextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.country)) })
+            BasicTextField(value = country.value, textStyle = UIHelper.getTextInEditStyle() , onValueChange = { country.value = it }, modifier = Modifier.customTextEdit(),)
 
-            TextField(value = role.value, onValueChange = { role.value = it }, modifier = textFieldModifier,
-                label = { Text(text = SportAlbumApplication.instance.getString(R.string.role)) })
+            BasicTextField(value = role.value, textStyle = UIHelper.getTextInEditStyle() , onValueChange = { role.value = it }, modifier = Modifier.customTextEdit(),)
 
             Button(onClick = {
                 bupiViewModel.updatePlayer(
