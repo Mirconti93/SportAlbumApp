@@ -89,7 +89,7 @@ class UIHelper {
         }
 
         fun getTextInEditStyle() : TextStyle {
-            return TextStyle(fontSize = 14.sp, color = Color.White)
+            return TextStyle(fontSize = 16.sp, color = Color.White)
         }
 
     }

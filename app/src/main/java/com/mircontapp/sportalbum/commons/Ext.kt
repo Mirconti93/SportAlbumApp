@@ -13,7 +13,7 @@ import java.time.format.TextStyle
 
 
 fun Modifier.customTextEdit() : Modifier {
-    return this.fillMaxWidth().height(80.dp)
+    return this.fillMaxWidth().height(58.dp)
         .padding(10.dp)
         .background(DarkBlueD, shape = RoundedCornerShape(15.dp))
 }
