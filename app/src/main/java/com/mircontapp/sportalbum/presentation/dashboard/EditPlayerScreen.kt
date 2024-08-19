@@ -31,6 +31,7 @@ import com.mircontapp.sportalbum.commons.TeamHelper
 import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,50 +71,37 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
     Row(modifier = Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
         Column {
 
-            BasicTextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = name.value, onValueChange = { name.value = it })
 
-            BasicTextField(value = team.value, onValueChange = { team.value = it }, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = team.value, onValueChange = { team.value = it })
 
             Row {
-                BasicTextField(value = role.value,
-                    onValueChange = { role.value = it },
-                    modifier = textFieldModifier.weight(1f),
-                    textStyle = UIHelper.getTextInEditStyle())
+                CustomTextField(value = role.value,
+                    onValueChange = { role.value = it })
 
-                BasicTextField(value = roleLineUp.value,
-                    onValueChange = { roleLineUp.value = it },
-                    modifier = textFieldModifier.weight(1f),
-                    textStyle = UIHelper.getTextInEditStyle())
+                CustomTextField(value = roleLineUp.value,
+                    onValueChange = { roleLineUp.value = it },)
             }
 
-            BasicTextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = country.value, onValueChange = { country.value = it })
 
-            BasicTextField(value = teamLegend.value, onValueChange = { teamLegend.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = teamLegend.value, onValueChange = { teamLegend.value = it})
 
 
             Row {
-                BasicTextField(value = birthyear.value, onValueChange = { birthyear.value = it}, modifier = textFieldModifier.weight(1f),
-                    textStyle = UIHelper.getTextInEditStyle())
+                CustomTextField(value = birthyear.value, onValueChange = { birthyear.value = it})
 
-                BasicTextField(value = gender.value, onValueChange = { gender.value = it }, modifier = textFieldModifier.weight(1f),
-                    textStyle = UIHelper.getTextInEditStyle())
+                CustomTextField(value = gender.value, onValueChange = { gender.value = it })
 
             }
 
             Row {
-                BasicTextField(value = valueleg.value, onValueChange = { valueleg.value = it}, modifier = textFieldModifier.weight(1f),
-                    textStyle = UIHelper.getTextInEditStyle())
+                CustomTextField(value = valueleg.value, onValueChange = { valueleg.value = it})
 
-                BasicTextField(value = value.value, onValueChange = { value.value = it}, modifier = textFieldModifier.weight(1f),
-                    textStyle = UIHelper.getTextInEditStyle())
+                CustomTextField(value = value.value, onValueChange = { value.value = it})
             }
 
-            BasicTextField(value = style.value, onValueChange = { style.value = it},
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = style.value, onValueChange = { style.value = it})
 
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {

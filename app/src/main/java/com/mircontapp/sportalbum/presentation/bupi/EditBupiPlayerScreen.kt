@@ -31,6 +31,7 @@ import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.commons.customTextEdit
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,13 +58,10 @@ fun EditBupiPlayerScreen(navController: NavController, mainViewModel: MainViewMo
     Row(modifier = Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {
         Column {
 
-            BasicTextField(value = name.value, textStyle = UIHelper.getTextInEditStyle() , onValueChange = { name.value = it }, modifier = Modifier.customTextEdit())
-
-            BasicTextField(value = team.value, textStyle = UIHelper.getTextInEditStyle() , onValueChange = { team.value = it }, modifier = Modifier.customTextEdit(),)
-
-            BasicTextField(value = country.value, textStyle = UIHelper.getTextInEditStyle() , onValueChange = { country.value = it }, modifier = Modifier.customTextEdit(),)
-
-            BasicTextField(value = role.value, textStyle = UIHelper.getTextInEditStyle() , onValueChange = { role.value = it }, modifier = Modifier.customTextEdit(),)
+            CustomTextField(value = name.value, onValueChange = { name.value = it })
+            CustomTextField(value = team.value, onValueChange = { team.value = it })
+            CustomTextField(value = country.value, onValueChange = { country.value = it })
+            CustomTextField(value = role.value, onValueChange = { role.value = it })
 
             Button(onClick = {
                 bupiViewModel.updatePlayer(

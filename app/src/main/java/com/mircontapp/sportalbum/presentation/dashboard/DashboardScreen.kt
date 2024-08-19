@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,7 +30,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,6 +50,7 @@ import com.mircontapp.sportalbum.presentation.album.ShortList
 import com.mircontapp.sportalbum.presentation.album.PlayersState
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
+import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
@@ -97,17 +102,15 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
 
         Spacer(Modifier.height(8.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(imageVector = Icons.Filled.Search, contentDescription = "Search icon",
-                modifier = Modifier
+            Icon(imageVector = Icons.Filled.Create, contentDescription = "Search icon", modifier = Modifier
                     .size(40.dp)
                     .padding(2.dp, 8.dp)
                     .clickable { showSearch.value = !showSearch.value })
             if (showSearch.value) {
-                BasicTextField(
-                    value = searchUIState.value.searchingText ?: "",
-                    onValueChange = { newValue -> viewModel.onSearch(newValue)},
-                    textStyle = TextStyle(fontSize = 14.sp, color = Color.White),
-                    modifier = Modifier.customTextEdit(),
+                CustomTextField(
+                    value = TextFieldValue(searchUIState.value.searchingText ?: ""),
+                    onValueChange = { newValue -> viewModel.onSearch(newValue.text)},
+                    imageVector = Icons.Default.Search
                 )
             } else {
                 Button(onClick = {

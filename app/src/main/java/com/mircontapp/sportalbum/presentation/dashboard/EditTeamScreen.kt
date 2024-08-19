@@ -30,6 +30,7 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.TeamHelper
 import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,8 +47,6 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
             }
         }
     }
-
-    val textFieldModifier: Modifier = Modifier.padding(2.dp)
 
     val name = remember { mutableStateOf(TextFieldValue(teamModel.name)) }
     val city = remember { mutableStateOf(TextFieldValue(teamModel.city ?: "")) }
@@ -66,41 +65,29 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
     Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
         Column {
 
-            BasicTextField(value = name.value, onValueChange = { name.value = it }, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = name.value, onValueChange = { name.value = it })
 
-            BasicTextField(value = city.value, onValueChange = { city.value = it }, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = city.value, onValueChange = { city.value = it })
 
-            BasicTextField(value = country.value, onValueChange = { country.value = it }, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = country.value, onValueChange = { country.value = it })
 
-            BasicTextField(value = type.value, onValueChange = { type.value = it }, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = type.value, onValueChange = { type.value = it })
 
-            BasicTextField(value = stadium.value, onValueChange = { stadium.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = stadium.value, onValueChange = { stadium.value = it})
 
-            BasicTextField(value = color1.value, onValueChange = { color1.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = color1.value, onValueChange = { color1.value = it})
 
-            BasicTextField(value = color2.value, onValueChange = { color2.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = color2.value, onValueChange = { color2.value = it})
 
-            BasicTextField(value = coach.value, onValueChange = { coach.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = coach.value, onValueChange = { coach.value = it})
 
-            BasicTextField(value = coachlegend.value, onValueChange = { coachlegend.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = coachlegend.value, onValueChange = { coachlegend.value = it})
 
-            BasicTextField(value = area.value, onValueChange = { area.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = area.value, onValueChange = { area.value = it})
 
-            BasicTextField(value = arealegend.value, onValueChange = { arealegend.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = arealegend.value, onValueChange = { arealegend.value = it})
 
-            BasicTextField(value = module.value, onValueChange = { module.value = it}, modifier = textFieldModifier,
-                textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = module.value, onValueChange = { module.value = it})
 
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 32.dp)) {

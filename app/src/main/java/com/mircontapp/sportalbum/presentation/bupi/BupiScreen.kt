@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,6 +46,7 @@ import com.mircontapp.sportalbum.presentation.album.ShortList
 import com.mircontapp.sportalbum.presentation.album.PlayersState
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
+import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
@@ -102,15 +104,9 @@ fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
                     .padding(2.dp, 8.dp)
                     .clickable { showSearch.value = !showSearch.value })
             if (showSearch.value) {
-                BasicTextField(
-                    value = searchUIState.value.searchingText ?: "",
-                    onValueChange = { newValue -> viewModel.onSearch(newValue)},
-                    textStyle = TextStyle(fontSize = 14.sp, color = Color.White),
-                    modifier = Modifier
-                        .background(color = BlueL, shape = RoundedCornerShape(4.dp))
-                        .fillMaxWidth()
-                        .padding(16.dp, 8.dp),
-                )
+                CustomTextField(
+                    value = TextFieldValue(searchUIState.value.searchingText ?: ""),
+                    onValueChange = { newValue -> viewModel.onSearch(newValue.text)}, imageVector = null)
             } else {
                 if (isTeams.value) {
                     Button(onClick = {

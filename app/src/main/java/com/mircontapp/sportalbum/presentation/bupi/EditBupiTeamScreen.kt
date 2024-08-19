@@ -31,6 +31,7 @@ import com.mircontapp.sportalbum.commons.customTextEdit
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.BupiTeamModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,10 +53,9 @@ fun EditBupiTeamScreen(navController: NavController, mainViewModel: MainViewMode
 
         Column {
 
-            BasicTextField(value = name.value, onValueChange = { name.value = it }, modifier = Modifier.customTextEdit(), textStyle = UIHelper.getTextInEditStyle())
+            CustomTextField(value = name.value, onValueChange = { name.value = it })
 
-            BasicTextField(value = area.value, onValueChange = { area.value = it}, modifier = Modifier.customTextEdit(),
-                textStyle = UIHelper.getTextInEditStyle() )
+            CustomTextField(value = area.value, onValueChange = { area.value = it})
 
             Button(onClick = {
                 bupiViewModel.updateTeam(
