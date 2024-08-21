@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -98,15 +99,16 @@ fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
 
         Spacer(Modifier.height(8.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(imageVector = Icons.Filled.Search, contentDescription = "Search icon",
+            Icon(imageVector = Icons.Filled.Create, contentDescription = "Search icon",
                 modifier = Modifier
                     .size(40.dp)
                     .padding(2.dp, 8.dp)
-                    .clickable { showSearch.value = !showSearch.value })
+                    .clickable { showSearch.value = !showSearch.value }.background(Color.White))
             if (showSearch.value) {
                 CustomTextField(
                     value = TextFieldValue(searchUIState.value.searchingText ?: ""),
-                    onValueChange = { newValue -> viewModel.onSearch(newValue.text)}, imageVector = null)
+                    onValueChange = { newValue -> viewModel.onSearch(newValue.text)}
+                    , imageVector = Icons.Filled.Search)
             } else {
                 if (isTeams.value) {
                     Button(onClick = {
