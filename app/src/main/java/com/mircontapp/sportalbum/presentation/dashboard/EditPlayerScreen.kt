@@ -50,8 +50,6 @@ fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel)
             }
         }
     }
-    
-    val textFieldModifier: Modifier = Modifier.padding(4.dp)
 
     val name = remember { mutableStateOf(TextFieldValue(playerModel.name)) }
     val role = remember { mutableStateOf(TextFieldValue(playerModel.role.name)) }

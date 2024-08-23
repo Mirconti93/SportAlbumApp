@@ -97,6 +97,8 @@ fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
 
         val showSearch = remember { mutableStateOf(true) }
 
+        val searchText = remember { mutableStateOf(TextFieldValue("")) }
+
         Spacer(Modifier.height(8.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(imageVector = Icons.Filled.Create, contentDescription = "Search icon",
@@ -106,9 +108,18 @@ fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
                     .clickable { showSearch.value = !showSearch.value }.background(Color.White))
             if (showSearch.value) {
                 CustomTextField(
-                    value = TextFieldValue(searchUIState.value.searchingText ?: ""),
-                    onValueChange = { newValue -> viewModel.onSearch(newValue.text)}
-                    , imageVector = Icons.Filled.Search)
+                    value = searchText.value,
+                    onValueChange = { newValue ->
+                        searchText.value = newValue
+                        newValue.text?.let {
+                            if (isTeams.value) {
+                                viewModel.filterTeams(it)
+                            } else {
+                                viewModel.filterPlayers(it)
+                            }
+                        }
+
+                    })
             } else {
                 if (isTeams.value) {
                     Button(onClick = {

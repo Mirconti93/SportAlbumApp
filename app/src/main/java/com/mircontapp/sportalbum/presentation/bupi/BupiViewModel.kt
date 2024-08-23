@@ -1,6 +1,7 @@
 package com.mircontapp.sportalbum.presentation.bupi
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
@@ -36,14 +37,10 @@ class BupiViewModel @Inject constructor(
     val searchUIState: StateFlow<SearchUIState> get() = _searchUIState
 
     private val _bupiTeams = MutableStateFlow<List<BupiTeamModel>>(emptyList())
-    val bupiTeams = searchUIState.combine(_bupiTeams) { searchUIState, teams ->
-        filterTeams(searchUIState.searchingText)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _bupiTeams.value)
+    val bupiTeams get() = _bupiTeams
 
     private val _bupiPlayers = MutableStateFlow<List<BupiPlayerModel>>(emptyList())
-    val bupiPlayers = searchUIState.combine(_bupiPlayers) { searchUIState, players ->
-        filterPlayers(searchUIState.searchingText)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _bupiPlayers.value)
+    val bupiPlayers = _bupiPlayers
 
     var updateType = mutableStateOf(Enums.UpdateType.UPDATE)
 
@@ -83,22 +80,27 @@ class BupiViewModel @Inject constructor(
         }
     }
 
-    fun filterTeams(text: String?) : List<BupiTeamModel> {
-        return if (text.isNullOrEmpty()) allTeams
-            else {
-                allTeams.filter { it.name.contains(text, ignoreCase = true) || it.area?.contains(text, ignoreCase = true) ?: false  }
+    fun filterTeams(text: String) {
+        if (!text.isEmpty()) {
+            _bupiTeams.value = allTeams.filter {
+                it.name.contains(text, ignoreCase = true) || it.area?.contains(
+                    text,
+                    ignoreCase = true
+                ) ?: false
             }
+
+        }
     }
 
-    fun filterPlayers(text: String?) : List<BupiPlayerModel> {
-        return if (text.isNullOrEmpty()) allPlayers
-            else {
-                allPlayers.filter { it.name.contains(text, ignoreCase = true) || it.team.contains(text, ignoreCase = true)   }
-            }
+    fun filterPlayers(text: String) {
+        if (!text.isEmpty()) {
+            _bupiPlayers.value = allPlayers.filter { it.name.contains(text, ignoreCase = true) || it.team.contains(text, ignoreCase = true)   }
+        }
     }
 
     fun onSearch(text: String) {
-        _searchUIState.update { current -> current.copy(teamSelectionVisible = _searchUIState.value.teamSelectionVisible, searchingText = text) }
+        filterPlayers(text)
+        //_searchUIState.update { current -> current.copy(teamSelectionVisible = _searchUIState.value.teamSelectionVisible, searchingText = text) }
     }
 
     fun updatePlayer(bupiPlayerModel: BupiPlayerModel) {

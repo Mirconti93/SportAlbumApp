@@ -45,14 +45,10 @@ class DashboardViewModel @Inject constructor(
     val searchUIState: StateFlow<SearchUIState> get() = _searchUIState
 
     private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
-    val teams = searchUIState.combine(_teams) { searchUIState, teams ->
-        filterTeams(searchUIState.searchingText)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _teams.value)
+    val teams get() = _teams
 
     private val _players = MutableStateFlow<List<PlayerModel>>(emptyList())
-    val players = searchUIState.combine(_players) { searchUIState, players ->
-        filterPlayers(searchUIState.searchingText)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _players.value)
+    val players get() = _players
 
     val team = mutableStateOf<TeamModel?>(null)
     val player = mutableStateOf<PlayerModel?>(null)
