@@ -99,7 +99,7 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
         val searchUIState = viewModel.searchUIState.collectAsState()
 
         val showSearch = remember { mutableStateOf(true) }
-
+        val searchText = remember { mutableStateOf(TextFieldValue("")) }
         Spacer(Modifier.height(8.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(imageVector = Icons.Filled.Create, contentDescription = "Search icon", modifier = Modifier
@@ -108,9 +108,18 @@ fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) 
                     .clickable { showSearch.value = !showSearch.value })
             if (showSearch.value) {
                 CustomTextField(
-                    value = TextFieldValue(searchUIState.value.searchingText ?: ""),
-                    onValueChange = { newValue -> viewModel.onSearch(newValue.text)},
-                    imageVector = Icons.Default.Search
+                    value = searchText.value,
+                    onValueChange = { newValue ->
+                        searchText.value = newValue
+                        newValue.text?.let {
+                            if (isTeams) {
+                                viewModel.filterTeams(it)
+                            } else {
+                                viewModel.filterPlayers(it)
+                            }
+                        }
+
+                    }
                 )
             } else {
                 Button(onClick = {

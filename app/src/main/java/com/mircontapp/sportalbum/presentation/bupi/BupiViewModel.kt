@@ -98,10 +98,6 @@ class BupiViewModel @Inject constructor(
         }
     }
 
-    fun onSearch(text: String) {
-        filterPlayers(text)
-        //_searchUIState.update { current -> current.copy(teamSelectionVisible = _searchUIState.value.teamSelectionVisible, searchingText = text) }
-    }
 
     fun updatePlayer(bupiPlayerModel: BupiPlayerModel) {
         viewModelScope.async(Dispatchers.IO) {
