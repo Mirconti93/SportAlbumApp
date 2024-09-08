@@ -48,19 +48,19 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
         }
     }
 
-    val name = remember { mutableStateOf(TextFieldValue(teamModel.name)) }
-    val city = remember { mutableStateOf(TextFieldValue(teamModel.city ?: "")) }
-    val country = remember { mutableStateOf(TextFieldValue(teamModel.country ?: "")) }
-    val type = remember { mutableStateOf(TextFieldValue(teamModel.type ?: "")) }
-    val color1 = remember { mutableStateOf(TextFieldValue(teamModel.color1 ?: "")) }
-    val color2 = remember { mutableStateOf(TextFieldValue(teamModel.color2 ?: "")) }
-    val coach = remember { mutableStateOf(TextFieldValue(teamModel.coach ?: "")) }
-    val coachlegend = remember { mutableStateOf(TextFieldValue(teamModel.coachlegend ?: "")) }
-    val stadium = remember { mutableStateOf(TextFieldValue(teamModel.stadium ?: "")) }
-    val area = remember { mutableStateOf(TextFieldValue(teamModel.area?.name ?: "")) }
-    val arealegend = remember { mutableStateOf(TextFieldValue(teamModel.arealegend?.name ?: "")) }
+    val name = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.name)) }
+    val city = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.city ?: "")) }
+    val country = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.country ?: "")) }
+    val type = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.type ?: "")) }
+    val color1 = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.color1 ?: "")) }
+    val color2 = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.color2 ?: "")) }
+    val coach = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.coach ?: "")) }
+    val coachlegend = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.coachlegend ?: "")) }
+    val stadium = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.stadium ?: "")) }
+    val area = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.area?.name ?: "")) }
+    val arealegend = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.arealegend?.name ?: "")) }
     var isSuperlega = rememberSaveable{ mutableStateOf(teamModel.superlega) }
-    val module = remember { mutableStateOf(TextFieldValue(teamModel.module.name)) }
+    val module = rememberSaveable { mutableStateOf(TextFieldValue(teamModel.module.name)) }
 
     Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
         Column {
@@ -88,7 +88,6 @@ fun EditTeamScreen(navController: NavController, mainViewModel: MainViewModel) {
             CustomTextField(value = arealegend.value, onValueChange = { arealegend.value = it})
 
             CustomTextField(value = module.value, onValueChange = { module.value = it})
-
 
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 32.dp)) {
                 Checkbox(checked = isSuperlega.value ?: false, onCheckedChange = {
