@@ -56,7 +56,7 @@ fun PlayerListItem(item: ShortListItem, modifier: Modifier) {
             .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Row(modifier = Modifier.padding(2.dp)) {
                 Text(modifier = Modifier.weight(1f), text = item.getTitle(), maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(modifier = Modifier, text = item.getSubtitle(), color = OrangeYellowD, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(modifier = Modifier.clickable { item.onEditClick() }, text = item.getSubtitle(), color = OrangeYellowD, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
 
