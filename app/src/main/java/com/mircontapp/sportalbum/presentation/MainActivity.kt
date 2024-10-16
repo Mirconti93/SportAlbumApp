@@ -58,6 +58,7 @@ class MainActivity : ComponentActivity() {
                         BottomBarNavigation(navController, arrayListOf(
                             NavigationItem.Album,
                             NavigationItem.Dashboard,
+                            NavigationItem.Draw,
                             NavigationItem.Bupi,
                             NavigationItem.Games
                         ))

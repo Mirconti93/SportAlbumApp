@@ -14,6 +14,7 @@ import com.mircontapp.sportalbum.presentation.bupi.EditBupiTeamScreen
 import com.mircontapp.sportalbum.presentation.dashboard.DashboardScreen
 import com.mircontapp.sportalbum.presentation.dashboard.EditPlayerScreen
 import com.mircontapp.sportalbum.presentation.dashboard.EditTeamScreen
+import com.mircontapp.sportalbum.presentation.draw.DrawScreen
 import com.mircontapp.sportalbum.presentation.match.MatchGameScreen
 import com.mircontapp.sportalbum.presentation.match.MatchStartScreen
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
@@ -60,6 +61,9 @@ fun NavGraph(navController: NavHostController, mainViewModel: MainViewModel){
         }
         composable(route = NavigationItem.BupiTeamEdit.route){
             EditBupiTeamScreen(navController = navController, mainViewModel)
+        }
+        composable(route = NavigationItem.Draw.route){
+            DrawScreen(navController = navController, mainViewModel)
         }
     }
 }
