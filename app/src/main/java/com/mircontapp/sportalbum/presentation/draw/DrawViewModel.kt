@@ -9,12 +9,14 @@ import com.mircontapp.sportalbum.domain.usecases.InsertPlayerUC
 import com.mircontapp.sportalbum.domain.usecases.InsertTeamUC
 import com.mircontapp.sportalbum.domain.usecases.UpdatePlayerUC
 import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class DrawViewModel@Inject constructor(
     val getAllTeamsUC: GetAllTeamsUC,
 ) : ViewModel() {
