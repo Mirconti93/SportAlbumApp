@@ -74,7 +74,6 @@ class BupiViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val list = bupiPlayersRepository.playersFromTeam(team)
             withContext(Dispatchers.Main) {
-                allPlayers = list
                 _bupiPlayers.value = list
             }
         }
