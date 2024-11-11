@@ -38,7 +38,7 @@ import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun AlbumScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun AlbumScreen(navController: NavController) {
     val viewModel: AlbumViewModel = hiltViewModel()
     LaunchedEffect((Unit), block = {
         viewModel.getTeamsFromArea(Enums.Area.SERIEA)
@@ -72,7 +72,6 @@ fun AlbumScreen(navController: NavController, mainViewModel: MainViewModel) {
         if (teams.value != null) {
             TeamsGrid(TeamsState(teams.value, object : OnTeamClickHandler {
                 override fun onTeamClick(teamModel: TeamModel) {
-                    mainViewModel.teamModel = teamModel
                     navController.navigate(NavigationItem.TeamAlbum.route)
                 }
             }), Modifier.fillMaxHeight().padding(4.dp))

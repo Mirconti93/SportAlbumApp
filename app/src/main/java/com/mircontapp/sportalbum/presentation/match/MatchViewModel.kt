@@ -14,6 +14,7 @@ import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.commons.TeamHelper
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
@@ -21,6 +22,7 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.models.toPlayerMatchModel
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
+import com.mircontapp.sportalbum.domain.usecases.GetTeamFromNameUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsSuperlegaUC
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,7 +49,8 @@ class MatchViewModel @Inject constructor(
     val getTeamsFromAreaUC: GetTeamsFromAreaUC,
     val getPlayersByTeamUC: GetPlayersByTeamUC,
     val getPlayersByTeamLegendUC: GetPlayersByTeamLegendUC,
-    val getTeamsSuperlegaUC: GetTeamsSuperlegaUC
+    val getTeamsSuperlegaUC: GetTeamsSuperlegaUC,
+    val getTeamFromNameUC: GetTeamFromNameUC
 ) : ViewModel() {
     var app = SportAlbumApplication.instance
     val homeTeam: MutableLiveData<TeamModel> = MutableLiveData()
@@ -150,17 +153,22 @@ class MatchViewModel @Inject constructor(
         )
     }
 
-
-    fun initLineUp(homeT: TeamModel?, awayT: TeamModel?) {
+    //todo sistemare
+    fun initLineUp(homeT: String?, awayT: String?) {
         if (homeT != null && awayT != null) {
-            this.homeTeam.value = homeT
-            this.awayTeam.value = awayT
-            viewModelScope.launch(Dispatchers.IO) {
-                val list = getPlayersByTeamLegendUC.getPlayers(homeTeam.value!!)
-                withContext(Dispatchers.Main) {
-                    _homeRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
-                    initOnFieledOrBench(Enums.Possesso.HOME)
+            viewModelScope.launch(Dispatchers.Main) {
+                getTeamFromNameUC(homeT)?.let { homeTeam.value = it}
+                getTeamFromNameUC(awayT)?.let { awayTeam.value = it}
+                homeTeam.value?.let { homeTeam->
+                    withContext(Dispatchers.IO) {
+                        val list = getPlayersByTeamLegendUC.getPlayers(homeTeam)
+                        withContext(Dispatchers.Main) {
+                            _homeRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
+                            initOnFieledOrBench(Enums.Possesso.HOME)
+                        }
+                    }
                 }
+
             }.invokeOnCompletion {
                 viewModelScope.launch(Dispatchers.IO) {
                     val list = getPlayersByTeamLegendUC.getPlayers(awayTeam.value!!)

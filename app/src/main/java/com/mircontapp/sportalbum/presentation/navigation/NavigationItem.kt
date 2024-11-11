@@ -11,8 +11,8 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class NavigationItem(var route: String, var icon: ImageVector, var title: String) {
-    object Album : NavigationItem("album", Icons.Default.Home, "Album")
-    object TeamAlbum : NavigationItem("team_album", Icons.Default.Home, "Album")
+    object Album : NavigationItem("album{args}", Icons.Default.Home, "Album")
+    object TeamAlbum : NavigationItem("team_album\\${NavConsants.TEAM}", Icons.Default.Home, "Album")
     object Sticker : NavigationItem("sticker", Icons.Default.Home, "Album")
     object Dashboard : NavigationItem("dashboard", Icons.Default.Create, "Dashboard")
     object Games : NavigationItem("games", Icons.Default.Favorite, "Games")
@@ -26,3 +26,4 @@ sealed class NavigationItem(var route: String, var icon: ImageVector, var title:
     object Draw : NavigationItem("draw", Icons.Default.List, "Draw")
 
 }
+

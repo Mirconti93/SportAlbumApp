@@ -50,7 +50,7 @@ import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun TeamAlbumScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun TeamAlbumScreen(navController: NavController, teamName: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

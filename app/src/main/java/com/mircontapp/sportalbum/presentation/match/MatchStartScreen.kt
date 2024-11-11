@@ -47,7 +47,7 @@ import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun MatchStartScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun MatchStartScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()

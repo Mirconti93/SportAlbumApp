@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.mircontapp.sportalbum.presentation.album.AlbumScreen
 import com.mircontapp.sportalbum.presentation.album.StickerScreen
 import com.mircontapp.sportalbum.presentation.album.TeamAlbumScreen
@@ -18,52 +19,80 @@ import com.mircontapp.sportalbum.presentation.draw.DrawScreen
 import com.mircontapp.sportalbum.presentation.match.MatchGameScreen
 import com.mircontapp.sportalbum.presentation.match.MatchStartScreen
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
+import kotlinx.serialization.Serializable
 
 @ExperimentalMaterial3Api
 @Composable
-fun NavGraph(navController: NavHostController, mainViewModel: MainViewModel){
+fun NavGraph(navController: NavHostController){
     NavHost(
         navController = navController,
         startDestination = NavigationItem.Album.route)
     {
-        composable(route = NavigationItem.Album.route){
-            AlbumScreen(navController = navController, mainViewModel)
+        composable<AlbumRoute> {
+            AlbumScreen(navController = navController)
         }
-        composable(route = NavigationItem.Dashboard.route){
-            DashboardScreen(navController = navController, mainViewModel)
+        composable<DashboardRoute> {
+            DashboardScreen(navController = navController)
         }
-        composable(route = NavigationItem.Games.route){
-            MatchStartScreen(navController = navController, mainViewModel)
+        composable<MatchStartRoute> {
+            MatchStartScreen(navController = navController)
         }
-        composable(route = NavigationItem.LineUps.route){
-            MatchGameScreen(navController = navController, mainViewModel)
+        composable<MatchGameRoute> {
+            MatchGameScreen(navController = navController,
+                homeTeam = it.toRoute<MatchGameRoute>().homeTeam,
+                awayTeam = it.toRoute<MatchGameRoute>().awayTeam)
         }
-        composable(route = NavigationItem.TeamAlbum.route){
-            TeamAlbumScreen(navController = navController, mainViewModel)
+        composable<TeamAlbumRoute>{
+            TeamAlbumScreen(navController = navController,
+                teamName = it.toRoute<TeamAlbumRoute>().team)
         }
-        composable(route = NavigationItem.Sticker.route){
-            StickerScreen(navController = navController, mainViewModel)
+        composable<StickerRoute>{
+            StickerScreen(navController = navController)
         }
-        composable(route = NavigationItem.EditTeam.route){
-            EditTeamScreen(navController = navController, mainViewModel)
+        composable<EditTeamRoute>{
+            EditTeamScreen(navController = navController)
         }
-        composable(route = NavigationItem.EditPlayer.route){
-            EditPlayerScreen(navController = navController, mainViewModel)
+        composable<EditPlayerRoute>{
+            EditPlayerScreen(navController = navController)
         }
-        composable(route = NavigationItem.Match.route){
-            MatchStartScreen(navController = navController, mainViewModel)
+        composable<BupiRoute>{
+            BupiScreen(navController = navController)
         }
-        composable(route = NavigationItem.Bupi.route){
-            BupiScreen(navController = navController, mainViewModel)
+        composable<EditPlayerRoute>{
+            EditBupiPlayerScreen(navController = navController)
         }
-        composable(route = NavigationItem.BupiPlayerEdit.route){
-            EditBupiPlayerScreen(navController = navController, mainViewModel)
+        composable<EditBupiTeamRoute>{
+            EditBupiTeamScreen(navController = navController)
         }
-        composable(route = NavigationItem.BupiTeamEdit.route){
-            EditBupiTeamScreen(navController = navController, mainViewModel)
-        }
-        composable(route = NavigationItem.Draw.route){
-            DrawScreen(navController = navController, mainViewModel)
+        composable<DrawRoute>{
+            DrawScreen(navController = navController)
         }
     }
 }
+
+@Serializable object AlbumRoute
+
+@Serializable object DashboardRoute
+
+@Serializable object MatchStartRoute
+
+@Serializable data class MatchGameRoute(val homeTeam: String, val awayTeam: String)
+
+@Serializable data class TeamAlbumRoute(val team: String)
+
+@Serializable object StickerRoute
+
+@Serializable object EditTeamRoute
+
+@Serializable object EditPlayerRoute
+
+@Serializable object BupiRoute
+
+@Serializable object EditBupiPlayerRoute
+
+@Serializable object EditBupiTeamRoute
+
+@Serializable object DrawRoute
+
+
+

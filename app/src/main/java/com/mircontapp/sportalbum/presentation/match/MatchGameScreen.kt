@@ -72,11 +72,11 @@ import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun MatchGameScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun MatchGameScreen(navController: NavController, homeTeam: String, awayTeam: String) {
     val viewModel: MatchViewModel = hiltViewModel()
 
     LaunchedEffect((Unit), block = {
-        viewModel.initLineUp(mainViewModel.homeTeam, mainViewModel.awayTeam)
+        viewModel.initLineUp(homeTeam, awayTeam)
     })
 
     when (viewModel.currentScreen.value) {

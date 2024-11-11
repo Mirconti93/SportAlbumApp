@@ -64,7 +64,7 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @ExperimentalMaterial3Api
 @Composable
-fun DashboardScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun DashboardScreen(navController: NavController) {
     val viewModel: DashboardViewModel = hiltViewModel()
     Column(verticalArrangement = Arrangement.Top) {
         val isTeams = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)
