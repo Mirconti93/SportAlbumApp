@@ -132,7 +132,7 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.8.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-
+    implementation("com.google.code.gson:gson:2.11.0")
 }
 
 kapt {

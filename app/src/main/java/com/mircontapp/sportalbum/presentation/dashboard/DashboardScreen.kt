@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.FileDataManager
@@ -56,6 +57,7 @@ import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
@@ -124,9 +126,9 @@ fun DashboardScreen(navController: NavController) {
             } else {
                 Button(onClick = {
                     if (isPlayers) {
-                        navController.navigate(NavigationItem.EditPlayer.route)
+                        navController.navigate(Routes.EditPlayer(player = null))
                     } else {
-                        navController.navigate(NavigationItem.EditTeam.route)
+                        navController.navigate(Routes.EditTeam(team = null))
                     }
                 }) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.newItem))
@@ -176,8 +178,7 @@ fun DashboardScreen(navController: NavController) {
                         it,
                         onTeamClickHandler = object : OnTeamClickHandler {
                             override fun onTeamClick(teamModel: TeamModel) {
-                                mainViewModel.teamModel = teamModel
-                                navController.navigate(NavigationItem.EditTeam.route)
+                                navController.navigate(Routes.EditTeam(Gson().toJson(teamModel)))
                             }
                         }), Modifier.padding(4.dp)
                 )
@@ -189,14 +190,12 @@ fun DashboardScreen(navController: NavController) {
                 shortItemList.add(it.toShortItem(
                     onPlayerClickHandler = object : OnPlayerClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
-                            mainViewModel.playerModel = playerModel
-                            navController.navigate(NavigationItem.Sticker.route)
+                            navController.navigate(Routes.Sticker(Gson().toJson(playerModel)))
                         }
                     },
                     onEditClickHandler = object : OnEditClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
-                            mainViewModel.playerModel = playerModel
-                            navController.navigate(NavigationItem.EditPlayer.route)
+                            navController.navigate(Routes.EditPlayer(Gson().toJson(playerModel)))
                         }
                     }
                 ))

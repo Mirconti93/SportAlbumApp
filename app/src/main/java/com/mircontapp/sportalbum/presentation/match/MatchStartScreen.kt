@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
@@ -43,6 +44,7 @@ import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
@@ -107,10 +109,13 @@ fun MatchStartScreen(navController: NavController) {
                     }
                 })
                 Button(onClick = {
-                    if (viewModel.homeTeam.value != null && viewModel.awayTeam.value != null) {
-                        mainViewModel.homeTeam = viewModel.homeTeam.value!!
-                        mainViewModel.awayTeam = viewModel.awayTeam.value!!
-                        navController.navigate(NavigationItem.LineUps.route)
+                    viewModel.homeTeam.value?.let { homeTeam ->
+                        viewModel.awayTeam.value?.let { awayTeam ->
+                            navController.navigate(Routes.Match(
+                                homeTeam = Gson().toJson(homeTeam),
+                                awayTeam = Gson().toJson(awayTeam)
+                            ))
+                        }
                     }
                 },  colors = ButtonDefaults.buttonColors(
                     containerColor = OrangeYellowD, contentColor = Color.Black

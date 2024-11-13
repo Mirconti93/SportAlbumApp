@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
@@ -36,14 +37,14 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditPlayerScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun EditPlayerScreen(navController: NavController, playerArg: String?) {
     val dashboardViewModel: DashboardViewModel = hiltViewModel()
 
     val playerModel = remember {
-        mainViewModel.playerModel.let {
+        playerArg.let {
             if (it != null) {
                 dashboardViewModel.updateType.value = Enums.UpdateType.UPDATE
-                it
+                Gson().fromJson(playerArg, PlayerModel::class.java)
             } else {
                 dashboardViewModel.updateType.value = Enums.UpdateType.NEW
                 PlayerHelper.buildPlayerModel("Player")

@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
@@ -62,6 +63,7 @@ import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerMatchClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
@@ -72,9 +74,12 @@ import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun MatchGameScreen(navController: NavController, homeTeam: String, awayTeam: String) {
+fun MatchGameScreen(navController: NavController, homeTeamArg: String, awayTeamArg: String) {
     val viewModel: MatchViewModel = hiltViewModel()
 
+
+    val homeTeam = Gson().fromJson(homeTeamArg, TeamModel::class.java)
+    val awayTeam = Gson().fromJson(awayTeamArg, TeamModel::class.java)
     LaunchedEffect((Unit), block = {
         viewModel.initLineUp(homeTeam, awayTeam)
     })

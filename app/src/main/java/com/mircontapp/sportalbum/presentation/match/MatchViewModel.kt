@@ -153,22 +153,17 @@ class MatchViewModel @Inject constructor(
         )
     }
 
-    //todo sistemare
-    fun initLineUp(homeT: String?, awayT: String?) {
-        if (homeT != null && awayT != null) {
-            viewModelScope.launch(Dispatchers.Main) {
-                getTeamFromNameUC(homeT)?.let { homeTeam.value = it}
-                getTeamFromNameUC(awayT)?.let { awayTeam.value = it}
-                homeTeam.value?.let { homeTeam->
-                    withContext(Dispatchers.IO) {
-                        val list = getPlayersByTeamLegendUC.getPlayers(homeTeam)
-                        withContext(Dispatchers.Main) {
-                            _homeRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
-                            initOnFieledOrBench(Enums.Possesso.HOME)
-                        }
-                    }
-                }
 
+    fun initLineUp(homeT: TeamModel?, awayT: TeamModel?) {
+        if (homeT != null && awayT != null) {
+            this.homeTeam.value = homeT
+            this.awayTeam.value = awayT
+            viewModelScope.launch(Dispatchers.IO) {
+                val list = getPlayersByTeamLegendUC.getPlayers(homeTeam.value!!)
+                withContext(Dispatchers.Main) {
+                    _homeRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
+                    initOnFieledOrBench(Enums.Possesso.HOME)
+                }
             }.invokeOnCompletion {
                 viewModelScope.launch(Dispatchers.IO) {
                     val list = getPlayersByTeamLegendUC.getPlayers(awayTeam.value!!)

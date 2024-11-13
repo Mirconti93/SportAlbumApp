@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.FileDataManager
@@ -53,6 +54,7 @@ import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
@@ -61,7 +63,7 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @ExperimentalMaterial3Api
 @Composable
-fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun BupiScreen(navController: NavController) {
     val viewModel: BupiViewModel = hiltViewModel()
     Column(verticalArrangement = Arrangement.Top) {
         val isTeams = remember { mutableStateOf(true) }
@@ -133,9 +135,9 @@ fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
                 }
                 Button(onClick = {
                     if (!isTeams.value) {
-                        navController.navigate(NavigationItem.BupiPlayerEdit.route)
+                        navController.navigate(Routes.EditBupiPlayer(bupiPlayer = null))
                     } else {
-                        navController.navigate(NavigationItem.BupiTeamEdit.route)
+                        navController.navigate(Routes.EditBupiTeam(bupiTeam = null))
                     }
                 }) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.newItem))
@@ -183,7 +185,7 @@ fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
             teams.value.forEach {
                 shortItemList.add(it.toShortItem {
                     if (isEditTeams.value) {
-                        navController.navigate(NavigationItem.BupiTeamEdit.route)
+                        navController.navigate(Routes.EditBupiTeam(bupiTeam = Gson().toJson(it)))
                     } else {
                         viewModel.bupiPlayersByTeam(it.name)
                         isTeams.value = false
@@ -196,8 +198,7 @@ fun BupiScreen(navController: NavController, mainViewModel: MainViewModel) {
             val shortItemList = ArrayList<ShortListItem>()
             players.value.forEach {
                 shortItemList.add(it.toShortItem {
-                    mainViewModel.selectedBupiPlayer = it
-                    navController.navigate(NavigationItem.BupiPlayerEdit.route)
+                    navController.navigate(Routes.EditBupiPlayer(bupiPlayer = Gson().toJson(it)))
                 })
             }
             ShortList(items = shortItemList)

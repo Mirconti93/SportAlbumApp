@@ -23,12 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.commons.customTextEdit
+import com.mircontapp.sportalbum.data.database.BupiPlayer
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
@@ -36,13 +38,13 @@ import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditBupiPlayerScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun EditBupiPlayerScreen(navController: NavController, bupiPlayerArg: String?) {
     val bupiViewModel: BupiViewModel = hiltViewModel()
     val player = remember {
-        mainViewModel.selectedBupiPlayer.let {
+        bupiPlayerArg.let {
             if (it != null) {
                 bupiViewModel.updateType.value = Enums.UpdateType.UPDATE
-                it
+                Gson().fromJson(bupiPlayerArg, BupiPlayerModel::class.java)
             } else {
                 bupiViewModel.updateType.value = Enums.UpdateType.NEW
                 PlayerHelper.buildBupiPlayerModel("Player")

@@ -1,10 +1,8 @@
 package com.mircontapp.sportalbum.presentation.album
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,29 +12,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
@@ -44,13 +37,11 @@ import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
-import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
-import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun TeamAlbumScreen(navController: NavController, teamName: String) {
+fun TeamAlbumScreen(navController: NavController, teamArg: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -58,7 +49,7 @@ fun TeamAlbumScreen(navController: NavController, teamName: String) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        val team = remember{ mainViewModel.teamModel }
+        val team = Gson().fromJson(teamArg, TeamModel::class.java)
         val viewModel: TeamAlbumViewModel = hiltViewModel()
         remember {
             viewModel.playersFromTeamLegend(team)
@@ -111,14 +102,14 @@ fun TeamAlbumScreen(navController: NavController, teamName: String) {
                     players.sortedBy { it.roleLineUp },
                     object : OnPlayerClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
-                            mainViewModel.playerModel = playerModel
-                            navController.navigate(NavigationItem.Sticker.route)
+                            val arg = Gson().toJson(playerModel)
+                            navController.navigate(Routes.Sticker(arg))
                         }
                     },
                     object : OnEditClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {
-                            mainViewModel.playerModel = playerModel
-                            navController.navigate(NavigationItem.EditPlayer.route)
+                            val arg = Gson().toJson(playerModel)
+                            navController.navigate(Routes.EditPlayer(arg))
                         }
                     },
                 )

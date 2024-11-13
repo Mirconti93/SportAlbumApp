@@ -18,8 +18,6 @@ import com.mircontapp.sportalbum.presentation.dashboard.EditTeamScreen
 import com.mircontapp.sportalbum.presentation.draw.DrawScreen
 import com.mircontapp.sportalbum.presentation.match.MatchGameScreen
 import com.mircontapp.sportalbum.presentation.match.MatchStartScreen
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
-import kotlinx.serialization.Serializable
 
 @ExperimentalMaterial3Api
 @Composable
@@ -28,71 +26,52 @@ fun NavGraph(navController: NavHostController){
         navController = navController,
         startDestination = NavigationItem.Album.route)
     {
-        composable<AlbumRoute> {
+        composable<Routes.Album> {
             AlbumScreen(navController = navController)
         }
-        composable<DashboardRoute> {
+        composable<Routes.TeamAlbum>{
+            TeamAlbumScreen(navController = navController,
+                teamArg = it.toRoute<Routes.TeamAlbum>().team)
+        }
+        composable<Routes.Sticker>{
+            StickerScreen(navController = navController,
+                playerArg = it.toRoute<Routes.Sticker>().player)
+        }
+        composable<Routes.Dashboard> {
             DashboardScreen(navController = navController)
         }
-        composable<MatchStartRoute> {
+        composable<Routes.EditTeam>{
+            EditTeamScreen(navController = navController,
+                teamArg = it.toRoute<Routes.EditTeam>().team)
+        }
+        composable<Routes.EditPlayer>{
+            EditPlayerScreen(navController = navController,
+                playerArg = it.toRoute<Routes.EditPlayer>().player)
+        }
+        composable<Routes.Game> {
             MatchStartScreen(navController = navController)
         }
-        composable<MatchGameRoute> {
+        composable<Routes.Match> {
             MatchGameScreen(navController = navController,
-                homeTeam = it.toRoute<MatchGameRoute>().homeTeam,
-                awayTeam = it.toRoute<MatchGameRoute>().awayTeam)
+                homeTeamArg = it.toRoute<Routes.Match>().homeTeam,
+                awayTeamArg = it.toRoute<Routes.Match>().awayTeam)
         }
-        composable<TeamAlbumRoute>{
-            TeamAlbumScreen(navController = navController,
-                teamName = it.toRoute<TeamAlbumRoute>().team)
-        }
-        composable<StickerRoute>{
-            StickerScreen(navController = navController)
-        }
-        composable<EditTeamRoute>{
-            EditTeamScreen(navController = navController)
-        }
-        composable<EditPlayerRoute>{
-            EditPlayerScreen(navController = navController)
-        }
-        composable<BupiRoute>{
+        composable<Routes.Bupi>{
             BupiScreen(navController = navController)
         }
-        composable<EditPlayerRoute>{
-            EditBupiPlayerScreen(navController = navController)
+        composable<Routes.EditBupiPlayer>{
+            EditBupiPlayerScreen(navController = navController,
+                bupiPlayerArg = it.toRoute<Routes.EditBupiPlayer>().bupiPlayer)
         }
-        composable<EditBupiTeamRoute>{
-            EditBupiTeamScreen(navController = navController)
+        composable<Routes.EditBupiTeam>{
+            EditBupiTeamScreen(navController = navController,
+                bupiTeamArg = it.toRoute<Routes.EditBupiTeam>().bupiTeam)
         }
-        composable<DrawRoute>{
+        composable<Routes.Draw>{
             DrawScreen(navController = navController)
         }
     }
 }
-
-@Serializable object AlbumRoute
-
-@Serializable object DashboardRoute
-
-@Serializable object MatchStartRoute
-
-@Serializable data class MatchGameRoute(val homeTeam: String, val awayTeam: String)
-
-@Serializable data class TeamAlbumRoute(val team: String)
-
-@Serializable object StickerRoute
-
-@Serializable object EditTeamRoute
-
-@Serializable object EditPlayerRoute
-
-@Serializable object BupiRoute
-
-@Serializable object EditBupiPlayerRoute
-
-@Serializable object EditBupiTeamRoute
-
-@Serializable object DrawRoute
 
 
 

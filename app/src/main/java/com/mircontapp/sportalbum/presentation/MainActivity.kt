@@ -55,13 +55,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Scaffold(
                     bottomBar = {
-                        BottomBarNavigation(navController, arrayListOf(
-                            NavigationItem.Album,
-                            NavigationItem.Dashboard,
-                            NavigationItem.Draw,
-                            NavigationItem.Bupi,
-                            NavigationItem.Games
-                        ))
+                        BottomBarNavigation(navController)
                     }
                 ) { innerPadding ->
                     Column(
@@ -72,7 +66,7 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        NavGraph(navController = navController, mainViewModel = mainViewModel)
+                        NavGraph(navController = navController)
                     }
                 }
             }
@@ -80,18 +74,23 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun BottomBarNavigation(navController: NavController, items: List<NavigationItem>) {
+    fun BottomBarNavigation(navController: NavController) {
         Box (
             Modifier.background(MaterialTheme.colorScheme.primary)
         ) {
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
 
-                items.forEach {
+                arrayListOf(
+                    NavigationItem.Album,
+                    NavigationItem.Dashboard,
+                    NavigationItem.Draw,
+                    NavigationItem.Bupi,
+                    NavigationItem.Games
+                ).forEach {
                     IconButton(onClick = {
                         navController.navigate(it.route)
                     }) {
@@ -105,7 +104,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
     }
 
     @Composable
@@ -116,15 +114,5 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        BottomBarNavigation(navController = rememberNavController(), arrayListOf(
-            NavigationItem.Album,
-            NavigationItem.Dashboard,
-            NavigationItem.Bupi,
-            NavigationItem.Games
-        ))
-    }
 }
 

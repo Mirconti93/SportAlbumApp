@@ -2,28 +2,19 @@ package com.mircontapp.sportalbum.presentation.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.mircontapp.sportalbum.R
+import com.mircontapp.sportalbum.SportAlbumApplication
 
-sealed class NavigationItem(var route: String, var icon: ImageVector, var title: String) {
-    object Album : NavigationItem("album{args}", Icons.Default.Home, "Album")
-    object TeamAlbum : NavigationItem("team_album\\${NavConsants.TEAM}", Icons.Default.Home, "Album")
-    object Sticker : NavigationItem("sticker", Icons.Default.Home, "Album")
-    object Dashboard : NavigationItem("dashboard", Icons.Default.Create, "Dashboard")
-    object Games : NavigationItem("games", Icons.Default.Favorite, "Games")
-    object EditTeam : NavigationItem("edit_team", Icons.Default.Create, "Edit team")
-    object EditPlayer : NavigationItem("edit_player", Icons.Default.Create, "Edit players")
-    object LineUps : NavigationItem("line_up", Icons.Default.Favorite, "Line Up")
-    object Match : NavigationItem("match", Icons.Default.Favorite, "Match")
-    object Bupi : NavigationItem("bupi",Icons.Default.Face, "Bupi")
-    object BupiPlayerEdit : NavigationItem("bupi_player_edit", Icons.Default.Face, "BupiPlayerEdit")
-    object BupiTeamEdit : NavigationItem("bupi_team_edit", Icons.Default.Face, "BupiTeamEdit")
-    object Draw : NavigationItem("draw", Icons.Default.List, "Draw")
-
+sealed class NavigationItem<T>(var route: T, var icon: ImageVector, var title: String) {
+    object Album : NavigationItem<Routes.Album>(Routes.Album, Icons.Default.Home, SportAlbumApplication.instance.getString(R.string.album))
+    object Dashboard : NavigationItem<Routes.Dashboard>(Routes.Dashboard, Icons.Default.Create, SportAlbumApplication.instance.getString(R.string.dashboard))
+    object Games : NavigationItem<Routes.Game>(Routes.Game, Icons.Default.Favorite, SportAlbumApplication.instance.getString(R.string.games))
+    object Bupi : NavigationItem<Routes.Bupi>(Routes.Bupi,Icons.Default.Face, SportAlbumApplication.instance.getString(R.string.bupi))
+    object Draw : NavigationItem<Routes.Draw>(Routes.Draw, Icons.Default.List, SportAlbumApplication.instance.getString(R.string.draw))
 }
 

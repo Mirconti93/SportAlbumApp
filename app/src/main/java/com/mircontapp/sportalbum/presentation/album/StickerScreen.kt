@@ -35,9 +35,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.toPlayerMatchModel
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
@@ -45,8 +47,9 @@ import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun StickerScreen(navController: NavController, mainViewModel: MainViewModel) {
-    mainViewModel.playerModel?.toPlayerMatchModel(true)?.let { player->
+fun StickerScreen(navController: NavController, playerArg: String) {
+    val playerModel = Gson().fromJson<PlayerModel>(playerArg, PlayerModel::class.java)
+    playerModel?.toPlayerMatchModel(true)?.let { player->
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {

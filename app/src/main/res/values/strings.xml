@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Sport Album</string>
 
+    <string name="album">Album</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="games">Games</string>
+    <string name="bupi">Bupi</string>
+    <string name="draw">Draw</string>
+
     <string name="insertTeams">Inserisci le tue squadre</string>
     <string name="newTeam">Nuova squadra</string>
     <string name="insertedTeams">Squadre inserite</string>
@@ -247,7 +253,6 @@
     <string name="next">Avanti</string>
 
     <string name="vs">vs</string>
-    <string name="dashboard">Dashboard</string>
     <string name="media">Media</string>
 
 </resources>

@@ -12,7 +12,7 @@ import com.mircontapp.sportalbum.presentation.dashboard.DashboardViewModel
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun DrawScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun DrawScreen(navController: NavController) {
     val drawViewModel: DrawViewModel = hiltViewModel()
 
     val name = remember { mutableStateOf(TextFieldValue("")) }
