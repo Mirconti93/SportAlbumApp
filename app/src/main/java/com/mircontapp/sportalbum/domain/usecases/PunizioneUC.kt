@@ -1,10 +1,11 @@
 import android.content.Context
-import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.MatchHelper
-import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.commons.ext.findTiratore
+import com.mircontapp.sportalbum.commons.ext.getMatchValue
+import com.mircontapp.sportalbum.commons.ext.isPortiere
+import com.mircontapp.sportalbum.commons.ext.partecipa
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
@@ -16,8 +17,8 @@ class PunizioneUC() {
         val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
 
         val tiratori = ArrayList<PlayerMatchModel>().also { it.addAll(attackers) }
-        val tiratore1 = tiratori.removeAt(MatchHelper.findTiratore(tiratori))
-        val tiratore2 = tiratori.removeAt(MatchHelper.findTiratore(tiratori))
+        val tiratore1 = tiratori.removeAt(tiratori.findTiratore())
+        val tiratore2 = tiratori.removeAt(tiratori.findTiratore())
         val soglia: Double = tiratore1.rig * 2.0
         val tot: Double = soglia + tiratore2.rig
         val dado = Math.random() * tot
@@ -25,7 +26,7 @@ class PunizioneUC() {
 
         defenders.isEmpty()
 
-        var portiere: PlayerMatchModel? = defenders.find { PlayerHelper.isPortiere(it)}
+        var portiere: PlayerMatchModel? = defenders.find { it.isPortiere()}
         if (portiere == null && !defenders.isEmpty()) {
             portiere = defenders.get(0)
         }
@@ -45,13 +46,13 @@ class PunizioneUC() {
         var pot = tiratore?.rig?.toDouble() ?: 0.0
         val dado = 0.0
 
-        var fix = PlayerHelper.getValue(tiratore, matchModel.isLegend)
+        var fix = tiratore.getMatchValue(matchModel.isLegend)
         finA = fix * 0.5 + Math.random() * pot * 0.5
         portiere?.let {
             pot = it.por * 0.5 + it.bal * 0.25 + it.dif * 0.25
         }
 
-        fix = PlayerHelper.getValue(portiere, matchModel.isLegend)
+        fix = tiratore.getMatchValue(matchModel.isLegend)
         val parata = fix * 0.75 + Math.random() * pot  * 0.25
         val diff = parata - finA
         val context: Context = SportAlbumApplication.instance.applicationContext
@@ -119,14 +120,14 @@ class PunizioneUC() {
         var pot = 0.0
         var dado = 0.0
         pot = tiratore.rig * 0.75 + tiratore.tec * 0.25
-        var fix = PlayerHelper.getValue(tiratore, matchModel.isLegend)
+        var fix = tiratore.getMatchValue(matchModel.isLegend)
         finA = fix / 2 + Math.random() * pot / 2
         var protagonistaD = ""
         var difD = -1.0
         for (defender in defenders) {
-            if (MatchHelper.partecipa(defender, defender.roleLineUp.getPartCen())) {
+            if (defender.partecipa(defender.roleLineUp.getPartCen())) {
                 pot = defender.bal * 0.5 + defender.dif * 0.25 + defender.fis * 0.25
-                fix = PlayerHelper.getValue(defender, matchModel.isLegend)
+                fix = tiratore.getMatchValue(matchModel.isLegend)
                 dado = fix * 0.75 + Math.random() * 0.25
                 if (dado > difD) {
                     difD = dado
@@ -140,9 +141,9 @@ class PunizioneUC() {
         if (diff < 0) {
             finA = -1.0
             for (attacker in attackers) {
-                if (MatchHelper.partecipa(attacker, attacker.roleLineUp.getPartfin())) {
+                if (attacker.partecipa(attacker.roleLineUp.getPartfin())) {
                     pot = attacker.bal * 0.5 + attacker.att * 0.25 + attacker.fin * 0.25
-                    fix = PlayerHelper.getValue(attacker, matchModel.isLegend)
+                    fix = tiratore.getMatchValue(matchModel.isLegend)
                     dado = fix * 0.5 + Math.random() * 0.5
                     if (dado > finA) {
                         finA = dado
@@ -154,7 +155,7 @@ class PunizioneUC() {
             portiere?.let { portiere->
                 pot =portiere.por * 0.5 + portiere.bal * 0.25 + portiere.dif * 0.25
             }
-            fix = PlayerHelper.getValue(portiere, matchModel.isLegend)
+            fix = tiratore.getMatchValue(matchModel.isLegend)
             val parata = fix / 8 * 7 + Math.random() * pot / 8
             diff = parata - finA
             if (diff < 0) {

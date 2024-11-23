@@ -3,8 +3,8 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.MatchHelper
 import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.commons.ext.partecipa
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
@@ -27,7 +27,7 @@ class CentrocampoUC() {
 
         //centrocampo azione offensiva
         for (attacker in attackers) {
-            if (MatchHelper.partecipa(attacker, attacker.roleMatch.getPartCen())) {
+            if (attacker.partecipa(attacker.roleMatch.getPartCen())) {
                 pot = attacker.tec / 2.0 + attacker.dri / 4.0 + attacker.vel / 4.0
                 fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble()
                     ?: 0.0 else attacker.value?.toDouble() ?: 0.0
@@ -44,7 +44,7 @@ class CentrocampoUC() {
         var protagonistaD = ""
         var cenD = -1.0
         for (defender in defenders) {
-            if (MatchHelper.partecipa(defender, defender.roleLineUp.getPartCen())) {
+            if (defender.partecipa(defender.roleLineUp.getPartCen())) {
                 pot = defender.dif / 2.0 + defender.bal / 4.0 + defender.vel / 4.0
                 fixed = if (matchModel.isLegend) defender.valueleg?.toDouble()
                     ?: 0.0 else defender.value?.toDouble() ?: 0.0

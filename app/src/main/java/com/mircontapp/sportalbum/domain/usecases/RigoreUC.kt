@@ -3,8 +3,10 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.MatchHelper
 import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.commons.ext.findGoalkeeper
+import com.mircontapp.sportalbum.commons.ext.findTiratore
+import com.mircontapp.sportalbum.commons.ext.getMatchValue
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
@@ -17,16 +19,16 @@ class RigoreUC() {
         val attackers = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersHome else matchModel.playersAway
         val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
 
-        val tiratore = attackers.get(MatchHelper.findTiratore(attackers))
-        val goalkeeper = MatchHelper.findGoalkeeper(defenders)
+        val tiratore = attackers.get(attackers.findTiratore())
+        val goalkeeper = defenders.findGoalkeeper()
         var finA = -1.0
         var pot = 0.0
         var fix = 0.0
         pot = tiratore.rig * 0.75 + tiratore.fin * 0.25
-        fix = PlayerHelper.getValue(tiratore, matchModel.isLegend)
+        fix = tiratore.getMatchValue(matchModel.isLegend)
         finA = fix / 2 + Math.random() * pot
         pot = goalkeeper.por * 0.5 + goalkeeper.bal * 0.25 + goalkeeper.dif * 0.25
-        fix = PlayerHelper.getValue(goalkeeper, matchModel.isLegend)
+        fix = goalkeeper.getMatchValue(matchModel.isLegend)
         val parata = fix / 2 + Math.random() * pot / 2
         var messaggio = ""
         val context: Context = SportAlbumApplication.instance.applicationContext

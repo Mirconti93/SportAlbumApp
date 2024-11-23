@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import java.lang.Exception
@@ -64,7 +64,7 @@ fun TeamChoiceItem(team: TeamModel, modifier: Modifier) {
 
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            val idDrawable = UIHelper.getDrawableId(team.name, R.drawable.empty_logo)
+            val idDrawable = team.name.getDrawableId(R.drawable.empty_logo)
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità

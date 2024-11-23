@@ -11,12 +11,9 @@ import com.mircontapp.sportalbum.data.database.bupiTeamModelFromEntity
 import com.mircontapp.sportalbum.domain.datasource.BupiDataSource
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.BupiTeamModel
-import com.mircontapp.sportalbum.domain.models.PlayerModel
-import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.models.entityFromBupiPlayer
 import com.mircontapp.sportalbum.domain.models.entityFromBupiTeam
-import com.mircontapp.sportalbum.domain.models.entityFromPlayerModel
-import com.mircontapp.sportalbum.domain.models.entityFromTeamModel
+
 
 
 class BupiDataSourceImpl : BupiDataSource {

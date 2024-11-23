@@ -28,8 +28,8 @@ import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.TeamHelper
-import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.ext.findAreaEnum
+import com.mircontapp.sportalbum.commons.ext.findModuleEnum
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
@@ -110,10 +110,10 @@ fun EditTeamScreen(navController: NavController, teamArg: String?) {
                         color2 = color2.value.text,
                         coach = coach.value.text,
                         coachlegend = coach.value.text,
-                        area = TeamHelper.findAreaEnum(area.value.text),
-                        arealegend = TeamHelper.findAreaEnum(arealegend.value.text),
+                        area = area.value.text.findAreaEnum(),
+                        arealegend = arealegend.value.text.findAreaEnum(),
                         superlega = isSuperlega.value,
-                        module = TeamHelper.findModuleEnum(module.value.text)
+                        module = module.value.text.findModuleEnum()
                     )
                 )
                 Toast.makeText(SportAlbumApplication.instance, SportAlbumApplication.instance.getString(R.string.dataUpdated), Toast.LENGTH_LONG)

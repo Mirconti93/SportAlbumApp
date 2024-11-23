@@ -32,7 +32,8 @@ import androidx.navigation.NavController
 import com.google.gson.Gson
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.ext.getColorByString
+import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
@@ -71,7 +72,7 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
 
                     Text(modifier = Modifier, text = team.name, fontSize = 20.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
 
-                    val idDrawable = UIHelper.getDrawableId(team.name, R.drawable.empty_logo)
+                    val idDrawable = team.name.getDrawableId(R.drawable.empty_logo)
                     Row(modifier = Modifier
                         .padding(8.dp, 8.dp)
                         .fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
@@ -89,9 +90,9 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
                             DescriptionText(label = SportAlbumApplication.instance.getString(R.string.coach), value = team.coachlegend)
                         }
                     }
-                    Spacer(modifier = Modifier.height(2.dp).background(color = UIHelper.getColorByString(team.color1)).fillMaxWidth())
-                    Spacer(modifier = Modifier.height(4.dp).background(color = UIHelper.getColorByString(team.color2)).fillMaxWidth())
-                    Spacer(modifier = Modifier.height(2.dp).background(color = UIHelper.getColorByString(team.color1)).fillMaxWidth())
+                    Spacer(modifier = Modifier.height(2.dp).background(color = team.color1.getColorByString()).fillMaxWidth())
+                    Spacer(modifier = Modifier.height(4.dp).background(color = team.color2.getColorByString()).fillMaxWidth())
+                    Spacer(modifier = Modifier.height(2.dp).background(color = team.color1.getColorByString()).fillMaxWidth())
                 }
             }
         }

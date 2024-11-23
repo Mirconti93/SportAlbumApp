@@ -37,7 +37,8 @@ import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.ext.getColorByString
+import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
@@ -134,7 +135,7 @@ fun MatchStartScreen(navController: NavController) {
 @Composable
 fun TeamSelected(modifier: Modifier, team: TeamModel?, onClickHandler: OnClickHandler) {
     Column(modifier = modifier.padding(16.dp, 8.dp)) {
-        val bkgColor = UIHelper.getColorByString(team?.color1)
+        val bkgColor = team?.color1.getColorByString()
         Card(
             modifier = Modifier.shadow(2.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -149,7 +150,7 @@ fun TeamSelected(modifier: Modifier, team: TeamModel?, onClickHandler: OnClickHa
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                val idDrawable = UIHelper.getDrawableId(name, R.drawable.empty_logo)
+                val idDrawable = name.getDrawableId(R.drawable.empty_logo)
                 Image(
                     painter = painterResource(idDrawable),
                     contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità

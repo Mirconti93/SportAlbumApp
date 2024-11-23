@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
@@ -74,7 +74,7 @@ fun PlayerItem(player: PlayerModel, onEditClickHandler: OnEditClickHandler, modi
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            val idDrawable = UIHelper.getDrawableId(player.name, R.drawable.no_photo_icon)
+            val idDrawable = player.name.getDrawableId(R.drawable.no_photo_icon)
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità

@@ -59,7 +59,10 @@ import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.ext.getColorByString
+import com.mircontapp.sportalbum.commons.ext.getDrawableId
+import com.mircontapp.sportalbum.commons.ext.getTeamTextColor
+import com.mircontapp.sportalbum.commons.ext.minifiyName
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
@@ -113,13 +116,14 @@ fun Match(matchViewModel: MatchViewModel) {
                 .weight(0.3f)
                 .padding(2.dp), horizontalAlignment = CenterHorizontally) {
                 Spacer(modifier = Modifier.height(8.dp))
+
                 Image(
-                    painter = painterResource(UIHelper.getDrawableId(matchModel.value.protagonista ?: "", R.drawable.giocatore)),
+                    painter = painterResource(matchModel.value.protagonista.getDrawableId(R.drawable.giocatore)),
                     contentDescription = "Team icon",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.height(100.dp)
                 )
-                val idDrawable = UIHelper.getDrawableId(matchModel.value.coprotagonista ?: "", R.drawable.giocatore)
+                val idDrawable = matchModel.value.coprotagonista.getDrawableId(R.drawable.giocatore)
                 if (idDrawable != R.drawable.giocatore) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Image(
@@ -144,10 +148,10 @@ fun Match(matchViewModel: MatchViewModel) {
                 if (it.size>0) {
                     val comment = matchModel.value.comment[it.size-1]
                     val bckColor = if (comment.possesso == Enums.Possesso.HOME) matchViewModel.homeTeam.value?.color1 else matchViewModel.awayTeam.value?.color1
-                    val textColor = UIHelper.getTeamTextColor(bckColor)
+                    val textColor = bckColor.getTeamTextColor()
                     Text(text = "${comment.minute}' ${comment.text}", modifier = Modifier
                         .fillMaxWidth()
-                        .background(UIHelper.getColorByString(bckColor), RoundedCornerShape(2.dp))
+                        .background(bckColor.getColorByString(), RoundedCornerShape(2.dp))
                         .padding(8.dp, 2.dp),
                         color = textColor)
                 }
@@ -155,10 +159,10 @@ fun Match(matchViewModel: MatchViewModel) {
                     Spacer(modifier = Modifier.height(2.dp))
                     val comment = matchModel.value.comment[it.size-2]
                     val bckColor = if (comment.possesso == Enums.Possesso.HOME) matchViewModel.homeTeam.value?.color1 else matchViewModel.awayTeam.value?.color1
-                    val textColor = UIHelper.getTeamTextColor(bckColor)
+                    val textColor = bckColor.getTeamTextColor()
                     Text(text = "${comment.minute}' ${comment.text}", modifier = Modifier
                         .fillMaxWidth()
-                        .background(UIHelper.getColorByString(bckColor), RoundedCornerShape(2.dp))
+                        .background(bckColor.getColorByString(), RoundedCornerShape(2.dp))
                         .padding(8.dp, 2.dp),
                         color = textColor)
 
@@ -188,8 +192,7 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: Enums.Posse
         Spacer(modifier = Modifier.height(8.dp))
         Image(
             painter = painterResource(
-                UIHelper.getDrawableId(
-                    teamName,
+                teamName.getDrawableId(
                     R.drawable.empty_logo
                 )
             ),
@@ -207,7 +210,7 @@ fun MatchScore(modifier: Modifier, matchModel: MatchModel, position: Enums.Posse
 
         LazyColumn(modifier = Modifier.height(70.dp)) {
             items(matchModel.marcatori.filter { it.possesso == position }) {
-                Text(text = it.minute.toString() + "' " + UIHelper.minifiyName(it.text), fontSize = 10.sp)
+                Text(text = it.minute.toString() + "' " + it.text.minifiyName(), fontSize = 10.sp)
             }
 
         }
@@ -219,16 +222,16 @@ fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enum
     Column(modifier = modifier) {
         val coach = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.coach else viewModel.awayTeam.value?.coach
         coach?.let {
-            Text(text = SportAlbumApplication.instance.getString(R.string.coach) + " " + UIHelper.minifiyName(coach), fontSize = 10.sp,  maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = SportAlbumApplication.instance.getString(R.string.coach) + " " + coach.minifiyName(), fontSize = 10.sp,  maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         LazyColumn {
             val players = if (position == Enums.Possesso.HOME) viewModel.homeEleven.value else viewModel.awayEleven.value
             val bgColor = if (position == Enums.Possesso.HOME) viewModel.homeTeam.value?.color1 else viewModel.awayTeam.value?.color1
             items(players) {
-                Text(text = UIHelper.minifiyName(it.name), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
+                Text(text = it.name.minifiyName(), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier
                     .padding(2.dp)
-                    .background(UIHelper.getColorByString(bgColor))
-                    .fillMaxWidth(), color = UIHelper.getTeamTextColor(bgColor ?: ""))
+                    .background(bgColor.getColorByString())
+                    .fillMaxWidth(), color = bgColor.getTeamTextColor())
                 Spacer(modifier = Modifier.height(0.5.dp))
             }
 

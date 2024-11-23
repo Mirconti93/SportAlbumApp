@@ -38,9 +38,9 @@ import androidx.navigation.NavController
 import com.google.gson.Gson
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.UIHelper
+import com.mircontapp.sportalbum.commons.ext.getDrawableId
+import com.mircontapp.sportalbum.commons.ext.toPlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
-import com.mircontapp.sportalbum.domain.models.toPlayerMatchModel
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
@@ -53,7 +53,7 @@ fun StickerScreen(navController: NavController, playerArg: String) {
         Column(modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            val idDrawable = UIHelper.getDrawableId(player.name, R.drawable.no_photo_icon)
+            val idDrawable = player.name.getDrawableId(R.drawable.no_photo_icon)
             Text(modifier = Modifier, text = player.name, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 20.sp)
             Image(
                 painter = painterResource(idDrawable),

@@ -13,13 +13,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.PlayerHelper
-import com.mircontapp.sportalbum.commons.TeamHelper
+import com.mircontapp.sportalbum.commons.ext.findBestPlayerInRole
+import com.mircontapp.sportalbum.commons.ext.getLineUpRoles
+import com.mircontapp.sportalbum.commons.ext.toPlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
-import com.mircontapp.sportalbum.domain.models.toPlayerMatchModel
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamFromNameUC
@@ -197,11 +197,11 @@ class MatchViewModel @Inject constructor(
             }
         }
 
-        val module = if (teamIsHome) homeTeam.value?.module else awayTeam.value?.module
-        val roles = PlayerHelper.getLineUpRoles(module)
+        val module = if (teamIsHome) homeTeam.value?.module else awayTeam.value?.module ?: Enums.MatchModule.M442
+        val roles = module.getLineUpRoles()
 
         for (roleLineUp in roles) {
-            PlayerHelper.findBestPlayerInRole(roster, roleLineUp, isLegend )?.let {playerModel->
+            roster.findBestPlayerInRole(roleLineUp, isLegend )?.let {playerModel->
                 playerModel.let {
                     it.roleMatch = roleLineUp
                     field.add(it)
@@ -210,11 +210,11 @@ class MatchViewModel @Inject constructor(
             }
         }
 
-        roster?.forEach {
+        roster.forEach {
             it.roleMatch = Enums.RoleLineUp.PAN
         }
 
-        val bench = roster?.sortedBy { it.roleLineUp } ?: emptyList()
+        val bench = roster.sortedBy { it.roleLineUp } ?: emptyList()
 
         if (teamIsHome) {
             homeEleven.value = field
@@ -228,7 +228,7 @@ class MatchViewModel @Inject constructor(
 
     fun changeModule(teamPosition: Enums.Possesso, module: Enums.MatchModule) {
         val players = ArrayList<PlayerMatchModel>()
-        val roles = PlayerHelper.getLineUpRoles(module)
+        val roles = module.getLineUpRoles()
         if (teamPosition == Enums.Possesso.HOME) {
             players.addAll(homeEleven.value)
         } else {

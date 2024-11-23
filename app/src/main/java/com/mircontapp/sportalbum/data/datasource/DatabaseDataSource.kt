@@ -1,6 +1,7 @@
 package com.mircontapp.sportalbum.data.datasource
 
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.ext.entityFromPlayerModel
 import com.mircontapp.sportalbum.data.database.AppDatabase
 import com.mircontapp.sportalbum.data.database.BupiPlayer
 import com.mircontapp.sportalbum.data.database.BupiTeam
@@ -15,7 +16,6 @@ import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.models.entityFromBupiPlayer
 import com.mircontapp.sportalbum.domain.models.entityFromBupiTeam
-import com.mircontapp.sportalbum.domain.models.entityFromPlayerModel
 import com.mircontapp.sportalbum.domain.models.entityFromTeamModel
 
 

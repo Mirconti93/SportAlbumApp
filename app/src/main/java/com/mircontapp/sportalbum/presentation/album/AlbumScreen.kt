@@ -28,13 +28,14 @@ import androidx.compose.ui.text.font.FontVariation.width
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.UIHelper
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
@@ -72,7 +73,7 @@ fun AlbumScreen(navController: NavController) {
         if (teams.value != null) {
             TeamsGrid(TeamsState(teams.value, object : OnTeamClickHandler {
                 override fun onTeamClick(teamModel: TeamModel) {
-                    navController.navigate(NavigationItem.TeamAlbum.route)
+                    navController.navigate(Routes.TeamAlbum(Gson().toJson(teamModel)))
                 }
             }), Modifier.fillMaxHeight().padding(4.dp))
 

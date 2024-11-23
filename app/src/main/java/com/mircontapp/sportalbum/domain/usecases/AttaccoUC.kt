@@ -3,8 +3,8 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.MatchHelper
 import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.commons.ext.partecipa
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
@@ -23,7 +23,7 @@ class AttaccoUC() {
         val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
 
         for (attacker in attackers) {
-            if (MatchHelper.partecipa(attacker, attacker.roleMatch.getPartAtt())) {
+            if (attacker.partecipa(attacker.roleMatch.getPartAtt())) {
                 pot = attacker.att / 4.0 + attacker.dri / 4.0 + attacker.tec / 4.0 + attacker.vel / 4.0
                 val fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
                 dado = fixed * 0.25 + Math.random() * pot * 0.75
@@ -39,7 +39,7 @@ class AttaccoUC() {
         var protagonistaD = ""
         var difD = -1.0
         for (defender in defenders) {
-            if (MatchHelper.partecipa(defender, defender.roleMatch.getPartDif())) {
+            if (defender.partecipa(defender.roleMatch.getPartDif())) {
                 pot = defender.dif / 4.0 + defender.bal / 4.0 + defender.fis / 4.0 + defender.vel / 4.0
                 val fixed = if (matchModel.isLegend) defender.valueleg?.toDouble() ?: 0.0 else defender.value?.toDouble() ?: 0.0
                 dado = fixed * 0.25 + pot * 0.25 + Math.random() * pot * 0.5
