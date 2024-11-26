@@ -6,7 +6,8 @@ import com.mircontapp.sportalbum.domain.repository.TeamsRepository
 import javax.inject.Inject
 
 class GetTeamsSuperlegaUC @Inject constructor(val teamsRepository: TeamsRepository) {
-    suspend fun getTeams(): List<TeamModel> {
-        return teamsRepository.teamsFromSuperlega()
+    suspend operator fun invoke(): List<TeamModel> {
+        return teamsRepository.getAllTeams().filter { it.superlega ?: false }.sortedBy { it.name }
     }
+
 }

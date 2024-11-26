@@ -19,6 +19,10 @@ class SportAlbumApplication: Application() {
     companion object {
         lateinit var instance: SportAlbumApplication
 
+        fun getString(id: Int): String {
+            return instance.getString(id)
+        }
+
     }
 
     init {

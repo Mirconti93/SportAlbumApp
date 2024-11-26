@@ -6,7 +6,7 @@ import com.mircontapp.sportalbum.domain.repository.TeamsRepository
 import javax.inject.Inject
 
 class GetTeamsFromAreaUC @Inject constructor(val teamsRepository: TeamsRepository) {
-    suspend fun getTeamsFromArea(area: Enums.Area): List<TeamModel> {
-        return teamsRepository.teamsFromArea(area)
+    suspend operator fun invoke(area: Enums.Area): List<TeamModel> {
+        return teamsRepository.getAllTeams().filter { area === it.area }.sortedBy { it.name }
     }
 }

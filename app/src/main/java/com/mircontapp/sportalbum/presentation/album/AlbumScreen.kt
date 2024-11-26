@@ -1,51 +1,47 @@
 package com.mircontapp.sportalbum.presentation.album
 
-import android.content.Context
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontVariation.width
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
 import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.album.action.AlbumChooseAction
+import com.mircontapp.sportalbum.presentation.album.state.AlbumChooseState
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
-import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.navigation.Routes
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
 fun AlbumScreen(navController: NavController) {
     val viewModel: AlbumViewModel = hiltViewModel()
     LaunchedEffect((Unit), block = {
-        viewModel.getTeamsFromArea(Enums.Area.SERIEA)
+        viewModel.onAction(AlbumChooseAction.Load)
     })
 
-    val teams = viewModel.teams.collectAsState()
+    val state = viewModel.state.collectAsState()
     
     Column(
         modifier = Modifier
@@ -62,7 +58,7 @@ fun AlbumScreen(navController: NavController) {
                 .horizontalScroll(rememberScrollState())) {
             Enums.Area.values().forEach { 
                 Button(onClick = { 
-                    viewModel.getTeamsFromArea(it)
+                    viewModel.onAction(AlbumChooseAction.ShowTeamsByArea(it))
                 }) {
                     Text(text = it.text)
                 }
@@ -70,16 +66,27 @@ fun AlbumScreen(navController: NavController) {
                 Spacer(modifier = Modifier.width(4.dp))
             }
         }
-        if (teams.value != null) {
-            TeamsGrid(TeamsState(teams.value, object : OnTeamClickHandler {
-                override fun onTeamClick(teamModel: TeamModel) {
-                    navController.navigate(Routes.TeamAlbum(Gson().toJson(teamModel)))
-                }
-            }), Modifier.fillMaxHeight().padding(4.dp))
 
+        when {
+            state.value.isLoading -> {
+                CircularProgressIndicator(
+                    color = Color.White,
+                    strokeWidth = 2.dp,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+            state.value.message != null -> state.value.message?.let { Text(text = it) }
+            state.value.teams.isNotEmpty() -> {
+                TeamsGrid(TeamsState(state.value.teams, object : OnTeamClickHandler {
+                    override fun onTeamClick(teamModel: TeamModel) {
+                        navController.navigate(Routes.TeamAlbum(Gson().toJson(teamModel)))
+                    }
+                }), Modifier.fillMaxHeight().padding(4.dp))
+            }
+            else -> {
+                Text(text = SportAlbumApplication.instance.getString(R.string.genericError))
+            }
 
-        } else {
-            Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
         }
 
     }

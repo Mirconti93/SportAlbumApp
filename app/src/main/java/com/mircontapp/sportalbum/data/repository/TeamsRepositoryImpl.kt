@@ -17,10 +17,6 @@ class TeamsRepositoryImpl @Inject constructor(val albumDataSource: AlbumDataSour
         //teams.add(teamModel)
     }
 
-    override suspend fun teamsFromArea(area: Enums.Area) : List<TeamModel> {
-        return getAllTeams().filter { area.equals(it.area) }.sortedBy { it.name }
-    }
-
     override suspend fun updateTeam(teamModel: TeamModel) {
         albumDataSource.updateTeam(teamModel)
     }
@@ -32,11 +28,5 @@ class TeamsRepositoryImpl @Inject constructor(val albumDataSource: AlbumDataSour
     override suspend fun getNationalTeams(): List<TeamModel> {
         return getAllTeams().filter { "national".equals(it.type) }.sortedBy { it.name }
     }
-
-    override suspend fun teamsFromSuperlega(): List<TeamModel> {
-        return getAllTeams().filter { it.superlega ?: false }.sortedBy { it.name }
-    }
-
-
 
 }
