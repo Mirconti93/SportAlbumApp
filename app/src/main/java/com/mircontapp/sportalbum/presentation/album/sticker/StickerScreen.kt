@@ -1,6 +1,5 @@
-package com.mircontapp.sportalbum.presentation.album
+package com.mircontapp.sportalbum.presentation.album.sticker
 
-import androidx.compose.animation.expandHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,7 +17,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,11 +42,10 @@ import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
-fun StickerScreen(navController: NavController, playerArg: String) {
-    val playerModel = Gson().fromJson<PlayerModel>(playerArg, PlayerModel::class.java)
+fun StickerScreen(playerArg: String) {
+    val playerModel = Gson().fromJson(playerArg, PlayerModel::class.java)
     playerModel?.toPlayerMatchModel(true)?.let { player->
         Column(modifier = Modifier
             .fillMaxWidth()

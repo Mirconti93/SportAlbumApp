@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.album.state
+package com.mircontapp.sportalbum.presentation.album.album_choose
 
 import com.mircontapp.sportalbum.domain.models.TeamModel
 

@@ -40,19 +40,19 @@ import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import java.lang.Exception
 
 @Composable
-fun PlayersGrid(playersState: PlayersState) {
+fun PlayersGrid(players: List<PlayerModel>, onPlayerClickHandler: OnPlayerClickHandler, onEditClickHandler: OnEditClickHandler) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        playersState.players.forEach {
+        players.forEach {
             item {
-                PlayerItem(it, onEditClickHandler = playersState.onEditClickHandler, modifier = Modifier
+                PlayerItem(it, onEditClickHandler = onEditClickHandler, modifier = Modifier
                     .padding(8.dp)
                     .shadow(2.dp)
                     .clickable {
-                        playersState.onPlayerClickHandler.onPlayerClick(it)
+                        onPlayerClickHandler.onPlayerClick(it)
                     })
             }
         }
@@ -91,6 +91,3 @@ fun PlayerItem(player: PlayerModel, onEditClickHandler: OnEditClickHandler, modi
     }
 
 }
-
-@Stable
-data class PlayersState(val players: List<PlayerModel>, val onPlayerClickHandler: OnPlayerClickHandler, val onEditClickHandler: OnEditClickHandler)

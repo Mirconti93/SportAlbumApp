@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.album
+package com.mircontapp.sportalbum.presentation.album.album_team
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +37,8 @@ import com.mircontapp.sportalbum.commons.ext.getColorByString
 import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.album.PlayersGrid
+import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.Routes
@@ -52,10 +55,6 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
     ) {
         val team = Gson().fromJson(teamArg, TeamModel::class.java)
         val viewModel: TeamAlbumViewModel = hiltViewModel()
-        remember {
-            viewModel.playersFromTeamLegend(team)
-        }
-        viewModel.players.value
 
         team?.let {team->
             Card(
@@ -90,31 +89,46 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
                             DescriptionText(label = SportAlbumApplication.instance.getString(R.string.coach), value = team.coachlegend)
                         }
                     }
-                    Spacer(modifier = Modifier.height(2.dp).background(color = team.color1.getColorByString()).fillMaxWidth())
-                    Spacer(modifier = Modifier.height(4.dp).background(color = team.color2.getColorByString()).fillMaxWidth())
-                    Spacer(modifier = Modifier.height(2.dp).background(color = team.color1.getColorByString()).fillMaxWidth())
+                    Spacer(modifier = Modifier
+                        .height(2.dp)
+                        .background(color = team.color1.getColorByString())
+                        .fillMaxWidth())
+                    Spacer(modifier = Modifier
+                        .height(4.dp)
+                        .background(color = team.color2.getColorByString())
+                        .fillMaxWidth())
+                    Spacer(modifier = Modifier
+                        .height(2.dp)
+                        .background(color = team.color1.getColorByString())
+                        .fillMaxWidth())
                 }
             }
         }
 
-        viewModel.players.value.let {players ->
-            PlayersGrid(
-                PlayersState(
-                    players.sortedBy { it.roleLineUp },
-                    object : OnPlayerClickHandler {
-                        override fun onPlayerClick(playerModel: PlayerModel) {
-                            val arg = Gson().toJson(playerModel)
-                            navController.navigate(Routes.Sticker(arg))
-                        }
-                    },
-                    object : OnEditClickHandler {
-                        override fun onPlayerClick(playerModel: PlayerModel) {
-                            val arg = Gson().toJson(playerModel)
-                            navController.navigate(Routes.EditPlayer(arg))
-                        }
-                    },
-                )
-            )
+        viewModel.state.collectAsState().value.let {
+            when {
+                it.isLoading-> CustomCircularProgress(modifier = Modifier.fillMaxWidth())
+                it.message != null -> Text(text = it.message)
+                it.players.isEmpty() -> {
+                    PlayersGrid(
+                        it.players,
+                        object : OnPlayerClickHandler {
+                            override fun onPlayerClick(playerModel: PlayerModel) {
+                                val arg = Gson().toJson(playerModel)
+                                navController.navigate(Routes.Sticker(arg))
+                            }
+                        },
+                        object : OnEditClickHandler {
+                            override fun onPlayerClick(playerModel: PlayerModel) {
+                                val arg = Gson().toJson(playerModel)
+                                navController.navigate(Routes.EditPlayer(arg))
+                            }
+                        },
+                    )
+                }
+                else -> Text(text = SportAlbumApplication.instance.getString(R.string.genericError))
+            }
+
         }
 
     }
@@ -125,7 +139,7 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
 fun DescriptionText(label: String, value: String?) {
     Row {
         value?.let { text ->
-            Text(modifier = Modifier, text = label + ": ", color = Color.White)
+            Text(modifier = Modifier, text = "$label: ", color = Color.White)
             Text(modifier = Modifier, text = text, color = OrangeYellowD)
         }
     }
