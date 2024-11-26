@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.album
+package com.mircontapp.sportalbum.presentation.album.album_choose
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -23,14 +23,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.paging.LoadState
 import com.google.gson.Gson
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.TeamModel
-import com.mircontapp.sportalbum.presentation.album.action.AlbumChooseAction
-import com.mircontapp.sportalbum.presentation.album.state.AlbumChooseState
+import com.mircontapp.sportalbum.presentation.album.TeamsGrid
+import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.Routes
 

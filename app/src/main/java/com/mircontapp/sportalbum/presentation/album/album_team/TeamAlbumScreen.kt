@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.album
+package com.mircontapp.sportalbum.presentation.album.album_team
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +36,8 @@ import com.mircontapp.sportalbum.commons.ext.getColorByString
 import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.album.PlayersGrid
+import com.mircontapp.sportalbum.presentation.album.PlayersState
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.Routes

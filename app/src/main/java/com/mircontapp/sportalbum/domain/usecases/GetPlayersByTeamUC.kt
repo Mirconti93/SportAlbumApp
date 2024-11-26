@@ -7,7 +7,7 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.repository.PlayersRepository
 import javax.inject.Inject
 class GetPlayersByTeamUC @Inject constructor(val playersRepository: PlayersRepository) {
-    suspend fun getPlayers(teamModel: TeamModel): List<PlayerModel> {
+    suspend open fun invoke(teamModel: TeamModel): List<PlayerModel> {
         return when (teamModel.area) {
             Enums.Area.NAZIONALI -> playersRepository.playersFromNational(teamModel.name, Enums.Gender.M)
             Enums.Area.NAZIONALIFEMMINILI-> playersRepository.playersFromNational(teamModel.name, Enums.Gender.F)

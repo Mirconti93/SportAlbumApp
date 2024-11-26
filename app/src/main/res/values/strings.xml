@@ -247,6 +247,7 @@
     <string name="teams">Teams</string>
     <string name="allTeams">Tutte le squadre</string>
     <string name="noTeams">Nessuna squadra disponibile</string>
+    <string name="noPlayers">Nessun giocatore disponibile</string>
     <string name="notSelected">Seleziona</string>
 
     <string name="dataUpdated">Dati aggiornati con successo!</string>

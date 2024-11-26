@@ -6,9 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.mircontapp.sportalbum.presentation.album.AlbumScreen
+import com.mircontapp.sportalbum.presentation.album.album_choose.AlbumScreen
 import com.mircontapp.sportalbum.presentation.album.StickerScreen
-import com.mircontapp.sportalbum.presentation.album.TeamAlbumScreen
+import com.mircontapp.sportalbum.presentation.album.album_team.TeamAlbumScreen
 import com.mircontapp.sportalbum.presentation.bupi.BupiScreen
 import com.mircontapp.sportalbum.presentation.bupi.EditBupiPlayerScreen
 import com.mircontapp.sportalbum.presentation.bupi.EditBupiTeamScreen
