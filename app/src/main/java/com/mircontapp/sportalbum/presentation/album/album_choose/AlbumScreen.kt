@@ -38,7 +38,7 @@ import com.mircontapp.sportalbum.presentation.navigation.Routes
 fun AlbumScreen(navController: NavController) {
     val viewModel: AlbumViewModel = hiltViewModel()
     LaunchedEffect((Unit), block = {
-        viewModel.onAction(AlbumChooseAction.Load)
+        viewModel.onAction(AlbumChooseAction.ShowTeamsByArea(Enums.Area.SERIEA))
     })
 
     val state = viewModel.state.collectAsState()

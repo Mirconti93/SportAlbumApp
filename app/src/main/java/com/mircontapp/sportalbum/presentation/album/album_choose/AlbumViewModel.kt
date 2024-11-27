@@ -24,12 +24,12 @@ class AlbumViewModel @Inject constructor(
     }
     val state: StateFlow<AlbumChooseState> get() = _state
 
-
     fun onAction(action: AlbumChooseAction) {
         when (action) {
             is AlbumChooseAction.Load -> _state.value = AlbumChooseState(isLoading = true)
             is AlbumChooseAction.ShowTeamsByArea -> {
                 viewModelScope.launch {
+                    onAction(AlbumChooseAction.Load)
                     val list: List<TeamModel> = withContext(Dispatchers.Main) {
                         teamsFromAreaOrderedUC(action.area)
                     }

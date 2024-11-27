@@ -18,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,6 +39,7 @@ import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.album.PlayersGrid
+import com.mircontapp.sportalbum.presentation.album.album_choose.AlbumChooseAction
 import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
@@ -55,6 +57,10 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
     ) {
         val team = Gson().fromJson(teamArg, TeamModel::class.java)
         val viewModel: TeamAlbumViewModel = hiltViewModel()
+
+        LaunchedEffect((Unit), block = {
+            viewModel.onAction(AlbumTeamAction.ShowPlayersByTeam(team))
+        })
 
         team?.let {team->
             Card(
