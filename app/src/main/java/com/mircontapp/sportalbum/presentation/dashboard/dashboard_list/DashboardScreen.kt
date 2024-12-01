@@ -57,8 +57,8 @@ import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 fun DashboardScreen(navController: NavController) {
     val viewModel: DashboardViewModel = hiltViewModel()
     Column(verticalArrangement = Arrangement.Top) {
-        val isTeams = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.TEAMS)
-        val isPlayers = viewModel.selectionType.value.equals(DashboardViewModel.SelectionType.PLAYERS)
+        val isTeams = viewModel.selectionType.value.equals(SelectionType.TEAMS)
+        val isPlayers = viewModel.selectionType.value.equals(SelectionType.PLAYERS)
 
         val players = viewModel.players.collectAsState()
         val teams = viewModel.teams.collectAsState()
@@ -71,7 +71,7 @@ fun DashboardScreen(navController: NavController) {
             TabRow(selectedTabIndex = viewModel.selectionType.value.ordinal, modifier = Modifier.height(40.dp)) {
                 Tab(selected = isTeams,
                     onClick = { viewModel.selectionType.value =
-                        DashboardViewModel.SelectionType.TEAMS
+                        SelectionType.TEAMS
                     },
                     text = {Text(SportAlbumApplication.instance.getString(R.string.teams), color = if (isTeams) Color.Black else Color.White)},
                     modifier = Modifier
@@ -80,7 +80,7 @@ fun DashboardScreen(navController: NavController) {
                 )
                 Tab(selected = isPlayers,
                     onClick = { viewModel.selectionType.value =
-                        DashboardViewModel.SelectionType.PLAYERS
+                        SelectionType.PLAYERS
                     },
                     text = {Text(SportAlbumApplication.instance.getString(R.string.playerList), color = if (isPlayers) Color.Black else Color.White)},
                     modifier = Modifier
