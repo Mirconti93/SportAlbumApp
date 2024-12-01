@@ -47,7 +47,6 @@ import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
 fun MatchStartScreen(navController: NavController) {

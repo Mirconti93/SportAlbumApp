@@ -17,17 +17,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 import kotlinx.coroutines.flow.forEach
 
 @Composable
-fun VideosScreen(navController: NavController, mainViewModel: MainViewModel) {
+fun VideosScreen(navController: NavController) {
     Column {
 
         val videosViewModel: VideosViewModel = hiltViewModel();
 
-        mainViewModel.playerModel?.let {player->
+        PlayerHelper.buildPlayerModel("")?.let {player->
             LaunchedEffect((Unit), block = {
                 videosViewModel.getVideosByName(player.name)
             })

@@ -36,14 +36,10 @@ import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.presentation.navigation.NavGraph
 import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
 import com.mircontapp.sportalbum.presentation.ui.theme.SportAlbumTheme
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    val mainViewModel: MainViewModel by viewModels()
-
     @ExperimentalMaterial3Api
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,6 +1,5 @@
 package com.mircontapp.sportalbum.presentation.draw
 
-import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -8,8 +7,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mircontapp.sportalbum.presentation.commons.AutoCompleteEditText
-import com.mircontapp.sportalbum.presentation.dashboard.DashboardViewModel
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
 fun DrawScreen(navController: NavController) {

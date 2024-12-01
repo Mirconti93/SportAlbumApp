@@ -62,7 +62,7 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
             viewModel.onAction(AlbumTeamAction.ShowPlayersByTeam(team))
         })
 
-        team?.let {team->
+        team?.let { team->
             Card(
                 modifier = Modifier,
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),

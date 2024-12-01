@@ -45,7 +45,6 @@ import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.models.toShortItem
 import com.mircontapp.sportalbum.presentation.album.ShortList
-import com.mircontapp.sportalbum.presentation.album.PlayersState
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
@@ -58,7 +57,6 @@ import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 
 @ExperimentalMaterial3Api

@@ -37,10 +37,6 @@ import com.mircontapp.sportalbum.presentation.navigation.Routes
 @Composable
 fun AlbumScreen(navController: NavController) {
     val viewModel: AlbumViewModel = hiltViewModel()
-    LaunchedEffect((Unit), block = {
-        viewModel.onAction(AlbumChooseAction.ShowTeamsByArea(Enums.Area.SERIEA))
-    })
-
     val state = viewModel.state.collectAsState()
     
     Column(

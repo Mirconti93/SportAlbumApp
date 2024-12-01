@@ -74,7 +74,6 @@ import com.mircontapp.sportalbum.presentation.ui.theme.Green
 import com.mircontapp.sportalbum.presentation.ui.theme.LightBlue
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 import com.mircontapp.sportalbum.presentation.ui.theme.YellowD
-import com.mircontapp.sportalbum.presentation.viewmodels.MainViewModel
 
 @Composable
 fun MatchGameScreen(navController: NavController, homeTeamArg: String, awayTeamArg: String) {

@@ -96,7 +96,7 @@ class MatchViewModel @Inject constructor(
 
     fun initMatch() {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = getTeamsSuperlegaUC.getTeams()
+            val list = getTeamsSuperlegaUC()
             withContext(Dispatchers.Main) {
                 teams.value = list
                 if (teams.value.size > 0) {
@@ -159,14 +159,14 @@ class MatchViewModel @Inject constructor(
             this.homeTeam.value = homeT
             this.awayTeam.value = awayT
             viewModelScope.launch(Dispatchers.IO) {
-                val list = getPlayersByTeamLegendUC.getPlayers(homeTeam.value!!)
+                val list = getPlayersByTeamLegendUC(homeTeam.value!!)
                 withContext(Dispatchers.Main) {
                     _homeRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                     initOnFieledOrBench(Enums.Possesso.HOME)
                 }
             }.invokeOnCompletion {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val list = getPlayersByTeamLegendUC.getPlayers(awayTeam.value!!)
+                    val list = getPlayersByTeamLegendUC(awayTeam.value!!)
                     withContext(Dispatchers.Main) {
                         _awayRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                         Log.i("BUPI", "INIT ROSTER")

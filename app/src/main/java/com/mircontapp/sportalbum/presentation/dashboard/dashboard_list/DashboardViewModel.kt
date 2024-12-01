@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.dashboard
+package com.mircontapp.sportalbum.presentation.dashboard.dashboard_list
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -7,20 +7,21 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.SearchUIState
 import com.mircontapp.sportalbum.domain.models.TeamModel
-import com.mircontapp.sportalbum.domain.models.toShortItem
 import com.mircontapp.sportalbum.domain.usecases.GetAllPlayersUC
 import com.mircontapp.sportalbum.domain.usecases.GetAllTeamsUC
 import com.mircontapp.sportalbum.domain.usecases.InsertPlayerUC
 import com.mircontapp.sportalbum.domain.usecases.InsertTeamUC
 import com.mircontapp.sportalbum.domain.usecases.UpdatePlayerUC
 import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
+import com.mircontapp.sportalbum.presentation.album.album_choose.AlbumChooseAction
+import com.mircontapp.sportalbum.presentation.album.album_choose.AlbumChooseState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -40,10 +41,6 @@ class DashboardViewModel @Inject constructor(
     var updateType = mutableStateOf(Enums.UpdateType.UPDATE)
     private var allTeams: List<TeamModel> = emptyList()
     private var allPlayers: List<PlayerModel> = emptyList()
-
-    private val _searchUIState = MutableStateFlow(SearchUIState(false, null))
-    val searchUIState: StateFlow<SearchUIState> get() = _searchUIState
-
     private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
     val teams get() = _teams
 
@@ -53,9 +50,36 @@ class DashboardViewModel @Inject constructor(
     val team = mutableStateOf<TeamModel?>(null)
     val player = mutableStateOf<PlayerModel?>(null)
 
-    private val _areas = MutableStateFlow(Enums.Area.values().toList())
-    val areas: StateFlow<List<Enums.Area>> get() = _areas
-    enum class SelectionType { PLAYERS, TEAMS }
+    private val _searchUIState = MutableStateFlow(SearchUIState(false, null))
+    val searchUIState: StateFlow<SearchUIState> get() = _searchUIState
+
+    private val _state = MutableStateFlow(DashboardState())
+    val state: StateFlow<DashboardState> get() = _state
+
+    init {
+        onAction(DashboardAction.ShowPlayersFiltered(null))
+    }
+
+    fun onAction(action: DashboardAction) {
+        when (action) {
+            is DashboardAction.Load -> _state.value = DashboardState(isLoading = true)
+            is DashboardAction.ShowPlayersFiltered -> {
+                _state.value = DashboardState(
+                    players = action.text?.let { text->
+                        allPlayers.filter { it.name.contains(text, ignoreCase = true) || it.team?.contains(text, ignoreCase = true) ?: false  }
+                        } ?: allPlayers
+                )
+            }
+            is DashboardAction.ShowTeamsFiltered -> {
+                _state.value = DashboardState(
+                    teams = action.text?.let { text ->
+                        allTeams.filter { it.name.contains(text, ignoreCase = true) }
+                    } ?: allTeams
+                )
+            }
+        }
+
+    }
 
 
 
@@ -105,15 +129,6 @@ class DashboardViewModel @Inject constructor(
             }
         }
     }
-
-    fun searchVisibility(visible: Boolean) {
-        _searchUIState.update { current -> current.copy(teamSelectionVisible = visible, searchingText = null) }
-    }
-
-    fun onSearch(text: String) {
-        _searchUIState.update { current -> current.copy(teamSelectionVisible = _searchUIState.value.teamSelectionVisible, searchingText = text) }
-    }
-
 
     fun filterTeams(text: String) {
         if (!text.isEmpty()) {
