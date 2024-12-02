@@ -42,6 +42,7 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.album.ShortList
 import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
+import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
@@ -57,40 +58,43 @@ import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 fun DashboardScreen(navController: NavController) {
     val viewModel: DashboardViewModel = hiltViewModel()
     Column(verticalArrangement = Arrangement.Top) {
-        val isTeams = viewModel.selectionType.value.equals(SelectionType.TEAMS)
-        val isPlayers = viewModel.selectionType.value.equals(SelectionType.PLAYERS)
-
-        val players = viewModel.players.collectAsState()
-        val teams = viewModel.teams.collectAsState()
 
         Text(SportAlbumApplication.instance.getString(R.string.dashboard), textAlign = TextAlign.Center, modifier = Modifier
             .fillMaxWidth()
             .padding(2.dp, 8.dp))
 
-        Row {
-            TabRow(selectedTabIndex = viewModel.selectionType.value.ordinal, modifier = Modifier.height(40.dp)) {
-                Tab(selected = isTeams,
-                    onClick = { viewModel.selectionType.value =
-                        SelectionType.TEAMS
-                    },
-                    text = {Text(SportAlbumApplication.instance.getString(R.string.teams), color = if (isTeams) Color.Black else Color.White)},
-                    modifier = Modifier
-                        .background(color = if (isTeams) OrangeYellowD else BlueD)
-                        .height(40.dp)
-                )
-                Tab(selected = isPlayers,
-                    onClick = { viewModel.selectionType.value =
-                        SelectionType.PLAYERS
-                    },
-                    text = {Text(SportAlbumApplication.instance.getString(R.string.playerList), color = if (isPlayers) Color.Black else Color.White)},
-                    modifier = Modifier
-                        .background(color = if (isPlayers) OrangeYellowD else BlueD)
-                        .height(40.dp)
-                )
+        val state = viewModel.state.collectAsState()
+        val isTeams = state.value.selectionType == SelectionType.TEAMS
+        when {
+            state.value.isLoading -> CustomCircularProgress(modifier = Modifier.fillMaxWidth())
+            state.value.message != null -> state.value.message?.let { Text(text = it) }
+            else -> {
+                Row {
+
+                    TabRow(selectedTabIndex = state.value.selectionType.ordinal, modifier = Modifier.height(40.dp)) {
+                        Tab(selected = isTeams,
+                            onClick = {
+                                viewModel.onAction(DashboardAction.ChangeSelection(SelectionType.TEAMS))
+                            },
+                            text = {Text(SportAlbumApplication.instance.getString(R.string.teams), color = if (isTeams) Color.Black else Color.White)},
+                            modifier = Modifier
+                                .background(color = if (isTeams) OrangeYellowD else BlueD)
+                                .height(40.dp)
+                        )
+
+                        Tab(selected = !isTeams,
+                            onClick = {
+                                viewModel.onAction(DashboardAction.ChangeSelection(SelectionType.PLAYERS))
+                            },
+                            text = {Text(SportAlbumApplication.instance.getString(R.string.playerList), color = if (!isTeams) Color.Black else Color.White)},
+                            modifier = Modifier
+                                .background(color = if (!isTeams) OrangeYellowD else BlueD)
+                                .height(40.dp)
+                        )
+                    }
+                }
             }
         }
-
-        val searchUIState = viewModel.searchUIState.collectAsState()
 
         val showSearch = remember { mutableStateOf(true) }
         val searchText = remember { mutableStateOf(TextFieldValue("")) }
@@ -117,24 +121,23 @@ fun DashboardScreen(navController: NavController) {
                 )
             } else {
                 Button(onClick = {
-                    if (isPlayers) {
-                        navController.navigate(Routes.EditPlayer(player = null))
-                    } else {
+                    if (isTeams) {
                         navController.navigate(Routes.EditTeam(team = null))
+                    } else {
+                        navController.navigate(Routes.EditPlayer(player = null))
                     }
                 }) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.newItem))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = {
-                    if (players.value != null) {
-                        FileDataManager.writePlayers(
-                            context = SportAlbumApplication.instance.applicationContext,
-                            "players.txt", viewModel.players.value!!
-                        )
-                    }},
+                    FileDataManager.writePlayers(
+                        context = SportAlbumApplication.instance.applicationContext,
+                        "players.txt", viewModel.players.value
+                    )
+                },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isPlayers) OrangeYellowD else Color.Blue, contentColor = if (isPlayers) Color.Black else Color.White)) {
+                        containerColor = if (!isTeams) OrangeYellowD else Color.Blue, contentColor = if (!isTeams) Color.Black else Color.White)) {
                     Text(text = SportAlbumApplication.instance.getString(R.string.saveData))
                 }
             }
@@ -143,28 +146,8 @@ fun DashboardScreen(navController: NavController) {
         }
 
 
-        /*TextField(value = searchUIState.value.searchingText ?: "",
-            onValueChange = { newValue -> viewModel.onSearch(newValue) },
-            modifier = Modifier.fillMaxWidth().border(1.dp, color = BlueD, shape=RoundedCornerShape(4.dp)).height(56.dp),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = LightBlue, // Cambia il colore dello sfondo
-                textColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent// Cambia il colore del testo
-            ),
-            shape = RoundedCornerShape(4.dp),
-            textStyle = TextStyle(fontSize = 14.sp, lineHeight = 16.sp),
-            leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "") },
-            //label = { Text(SportAlbumApplication.instance.getString(R.string.search)) }
-        )
-
-        Row {
-
-        }*/
-
         if (isTeams) {
-            teams.value.let {
+            state.value.teams.let {
                 TeamsGrid(
                     TeamsState(
                         it,
@@ -178,7 +161,7 @@ fun DashboardScreen(navController: NavController) {
 
         } else {
             val shortItemList = ArrayList<ShortListItem>()
-            players.value.forEach {
+            state.value.players.forEach {
                 shortItemList.add(it.toShortItem(
                     onPlayerClickHandler = object : OnPlayerClickHandler {
                         override fun onPlayerClick(playerModel: PlayerModel) {

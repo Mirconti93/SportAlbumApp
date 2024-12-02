@@ -7,4 +7,5 @@ sealed class DashboardAction {
     object Load: DashboardAction()
     data class ShowPlayersFiltered(val text: String?) : DashboardAction()
     data class ShowTeamsFiltered(val text: String?) : DashboardAction()
+    data class ChangeSelection(val selectionType: SelectionType) : DashboardAction()
 }

@@ -50,9 +50,6 @@ class DashboardViewModel @Inject constructor(
     val team = mutableStateOf<TeamModel?>(null)
     val player = mutableStateOf<PlayerModel?>(null)
 
-    private val _searchUIState = MutableStateFlow(SearchUIState(false, null))
-    val searchUIState: StateFlow<SearchUIState> get() = _searchUIState
-
     private val _state = MutableStateFlow(DashboardState())
     val state: StateFlow<DashboardState> get() = _state
 
@@ -77,10 +74,10 @@ class DashboardViewModel @Inject constructor(
                     } ?: allTeams
                 )
             }
+            is DashboardAction.ChangeSelection ->_state.value = _state.value.copy(selectionType = action.selectionType)
         }
 
     }
-
 
 
     init {
