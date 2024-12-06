@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.dashboard
+package com.mircontapp.sportalbum.presentation.dashboard.edit_team
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column

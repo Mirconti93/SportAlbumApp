@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.dashboard
+package com.mircontapp.sportalbum.presentation.dashboard.edit_player
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

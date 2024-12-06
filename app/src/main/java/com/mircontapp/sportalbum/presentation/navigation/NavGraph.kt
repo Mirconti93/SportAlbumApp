@@ -13,8 +13,8 @@ import com.mircontapp.sportalbum.presentation.bupi.BupiScreen
 import com.mircontapp.sportalbum.presentation.bupi.EditBupiPlayerScreen
 import com.mircontapp.sportalbum.presentation.bupi.EditBupiTeamScreen
 import com.mircontapp.sportalbum.presentation.dashboard.dashboard_list.DashboardScreen
-import com.mircontapp.sportalbum.presentation.dashboard.EditPlayerScreen
-import com.mircontapp.sportalbum.presentation.dashboard.EditTeamScreen
+import com.mircontapp.sportalbum.presentation.dashboard.edit_player.EditPlayerScreen
+import com.mircontapp.sportalbum.presentation.dashboard.edit_team.EditTeamScreen
 import com.mircontapp.sportalbum.presentation.draw.DrawScreen
 import com.mircontapp.sportalbum.presentation.match.MatchGameScreen
 import com.mircontapp.sportalbum.presentation.match.MatchStartScreen
