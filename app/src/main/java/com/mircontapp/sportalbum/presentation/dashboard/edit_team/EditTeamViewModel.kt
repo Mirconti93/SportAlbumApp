@@ -21,39 +21,30 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditTeamViewModel @Inject constructor(
-    val getAllTeamsUC: GetAllTeamsUC,
-    val getAllPlayersUC: GetAllPlayersUC,
     val updateTeamUC: UpdateTeamUC,
-    val insertTeamUC: InsertTeamUC,
-    val insertPlayerUC: InsertPlayerUC,
-    val updatePlayerUC: UpdatePlayerUC
 ) : ViewModel() {
 
-    /*private val _state = MutableStateFlow(EditPlayerState())
-    val state: StateFlow<EditPlayerState> get() = _state
+    private val _state = MutableStateFlow(EditTeamState())
+    val state: StateFlow<EditTeamState> get() = _state
 
     init {
-        onAction(EditPlayerAction.Load)
+        onAction(EditTeamAction.Load)
     }
 
-    fun onAction(action: EditPlayerAction) {
+    fun onAction(action: EditTeamAction) {
         when (action) {
-            is EditPlayerAction.Load -> _state.value = EditPlayerState(isLoading = true)
-            is EditPlayerAction.ShowEdit -> {
-                _state.value = EditPlayerState( playerModel = action.playerModel)
+            is EditTeamAction.Load -> _state.value = EditTeamState(isLoading = true)
+            is EditTeamAction.ShowEdit -> {
+                _state.value = EditTeamState(team = action.team)
             }
-            is EditPlayerAction.SaveEdit -> {
+            is EditTeamAction.SaveEdit -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    if (updateType.value == Enums.UpdateType.NEW) {
-                        insertPlayerUC.invoke(action.playerModel)
-                    } else {
-                        updatePlayerUC.invoke(action.playerModel)
-                    }
+                    updateTeamUC(action.team)
                 }
             }
         }
 
-    }*/
+    }
 
 
 }

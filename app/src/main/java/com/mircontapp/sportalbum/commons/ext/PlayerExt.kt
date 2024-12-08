@@ -1,13 +1,8 @@
 package com.mircontapp.sportalbum.commons.ext
 
-import android.util.Log
 import com.mirco.sportalbum.utils.Enums
-import com.mirco.sportalbum.utils.Enums.MatchModule
-import com.mirco.sportalbum.utils.Enums.RoleLineUp
-import com.mircontapp.sportalbum.commons.PlayerHelper
-import com.mircontapp.sportalbum.commons.PlayerHelper.Companion.getDefaultRoles
+import com.mircontapp.sportalbum.commons.AlbumHelper
 import com.mircontapp.sportalbum.data.database.Player
-import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
@@ -33,16 +28,16 @@ fun PlayerModel.toPlayerMatchModel(isLegend: Boolean): PlayerMatchModel {
         nationalLegend = this.nationalLegend,
         roleLineUp = this.roleLineUp,
         style = style,
-        att = PlayerHelper.getMatchValue(style.att, currentValue),
-        dif = PlayerHelper.getMatchValue(style.dif, currentValue),
-        tec = PlayerHelper.getMatchValue(style.tec, currentValue),
-        dri = PlayerHelper.getMatchValue(style.dri, currentValue),
-        fin = PlayerHelper.getMatchValue(style.fin, currentValue),
-        bal = PlayerHelper.getMatchValue(style.bal, currentValue),
-        fis = PlayerHelper.getMatchValue(style.fis, currentValue),
-        vel = PlayerHelper.getMatchValue(style.vel, currentValue),
-        rig = PlayerHelper.getMatchValue(style.rig, currentValue),
-        por = PlayerHelper.getMatchValue(style.por, currentValue),
+        att = AlbumHelper.getMatchValue(style.att, currentValue),
+        dif = AlbumHelper.getMatchValue(style.dif, currentValue),
+        tec = AlbumHelper.getMatchValue(style.tec, currentValue),
+        dri = AlbumHelper.getMatchValue(style.dri, currentValue),
+        fin = AlbumHelper.getMatchValue(style.fin, currentValue),
+        bal = AlbumHelper.getMatchValue(style.bal, currentValue),
+        fis = AlbumHelper.getMatchValue(style.fis, currentValue),
+        vel = AlbumHelper.getMatchValue(style.vel, currentValue),
+        rig = AlbumHelper.getMatchValue(style.rig, currentValue),
+        por = AlbumHelper.getMatchValue(style.por, currentValue),
         roleMatch = this.roleLineUp,
         isAmmonito = false,
         isEspulso = false,

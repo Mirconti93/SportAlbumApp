@@ -1,16 +1,13 @@
 import android.content.Context
-import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.PlayerHelper
 import com.mircontapp.sportalbum.commons.ext.findGoalkeeper
 import com.mircontapp.sportalbum.commons.ext.findTiratore
 import com.mircontapp.sportalbum.commons.ext.getMatchValue
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
-import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 
 class RigoreUC() {
     fun rigoreDiretto(

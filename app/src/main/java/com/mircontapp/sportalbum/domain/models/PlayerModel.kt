@@ -1,11 +1,6 @@
 package com.mircontapp.sportalbum.domain.models
 
 import com.mirco.sportalbum.utils.Enums
-import com.mircontapp.sportalbum.commons.PlayerHelper
-import com.mircontapp.sportalbum.data.database.Player
-import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
-import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
 
 data class PlayerModel(
     val name: String,

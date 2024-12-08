@@ -3,7 +3,7 @@ package com.mircontapp.sportalbum.data.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mirco.sportalbum.utils.Enums
-import com.mircontapp.sportalbum.commons.PlayerHelper
+import com.mircontapp.sportalbum.commons.AlbumHelper
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 
 
@@ -27,8 +27,8 @@ data class Player (
 fun Player.playerModelFromEntity() : PlayerModel {
     return PlayerModel(
         name = this.name,
-        role = PlayerHelper.roleFromString(this.role) ?: Enums.Role.PP,
-        gender = PlayerHelper.genderFromString(this.gender) ?: Enums.Gender.OTHER,
+        role = AlbumHelper.roleFromString(this.role) ?: Enums.Role.PP,
+        gender = AlbumHelper.genderFromString(this.gender) ?: Enums.Gender.OTHER,
         team = this.team,
         country = this.country,
         birthyear = this.birthyear,
@@ -39,8 +39,8 @@ fun Player.playerModelFromEntity() : PlayerModel {
         teamLegend = this.teamLegend,
         national = this.national,
         nationalLegend = this.nationalLegend,
-        roleLineUp = PlayerHelper.roleLineUpFromString(this.roleLineUp) ?: Enums.RoleLineUp.PTC,
-        style = PlayerHelper.styleFromString(this.style)
+        roleLineUp = AlbumHelper.roleLineUpFromString(this.roleLineUp) ?: Enums.RoleLineUp.PTC,
+        style = AlbumHelper.styleFromString(this.style)
     )
 }
 

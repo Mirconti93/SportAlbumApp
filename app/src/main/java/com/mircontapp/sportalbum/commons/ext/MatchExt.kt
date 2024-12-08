@@ -4,7 +4,7 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mirco.sportalbum.utils.Enums.MatchModule
 import com.mirco.sportalbum.utils.Enums.RoleLineUp
-import com.mircontapp.sportalbum.commons.PlayerHelper.Companion.getDefaultRoles
+import com.mircontapp.sportalbum.commons.AlbumHelper.Companion.getDefaultRoles
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 

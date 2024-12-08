@@ -1,20 +1,13 @@
 package com.mircontapp.sportalbum.data.datasource
 
 import android.content.Context
-import android.content.res.AssetManager
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
-import com.mirco.sportalbum.utils.Enums
-import com.mircontapp.sportalbum.commons.PlayerHelper
-import com.mircontapp.sportalbum.domain.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.domain.datasource.MediaDataSource
 import com.mircontapp.sportalbum.domain.models.MediaModel
-import com.mircontapp.sportalbum.domain.models.PlayerModel
-import com.mircontapp.sportalbum.domain.models.TeamModel
-import java.io.File
 
 
 class FirebaseDataSource(context: Context) : MediaDataSource {

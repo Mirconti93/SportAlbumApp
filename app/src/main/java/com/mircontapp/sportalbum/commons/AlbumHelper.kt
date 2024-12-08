@@ -1,15 +1,13 @@
 package com.mircontapp.sportalbum.commons
 
-import android.util.Log
 import com.mirco.sportalbum.utils.Enums
-import com.mirco.sportalbum.utils.Enums.MatchModule
 import com.mirco.sportalbum.utils.Enums.RoleLineUp
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
-import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.domain.models.TeamModel
 
 
-class PlayerHelper {
+class AlbumHelper {
 
     companion object {
 
@@ -65,11 +63,11 @@ class PlayerHelper {
             )
         }
 
-        fun buildPlayerModel(name: String): PlayerModel {
+        fun emptyPlayerModel(name: String): PlayerModel {
             return PlayerModel(name, Enums.Role.PP, null, null, null, null, null, null, null, null, null, Enums.RoleLineUp.PPM, Enums.PlayStyle.NORMAL)
         }
 
-        fun buildBupiPlayerModel(name: String): BupiPlayerModel {
+        fun emptyBupiPlayerModel(name: String): BupiPlayerModel {
             return BupiPlayerModel(name, "Free", "Free", 0)
         }
 
@@ -77,6 +75,10 @@ class PlayerHelper {
             //the value is a weight for the specified stat
             return value*(stat/100.0)
 
+        }
+
+        fun emptyTeamModel(name: String): TeamModel {
+            return TeamModel("New", "", "", "", "", "", "", Enums.Area.OTHER, Enums.Area.OTHER,false,"", "", Enums.MatchModule.M442)
         }
 
 

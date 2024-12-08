@@ -9,6 +9,11 @@ import javax.inject.Inject
 
 class UpdatePlayerUC @Inject constructor(val playerRepository: PlayersRepository) {
     operator suspend fun invoke(playerModel: PlayerModel) {
-        playerRepository.updatePlayer(playerModel)
+        if (playerRepository.getAllPlayers().contains(playerModel)) {
+            playerRepository.updatePlayer(playerModel)
+        } else {
+            playerRepository.insertPlayer(playerModel)
+        }
+
     }
 }

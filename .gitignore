@@ -18,3 +18,6 @@ local.properties
 .idea/other.xml
 .idea/codeStyles/codeStyleConfig.xml
 .idea/codeStyles/Project.xml
+.idea/gradle.xml
+.idea/misc.xml
+.idea/inspectionProfiles/Project_Default.xml
