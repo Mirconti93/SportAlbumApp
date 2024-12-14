@@ -25,6 +25,9 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.AlbumHelper
+import com.mircontapp.sportalbum.commons.ext.genderFromString
+import com.mircontapp.sportalbum.commons.ext.roleFromString
+import com.mircontapp.sportalbum.commons.ext.roleLineUpFromString
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
@@ -33,7 +36,6 @@ import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 @Composable
 fun EditPlayerScreen(navController: NavController, playerArg: String?) {
     val viewModel: EditPlayerViewModel = hiltViewModel()
-
 
     playerArg.let {
         if (it != null) {
@@ -118,8 +120,8 @@ fun EditPlayerScreen(navController: NavController, playerArg: String?) {
                             Button(onClick = {
                                 viewModel.onAction(EditPlayerAction.SaveEdit(
                                     PlayerModel(name.value.text,
-                                        AlbumHelper.roleFromString(role.value.text) ?: Enums.Role.PP,
-                                        AlbumHelper.genderFromString(gender.value.text),
+                                        role.value.text.roleFromString() ?: Enums.Role.PP,
+                                        gender.value.text.genderFromString(),
                                         team.value.text,
                                         country.value.text,
                                         birthyear.value.text,
@@ -128,7 +130,7 @@ fun EditPlayerScreen(navController: NavController, playerArg: String?) {
                                         teamLegend.value.text,
                                         if (national.value) 1 else 0,
                                         if (nationalLegend.value) 1 else 0,
-                                        AlbumHelper.roleLineUpFromString(roleLineUp.value.text) ?: Enums.RoleLineUp.PTC,
+                                        roleLineUp.value.text.roleLineUpFromString() ?: Enums.RoleLineUp.PTC,
                                         style = Enums.PlayStyle.NORMAL
                                     )
                                 ))

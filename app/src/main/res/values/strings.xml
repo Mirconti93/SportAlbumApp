@@ -252,6 +252,7 @@
 
     <string name="dataUpdated">Dati aggiornati con successo!</string>
     <string name="next">Avanti</string>
+    <string name="back">Indietro</string>
 
     <string name="vs">vs</string>
     <string name="media">Media</string>

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class UpdateTeamUC @Inject constructor(val teamsRepository: TeamsRepository) {
     operator suspend fun invoke(teamModel: TeamModel) {
-        if (teamsRepository.getAllTeams().contains(teamModel)) {
+        if (teamsRepository.getAllTeams().map { it.name }.contains(teamModel.name)) {
             teamsRepository.updateTeam(teamModel)
         } else {
             teamsRepository.insertTeam(teamModel)

@@ -18,17 +18,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
+import com.mircontapp.sportalbum.presentation.commons.ShortListElement
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 
 @Composable
-fun ShortList(items: List<ShortListItem>) {
+fun ShortList(items: List<ShortListElement>) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(1.dp),
     ) {
         items.forEach {
             item {
-                PlayerListItem(it, modifier = Modifier
+                ShortListItem(it, modifier = Modifier
                     .padding(2.dp)
                     .shadow(2.dp)
                     .clickable {
@@ -41,7 +41,7 @@ fun ShortList(items: List<ShortListItem>) {
 }
 
 @Composable
-fun PlayerListItem(item: ShortListItem, modifier: Modifier) {
+fun ShortListItem(item: ShortListElement, modifier: Modifier) {
     Card(
         modifier = modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),

@@ -32,15 +32,7 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     val getAllTeamsUC: GetAllTeamsUC,
     val getAllPlayersUC: GetAllPlayersUC,
-    val updateTeamUC: UpdateTeamUC,
-    val insertTeamUC: InsertTeamUC,
-    val insertPlayerUC: InsertPlayerUC,
-    val updatePlayerUC: UpdatePlayerUC
 ) : ViewModel() {
-    var selectionType = mutableStateOf(SelectionType.TEAMS)
-    var updateType = mutableStateOf(Enums.UpdateType.UPDATE)
-    private var allTeams: List<TeamModel> = emptyList()
-    private var allPlayers: List<PlayerModel> = emptyList()
     private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
     val teams get() = _teams
 
@@ -54,92 +46,52 @@ class DashboardViewModel @Inject constructor(
     val state: StateFlow<DashboardState> get() = _state
 
     init {
-        onAction(DashboardAction.ShowPlayersFiltered(null))
+        onAction(DashboardAction.Load)
     }
 
     fun onAction(action: DashboardAction) {
         when (action) {
-            is DashboardAction.Load -> _state.value = DashboardState(isLoading = true)
+            is DashboardAction.Load -> {
+                _state.value = DashboardState(isLoading = true)
+                viewModelScope.launch {
+                    val loadedState = withContext(Dispatchers.IO) {
+                        DashboardState(
+                            players = getAllPlayersUC(),
+                            teams = getAllTeamsUC()
+                        )
+                    }
+                    _state.value = loadedState
+                }
+            }
             is DashboardAction.ShowPlayersFiltered -> {
-                _state.value = DashboardState(
-                    players = action.text?.let { text->
-                        allPlayers.filter { it.name.contains(text, ignoreCase = true) || it.team?.contains(text, ignoreCase = true) ?: false  }
-                        } ?: allPlayers
-                )
+                viewModelScope.launch {
+                    val players = withContext(Dispatchers.IO) {
+                        getAllPlayersUC()
+                    }
+                    _state.value = DashboardState(
+                        players = action.text?.let { text->
+                            players.filter { it.name.contains(text, ignoreCase = true) || it.team?.contains(text, ignoreCase = true) ?: false  }
+                        } ?: players
+                    )
+                }
+
             }
             is DashboardAction.ShowTeamsFiltered -> {
-                _state.value = DashboardState(
-                    teams = action.text?.let { text ->
-                        allTeams.filter { it.name.contains(text, ignoreCase = true) }
-                    } ?: allTeams
-                )
+
+                viewModelScope.launch {
+                    val teams = withContext(Dispatchers.IO) {
+                        getAllTeamsUC()
+                    }
+                    _state.value = DashboardState(
+                        teams = action.text?.let { text ->
+                            teams.filter { it.name.contains(text, ignoreCase = true) }
+                        } ?: teams
+                    )
+                }
             }
             is DashboardAction.ChangeSelection ->_state.value = _state.value.copy(selectionType = action.selectionType)
         }
 
-    }
-
-
-    init {
-        loadTeams()
-        loadPlayers()
-    }
-
-    fun updateTeam(teamModel: TeamModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (updateType.value == Enums.UpdateType.NEW) {
-                insertTeamUC.invoke(teamModel)
-            } else {
-                updateTeamUC.invoke(teamModel)
-            }
-        }
-        loadTeams()
-    }
-
-    fun updatePlayer(playerModel: PlayerModel) {
-        viewModelScope.launch(Dispatchers.IO) {
-            if (updateType.value == Enums.UpdateType.NEW) {
-                insertPlayerUC.invoke(playerModel)
-            } else {
-                updatePlayerUC.invoke(playerModel)
-            }
-        }
-        loadPlayers()
-    }
-
-    fun loadPlayers() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = getAllPlayersUC.getPlayers()
-            withContext(Dispatchers.Main) {
-                allPlayers = list
-                _players.value = list
-            }
-        }
-    }
-
-    fun loadTeams() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = getAllTeamsUC.getAllTeams()
-            withContext(Dispatchers.Main) {
-                allTeams = list
-                _teams.value = list
-            }
-        }
-    }
-
-    fun filterTeams(text: String) {
-        if (!text.isEmpty()) {
-            _teams.value = allTeams.filter {
-                it.name.contains(text, ignoreCase = true)
-            }
-
-        }
-    }
-
-    fun filterPlayers(text: String) {
-        if (!text.isEmpty()) {
-            _players.value = allPlayers.filter { it.name.contains(text, ignoreCase = true) || it.team?.contains(text, ignoreCase = true) ?: false  }
-        }
     }
 
 

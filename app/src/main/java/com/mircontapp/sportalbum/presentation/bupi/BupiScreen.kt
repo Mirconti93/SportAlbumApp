@@ -11,11 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,32 +27,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.gson.Gson
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.FileDataManager
-import com.mircontapp.sportalbum.domain.models.PlayerModel
-import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.models.toShortItem
 import com.mircontapp.sportalbum.presentation.album.ShortList
-import com.mircontapp.sportalbum.presentation.album.TeamsGrid
-import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
-import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
-import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
-import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
-import com.mircontapp.sportalbum.presentation.navigation.NavigationItem
+import com.mircontapp.sportalbum.presentation.commons.ShortListElement
 import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
-import com.mircontapp.sportalbum.presentation.ui.theme.BlueL
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 
 
@@ -179,7 +165,7 @@ fun BupiScreen(navController: NavController) {
         }*/
 
         if (isTeams.value) {
-            val shortItemList = ArrayList<ShortListItem>()
+            val shortItemList = ArrayList<ShortListElement>()
             teams.value.forEach {
                 shortItemList.add(it.toShortItem {
                     if (isEditTeams.value) {
@@ -193,7 +179,7 @@ fun BupiScreen(navController: NavController) {
             ShortList(items = shortItemList)
 
         } else {
-            val shortItemList = ArrayList<ShortListItem>()
+            val shortItemList = ArrayList<ShortListElement>()
             players.value.forEach {
                 shortItemList.add(it.toShortItem {
                     navController.navigate(Routes.EditBupiPlayer(bupiPlayer = Gson().toJson(it)))

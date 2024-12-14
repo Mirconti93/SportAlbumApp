@@ -32,7 +32,7 @@ class EditPlayerViewModel @Inject constructor(
             is EditPlayerAction.SaveEdit -> {
                 viewModelScope.launch {
                     withContext(Dispatchers.IO) {
-                        updatePlayerUC.invoke(action.playerModel)
+                        updatePlayerUC(action.playerModel)
                     }
                 }
 

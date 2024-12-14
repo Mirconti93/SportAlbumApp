@@ -5,7 +5,7 @@ import com.mircontapp.sportalbum.domain.repository.TeamsRepository
 import dagger.hilt.InstallIn
 import javax.inject.Inject
 class GetAllTeamsUC @Inject constructor(val teamsRepository: TeamsRepository) {
-    suspend fun getAllTeams(): List<TeamModel> {
+    suspend operator fun invoke(): List<TeamModel> {
         return teamsRepository.getAllTeams()
     }
 }

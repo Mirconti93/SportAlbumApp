@@ -5,6 +5,10 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.commons.AlbumHelper
 import com.mircontapp.sportalbum.commons.ext.findAreaEnum
+import com.mircontapp.sportalbum.commons.ext.genderFromString
+import com.mircontapp.sportalbum.commons.ext.roleFromString
+import com.mircontapp.sportalbum.commons.ext.roleLineUpFromString
+import com.mircontapp.sportalbum.commons.ext.styleFromString
 import com.mircontapp.sportalbum.domain.datasource.AlbumDataSource
 import com.mircontapp.sportalbum.domain.datasource.BupiDataSource
 import com.mircontapp.sportalbum.domain.models.BupiPlayerModel
@@ -90,8 +94,8 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource, BupiDataSour
         val fields = row.split("_")
         if (fields.size>12) {
             return PlayerModel(
-                fields[0], AlbumHelper.roleFromString(fields[1]) ?: Enums.Role.PP,
-                AlbumHelper.genderFromString(fields[2]),
+                fields[0], fields[1].roleFromString() ?: Enums.Role.PP,
+                fields[2].genderFromString(),
                 fields[3],
                 fields[4],
                 fields[5],
@@ -100,8 +104,8 @@ class AssetsDataSource(val assets: AssetManager) : AlbumDataSource, BupiDataSour
                 "Free",
                 Integer.parseInt(fields[8]),
                 Integer.parseInt(fields[9]),
-                AlbumHelper.roleLineUpFromString(fields[10]) ?: Enums.RoleLineUp.PTC,
-                AlbumHelper.styleFromString(fields[11])
+                fields[10].roleLineUpFromString() ?: Enums.RoleLineUp.PTC,
+                fields[11].styleFromString()
             )
         } else {
             return AlbumHelper.emptyPlayerModel(fields[0])

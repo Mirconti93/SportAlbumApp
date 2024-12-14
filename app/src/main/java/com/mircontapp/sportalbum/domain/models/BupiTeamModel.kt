@@ -1,7 +1,7 @@
 package com.mircontapp.sportalbum.domain.models
 
 import com.mircontapp.sportalbum.data.database.BupiTeam
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
+import com.mircontapp.sportalbum.presentation.commons.ShortListElement
 
 data class BupiTeamModel (
     val name: String,
@@ -12,9 +12,9 @@ fun BupiTeamModel.entityFromBupiTeam() : BupiTeam {
     return BupiTeam(this.name, this.area ?: "Free")
 }
 
-fun BupiTeamModel.toShortItem(onItemClick : () -> Unit) : ShortListItem {
+fun BupiTeamModel.toShortItem(onItemClick : () -> Unit) : ShortListElement {
     val team = this
-    return object : ShortListItem {
+    return object : ShortListElement {
         override fun getTitle(): String {
             return team.name
         }

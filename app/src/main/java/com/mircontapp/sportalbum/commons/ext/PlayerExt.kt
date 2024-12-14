@@ -1,13 +1,14 @@
 package com.mircontapp.sportalbum.commons.ext
 
 import com.mirco.sportalbum.utils.Enums
+import com.mirco.sportalbum.utils.Enums.RoleLineUp
 import com.mircontapp.sportalbum.commons.AlbumHelper
 import com.mircontapp.sportalbum.data.database.Player
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
+import com.mircontapp.sportalbum.presentation.commons.ShortListElement
 
 
 fun PlayerModel.toPlayerMatchModel(isLegend: Boolean): PlayerMatchModel {
@@ -63,9 +64,9 @@ fun PlayerModel.entityFromPlayerModel() : Player {
     )
 }
 
-fun PlayerModel.toShortItem(onPlayerClickHandler: OnPlayerClickHandler, onEditClickHandler: OnEditClickHandler) : ShortListItem {
+fun PlayerModel.toShortItem(onPlayerClickHandler: OnPlayerClickHandler, onEditClickHandler: OnEditClickHandler) : ShortListElement {
     val playerModel = this
-    return object : ShortListItem {
+    return object : ShortListElement {
         override fun getTitle(): String {
             return playerModel.name
         }
@@ -109,6 +110,45 @@ fun List<PlayerModel>.getBestInRole(role: Enums.Role, isLegend: Boolean): Player
     }
     return playerModel
 }
+
+fun String.roleFromString(): Enums.Role? {
+    for (role in Enums.Role.values()) {
+        if (this.equals(role.toString(), ignoreCase = true)) {
+            return role
+        }
+    }
+    return Enums.Role.PP
+}
+
+fun String.roleLineUpFromString(): RoleLineUp? {
+    for (role in Enums.RoleLineUp.values()) {
+        if (this.equals(role.toString(), ignoreCase = true)) {
+            return role
+        }
+    }
+    return RoleLineUp.PPM
+}
+
+fun String.genderFromString(): Enums.Gender? {
+    for (gender in Enums.Gender.values()) {
+        if (this.equals(gender.toString(), ignoreCase = true)) {
+            return gender
+        }
+    }
+    return Enums.Gender.OTHER
+}
+
+fun String.styleFromString(): Enums.PlayStyle? {
+    for (style in Enums.PlayStyle.values()) {
+        if (this.equals(style.toString(), ignoreCase = true)) {
+            return style
+        }
+    }
+    return Enums.PlayStyle.NORMAL
+}
+
+
+
 
 
 

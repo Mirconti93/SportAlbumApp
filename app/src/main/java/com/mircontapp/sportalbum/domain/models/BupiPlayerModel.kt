@@ -1,9 +1,7 @@
 package com.mircontapp.sportalbum.domain.models
 
 import com.mircontapp.sportalbum.data.database.BupiPlayer
-import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
-import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
-import com.mircontapp.sportalbum.presentation.commons.ShortListItem
+import com.mircontapp.sportalbum.presentation.commons.ShortListElement
 
 data class BupiPlayerModel(
     val name: String,
@@ -16,9 +14,9 @@ fun BupiPlayerModel.entityFromBupiPlayer() : BupiPlayer {
     return BupiPlayer(this.name, this.team, this.country, this.role.toString())
 }
 
-fun BupiPlayerModel.toShortItem(onItemClick : () -> Unit) : ShortListItem {
+fun BupiPlayerModel.toShortItem(onItemClick : () -> Unit) : ShortListElement {
     val player = this
-    return object : ShortListItem {
+    return object : ShortListElement {
         override fun getTitle(): String {
             return player.name
         }

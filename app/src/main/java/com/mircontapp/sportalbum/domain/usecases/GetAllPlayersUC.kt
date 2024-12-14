@@ -6,7 +6,7 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.repository.PlayersRepository
 import javax.inject.Inject
 class GetAllPlayersUC @Inject constructor(val playersRepository: PlayersRepository) {
-    suspend fun getPlayers(): List<PlayerModel> {
+    suspend operator fun invoke(): List<PlayerModel> {
         return playersRepository.getAllPlayers()
     }
 }

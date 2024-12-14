@@ -17,7 +17,7 @@ import com.mircontapp.sportalbum.presentation.dashboard.edit_player.EditPlayerSc
 import com.mircontapp.sportalbum.presentation.dashboard.edit_team.EditTeamScreen
 import com.mircontapp.sportalbum.presentation.draw.DrawScreen
 import com.mircontapp.sportalbum.presentation.match.MatchGameScreen
-import com.mircontapp.sportalbum.presentation.match.MatchStartScreen
+import com.mircontapp.sportalbum.presentation.match.match_start.MatchStartScreen
 
 @ExperimentalMaterial3Api
 @Composable

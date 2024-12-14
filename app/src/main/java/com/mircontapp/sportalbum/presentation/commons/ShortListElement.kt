@@ -1,6 +1,6 @@
 package com.mircontapp.sportalbum.presentation.commons
 
-interface ShortListItem {
+interface ShortListElement {
     fun getTitle(): String
     fun getSubtitle(): String
 
