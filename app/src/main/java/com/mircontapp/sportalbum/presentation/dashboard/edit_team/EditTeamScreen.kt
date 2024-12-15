@@ -1,6 +1,5 @@
 package com.mircontapp.sportalbum.presentation.dashboard.edit_team
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,16 +21,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.gson.Gson
-import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.ext.findAreaEnum
 import com.mircontapp.sportalbum.commons.ext.findModuleEnum
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.presentation.commons.BooleanEntrySaver
 import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
-import com.mircontapp.sportalbum.presentation.dashboard.dashboard_list.DashboardViewModel
-import com.mircontapp.sportalbum.presentation.dashboard.edit_player.EditPlayerAction
+import com.mircontapp.sportalbum.presentation.commons.EntrySaver
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,19 +50,19 @@ fun EditTeamScreen(navController: NavController, teamArg: String?) {
             else -> {
                 it.team.let { teamModel ->
 
-                    val name = remember { mutableStateOf(TextFieldValue(teamModel.name)) }
-                    val city = remember { mutableStateOf(TextFieldValue(teamModel.city ?: "")) }
-                    val country = remember { mutableStateOf(TextFieldValue(teamModel.country ?: "")) }
-                    val type = remember { mutableStateOf(TextFieldValue(teamModel.type ?: "")) }
-                    val color1 = remember { mutableStateOf(TextFieldValue(teamModel.color1 ?: "")) }
-                    val color2 = remember { mutableStateOf(TextFieldValue(teamModel.color2 ?: "")) }
-                    val coach = remember { mutableStateOf(TextFieldValue(teamModel.coach ?: "")) }
-                    val coachlegend = remember { mutableStateOf(TextFieldValue(teamModel.coachlegend ?: "")) }
-                    val stadium = remember { mutableStateOf(TextFieldValue(teamModel.stadium ?: "")) }
-                    val area = remember { mutableStateOf(TextFieldValue(teamModel.area?.name ?: "")) }
-                    val arealegend = remember { mutableStateOf(TextFieldValue(teamModel.arealegend?.name ?: "")) }
-                    var isSuperlega = remember{ mutableStateOf(teamModel.superlega) }
-                    val module = remember { mutableStateOf(TextFieldValue(teamModel.module.name)) }
+                    val name = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.name)) }
+                    val city = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.city ?: "")) }
+                    val country = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.country ?: "")) }
+                    val type = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.type ?: "")) }
+                    val color1 = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.color1 ?: "")) }
+                    val color2 = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.color2 ?: "")) }
+                    val coach = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.coach ?: "")) }
+                    val coachlegend = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.coachlegend ?: "")) }
+                    val stadium = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.stadium ?: "")) }
+                    val area = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.area?.name ?: "")) }
+                    val arealegend = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.arealegend?.name ?: "")) }
+                    var isMatch = rememberSaveable(stateSaver = BooleanEntrySaver){ mutableStateOf(teamModel.isMatch ?: false) }
+                    val module = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(teamModel.module.name)) }
 
                     Row(modifier = Modifier.verticalScroll(rememberScrollState())) {
                         Column {
@@ -95,8 +92,8 @@ fun EditTeamScreen(navController: NavController, teamArg: String?) {
                             CustomTextField(value = module.value, onValueChange = { module.value = it})
 
                             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 32.dp)) {
-                                Checkbox(checked = isSuperlega.value ?: false, onCheckedChange = {
-                                    isSuperlega.value = it
+                                Checkbox(checked = isMatch.value, onCheckedChange = {
+                                    isMatch.value = it
                                 })
 
                                 Text(text = SportAlbumApplication.instance.getString(R.string.superlega))
@@ -116,7 +113,7 @@ fun EditTeamScreen(navController: NavController, teamArg: String?) {
                                         coachlegend = coach.value.text,
                                         area = area.value.text.findAreaEnum(),
                                         arealegend = arealegend.value.text.findAreaEnum(),
-                                        superlega = isSuperlega.value,
+                                        isMatch = isMatch.value,
                                         module = module.value.text.findModuleEnum()
                                     )
                                 ))
@@ -133,4 +130,7 @@ fun EditTeamScreen(navController: NavController, teamArg: String?) {
     }
 
 }
+
+
+
 

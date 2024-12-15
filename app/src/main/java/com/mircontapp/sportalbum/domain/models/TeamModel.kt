@@ -13,7 +13,7 @@ data class TeamModel(
     val stadium: String?,
     val area: Enums.Area?,
     val arealegend: Enums.Area?,
-    val superlega: Boolean?,
+    val isMatch: Boolean?,
     val coach: String?,
     val coachlegend: String?,
     val module: Enums.MatchModule
@@ -31,7 +31,7 @@ fun TeamModel.entityFromTeamModel() : Team {
         coach = this.coach,
         area = this.area?.name,
         arealegend = this.arealegend?.name,
-        superlega = this.superlega,
+        isMatch = this.isMatch,
         coachlegend = this.coachlegend,
         module = this.module.name.substring(1)
     )

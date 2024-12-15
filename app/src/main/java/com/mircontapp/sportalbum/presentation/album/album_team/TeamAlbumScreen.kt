@@ -115,7 +115,7 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
             when {
                 it.isLoading-> CustomCircularProgress(modifier = Modifier.fillMaxWidth())
                 it.message != null -> Text(text = it.message)
-                it.players.isEmpty() -> {
+                it.players.isNotEmpty() -> {
                     PlayersGrid(
                         it.players,
                         object : OnPlayerClickHandler {

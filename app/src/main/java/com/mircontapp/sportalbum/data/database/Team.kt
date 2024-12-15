@@ -17,7 +17,7 @@ class Team (
     val stadium: String?,
     val area: String?,
     val arealegend: String?,
-    val superlega: Boolean?,
+    val isMatch: Boolean?,
     val coach: String?,
     val coachlegend: String?,
     val module: String?,
@@ -34,7 +34,7 @@ fun Team.teamModelFromEntity() : TeamModel {
         stadium = this.stadium,
         area = this.area.findAreaEnum(),
         arealegend = this.arealegend.findAreaEnum(),
-        superlega = this.superlega,
+        isMatch = this.isMatch,
         coach = this.coach,
         coachlegend = this.coachlegend,
         module = this.module.findModuleEnum()

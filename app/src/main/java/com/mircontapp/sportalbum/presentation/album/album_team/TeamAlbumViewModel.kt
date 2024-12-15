@@ -23,7 +23,7 @@ class TeamAlbumViewModel @Inject constructor(
     val getPlayersByTeamLegendUC: GetPlayersByTeamLegendUC,
 ) : ViewModel() {
 
-    private val _state by lazy {0
+    private val _state by lazy {
         MutableStateFlow(AlbumTeamState())
     }
     val state: StateFlow<AlbumTeamState> get() = _state
@@ -34,7 +34,7 @@ class TeamAlbumViewModel @Inject constructor(
             is AlbumTeamAction.ShowPlayersByTeam -> {
                 viewModelScope.launch {
                     val list = withContext(Dispatchers.IO) {
-                        getPlayersByTeamLegendUC(action.team).sortedBy { it.roleLineUp }
+                        getPlayersByTeamUC(action.team).sortedBy { it.roleLineUp }
                     }
                     if (list.isEmpty()) {
                         _state.value = AlbumTeamState(message = SportAlbumApplication.getString(R.string.noPlayers))

@@ -33,14 +33,6 @@ class DashboardViewModel @Inject constructor(
     val getAllTeamsUC: GetAllTeamsUC,
     val getAllPlayersUC: GetAllPlayersUC,
 ) : ViewModel() {
-    private val _teams = MutableStateFlow<List<TeamModel>>(emptyList())
-    val teams get() = _teams
-
-    private val _players = MutableStateFlow<List<PlayerModel>>(emptyList())
-    val players get() = _players
-
-    val team = mutableStateOf<TeamModel?>(null)
-    val player = mutableStateOf<PlayerModel?>(null)
 
     private val _state = MutableStateFlow(DashboardState())
     val state: StateFlow<DashboardState> get() = _state
@@ -77,7 +69,6 @@ class DashboardViewModel @Inject constructor(
 
             }
             is DashboardAction.ShowTeamsFiltered -> {
-
                 viewModelScope.launch {
                     val teams = withContext(Dispatchers.IO) {
                         getAllTeamsUC()

@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
@@ -29,8 +30,10 @@ import com.mircontapp.sportalbum.commons.ext.genderFromString
 import com.mircontapp.sportalbum.commons.ext.roleFromString
 import com.mircontapp.sportalbum.commons.ext.roleLineUpFromString
 import com.mircontapp.sportalbum.domain.models.PlayerModel
+import com.mircontapp.sportalbum.presentation.commons.BooleanEntrySaver
 import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
+import com.mircontapp.sportalbum.presentation.commons.EntrySaver
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,19 +53,19 @@ fun EditPlayerScreen(navController: NavController, playerArg: String?) {
             it.isLoading-> CustomCircularProgress(modifier = Modifier.fillMaxWidth())
             else -> {
                 it.playerModel.let { playerModel ->
-                    val name = remember { mutableStateOf(TextFieldValue(playerModel.name)) }
-                    val role = remember { mutableStateOf(TextFieldValue(playerModel.role.name)) }
-                    val gender = remember { mutableStateOf(TextFieldValue(playerModel.gender?.name ?: "")) }
-                    val team = remember { mutableStateOf(TextFieldValue(playerModel.team ?: "")) }
-                    val country = remember { mutableStateOf(TextFieldValue(playerModel.country ?: "")) }
-                    val birthyear = remember { mutableStateOf(TextFieldValue(playerModel.birthyear ?: "")) }
-                    val value = remember { mutableStateOf(TextFieldValue(playerModel.value.toString() ?: "")) }
-                    val valueleg = remember { mutableStateOf(TextFieldValue(playerModel.valueleg.toString() ?: "")) }
-                    val teamLegend = remember { mutableStateOf(TextFieldValue(playerModel.teamLegend ?: "")) }
-                    val national = remember { mutableStateOf(playerModel.national == 1) }
-                    val nationalLegend = remember { mutableStateOf(playerModel.nationalLegend == 1) }
-                    var roleLineUp = remember{ mutableStateOf(TextFieldValue(playerModel.roleLineUp?.name?:"")) }
-                    var style = remember{ mutableStateOf(TextFieldValue(playerModel.style?.name?:"")) }
+                    val name = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.name)) }
+                    val role = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.role.name)) }
+                    val gender = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.gender?.name ?: "")) }
+                    val team = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.team ?: "")) }
+                    val country = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.country ?: "")) }
+                    val birthyear = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.birthyear ?: "")) }
+                    val value = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.value.toString() ?: "")) }
+                    val valueleg = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.valueleg.toString() ?: "")) }
+                    val teamLegend = rememberSaveable(stateSaver = EntrySaver) { mutableStateOf(TextFieldValue(playerModel.teamLegend ?: "")) }
+                    val national = rememberSaveable(stateSaver = BooleanEntrySaver) { mutableStateOf(playerModel.national == 1) }
+                    val nationalLegend = rememberSaveable(stateSaver = BooleanEntrySaver) { mutableStateOf(playerModel.nationalLegend == 1) }
+                    var roleLineUp = rememberSaveable(stateSaver = EntrySaver){ mutableStateOf(TextFieldValue(playerModel.roleLineUp?.name?:"")) }
+                    var style = rememberSaveable(stateSaver = EntrySaver){ mutableStateOf(TextFieldValue(playerModel.style?.name?:"")) }
 
 
                     Row(modifier = Modifier.verticalScroll(rememberScrollState()).padding(8.dp)) {

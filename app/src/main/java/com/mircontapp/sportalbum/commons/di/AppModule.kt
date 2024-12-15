@@ -17,11 +17,10 @@ import com.mircontapp.sportalbum.domain.repository.BupiTeamsRepository
 import com.mircontapp.sportalbum.domain.repository.MediaRepository
 import com.mircontapp.sportalbum.domain.repository.PlayersRepository
 import com.mircontapp.sportalbum.domain.repository.TeamsRepository
-import com.mircontapp.sportalbum.domain.usecases.DoDrawUC
 import com.mircontapp.sportalbum.domain.usecases.GetAllPlayersUC
 import com.mircontapp.sportalbum.domain.usecases.GetAllTeamsUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
-import com.mircontapp.sportalbum.domain.usecases.GetTeamsSuperlegaUC
+import com.mircontapp.sportalbum.domain.usecases.GetTeamsForMatchUC
 import com.mircontapp.sportalbum.domain.usecases.GetVideosByNameUC
 import com.mircontapp.sportalbum.domain.usecases.InsertTeamUC
 import com.mircontapp.sportalbum.domain.usecases.UpdateTeamUC
@@ -116,8 +115,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideGetTeamsSuperlegaUC(): GetTeamsSuperlegaUC {
-        return GetTeamsSuperlegaUC(provideTeamsRepository())
+    fun provideGetTeamsSuperlegaUC(): GetTeamsForMatchUC {
+        return GetTeamsForMatchUC(provideTeamsRepository())
     }
 
     @Singleton

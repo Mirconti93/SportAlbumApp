@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -103,6 +104,7 @@ fun DashboardScreen(navController: NavController) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(imageVector = Icons.Filled.Create, contentDescription = "Search icon", modifier = Modifier
                     .size(40.dp)
+                    .background(BlueD)
                     .padding(2.dp, 8.dp)
                     .clickable { showSearch.value = !showSearch.value })
             if (showSearch.value) {
@@ -118,7 +120,8 @@ fun DashboardScreen(navController: NavController) {
                             }
                         }
 
-                    }
+                    },
+                    hint = SportAlbumApplication.getString(R.string.search)
                 )
             } else {
                 Button(onClick = {
@@ -134,7 +137,7 @@ fun DashboardScreen(navController: NavController) {
                 Button(onClick = {
                     FileDataManager.writePlayers(
                         context = SportAlbumApplication.instance.applicationContext,
-                        "players.txt", viewModel.players.value
+                        "players.txt", viewModel.state.value.players
                     )
                 },
                     colors = ButtonDefaults.buttonColors(

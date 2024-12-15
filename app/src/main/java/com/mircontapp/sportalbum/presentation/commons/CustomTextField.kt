@@ -32,11 +32,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
-import com.mircontapp.sportalbum.presentation.ui.theme.DarkBlueD
+
 
 @Composable
-fun CustomTextField(value: TextFieldValue,
-                    onValueChange: (TextFieldValue) -> Unit, imageVector: ImageVector?) {
+fun CustomTextField(value: TextFieldValue, onValueChange: (TextFieldValue) -> Unit, hint: String, imageVector: ImageVector?) {
 
     Box(modifier = Modifier.padding(8.dp, 4.dp)) {
         BasicTextField(
@@ -69,7 +68,7 @@ fun CustomTextField(value: TextFieldValue,
                             Spacer(modifier = Modifier.width(8.dp))
                             if (value.text.isEmpty()) {
                                 Text(
-                                    text = "Enter text",
+                                    text = hint,
                                     style = TextStyle(color = Color.Gray, fontSize = 16.sp)
                                 )
                             }
@@ -88,6 +87,18 @@ fun CustomTextField(value: TextFieldValue,
     }
 
 
+}
+
+@Composable
+fun CustomTextField(value: TextFieldValue,
+                    onValueChange: (TextFieldValue) -> Unit, imageVector: ImageVector?) {
+    CustomTextField(value = value, onValueChange = onValueChange, imageVector = imageVector, hint = "Enter text")
+}
+
+@Composable
+fun CustomTextField(value: TextFieldValue,
+                    onValueChange: (TextFieldValue) -> Unit, hint: String) {
+    CustomTextField(value = value, onValueChange = onValueChange, imageVector = null, hint = hint)
 }
 
 @Composable

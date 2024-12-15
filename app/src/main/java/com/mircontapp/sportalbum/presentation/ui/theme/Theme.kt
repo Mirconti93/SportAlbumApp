@@ -18,7 +18,7 @@ import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
     background = DarkBlueD,
-    surface = DarkBlueL,
+    surface = BlueD,
     primary = BlueD,
     secondary = OrangeYellowD,
     tertiary = YellowD,
@@ -40,9 +40,10 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun SportAlbumTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true,//isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
+
     val colorScheme = when {
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
@@ -57,7 +58,7 @@ fun SportAlbumTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = DarkColorScheme,
         typography = Typography,
         content = content
     )

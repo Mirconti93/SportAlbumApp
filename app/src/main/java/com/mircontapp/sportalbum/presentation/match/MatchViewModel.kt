@@ -24,7 +24,7 @@ import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamFromNameUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
-import com.mircontapp.sportalbum.domain.usecases.GetTeamsSuperlegaUC
+import com.mircontapp.sportalbum.domain.usecases.GetTeamsForMatchUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,7 +49,7 @@ class MatchViewModel @Inject constructor(
     val getTeamsFromAreaUC: GetTeamsFromAreaUC,
     val getPlayersByTeamUC: GetPlayersByTeamUC,
     val getPlayersByTeamLegendUC: GetPlayersByTeamLegendUC,
-    val getTeamsSuperlegaUC: GetTeamsSuperlegaUC,
+    val getTeamsSuperlegaUC: GetTeamsForMatchUC,
     val getTeamFromNameUC: GetTeamFromNameUC
 ) : ViewModel() {
     var app = SportAlbumApplication.instance

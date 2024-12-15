@@ -2,6 +2,7 @@ package com.mircontapp.sportalbum.presentation.draw
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mircontapp.sportalbum.domain.models.DrawModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.domain.usecases.DoDrawUC
 import com.mircontapp.sportalbum.domain.usecases.GetAllPlayersUC
@@ -47,8 +48,14 @@ class DrawViewModel@Inject constructor(
 
     fun onAction(action: DrawAction) {
         when (action) {
+            is DrawAction.AddTeam ->{
+                val list =_state.value.drawModel.list.toMutableList().also { it.add(action.name) }
+                val drawModel =_state.value.drawModel.copy(list = list)
+                val drawPhase = if (list.size == 8) DrawPhase.RECAP else DrawPhase.INSERT
+                _state.value = DrawState(drawPhase = drawPhase, drawModel = drawModel)
+            }
             is DrawAction.Draw ->{
-                _state.value = DrawState(beforeDraw = false, drawModel = DoDrawUC(action.drawModel).invoke())
+                _state.value = DrawState(drawPhase = DrawPhase.DRAWN, drawModel = DoDrawUC(action.drawModel).invoke())
             }
         }
     }
