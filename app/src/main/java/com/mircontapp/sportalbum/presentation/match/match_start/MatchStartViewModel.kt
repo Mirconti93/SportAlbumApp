@@ -25,10 +25,13 @@ import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamFromNameUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsForMatchUC
+import com.mircontapp.sportalbum.presentation.dashboard.edit_team.EditTeamAction
+import com.mircontapp.sportalbum.presentation.dashboard.edit_team.EditTeamState
 import com.mircontapp.sportalbum.presentation.match.updateEnergy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -74,6 +77,9 @@ class MatchStartViewModel @Inject constructor(
 
     val matchModel: MutableStateFlow<MatchModel> = MutableStateFlow(initMatchModel())
 
+    private val _state = MutableStateFlow(MatchStartState())
+    val state: StateFlow<MatchStartState> get() = _state
+
 
     enum class LineUpPlace {
         FIELD, BENCH, TRIBUNE
@@ -81,6 +87,33 @@ class MatchStartViewModel @Inject constructor(
 
     enum class Screen {
         LINE_UP_HOME_START, LINE_UP_AWAY_START, MATCH, LINE_UP_HOME, LINE_UP_AWAY
+    }
+
+    init {
+        viewModelScope.launch {
+            val list = getTeamsSuperlegaUC()
+            withContext(Dispatchers.Main) {
+                teams.value = list
+                if (teams.value.size > 0) {
+                    homeTeam.value = teams.value[0]
+                }
+                if (teams.value.size > 1) {
+                    awayTeam.value = teams.value[1]
+                }
+            }
+        }
+    }
+
+    fun onAction(action: MatchStartAction) {
+        when (action) {
+            is MatchStartAction.Load -> _state.value = MatchStartState(isLoading = true)
+            is MatchStartAction.SelectHomeTeam -> {
+                _state.value = MatchStartState(homeTeam = action.team)
+            }
+            is MatchStartAction.SelectAwayTeam-> {
+                _state.value = MatchStartState(awayTeam = action.team)
+            }
+        }
     }
 
     fun initMatch() {
