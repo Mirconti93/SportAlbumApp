@@ -55,7 +55,7 @@ fun TeamAlbumScreen(navController: NavController, teamArg: String) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        val team = Gson().fromJson(teamArg, TeamModel::class.java)
+        val team = remember {  Gson().fromJson(teamArg, TeamModel::class.java) }
         val viewModel: TeamAlbumViewModel = hiltViewModel()
 
         LaunchedEffect((Unit), block = {
