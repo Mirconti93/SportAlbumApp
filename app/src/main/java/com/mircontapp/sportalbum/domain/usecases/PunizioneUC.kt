@@ -13,8 +13,8 @@ import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 
 class PunizioneUC() {
     fun punizione(matchModel: MatchModel): MatchModel {
-        val attackers = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersHome else matchModel.playersAway
-        val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
+        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
+        val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
 
         val tiratori = ArrayList<PlayerMatchModel>().also { it.addAll(attackers) }
         val tiratore1 = tiratori.removeAt(tiratori.findTiratore())
@@ -62,7 +62,7 @@ class PunizioneUC() {
         messaggio = if (diff < 0) {
             matchModel.fase = Enums.Fase.CENTROCAMPO
             matchModel.evento = Enums.Evento.GOAL
-            if (matchModel.possesso === Enums.Possesso.HOME) {
+            if (matchModel.possesso === Enums.TeamPosition.HOME) {
                 matchModel.homeScore = matchModel.homeScore + 1
             } else {
                 matchModel.awayScore = matchModel.awayScore + 1
@@ -105,13 +105,13 @@ class PunizioneUC() {
             }
         }
         matchModel.comment.add(CommentModel(messaggio ?: "", matchModel.minute, matchModel.possesso))
-        matchModel.possesso = if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME
+        matchModel.possesso = if (matchModel.possesso === Enums.TeamPosition.HOME) Enums.TeamPosition.AWAY else Enums.TeamPosition.HOME
         return matchModel
     }
 
     private fun punizioneGiocata(matchModel: MatchModel, tiratore: PlayerMatchModel, portiere: PlayerMatchModel?): MatchModel {
-        val attackers = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersHome else matchModel.playersAway
-        val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
+        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
+        val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
 
 
         var protagonistaA = ""
@@ -162,7 +162,7 @@ class PunizioneUC() {
                 matchModel.fase = Enums.Fase.CENTROCAMPO
                 matchModel.evento = Enums.Evento.GOAL
 
-                if (matchModel.possesso === Enums.Possesso.HOME) {
+                if (matchModel.possesso === Enums.TeamPosition.HOME) {
                     matchModel.homeScore += 1
                 } else {
                     matchModel.awayScore += 1
@@ -223,7 +223,7 @@ class PunizioneUC() {
             }
         }
         matchModel.comment.add(CommentModel(messaggio ?: "", matchModel.minute, matchModel.possesso))
-        matchModel.possesso = if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME
+        matchModel.possesso = if (matchModel.possesso === Enums.TeamPosition.HOME) Enums.TeamPosition.AWAY else Enums.TeamPosition.HOME
         return matchModel
     }
 

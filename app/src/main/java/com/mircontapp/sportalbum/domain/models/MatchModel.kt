@@ -8,7 +8,7 @@ data class MatchModel(
     var homeScore: Int,
     var awayScore: Int,
     var minute: Int,
-    var possesso: Enums.Possesso,
+    var possesso: Enums.TeamPosition,
     var fase: Enums.Fase,
     var evento: Enums.Evento,
     var isLegend: Boolean,

@@ -2,22 +2,54 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.ext.azione
 import com.mircontapp.sportalbum.commons.ext.partecipa
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 
-class AttaccoUC {
+class ActionUC() {
 
-    fun attacco(matchModel: MatchModel): MatchModel {
+    operator fun invoke(matchModel: MatchModel): MatchModel {
+        var protagonistaA = ""
+        var attA = -1.0
+        var pot = 0.0
+        var dado = 0.0
 
-        val azione = matchModel.azione()
+        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
+        val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
+
+        for (attacker in attackers) {
+            if (attacker.partecipa(attacker.roleMatch.getPartAtt())) {
+                pot = attacker.att / 4.0 + attacker.dri / 4.0 + attacker.tec / 4.0 + attacker.vel / 4.0
+                val fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
+                dado = fixed * 0.25 + Math.random() * pot * 0.75
+                Log.i("BUPIAZIONE:", "att att "+ attacker.name + " " +  dado)
+
+                if (dado > attA) {
+                    attA = dado
+                    protagonistaA = attacker.name
+                }
+            }
+        }
+
+        var protagonistaD = ""
+        var difD = -1.0
+        for (defender in defenders) {
+            if (defender.partecipa(defender.roleMatch.getPartDif())) {
+                pot = defender.dif / 4.0 + defender.bal / 4.0 + defender.fis / 4.0 + defender.vel / 4.0
+                val fixed = if (matchModel.isLegend) defender.valueleg?.toDouble() ?: 0.0 else defender.value?.toDouble() ?: 0.0
+                dado = fixed * 0.25 + pot * 0.25 + Math.random() * pot * 0.5
+                Log.i("BUPIAZIONE:", "att dif "+ defender.name + " " +  dado)
+
+                if (dado > difD) {
+                    difD = dado
+                    protagonistaD = defender.name
+                }
+            }
+        }
 
         val context =  SportAlbumApplication.instance.getBaseContext()
         var messaggio = ""
-        val diff = azione.valoreD - azione.valoreA
-        val protagonistaA = azione.protagonistaA
-        val protagonistaD = azione.protagonistaD
+        val diff = difD - attA
 
         //vince la squadra attaccante
         if (diff < 0) {

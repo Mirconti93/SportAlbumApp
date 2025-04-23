@@ -11,17 +11,22 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun bupiTeamDao(): BupiTeamDao
     abstract fun playerDao(): PlayerDao
     abstract fun teamDao(): TeamDao
+
     companion object {
+        private val DATABASE_NAME = "albumdb.sqlite"
+
         @Volatile private var INSTANCE: AppDatabase? = null
-        fun getInstance(context: Context) : AppDatabase? {
+
+        fun getInstance(context: Context) : AppDatabase {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context,
                         AppDatabase::class.java,
-                        "albumdb.sqlite"
-                    ).build()
+                        DATABASE_NAME
+                    ).createFromAsset("db/$DATABASE_NAME")
+                        .build()
 
                     INSTANCE = instance
                 }

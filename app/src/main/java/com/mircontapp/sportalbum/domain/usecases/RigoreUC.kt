@@ -13,8 +13,8 @@ class RigoreUC() {
     fun rigoreDiretto(
         matchModel: MatchModel
     ): MatchModel {
-        val attackers = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersHome else matchModel.playersAway
-        val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
+        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
+        val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
 
         val tiratore = attackers.get(attackers.findTiratore())
         val goalkeeper = defenders.findGoalkeeper()
@@ -34,7 +34,7 @@ class RigoreUC() {
         if (diff < 0) {
             matchModel.evento = Enums.Evento.GOAL
 
-            if (matchModel.possesso === Enums.Possesso.HOME) {
+            if (matchModel.possesso === Enums.TeamPosition.HOME) {
                 matchModel.homeScore += 1
             } else {
                 matchModel.awayScore += 1
@@ -85,7 +85,7 @@ class RigoreUC() {
         matchModel.protagonista = tiratore.name
         matchModel.coprotagonista = goalkeeper.name
         matchModel.comment.add(CommentModel(messaggio, matchModel.minute, matchModel.possesso))
-        matchModel.possesso = if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME
+        matchModel.possesso = if (matchModel.possesso === Enums.TeamPosition.HOME) Enums.TeamPosition.AWAY else Enums.TeamPosition.HOME
         return matchModel
     }
 

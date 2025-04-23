@@ -473,7 +473,7 @@ class Enums {
         CENTROCAMPO, ATTACCO, CONCLUSIONE, PUNIZIONE, RIGORE
     }
 
-    enum class Possesso {
+    enum class TeamPosition {
         HOME, AWAY
     }
 

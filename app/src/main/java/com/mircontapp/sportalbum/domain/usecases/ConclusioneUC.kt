@@ -3,6 +3,8 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.ext.azione
+import com.mircontapp.sportalbum.commons.ext.parata
 import com.mircontapp.sportalbum.commons.ext.partecipa
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
@@ -13,8 +15,8 @@ class ConclusioneUC() {
     fun conclusione(matchModel: MatchModel): MatchModel {
         var protagonistaA = ""
 
-        val attackers = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersHome else matchModel.playersAway
-        val defenders = if (matchModel.possesso == Enums.Possesso.HOME) matchModel.playersAway else matchModel.playersHome
+        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
+        val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
 
 
         var finA = -1.0
@@ -55,10 +57,7 @@ class ConclusioneUC() {
         Log.i("BUPIAZIONE:", "fin dif " +  difPower)
 
         val portiere = defenders.find { playerMatchModel -> playerMatchModel.roleMatch == Enums.RoleLineUp.PTC} ?: defenders.get(0)
-        pot = portiere.por / 2.0 + portiere.bal / 4.0 + portiere.dif / 4.0
-
-        val fixed = (if (matchModel.isLegend) portiere.valueleg else portiere.value) ?: 0
-        val parata = fixed  * 0.25 + pot * 0.25 + Math.random() * pot * 0.5 + difPower
+        val parata = portiere.parata(difPower)
         Log.i("BUPIAZIONE:", "fin por "+ portiere.name + " " +  parata)
 
         val context: Context = SportAlbumApplication.instance.applicationContext
@@ -70,7 +69,7 @@ class ConclusioneUC() {
         if (diff < 0) {
             matchModel.fase = Enums.Fase.CENTROCAMPO
             matchModel.evento = Enums.Evento.GOAL
-            if (matchModel.possesso === Enums.Possesso.HOME) {
+            if (matchModel.possesso === Enums.TeamPosition.HOME) {
                 matchModel.homeScore += 1
             } else {
                 matchModel.awayScore += 1
@@ -95,7 +94,7 @@ class ConclusioneUC() {
                 )
             }
 
-            matchModel.possesso = if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME
+            matchModel.possesso = if (matchModel.possesso === Enums.TeamPosition.HOME) Enums.TeamPosition.AWAY else Enums.TeamPosition.HOME
 
             //è rigore
         } else if (diff >= 0 && diff < 0.25) {
@@ -149,7 +148,7 @@ class ConclusioneUC() {
                     goleador?.name
                 )
             }
-            matchModel.possesso = (if (matchModel.possesso === Enums.Possesso.HOME) Enums.Possesso.AWAY else Enums.Possesso.HOME)
+            matchModel.possesso = (if (matchModel.possesso === Enums.TeamPosition.HOME) Enums.TeamPosition.AWAY else Enums.TeamPosition.HOME)
         }
         matchModel.comment.add(CommentModel(messaggio, matchModel.minute, matchModel.possesso))
         return matchModel

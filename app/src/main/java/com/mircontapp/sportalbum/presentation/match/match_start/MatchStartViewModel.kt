@@ -25,8 +25,6 @@ import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamFromNameUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsForMatchUC
-import com.mircontapp.sportalbum.presentation.dashboard.edit_team.EditTeamAction
-import com.mircontapp.sportalbum.presentation.dashboard.edit_team.EditTeamState
 import com.mircontapp.sportalbum.presentation.match.updateEnergy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -70,7 +68,7 @@ class MatchStartViewModel @Inject constructor(
     var firstPlayerSelected: Boolean = false
     val showRoleSelection = MutableStateFlow(false)
 
-    var teamPosition = Enums.Possesso.HOME
+    var teamPosition = Enums.TeamPosition.HOME
     val teams = mutableStateOf<List<TeamModel>>(emptyList())
     val showSelection = mutableStateOf(false)
     val currentScreen  = mutableStateOf(Screen.LINE_UP_HOME_START)
@@ -162,7 +160,7 @@ class MatchStartViewModel @Inject constructor(
             0,
             0,
             0,
-            Enums.Possesso.HOME,
+            Enums.TeamPosition.HOME,
             Enums.Fase.CENTROCAMPO,
             Enums.Evento.NONE,
             false,
@@ -185,7 +183,7 @@ class MatchStartViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     _homeRoster.value =
                         list.filter { it.value != null && it.value > 50 }.toMutableList()
-                    initOnFieledOrBench(Enums.Possesso.HOME)
+                    initOnFieledOrBench(Enums.TeamPosition.HOME)
                 }
             }.invokeOnCompletion {
                 viewModelScope.launch(Dispatchers.IO) {
@@ -197,7 +195,7 @@ class MatchStartViewModel @Inject constructor(
                         awayRoster.value?.forEach {
                             Log.i("BUPI", it.name)
                         }
-                        initOnFieledOrBench(Enums.Possesso.AWAY)
+                        initOnFieledOrBench(Enums.TeamPosition.AWAY)
                     }
                 }
             }
@@ -206,8 +204,8 @@ class MatchStartViewModel @Inject constructor(
     }
 
     /*** split players on field or in bench  */
-    fun initOnFieledOrBench(teamPosition: Enums.Possesso) {
-        val teamIsHome = teamPosition == Enums.Possesso.HOME
+    fun initOnFieledOrBench(teamPosition: Enums.TeamPosition) {
+        val teamIsHome = teamPosition == Enums.TeamPosition.HOME
 
         val field: MutableList<PlayerMatchModel> = ArrayList()
         val roster: MutableList<PlayerMatchModel> = ArrayList()
@@ -250,10 +248,10 @@ class MatchStartViewModel @Inject constructor(
 
     }
 
-    fun changeModule(teamPosition: Enums.Possesso, module: Enums.MatchModule) {
+    fun changeModule(teamPosition: Enums.TeamPosition, module: Enums.MatchModule) {
         val players = ArrayList<PlayerMatchModel>()
         val roles = module.getLineUpRoles()
-        if (teamPosition == Enums.Possesso.HOME) {
+        if (teamPosition == Enums.TeamPosition.HOME) {
             players.addAll(homeEleven.value)
         } else {
             players.addAll(awayEleven.value)
@@ -267,7 +265,7 @@ class MatchStartViewModel @Inject constructor(
 
         }
 
-        if (teamPosition == Enums.Possesso.HOME) {
+        if (teamPosition == Enums.TeamPosition.HOME) {
             homeEleven.value = players
         } else {
             awayEleven.value = players
@@ -275,8 +273,8 @@ class MatchStartViewModel @Inject constructor(
 
     }
 
-    fun substitutePlayer(player1: PlayerMatchModel, player2: PlayerMatchModel, teamPosition: Enums.Possesso) {
-        val teamIsHome = teamPosition == Enums.Possesso.HOME
+    fun substitutePlayer(player1: PlayerMatchModel, player2: PlayerMatchModel, teamPosition: Enums.TeamPosition) {
+        val teamIsHome = teamPosition == Enums.TeamPosition.HOME
 
         if (player1.roleMatch == Enums.RoleLineUp.PAN && player2.roleMatch == Enums.RoleLineUp.PAN) return
 
@@ -325,10 +323,10 @@ class MatchStartViewModel @Inject constructor(
         playerSelected.value = null
     }
 
-    fun changePlayerRole(teamPosition: Enums.Possesso) {
+    fun changePlayerRole(teamPosition: Enums.TeamPosition) {
         val players: MutableList<PlayerMatchModel> = ArrayList()
         players.addAll(homeEleven.value)
-        if (teamPosition == Enums.Possesso.HOME) {
+        if (teamPosition == Enums.TeamPosition.HOME) {
             for (p in players) {
                 playerToChangeRole?.let {
                     if (p.name == it?.name) {

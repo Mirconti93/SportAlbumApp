@@ -61,7 +61,7 @@ fun MatchStartScreen(navController: NavController) {
                     viewModel.teams.value!!,
                     onTeamClickHandler = object : OnTeamClickHandler {
                         override fun onTeamClick(teamModel: TeamModel) {
-                            if (viewModel.teamPosition == Enums.Possesso.HOME) {
+                            if (viewModel.teamPosition == Enums.TeamPosition.HOME) {
                                 viewModel.homeTeam.value = teamModel
                             } else {
                                 viewModel.awayTeam.value = teamModel
@@ -85,7 +85,7 @@ fun MatchStartScreen(navController: NavController) {
                     override fun onClick() {
                         viewModel.let {
                             it.showSelection.value = true
-                            it.teamPosition = Enums.Possesso.HOME
+                            it.teamPosition = Enums.TeamPosition.HOME
                         }
                     }
                 })
@@ -95,7 +95,7 @@ fun MatchStartScreen(navController: NavController) {
                     override fun onClick() {
                         viewModel.let {
                             it.showSelection.value = true
-                            it.teamPosition = Enums.Possesso.AWAY
+                            it.teamPosition = Enums.TeamPosition.AWAY
                         }
                     }
                 })
