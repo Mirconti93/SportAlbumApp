@@ -12,10 +12,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
+import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.ext.findBestPlayerInRole
 import com.mircontapp.sportalbum.commons.ext.getLineUpRoles
 import com.mircontapp.sportalbum.commons.ext.toPlayerMatchModel
+import com.mircontapp.sportalbum.domain.models.ActionModel
+import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
@@ -345,17 +348,42 @@ class MatchViewModel @Inject constructor(
 
     }
 
+    private fun handleCentrocampo(actionModel: ActionModel): MatchModel {
 
-}
+    }
 
-fun updateEnergy(players: List<PlayerMatchModel>) : MutableList<PlayerMatchModel>{
-    return players.toMutableList().also { list->
-        list.forEach {
-            it.energy -= 1 - (it.fis/200.0) - ((it.fis/200.0)*Math.random())
-            //Log.i("BUPI MIN PLAYED", it.name + " " + it.energy.toString())
+    private fun handleAttacco(actionModel: ActionModel): MatchModel {
+
+    }
+
+    private fun handleConclusione(actionModel: ActionModel): MatchModel {
+
+    }
+
+    private fun handlePunizione(actionModel: ActionModel): MatchModel {
+
+    }
+
+    private fun handleRigore(actionModel: ActionModel): MatchModel {
+
+    }
+
+    private fun updateEnergy(players: List<PlayerMatchModel>) : MutableList<PlayerMatchModel>{
+        return players.toMutableList().also { list->
+            list.forEach {
+                it.energy -= 1 - (it.fis/200.0) - ((it.fis/200.0)*Math.random())
+                //Log.i("BUPI MIN PLAYED", it.name + " " + it.energy.toString())
+            }
         }
     }
+
 }
+
+
+
+
+
+
 
 
 

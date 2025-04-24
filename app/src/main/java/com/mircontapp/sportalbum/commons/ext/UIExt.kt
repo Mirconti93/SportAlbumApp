@@ -1,6 +1,8 @@
 package com.mircontapp.sportalbum.commons.ext
 
 import androidx.compose.ui.graphics.Color
+import com.mirco.sportalbum.utils.Enums
+import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
 import com.mircontapp.sportalbum.presentation.ui.theme.Brown
@@ -70,5 +72,121 @@ fun String?.getTeamTextColor(): Color {
     return when (this) {
         YELLOW, WHITE -> Color.Black
         else -> Color.White
+    }
+}
+
+fun Enums.Evento.getTelecronaca(name: String, diff: Double): String {
+    return when (this) {
+        Enums.Evento.NONE -> ""
+        Enums.Evento.PALLEGGIO -> {
+            if (diff > -8) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaCen1), name)
+            } else if (diff > -15) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaCen2), name)
+            } else {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaCen3), name)
+            }
+        }
+        Enums.Evento.PRESSING -> {
+            if (diff > 15) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaBal3), name)
+            } else if (diff > 8) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaBal2), name)
+            } else {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaBal1), name)
+            }
+        }
+        Enums.Evento.ATTACCO -> {
+             if (diff < 10) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaAtt1), name)
+            } else {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaAtt2), name)
+            }
+        }
+        Enums.Evento.RECUPERO -> {
+            if (diff < 5) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaDif1), name)
+            } else if (diff < 10) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaDif2), name)
+            } else {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaDif3), name)
+            }
+        }
+        Enums.Evento.GOAL -> {
+            if (diff < 0 && diff >= -4) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaGol1),
+                )
+            } else if (diff < -4 && diff >= -8) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaGol2),
+                )
+            } else {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaGol3),
+                )
+            }
+        }
+        Enums.Evento.RESPINTA -> {
+            if (diff >= 1 && diff < 2) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaPal),
+                )
+            } else if (diff >= 2 && diff < 3) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaTra),
+                )
+            } else if (diff >= 3 && diff < 5) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaPar1),
+
+                )
+            } else if (diff >= 5 && diff < 7) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaPar2),
+                )
+            } else if (diff >= 7 && diff < 9) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaOut1),
+                )
+            } else {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaOut2),
+                )
+            }
+        }
+        Enums.Evento.PARATA -> {
+            if (diff >= 1 && diff < 2) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaPal),
+                )
+            } else if (diff >= 2 && diff < 3) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaTra),
+                )
+            } else if (diff >= 3 && diff < 5) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaPar1),
+
+                    )
+            } else if (diff >= 5 && diff < 7) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaPar2),
+                )
+            } else if (diff >= 7 && diff < 9) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaOut1),
+                )
+            } else {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaOut2),
+                )
+            }
+        }
+        Enums.Evento.AMMONIZIONE -> String.format(SportAlbumApplication.getString(R.string.telecronacaAmm), name)
+        Enums.Evento.ESPULSIONE -> String.format(SportAlbumApplication.getString(R.string.telecronacaEsp), name)
+        Enums.Evento.PUNIZIONE_DIRETTA -> ""
+        Enums.Evento.PUNIZIONE -> ""
+        Enums.Evento.GOAL_RIGORE -> ""
     }
 }

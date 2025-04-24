@@ -2,11 +2,11 @@ package com.mircontapp.sportalbum.commons.ext
 
 import android.util.Log
 import com.mirco.sportalbum.utils.Enums
-import com.mircontapp.sportalbum.domain.models.AzioneModel
+import com.mircontapp.sportalbum.domain.models.ActionModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 
-fun MatchModel.azione(): AzioneModel {
+fun MatchModel.azione(): ActionModel {
     var protagonistaA = ""
     var attA = -1.0
 
@@ -46,7 +46,7 @@ fun MatchModel.azione(): AzioneModel {
         }
     }
 
-    return AzioneModel(protagonistaA, attA, protagonistaD, difD)
+    return ActionModel(protagonistaA, attA, protagonistaD, difD)
 }
 
 fun PlayerMatchModel.attacco(): Double {

@@ -3,10 +3,11 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.ext.partecipa
+import com.mircontapp.sportalbum.domain.models.ActionModel
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 
-class ActionUC() {
+abstract class ActionUC() {
 
     operator fun invoke(matchModel: MatchModel): MatchModel {
         var protagonistaA = ""
@@ -19,11 +20,8 @@ class ActionUC() {
 
         for (attacker in attackers) {
             if (attacker.partecipa(attacker.roleMatch.getPartAtt())) {
-                pot = attacker.att / 4.0 + attacker.dri / 4.0 + attacker.tec / 4.0 + attacker.vel / 4.0
-                val fixed = if (matchModel.isLegend) attacker.valueleg?.toDouble() ?: 0.0 else attacker.value?.toDouble() ?: 0.0
-                dado = fixed * 0.25 + Math.random() * pot * 0.75
-                Log.i("BUPIAZIONE:", "att att "+ attacker.name + " " +  dado)
-
+                val action = attackingAction(matchModel)
+                Log.i("BUPIAZIONE:", "${matchModel.fase} ${attacker.name} $action")
                 if (dado > attA) {
                     attA = dado
                     protagonistaA = attacker.name
@@ -35,10 +33,8 @@ class ActionUC() {
         var difD = -1.0
         for (defender in defenders) {
             if (defender.partecipa(defender.roleMatch.getPartDif())) {
-                pot = defender.dif / 4.0 + defender.bal / 4.0 + defender.fis / 4.0 + defender.vel / 4.0
-                val fixed = if (matchModel.isLegend) defender.valueleg?.toDouble() ?: 0.0 else defender.value?.toDouble() ?: 0.0
-                dado = fixed * 0.25 + pot * 0.25 + Math.random() * pot * 0.5
-                Log.i("BUPIAZIONE:", "att dif "+ defender.name + " " +  dado)
+                val action = defendingAction(matchModel)
+                Log.i("BUPIAZIONE:", "${matchModel.fase} ${defender.name} $action")
 
                 if (dado > difD) {
                     difD = dado
@@ -46,6 +42,8 @@ class ActionUC() {
                 }
             }
         }
+
+        val actionModel = ActionModel(protagonistaA, attA, protagonistaD, difD)
 
         val context =  SportAlbumApplication.instance.getBaseContext()
         var messaggio = ""
@@ -112,4 +110,9 @@ class ActionUC() {
         matchModel.comment.add(CommentModel(messaggio, matchModel.minute, matchModel.possesso))
         return matchModel
     }
+
+    abstract fun attackingAction(matchModel: MatchModel): Double
+    abstract fun defendingAction(matchModel: MatchModel): Double
+    abstract fun matchChangedAfterAction(actionModel: ActionModel): MatchModel
+
 }
