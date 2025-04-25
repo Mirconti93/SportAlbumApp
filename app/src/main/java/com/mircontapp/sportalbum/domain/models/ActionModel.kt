@@ -1,3 +1,3 @@
 package com.mircontapp.sportalbum.domain.models
 
-data class ActionModel(val protagonistaA: String, val valoreA: Double, val protagonistaD: String, val valoreD: Double)
+data class ActionModel(val player: String, val score: Double)

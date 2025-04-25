@@ -1,80 +1,83 @@
-import android.util.Log
 import com.mirco.sportalbum.utils.Enums
-import com.mircontapp.sportalbum.R
-import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.ext.azione
-import com.mircontapp.sportalbum.commons.ext.partecipa
+import com.mircontapp.sportalbum.commons.ext.attacco
+import com.mircontapp.sportalbum.commons.ext.difesa
+import com.mircontapp.sportalbum.commons.ext.genericAction
+import com.mircontapp.sportalbum.commons.ext.getTelecronaca
+import com.mircontapp.sportalbum.commons.ext.setAmmonito
+import com.mircontapp.sportalbum.commons.ext.setEspulso
+import com.mircontapp.sportalbum.domain.models.ActionModel
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 
-class AttaccoUC {
+class AttaccoUC : ActionUC() {
 
-    fun attacco(matchModel: MatchModel): MatchModel {
+    override fun attackingAction(matchModel: MatchModel): ActionModel {
+        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
+        return matchModel.genericAction(attackers,
+            faseAction = { player -> player.attacco()})
+    }
 
-        val actionModel = matchModel.azione()
+    override fun defendingAction(matchModel: MatchModel): ActionModel {
+        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
+        return matchModel.genericAction(attackers,
+            faseAction = { player -> player.difesa()})
+    }
 
+    override fun handleMatchAfterAction(
+        matchModel: MatchModel,
+        actionAttack: ActionModel,
+        actionDefense: ActionModel
+    ): MatchModel {
         var messaggio = ""
-        val diff = actionModel.valoreD - actionModel.valoreA
+        val diff = actionDefense.score - actionAttack.score
 
         //vince la squadra attaccante
         if (diff < 0) {
             matchModel.fase = Enums.Fase.CONCLUSIONE
             matchModel.evento = Enums.Evento.NONE
-            matchModel.protagonista = actionModel.protagonistaA
-            matchModel.coprotagonista = actionModel.protagonistaD
-            messaggio = if (diff < 10) {
-                String.format(SportAlbumApplication.getString(R.string.telecronacaAtt1), actionModel.protagonistaA)
-            } else {
-                String.format(SportAlbumApplication.getString(R.string.telecronacaAtt2), actionModel.protagonistaA)
-            }
+            matchModel.protagonista = actionAttack.player
+            matchModel.coprotagonista = actionDefense.player
+            messaggio = Enums.Evento.ATTACCO.getTelecronaca(diff, actionAttack.player)
             //punizione
         } else if (diff >= 0 && diff < 0.4) {
             matchModel.fase = Enums.Fase.PUNIZIONE
             if (diff >= 0.3 && diff < 0.32) {
-                matchModel.evento = Enums.Evento.ESPULSIONE
-                messaggio = String.format(SportAlbumApplication.getString(R.string.telecronacaEsp), actionModel.protagonistaD)
+                messaggio = Enums.Evento.ESPULSIONE.getTelecronaca(diff, actionDefense.player)
+                matchModel.setEspulso(actionDefense.player)
             } else if (diff >= 0.32 && diff < 0.4) {
-                matchModel.evento = Enums.Evento.AMMONIZIONE
-                messaggio = String.format(SportAlbumApplication.getString(R.string.telecronacaAmm), actionModel.protagonistaD)
+                messaggio = Enums.Evento.AMMONIZIONE.getTelecronaca(diff, actionDefense.player)
+                matchModel.setAmmonito(actionDefense.player)?.let { Enums.Evento.DOPPIA_AMMONIZIONE.getTelecronaca(diff, actionDefense.player) }
             }
-            matchModel.protagonista = actionModel.protagonistaA
-            matchModel.coprotagonista = actionModel.protagonistaD
+            matchModel.protagonista = actionDefense.player
+            matchModel.coprotagonista = actionDefense.player
 
-            messaggio = messaggio + " " + String.format(
-                SportAlbumApplication.getString(R.string.telecronacaPun),
-                actionModel.protagonistaD
-            )
+            messaggio = messaggio + Enums.Evento.PUNIZIONE.getTelecronaca(diff, actionDefense.player)
             //calcio di rigore
         } else if (diff >= 0.4 && diff < 0.5) {
             matchModel.fase = Enums.Fase.RIGORE
             if (diff >= 0.45 && diff < 0.47) {
-                matchModel.evento = Enums.Evento.ESPULSIONE
-                messaggio = String.format(SportAlbumApplication.getString(R.string.telecronacaEsp), actionModel.protagonistaD)
+                messaggio = Enums.Evento.ESPULSIONE.getTelecronaca(diff, actionDefense.player)
+                matchModel.setEspulso(actionDefense.player)
             } else if (diff >= 0.47 && diff < 0.5) {
-                matchModel.evento = Enums.Evento.AMMONIZIONE
-                messaggio = String.format(SportAlbumApplication.getString(R.string.telecronacaAmm), actionModel.protagonistaD)
+                messaggio = Enums.Evento.AMMONIZIONE.getTelecronaca(diff, actionDefense.player)
+                matchModel.setAmmonito(actionDefense.player)?.let { Enums.Evento.DOPPIA_AMMONIZIONE.getTelecronaca(diff, actionDefense.player) }
             }
-            matchModel.protagonista = actionModel.protagonistaA
-            matchModel.coprotagonista = actionModel.protagonistaD
-            messaggio = messaggio + String.format(SportAlbumApplication.getString(R.string.telecronacaRig), actionModel.protagonistaA)
+            matchModel.protagonista = actionAttack.player
+            matchModel.coprotagonista = actionDefense.player
+            messaggio = messaggio + Enums.Evento.RIGORE.getTelecronaca(diff, actionAttack.player)
             //vince la squadra difendente
         } else {
             matchModel.fase = Enums.Fase.CENTROCAMPO
             matchModel.evento = Enums.Evento.NONE
-            matchModel.protagonista = actionModel.protagonistaD
-            matchModel.coprotagonista = actionModel.protagonistaA
+            matchModel.protagonista = actionAttack.player
+            matchModel.coprotagonista = actionDefense.player
 
             matchModel.possesso = (if (matchModel.possesso === Enums.TeamPosition.HOME) Enums.TeamPosition.AWAY else Enums.TeamPosition.HOME)
-            messaggio = if (diff < 5) {
-                String.format(SportAlbumApplication.getString(R.string.telecronacaDif1), actionModel.protagonistaD)
-            } else if (diff < 10) {
-                String.format(SportAlbumApplication.getString(R.string.telecronacaDif2), actionModel.protagonistaD)
-            } else {
-                String.format(SportAlbumApplication.getString(R.string.telecronacaDif3), actionModel.protagonistaD)
-            }
+            messaggio = Enums.Evento.RECUPERO.getTelecronaca(diff, actionDefense.player)
         }
 
         matchModel.comment.add(CommentModel(messaggio, matchModel.minute, matchModel.possesso))
         return matchModel
     }
+
 }

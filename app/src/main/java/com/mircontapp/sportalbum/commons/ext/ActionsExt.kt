@@ -6,47 +6,24 @@ import com.mircontapp.sportalbum.domain.models.ActionModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 
-fun MatchModel.azione(): ActionModel {
-    var protagonistaA = ""
-    var attA = -1.0
+fun MatchModel.genericAction(players: List<PlayerMatchModel>, faseAction: (player: PlayerMatchModel)->Double): ActionModel {
+    var protagonista = ""
+    var att = -1.0
 
     val attackers = if (possesso == Enums.TeamPosition.HOME) playersHome else playersAway
-    val defenders = if (possesso == Enums.TeamPosition.HOME) playersAway else playersHome
 
     for (attacker in attackers) {
         if (attacker.partecipa(attacker.roleMatch.getPartAtt())) {
-            val action = when (fase) {
-                Enums.Fase.ATTACCO -> attacker.attacco()
-                Enums.Fase.CONCLUSIONE -> attacker.tiro()
-                else -> attacker.palleggio()
-            }
-           attacker.attacco()
+            val action = faseAction(attacker)
             Log.i("BUPIAZIONE:", "${fase} ${attacker.name} $action")
-            if (action > attA) {
-                attA = action
-                protagonistaA = attacker.name
+            if (action > att) {
+                att = action
+                protagonista = attacker.name
             }
         }
     }
 
-    var protagonistaD = ""
-    var difD = -1.0
-    for (defender in defenders) {
-        if (defender.partecipa(defender.roleMatch.getPartDif())) {
-            val action = when (fase) {
-                Enums.Fase.ATTACCO -> defender.difesa()
-                Enums.Fase.CONCLUSIONE -> defender.respinta()
-                else -> defender.pressing()
-            }
-            Log.i("BUPIAZIONE:", "${fase} ${defender.name} $action")
-            if (action > difD) {
-                difD = action
-                protagonistaD = defender.name
-            }
-        }
-    }
-
-    return ActionModel(protagonistaA, attA, protagonistaD, difD)
+    return ActionModel(protagonista, att)
 }
 
 fun PlayerMatchModel.attacco(): Double {
@@ -88,5 +65,24 @@ fun PlayerMatchModel.parata(difPower: Double): Double {
     val pot = por / 2.0 + bal / 4.0 + dif / 4.0
     val fixed = value ?: 0
     return fixed  * 0.25 + pot * 0.25 + Math.random() * pot * 0.5 + difPower
+}
+
+fun MatchModel.setAmmonito(name: String): PlayerMatchModel? {
+    var isEspulso = false
+    val defenders = if (possesso == Enums.TeamPosition.HOME) playersAway else playersHome
+    defenders.find { it.name == name }?.let {
+        if (it.isAmmonito) {
+            it.isEspulso = true
+        } else {
+            it.isAmmonito = true
+        }
+        return it
+    }
+    return null
+}
+
+fun MatchModel.setEspulso(name: String) {
+    val defenders = if (possesso == Enums.TeamPosition.HOME) playersAway else playersHome
+    defenders.find { it.name == name }?.isEspulso = true
 }
 

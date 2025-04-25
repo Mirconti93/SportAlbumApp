@@ -235,6 +235,7 @@
     <string name="telecronacaOut2">%s carica il tiro! Palla a lato di poco!</string>
     <string name="telecronacaAmm">%s è stato ammonito!</string>
     <string name="telecronacaEsp">%s viene espulso!</string>
+    <string name="telecronacaAmmEsp">Seconda ammonizione per %s che viene espulso!</string>
 
     <string name="endMatch">Termina partita</string>
     <string name="extraTime">Tempi supplementari</string>
