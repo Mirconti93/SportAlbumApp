@@ -3,7 +3,6 @@ import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
-import com.mircontapp.sportalbum.commons.ext.azione
 import com.mircontapp.sportalbum.commons.ext.parata
 import com.mircontapp.sportalbum.commons.ext.partecipa
 import com.mircontapp.sportalbum.domain.models.CommentModel
