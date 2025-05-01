@@ -323,7 +323,7 @@ class MatchViewModel @Inject constructor(
         val match = when (matchModel.value.fase) {
             Enums.Fase.CENTROCAMPO -> CentrocampoUC().invoke(matchModel.value)
             Enums.Fase.ATTACCO -> AttaccoUC().invoke(matchModel.value)
-            Enums.Fase.CONCLUSIONE -> ConclusioneUC().conclusione(matchModel.value)
+            Enums.Fase.CONCLUSIONE -> ConclusioneUC().invoke(matchModel.value)
             Enums.Fase.PUNIZIONE -> PunizioneUC().punizione(matchModel.value)
             Enums.Fase.RIGORE -> RigoreUC().rigoreDiretto(matchModel.value)
         }
