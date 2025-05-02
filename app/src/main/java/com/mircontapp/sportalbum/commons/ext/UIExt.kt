@@ -190,5 +190,16 @@ fun Enums.Evento.getTelecronaca(diff: Double, name: String): String {
         Enums.Evento.GOAL_RIGORE -> ""
         Enums.Evento.DOPPIA_AMMONIZIONE -> String.format(SportAlbumApplication.getString(R.string.telecronacaAmmEsp), name)
         Enums.Evento.RIGORE -> String.format(SportAlbumApplication.getString(R.string.telecronacaRig), name)
+        Enums.Evento.GOAL_PUNIZIONE -> {
+            if (diff < 0 && diff >= -4) {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaPun1), name
+                )
+            } else {
+                String.format(
+                    SportAlbumApplication.getString(R.string.telecronacaPun2), name
+                )
+            }
+        }
     }
 }

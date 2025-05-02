@@ -22,7 +22,7 @@ fun PlayerModel.toPlayerMatchModel(isLegend: Boolean): PlayerMatchModel {
         team = this.team,
         country = this.country,
         birthyear = this.birthyear,
-        value = this.value,
+        value = this.value ?: 50,
         valueleg = this.valueleg,
         teamLegend = this.teamLegend,
         national = this.national,

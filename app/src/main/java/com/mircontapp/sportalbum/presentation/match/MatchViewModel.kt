@@ -49,11 +49,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MatchViewModel @Inject constructor(
-    val getTeamsFromAreaUC: GetTeamsFromAreaUC,
-    val getPlayersByTeamUC: GetPlayersByTeamUC,
     val getPlayersByTeamLegendUC: GetPlayersByTeamLegendUC,
     val getTeamsSuperlegaUC: GetTeamsForMatchUC,
-    val getTeamFromNameUC: GetTeamFromNameUC
 ) : ViewModel() {
     var app = SportAlbumApplication.instance
     val homeTeam: MutableLiveData<TeamModel> = MutableLiveData()
@@ -324,7 +321,7 @@ class MatchViewModel @Inject constructor(
             Enums.Fase.CENTROCAMPO -> CentrocampoUC().invoke(matchModel.value)
             Enums.Fase.ATTACCO -> AttaccoUC().invoke(matchModel.value)
             Enums.Fase.CONCLUSIONE -> ConclusioneUC().invoke(matchModel.value)
-            Enums.Fase.PUNIZIONE -> PunizioneUC().punizione(matchModel.value)
+            Enums.Fase.PUNIZIONE -> PunizioneUC().invoke(matchModel.value)
             Enums.Fase.RIGORE -> RigoreUC().rigoreDiretto(matchModel.value)
         }
 

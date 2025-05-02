@@ -9,24 +9,20 @@ import com.mircontapp.sportalbum.domain.models.ActionModel
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 
-class CentrocampoUC : ActionUC() {
+class CentrocampoUC {
 
-    override fun attackingAction(matchModel: MatchModel): ActionModel {
+    operator fun invoke(matchModel: MatchModel): MatchModel {
         val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
-        return matchModel.genericAction(attackers,
+        val actionAttack = matchModel.genericAction(attackers,
             faseAction = { player -> player.palleggio()})
-    }
 
-    override fun defendingAction(matchModel: MatchModel): ActionModel {
-        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
-        return matchModel.genericAction(attackers,
+        val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
+        val actionDefense = matchModel.genericAction(defenders,
             faseAction = { player -> player.pressing()})
-    }
 
-    override fun handleMatchAfterAction(matchModel: MatchModel, actionAttack: ActionModel, actionDefense: ActionModel): MatchModel {
         val diff = actionDefense.score - actionAttack.score
-
         var messaggio = ""
+
         //vince la squadra attaccante
         if (diff < 0) {
             matchModel.fase = Enums.Fase.ATTACCO

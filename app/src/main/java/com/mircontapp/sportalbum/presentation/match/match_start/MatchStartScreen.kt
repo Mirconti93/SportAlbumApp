@@ -56,23 +56,19 @@ fun MatchStartScreen(navController: NavController) {
 
         Text(text = SportAlbumApplication.instance.getString(R.string.match))
         if (viewModel.showSelection.value) {
-            if (viewModel.teams.value != null) {
-                TeamsGrid(TeamsState(
-                    viewModel.teams.value!!,
-                    onTeamClickHandler = object : OnTeamClickHandler {
-                        override fun onTeamClick(teamModel: TeamModel) {
-                            if (viewModel.teamPosition == Enums.TeamPosition.HOME) {
-                                viewModel.homeTeam.value = teamModel
-                            } else {
-                                viewModel.awayTeam.value = teamModel
-                            }
-                            viewModel.showSelection.value = false
+            TeamsGrid(TeamsState(
+                viewModel.teams.value,
+                onTeamClickHandler = object : OnTeamClickHandler {
+                    override fun onTeamClick(teamModel: TeamModel) {
+                        if (viewModel.teamPosition == Enums.TeamPosition.HOME) {
+                            viewModel.homeTeam.value = teamModel
+                        } else {
+                            viewModel.awayTeam.value = teamModel
                         }
-                    }), Modifier
-                )
-            } else {
-                Text(text = SportAlbumApplication.instance.getString(R.string.noTeams))
-            }
+                        viewModel.showSelection.value = false
+                    }
+                }), Modifier
+            )
         } else {
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,

@@ -309,8 +309,8 @@ class MatchStartViewModel @Inject constructor(
             Log.i("BUPI", it.name)
         }
 
-        eleven = (eleven.sortedBy { it.roleMatch }?.toMutableList() ?: emptyList()).toMutableList()
-        bench = (bench.sortedBy { it.roleLineUp }?.toMutableList() ?: emptyList()).toMutableList()
+        eleven = (eleven.sortedBy { it.roleMatch }.toMutableList()).toMutableList()
+        bench = (bench.sortedBy { it.roleLineUp }.toMutableList()).toMutableList()
 
         if (teamIsHome) {
             homeEleven.value = eleven
@@ -342,7 +342,7 @@ class MatchStartViewModel @Inject constructor(
             Enums.Fase.CENTROCAMPO -> CentrocampoUC().invoke(matchModel.value)
             Enums.Fase.ATTACCO -> AttaccoUC().invoke(matchModel.value)
             Enums.Fase.CONCLUSIONE -> ConclusioneUC().invoke(matchModel.value)
-            Enums.Fase.PUNIZIONE -> PunizioneUC().punizione(matchModel.value)
+            Enums.Fase.PUNIZIONE -> PunizioneUC().invoke(matchModel.value)
             Enums.Fase.RIGORE -> RigoreUC().rigoreDiretto(matchModel.value)
         }
 

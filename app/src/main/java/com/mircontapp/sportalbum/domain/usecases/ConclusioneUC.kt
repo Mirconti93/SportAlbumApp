@@ -10,29 +10,22 @@ import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 
-class ConclusioneUC : ActionUC() {
+class ConclusioneUC {
 
-    override fun attackingAction(matchModel: MatchModel): ActionModel {
+
+    operator fun invoke(matchModel: MatchModel, ): MatchModel {
+
         val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
-        return matchModel.genericAction(attackers,
+        val actionAttack = matchModel.genericAction(attackers,
             faseAction = { player -> player.tiro()})
-    }
 
-    override fun defendingAction(matchModel: MatchModel): ActionModel {
         val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
         var difPower = 1.0
         var part = matchModel.genericAction(defenders, faseAction = { player -> player.respinta()})
         val portiere = defenders.find { playerMatchModel -> playerMatchModel.roleMatch == Enums.RoleLineUp.PTC} ?: defenders.get(0)
-        return ActionModel(portiere.name, portiere.parata(difPower))
-    }
+        val actionDefense = ActionModel(portiere.name, portiere.parata(difPower))
 
-    override fun handleMatchAfterAction(
-        matchModel: MatchModel,
-        actionAttack: ActionModel,
-        actionDefense: ActionModel
-    ): MatchModel {
         var diff = actionDefense.score - actionAttack.score
-        val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
         if (diff < 0) {
             val portiere = defenders.find { playerMatchModel -> playerMatchModel.roleMatch == Enums.RoleLineUp.PTC} ?: defenders.get(0)
             val parata = portiere.parata(actionDefense.score)

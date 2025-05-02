@@ -9,7 +9,7 @@ data class PlayerMatchModel(
     var team: String?,
     val country: String?,
     val birthyear: String?,
-    val value: Int?,
+    val value: Int,
     val valueleg: Int?,
     val teamLegend: String?,
     val national: Int?,

@@ -4,15 +4,17 @@ import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.ext.findTiratore
 import com.mircontapp.sportalbum.commons.ext.getMatchValue
+import com.mircontapp.sportalbum.commons.ext.getTelecronaca
 import com.mircontapp.sportalbum.commons.ext.isPortiere
 import com.mircontapp.sportalbum.commons.ext.partecipa
+import com.mircontapp.sportalbum.commons.ext.punizioneDiretta
 import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MarcatoreModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 
-class PunizioneUC() {
-    fun punizione(matchModel: MatchModel): MatchModel {
+class PunizioneUC {
+    operator fun invoke (matchModel: MatchModel): MatchModel {
         val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
         val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
 
@@ -41,19 +43,13 @@ class PunizioneUC() {
 
     private fun punizioneDiretta(matchModel: MatchModel, tiratore: PlayerMatchModel, portiere: PlayerMatchModel?): MatchModel {
         val protagonistaA = ""
-        val goleador = tiratore
-        var finA = -1.0
-        var pot = tiratore?.rig?.toDouble() ?: 0.0
-        val dado = 0.0
+        val finA = tiratore.punizioneDiretta()
 
-        var fix = tiratore.getMatchValue(matchModel.isLegend)
-        finA = fix * 0.5 + Math.random() * pot * 0.5
-        portiere?.let {
-            pot = it.por * 0.5 + it.bal * 0.25 + it.dif * 0.25
-        }
+        val parata = portiere?.let {
+            val pot = it.por * 0.5 + it.bal * 0.25 + it.dif * 0.25
+            portiere.value * 0.75 + Math.random() * pot  * 0.25
+        } ?: 0.0
 
-        fix = tiratore.getMatchValue(matchModel.isLegend)
-        val parata = fix * 0.75 + Math.random() * pot  * 0.25
         val diff = parata - finA
         val context: Context = SportAlbumApplication.instance.applicationContext
         var messaggio: String? = ""
@@ -73,36 +69,14 @@ class PunizioneUC() {
             }
             matchModel.protagonista = protagonistaA
             matchModel.coprotagonista = portiere?.name ?: ""
-            if (diff < 0 && diff >= -4) {
-                java.lang.String.format(
-                    context.getString(R.string.telecronacaPun1),
-                    tiratore.name
-                )
-            } else {
-                String.format(
-                    context.getString(R.string.telecronacaPun2),
-                    tiratore.name
-                )
-            }
+            Enums.Evento.GOAL_PUNIZIONE.getTelecronaca(diff, protagonistaA)
             //vince la squadra difendente
         } else {
             matchModel.fase = Enums.Fase.CENTROCAMPO
             matchModel.evento = Enums.Evento.NONE
             matchModel.protagonista = portiere?.name
             matchModel.coprotagonista = protagonistaA
-            if (diff >= 2 && diff < 4) {
-                String.format(
-                    context.getString(R.string.telecronacaPar1),
-                    tiratore.name,
-                    portiere?.name
-                )
-            } else {
-                String.format(
-                    context.getString(R.string.telecronacaPar2),
-                    tiratore.name,
-                    portiere?.name
-                )
-            }
+            Enums.Evento.PARATA.getTelecronaca(diff, portiere?.name ?: "")
         }
         matchModel.comment.add(CommentModel(messaggio ?: "", matchModel.minute, matchModel.possesso))
         matchModel.possesso = if (matchModel.possesso === Enums.TeamPosition.HOME) Enums.TeamPosition.AWAY else Enums.TeamPosition.HOME
@@ -170,57 +144,21 @@ class PunizioneUC() {
                 matchModel.protagonista = protagonistaA
                 matchModel.coprotagonista = portiere?.name
                 matchModel.marcatori.add(MarcatoreModel(protagonistaA, matchModel.minute, matchModel.possesso))
-                messaggio = if (diff < 0 && diff >= -4) {
-                    String.format(
-                        context.getString(R.string.telecronacaGol1),
-                        goleador?.name
-                    )
-                } else if (diff < -4 && diff >= -8) {
-                    String.format(
-                        context.getString(R.string.telecronacaGol2),
-                        goleador?.name
-                    )
-                } else {
-                    String.format(
-                        context.getString(R.string.telecronacaGol3),
-                        goleador?.name
-                    )
-                }
+                messaggio =  Enums.Evento.GOAL_PUNIZIONE.getTelecronaca(diff, protagonistaA)
 
             } else {
                 matchModel.fase = Enums.Fase.CENTROCAMPO
                 matchModel.evento = Enums.Evento.NONE
                 matchModel.protagonista = portiere?.name
                 matchModel.coprotagonista = protagonistaA
-                messaggio = if (diff >= 2 && diff < 4) {
-                    String.format(
-                        context.getString(R.string.telecronacaPar1),
-                        goleador?.name,
-                        portiere?.name
-                    )
-                } else {
-                    String.format(
-                        context.getString(R.string.telecronacaPar2),
-                        goleador?.name,
-                        portiere?.name
-                    )
-                }
+                messaggio = Enums.Evento.PARATA.getTelecronaca(diff, portiere?.name ?: "")
             }
         } else {
             matchModel.fase = Enums.Fase.CENTROCAMPO
             matchModel.evento = Enums.Evento.NONE
             matchModel.protagonista = protagonistaD
             matchModel.coprotagonista = protagonistaA
-            if (diff > 4) {
-                messaggio =
-                    String.format(context.getString(R.string.telecronacaDif1), protagonistaD)
-            } else if (diff > 8) {
-                messaggio =
-                    String.format(context.getString(R.string.telecronacaDif2), protagonistaD)
-            } else if (diff > 15) {
-                messaggio =
-                    String.format(context.getString(R.string.telecronacaDif3), protagonistaD)
-            }
+            messaggio = Enums.Evento.RESPINTA.getTelecronaca(diff, protagonistaD)
         }
         matchModel.comment.add(CommentModel(messaggio ?: "", matchModel.minute, matchModel.possesso))
         matchModel.possesso = if (matchModel.possesso === Enums.TeamPosition.HOME) Enums.TeamPosition.AWAY else Enums.TeamPosition.HOME
