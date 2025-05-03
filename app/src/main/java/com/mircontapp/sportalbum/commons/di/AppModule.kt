@@ -1,5 +1,6 @@
 package com.mircontapp.sportalbum.commons.di
 
+import CentrocampoUC
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.data.datasource.BupiDataSourceImpl
 import com.mircontapp.sportalbum.domain.datasource.AlbumDataSource

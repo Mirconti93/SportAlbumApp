@@ -6,12 +6,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.mircontapp.sportalbum.presentation.album.album_choose.AlbumScreen
+import com.google.gson.Gson
 import com.mircontapp.sportalbum.presentation.album.sticker.StickerScreen
 import com.mircontapp.sportalbum.presentation.album.album_team.TeamAlbumScreen
 import com.mircontapp.sportalbum.presentation.bupi.BupiScreen
 import com.mircontapp.sportalbum.presentation.bupi.EditBupiPlayerScreen
 import com.mircontapp.sportalbum.presentation.bupi.EditBupiTeamScreen
+import com.mircontapp.sportalbum.presentation.commons.team_select.TeamSelectScreen
 import com.mircontapp.sportalbum.presentation.dashboard.dashboard_list.DashboardScreen
 import com.mircontapp.sportalbum.presentation.dashboard.edit_player.EditPlayerScreen
 import com.mircontapp.sportalbum.presentation.dashboard.edit_team.EditTeamScreen
@@ -27,7 +28,9 @@ fun NavGraph(navController: NavHostController){
         startDestination = NavigationItem.Album.route)
     {
         composable<Routes.Album> {
-            AlbumScreen(navController = navController)
+            TeamSelectScreen{ teamModel ->
+                navController.navigate(Routes.TeamAlbum(Gson().toJson(teamModel)))
+            }
         }
         composable<Routes.TeamAlbum>{
             TeamAlbumScreen(navController = navController,

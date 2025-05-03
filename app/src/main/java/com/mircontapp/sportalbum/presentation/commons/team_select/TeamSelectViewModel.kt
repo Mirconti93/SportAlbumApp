@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.album.album_choose
+package com.mircontapp.sportalbum.presentation.commons.team_select
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,44 +10,41 @@ import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class AlbumViewModel @Inject constructor(
+class TeamSelectViewModel @Inject constructor(
     val teamsFromAreaOrderedUC: GetTeamsFromAreaUC,
 ) : ViewModel() {
 
     private val _state by lazy {
-        MutableStateFlow(AlbumChooseState())
+        MutableStateFlow(TeamSelectState())
     }
-    val state: StateFlow<AlbumChooseState> get() = _state
+    val state: StateFlow<TeamSelectState> get() = _state
 
     init {
-        onAction(AlbumChooseAction.ShowTeamsByArea(Enums.Area.SERIEA))
+        onAction(TeamSelectAction.ShowTeamsByArea(Enums.Area.SERIEA))
     }
 
-    fun onAction(action: AlbumChooseAction) {
+    fun onAction(action: TeamSelectAction) {
         when (action) {
-            is AlbumChooseAction.Load -> _state.value = AlbumChooseState(isLoading = true)
-            is AlbumChooseAction.ShowTeamsByArea -> {
+            is TeamSelectAction.Load -> _state.value = TeamSelectState(isLoading = true)
+            is TeamSelectAction.ShowTeamsByArea -> {
                 viewModelScope.launch {
-                    onAction(AlbumChooseAction.Load)
+                    onAction(TeamSelectAction.Load)
                     val list: List<TeamModel> = withContext(Dispatchers.IO) {
                          teamsFromAreaOrderedUC(action.area)
                     }
                     if (list.isEmpty()) {
-                        _state.value = AlbumChooseState(
+                        _state.value = TeamSelectState(
                             isLoading = false,
                             message = SportAlbumApplication.getString(R.string.noTeams)
                         )
                     } else {
-                        _state.value = AlbumChooseState(
+                        _state.value = TeamSelectState(
                             isLoading = false,
                             teams = list
                         )
@@ -55,6 +52,7 @@ class AlbumViewModel @Inject constructor(
 
                 }
             }
+
         }
     }
 

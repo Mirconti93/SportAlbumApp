@@ -39,7 +39,6 @@ import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.album.PlayersGrid
-import com.mircontapp.sportalbum.presentation.album.album_choose.AlbumChooseAction
 import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler

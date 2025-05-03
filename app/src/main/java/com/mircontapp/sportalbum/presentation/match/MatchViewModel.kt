@@ -99,7 +99,7 @@ class MatchViewModel @Inject constructor(
             val list = getTeamsSuperlegaUC()
             withContext(Dispatchers.Main) {
                 teams.value = list
-                if (teams.value.size > 0) {
+                if (teams.value.isNotEmpty()) {
                     homeTeam.value = teams.value[0]
                 }
                 if (teams.value.size > 1) {
