@@ -28,7 +28,7 @@ import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 
 @Composable
-fun TeamSelectScreen(navigateNext : (teamModel: TeamModel) -> Unit) {
+fun TeamSelectView(nextAction : (teamModel: TeamModel) -> Unit) {
     val viewModel: TeamSelectViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
     
@@ -62,14 +62,14 @@ fun TeamSelectScreen(navigateNext : (teamModel: TeamModel) -> Unit) {
             state.value.teams.isNotEmpty() -> {
                 TeamsGrid(TeamsState(state.value.teams, object : OnTeamClickHandler {
                     override fun onTeamClick(teamModel: TeamModel) {
-                        navigateNext(teamModel)
+                        nextAction(teamModel)
                     }
                 }),
                     Modifier
                         .fillMaxHeight()
                         .padding(4.dp))
             }
-            else -> Text(text = SportAlbumApplication.instance.getString(R.string.genericError))
+            else -> Text(modifier = Modifier.fillMaxWidth().fillMaxHeight(), text = SportAlbumApplication.getString(R.string.genericError))
         }
 
     }

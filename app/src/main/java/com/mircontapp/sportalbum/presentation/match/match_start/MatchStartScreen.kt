@@ -31,10 +31,8 @@ import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.ext.getColorByString
 import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.TeamModel
-import com.mircontapp.sportalbum.presentation.album.TeamsGrid
-import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.OnClickHandler
-import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
+import com.mircontapp.sportalbum.presentation.commons.team_select.TeamSelectView
 import com.mircontapp.sportalbum.presentation.match.MatchViewModel
 import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
@@ -56,19 +54,14 @@ fun MatchStartScreen(navController: NavController) {
 
         Text(text = SportAlbumApplication.instance.getString(R.string.match))
         if (viewModel.showSelection.value) {
-            TeamsGrid(TeamsState(
-                viewModel.teams.value,
-                onTeamClickHandler = object : OnTeamClickHandler {
-                    override fun onTeamClick(teamModel: TeamModel) {
-                        if (viewModel.teamPosition == Enums.TeamPosition.HOME) {
-                            viewModel.homeTeam.value = teamModel
-                        } else {
-                            viewModel.awayTeam.value = teamModel
-                        }
-                        viewModel.showSelection.value = false
-                    }
-                }), Modifier
-            )
+            TeamSelectView {  teamModel->
+                if (viewModel.teamPosition == Enums.TeamPosition.HOME) {
+                    viewModel.homeTeam.value = teamModel
+                } else {
+                    viewModel.awayTeam.value = teamModel
+                }
+                viewModel.showSelection.value = false
+            }
         } else {
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,

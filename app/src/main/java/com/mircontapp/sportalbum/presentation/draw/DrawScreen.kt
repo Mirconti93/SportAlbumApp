@@ -44,7 +44,7 @@ fun DrawScreen(navController: NavController) {
         verticalArrangement = Arrangement.Top
     ) {
 
-        Text(text = SportAlbumApplication.instance.getString(R.string.sorting))
+        Text(text = SportAlbumApplication.instance.getString(R.string.sorting), modifier = Modifier.padding(8.dp))
 
         state.value.drawPhase.let { drawPhase->
 

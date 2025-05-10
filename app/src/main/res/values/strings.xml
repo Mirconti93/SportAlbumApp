@@ -259,6 +259,7 @@
     <string name="media">Media</string>
 
     <string name="genericError">Si è verificato un errore</string>
+    <string name="loading">Caricamento...</string>
 
     <string name="sortingRecap">Hai inserito queste squadre:</string>
     <string name="sortingGo">Se sei sicuro clicca per sorteggiare</string>

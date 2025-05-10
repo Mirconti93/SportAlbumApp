@@ -31,7 +31,7 @@ class TeamSelectViewModel @Inject constructor(
 
     fun onAction(action: TeamSelectAction) {
         when (action) {
-            is TeamSelectAction.Load -> _state.value = TeamSelectState(isLoading = true)
+            is TeamSelectAction.Load -> _state.value = TeamSelectState(isLoading = true, message = SportAlbumApplication.getString(R.string.loading))
             is TeamSelectAction.ShowTeamsByArea -> {
                 viewModelScope.launch {
                     onAction(TeamSelectAction.Load)
