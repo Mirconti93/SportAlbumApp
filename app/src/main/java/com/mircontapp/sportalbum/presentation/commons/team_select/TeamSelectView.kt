@@ -26,6 +26,7 @@ import com.mircontapp.sportalbum.presentation.album.TeamsGrid
 import com.mircontapp.sportalbum.presentation.album.TeamsState
 import com.mircontapp.sportalbum.presentation.commons.CustomCircularProgress
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
+import com.mircontapp.sportalbum.presentation.commons.ScreenTitle
 
 @Composable
 fun TeamSelectView(nextAction : (teamModel: TeamModel) -> Unit) {
@@ -40,7 +41,7 @@ fun TeamSelectView(nextAction : (teamModel: TeamModel) -> Unit) {
         verticalArrangement = Arrangement.Top
     ) {
 
-        Text(text = SportAlbumApplication.instance.getString(R.string.teams))
+        ScreenTitle(text = SportAlbumApplication.instance.getString(R.string.chooseTeams))
         Row(
             Modifier
                 .padding(2.dp)

@@ -49,7 +49,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MatchViewModel @Inject constructor(
-    val getPlayersByTeamLegendUC: GetPlayersByTeamLegendUC,
+    val getPlayersByTeamUC: GetPlayersByTeamUC,
     val getTeamsSuperlegaUC: GetTeamsForMatchUC,
 ) : ViewModel() {
     var app = SportAlbumApplication.instance
@@ -159,14 +159,14 @@ class MatchViewModel @Inject constructor(
             this.homeTeam.value = homeT
             this.awayTeam.value = awayT
             viewModelScope.launch(Dispatchers.IO) {
-                val list = getPlayersByTeamLegendUC(homeTeam.value!!)
+                val list = getPlayersByTeamUC(homeTeam.value!!)
                 withContext(Dispatchers.Main) {
                     _homeRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                     initOnFieledOrBench(Enums.TeamPosition.HOME)
                 }
             }.invokeOnCompletion {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val list = getPlayersByTeamLegendUC(awayTeam.value!!)
+                    val list = getPlayersByTeamUC(awayTeam.value!!)
                     withContext(Dispatchers.Main) {
                         _awayRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                         Log.i("BUPI", "INIT ROSTER")

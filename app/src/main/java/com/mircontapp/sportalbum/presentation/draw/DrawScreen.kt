@@ -28,6 +28,7 @@ import com.mircontapp.sportalbum.presentation.album.ShortListItem
 import com.mircontapp.sportalbum.presentation.commons.AutoCompleteEditText
 import com.mircontapp.sportalbum.presentation.commons.CardText
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
+import com.mircontapp.sportalbum.presentation.commons.ScreenTitle
 import com.mircontapp.sportalbum.presentation.commons.ShortListElement
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +45,7 @@ fun DrawScreen(navController: NavController) {
         verticalArrangement = Arrangement.Top
     ) {
 
-        Text(text = SportAlbumApplication.instance.getString(R.string.sorting), modifier = Modifier.padding(8.dp))
+        ScreenTitle(text = SportAlbumApplication.instance.getString(R.string.sorting))
 
         state.value.drawPhase.let { drawPhase->
 

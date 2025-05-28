@@ -32,6 +32,7 @@ import com.mircontapp.sportalbum.commons.ext.getColorByString
 import com.mircontapp.sportalbum.commons.ext.getDrawableId
 import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnClickHandler
+import com.mircontapp.sportalbum.presentation.commons.ScreenTitle
 import com.mircontapp.sportalbum.presentation.commons.team_select.TeamSelectView
 import com.mircontapp.sportalbum.presentation.match.MatchViewModel
 import com.mircontapp.sportalbum.presentation.navigation.Routes
@@ -52,7 +53,7 @@ fun MatchStartScreen(navController: NavController) {
             viewModel.initMatch()
         })
 
-        Text(text = SportAlbumApplication.instance.getString(R.string.match))
+        ScreenTitle(text = SportAlbumApplication.instance.getString(R.string.match))
         if (viewModel.showSelection.value) {
             TeamSelectView {  teamModel->
                 if (viewModel.teamPosition == Enums.TeamPosition.HOME) {

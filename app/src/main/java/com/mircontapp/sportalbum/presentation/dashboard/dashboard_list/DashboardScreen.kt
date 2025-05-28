@@ -48,6 +48,7 @@ import com.mircontapp.sportalbum.presentation.commons.CustomTextField
 import com.mircontapp.sportalbum.presentation.commons.OnEditClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnPlayerClickHandler
 import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
+import com.mircontapp.sportalbum.presentation.commons.ScreenTitle
 import com.mircontapp.sportalbum.presentation.commons.ShortListElement
 import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
@@ -60,9 +61,7 @@ fun DashboardScreen(navController: NavController) {
     val viewModel: DashboardViewModel = hiltViewModel()
     Column(verticalArrangement = Arrangement.Top) {
 
-        Text(SportAlbumApplication.instance.getString(R.string.dashboard), textAlign = TextAlign.Center, modifier = Modifier
-            .fillMaxWidth()
-            .padding(2.dp, 8.dp))
+        ScreenTitle(SportAlbumApplication.instance.getString(R.string.dashboard))
 
         val state = viewModel.state.collectAsState()
         val isTeams = state.value.selectionType == SelectionType.TEAMS

@@ -39,6 +39,7 @@ import com.mircontapp.sportalbum.commons.FileDataManager
 import com.mircontapp.sportalbum.domain.models.toShortItem
 import com.mircontapp.sportalbum.presentation.album.ShortList
 import com.mircontapp.sportalbum.presentation.commons.CustomTextField
+import com.mircontapp.sportalbum.presentation.commons.ScreenTitle
 import com.mircontapp.sportalbum.presentation.commons.ShortListElement
 import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.BlueD
@@ -56,9 +57,7 @@ fun BupiScreen(navController: NavController) {
         val players = viewModel.bupiPlayers.collectAsState()
         val teams = viewModel.bupiTeams.collectAsState()
 
-        Text(SportAlbumApplication.instance.getString(R.string.dashboard), textAlign = TextAlign.Center, modifier = Modifier
-            .fillMaxWidth()
-            .padding(2.dp, 8.dp))
+        ScreenTitle(SportAlbumApplication.instance.getString(R.string.bupi))
 
         Row {
             TabRow(selectedTabIndex = 0, modifier = Modifier.height(40.dp)) {
