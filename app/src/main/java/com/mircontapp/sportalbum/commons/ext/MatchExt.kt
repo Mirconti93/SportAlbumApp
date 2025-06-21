@@ -13,7 +13,7 @@ fun MatchModule?.getLineUpRoles(): Array<RoleLineUp> {
     return when (this) {
         MatchModule.M442 -> arrayOf(
             RoleLineUp.PTC,
-            RoleLineUp.DCL,
+            RoleLineUp.DCS,
             RoleLineUp.DCS,
             RoleLineUp.TDD,
             RoleLineUp.TSD,
@@ -27,7 +27,7 @@ fun MatchModule?.getLineUpRoles(): Array<RoleLineUp> {
 
         MatchModule.M433 -> arrayOf(
             RoleLineUp.PTC,
-            RoleLineUp.DCL,
+            RoleLineUp.DCS,
             RoleLineUp.DCS,
             RoleLineUp.TDD,
             RoleLineUp.TSD,
@@ -55,7 +55,7 @@ fun MatchModule?.getLineUpRoles(): Array<RoleLineUp> {
 
         MatchModule.M4231 -> arrayOf(
             RoleLineUp.PTC,
-            RoleLineUp.DCL,
+            RoleLineUp.DCS,
             RoleLineUp.DCS,
             RoleLineUp.TDD,
             RoleLineUp.TSD,
@@ -187,9 +187,9 @@ fun List<PlayerModel>.getBestPlayer(isLegend: Boolean): PlayerModel? {
 
 fun List<PlayerMatchModel>.findBestPlayerInRole(roleLineUp: RoleLineUp, isLegend: Boolean): PlayerMatchModel? {
     var playerModel: PlayerMatchModel? = null
-    if (this == null || this.isEmpty()) {
-        return playerModel
-    }
+
+    if (isEmpty()) return playerModel
+
     Log.i("BUPI", "findBestPlayerInRole")
     var vBest = 0;
     for (p in this) {
@@ -197,11 +197,12 @@ fun List<PlayerMatchModel>.findBestPlayerInRole(roleLineUp: RoleLineUp, isLegend
         Log.i("BUPI", "vp: " + vp + " vBest: " + vBest)
         if (p.roleLineUp == roleLineUp && vp > vBest) {
             playerModel = p
-            vBest = (if (isLegend) playerModel?.valueleg else playerModel?.value) ?: 0
-            Log.i("BUPI", p.name + " " + playerModel?.valueleg.toString())
+            vBest = (if (isLegend) playerModel.valueleg else playerModel.value) ?: 0
+            Log.i("BUPI", p.name + " " + playerModel.valueleg.toString())
 
         }
     }
+
     if (playerModel == null) {
         for (p in this) {
             if (p.role == roleLineUp.generalRole()) {
@@ -210,8 +211,10 @@ fun List<PlayerMatchModel>.findBestPlayerInRole(roleLineUp: RoleLineUp, isLegend
             }
         }
     }
+
+
     if (playerModel == null) {
-        playerModel = this.get(0)
+        playerModel = get(0)
     }
     return playerModel
 }
@@ -239,9 +242,9 @@ fun RoleLineUp.generalRole(): Enums.Role {
         RoleLineUp.MZL -> Enums.Role.CC
         RoleLineUp.MSP -> Enums.Role.MD
         RoleLineUp.TRQ -> Enums.Role.TQ
-        RoleLineUp.ESD -> Enums.Role.AD
+        RoleLineUp.ESD -> Enums.Role.TD
         RoleLineUp.ALD -> Enums.Role.AD
-        RoleLineUp.ESS -> Enums.Role.AS
+        RoleLineUp.ESS -> Enums.Role.TS
         RoleLineUp.ALS -> Enums.Role.AS
         RoleLineUp.SPP -> Enums.Role.SP
         RoleLineUp.PPM -> Enums.Role.PP

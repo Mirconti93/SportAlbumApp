@@ -22,7 +22,7 @@ sealed class Routes {
     data class EditPlayer(val player: String?)
 
     @Serializable
-    object Game
+    object StartMatch
 
     @Serializable
     data class Match(val homeTeam: String, val awayTeam: String)

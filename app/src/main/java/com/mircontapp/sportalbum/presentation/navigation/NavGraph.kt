@@ -50,7 +50,7 @@ fun NavGraph(navController: NavHostController){
             EditPlayerScreen(navController = navController,
                 playerArg = it.toRoute<Routes.EditPlayer>().player)
         }
-        composable<Routes.Game> {
+        composable<Routes.StartMatch> {
             MatchStartScreen(navController = navController)
         }
         composable<Routes.Match> {

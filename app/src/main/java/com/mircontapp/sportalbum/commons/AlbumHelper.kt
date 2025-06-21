@@ -31,7 +31,7 @@ class AlbumHelper {
         fun getDefaultRoles(): Array<RoleLineUp> {
             return arrayOf(
                 RoleLineUp.PTC,
-                RoleLineUp.DCL,
+                RoleLineUp.DCS,
                 RoleLineUp.DCS,
                 RoleLineUp.TDD,
                 RoleLineUp.TSD,
