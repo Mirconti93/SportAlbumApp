@@ -14,7 +14,9 @@ import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.commons.ext.findBestPlayerInRole
+import com.mircontapp.sportalbum.commons.ext.getLineUpGenericRoles
 import com.mircontapp.sportalbum.commons.ext.getLineUpRoles
+import com.mircontapp.sportalbum.commons.ext.getRoleLineUp
 import com.mircontapp.sportalbum.commons.ext.toPlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
@@ -219,12 +221,12 @@ class MatchStartViewModel @Inject constructor(
         }
 
         val module = if (teamIsHome) homeTeam.value?.module else awayTeam.value?.module ?: Enums.MatchModule.M442
-        val roles = module.getLineUpRoles()
+        val roles = module.getLineUpGenericRoles()
 
-        for (roleLineUp in roles) {
-            roster.findBestPlayerInRole(roleLineUp, isLegend )?.let {playerModel->
+        for (role in roles) {
+            roster.findBestPlayerInRole(role)?.let {playerModel->
                 playerModel.let {
-                    it.roleMatch = roleLineUp
+                    it.roleMatch = role.getRoleLineUp()
                     field.add(it)
                     roster.remove(it)
                 }

@@ -14,13 +14,19 @@ class Enums {
             R.string.td,
             R.string.rightBack
         ),
-        TS(R.string.ts, R.string.leftBack), MD(
+        TS(R.string.ts, R.string.leftBack),
+        MD(
             R.string.md,
             R.string.defensiveMidfielder
         ),
-        CC(R.string.cc, R.string.centralMidfielder), TQ(
+        CC(R.string.cc, R.string.centralMidfielder),
+        TQ(
             R.string.tq,
             R.string.advancedMidfielder
+        ),
+        ES(
+            R.string.md,
+            R.string.defensiveMidfielder
         ),
         AD(R.string.ad, R.string.rightWing), AS(R.string.`as`, R.string.leftWing), SP(
             R.string.sp,

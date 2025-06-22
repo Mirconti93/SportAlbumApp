@@ -3,11 +3,183 @@ package com.mircontapp.sportalbum.commons.ext
 import android.util.Log
 import com.mirco.sportalbum.utils.Enums
 import com.mirco.sportalbum.utils.Enums.MatchModule
+import com.mirco.sportalbum.utils.Enums.Role
 import com.mirco.sportalbum.utils.Enums.RoleLineUp
 import com.mircontapp.sportalbum.commons.AlbumHelper.Companion.getDefaultRoles
-import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
+
+fun MatchModule?.getLineUpGenericRoles(): Array<Role> {
+    return when (this) {
+        MatchModule.M442 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.AD,
+            Role.AS,
+            Role.SP,
+            Role.PP
+        )
+
+        MatchModule.M433 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.TQ,
+            Role.SP,
+            Role.SP,
+            Role.PP
+        )
+
+        MatchModule.M451 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.TQ,
+            Role.AD,
+            Role.AS,
+            Role.PP
+        )
+
+        MatchModule.M4231 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.TQ,
+            Role.AD,
+            Role.SP,
+            Role.PP
+        )
+
+        MatchModule.M4312 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.CC,
+            Role.TQ,
+            Role.SP,
+            Role.PP
+        )
+
+        MatchModule.M541 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.AD,
+            Role.AS,
+            Role.PP
+        )
+
+        MatchModule.M532 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.CC,
+            Role.SP,
+            Role.PP
+        )
+
+        MatchModule.M352 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.DC,
+            Role.MD,
+            Role.CC,
+            Role.CC,
+            Role.TD,
+            Role.TS,
+            Role.SP,
+            Role.PP
+        )
+
+        MatchModule.M343 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.DC,
+            Role.MD,
+            Role.CC,
+            Role.TD,
+            Role.TS,
+            Role.SP,
+            Role.SP,
+            Role.PP
+        )
+
+        MatchModule.M3412 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.DC,
+            Role.MD,
+            Role.CC,
+            Role.TD,
+            Role.TS,
+            Role.TQ,
+            Role.SP,
+            Role.PP
+        )
+
+        MatchModule.M3313 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.DC,
+            Role.MD,
+            Role.CC,
+            Role.CC,
+            Role.TQ,
+            Role.AD,
+            Role.AS,
+            Role.PP
+        )
+
+        else -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.AD,
+            Role.AS,
+            Role.SP,
+            Role.PP
+        )
+    }
+}
 
 fun MatchModule?.getLineUpRoles(): Array<RoleLineUp> {
     return when (this) {
@@ -185,12 +357,12 @@ fun List<PlayerModel>.getBestPlayer(isLegend: Boolean): PlayerModel? {
     return playerModel
 }
 
-fun List<PlayerMatchModel>.findBestPlayerInRole(roleLineUp: RoleLineUp, isLegend: Boolean): PlayerMatchModel? {
+fun List<PlayerMatchModel>.findBestPlayerInRole(role: Role): PlayerMatchModel? {
     var playerModel: PlayerMatchModel? = null
 
     if (isEmpty()) return playerModel
 
-    Log.i("BUPI", "findBestPlayerInRole")
+    /*Log.i("BUPI", "findBestPlayerInRole")
     var vBest = 0;
     for (p in this) {
         val vp = (if (isLegend) p.valueleg else p.value) ?: 0
@@ -201,17 +373,15 @@ fun List<PlayerMatchModel>.findBestPlayerInRole(roleLineUp: RoleLineUp, isLegend
             Log.i("BUPI", p.name + " " + playerModel.valueleg.toString())
 
         }
-    }
+    }*/
 
-    if (playerModel == null) {
-        for (p in this) {
-            if (p.role == roleLineUp.generalRole()) {
-                playerModel = p
-                break
-            }
+    var vBest = 0;
+    forEach { p->
+        if (p.role == role && p.value > vBest) {
+            playerModel = p
+            vBest = p.value
         }
     }
-
 
     if (playerModel == null) {
         playerModel = get(0)
@@ -224,11 +394,11 @@ fun PlayerMatchModel.isPortiere(): Boolean {
 }
 
 fun PlayerMatchModel.getMatchValue(isLegend: Boolean): Double {
-    val value = if (isLegend) this?.valueleg?.toDouble() else this?.value?.toDouble()
+    val value = if (isLegend) this.valueleg?.toDouble() else this.value?.toDouble()
     return value ?: 0.0
 }
 
-fun RoleLineUp.generalRole(): Enums.Role {
+fun RoleLineUp.generalRole(): Role {
     return when (this) {
         RoleLineUp.PTC -> Enums.Role.PT
         RoleLineUp.PTM -> Enums.Role.PT
@@ -253,22 +423,20 @@ fun RoleLineUp.generalRole(): Enums.Role {
     }
 }
 
-fun getRoleLineUp(role: Enums.Role?): RoleLineUp? {
-    var roleLineUp = RoleLineUp.PPM
-    roleLineUp = when (role) {
-        Enums.Role.PT -> RoleLineUp.PTC
-        Enums.Role.DC -> RoleLineUp.DCS
-        Enums.Role.TD -> RoleLineUp.TDD
-        Enums.Role.TS -> RoleLineUp.TSD
-        Enums.Role.MD -> RoleLineUp.MED
-        Enums.Role.CC -> RoleLineUp.REG
-        Enums.Role.AD -> RoleLineUp.ALD
-        Enums.Role.AS -> RoleLineUp.ALS
-        Enums.Role.SP -> RoleLineUp.SPP
-        Enums.Role.TQ -> RoleLineUp.TRQ
+fun Role.getRoleLineUp(): RoleLineUp {
+    return when (this) {
+        Role.PT -> RoleLineUp.PTC
+        Role.DC -> RoleLineUp.DCS
+        Role.TD -> RoleLineUp.TDD
+        Role.TS -> RoleLineUp.TSD
+        Role.MD -> RoleLineUp.MED
+        Role.CC -> RoleLineUp.REG
+        Role.AD -> RoleLineUp.ALD
+        Role.AS -> RoleLineUp.ALS
+        Role.SP -> RoleLineUp.SPP
+        Role.TQ -> RoleLineUp.TRQ
         else -> RoleLineUp.PPM
     }
-    return roleLineUp
 }
 
 fun List<PlayerMatchModel>.findTiratore(): Int {
