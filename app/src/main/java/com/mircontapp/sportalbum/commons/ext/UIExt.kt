@@ -97,10 +97,14 @@ fun Enums.Evento.getTelecronaca(diff: Double, name: String): String {
             }
         }
         Enums.Evento.ATTACCO -> {
-             if (diff < 10) {
+             if (diff < 3) {
                 String.format(SportAlbumApplication.getString(R.string.telecronacaAtt1), name)
-            } else {
+            } else if (diff < 7){
                 String.format(SportAlbumApplication.getString(R.string.telecronacaAtt2), name)
+            } else if (diff < 10) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaTir1), name)
+            } else {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaTir2), name)
             }
         }
         Enums.Evento.RECUPERO -> {
@@ -139,7 +143,6 @@ fun Enums.Evento.getTelecronaca(diff: Double, name: String): String {
             } else if (diff >= 3 && diff < 5) {
                 String.format(
                     SportAlbumApplication.getString(R.string.telecronacaPar1), name
-
                 )
             } else if (diff >= 5 && diff < 7) {
                 String.format(
@@ -190,6 +193,13 @@ fun Enums.Evento.getTelecronaca(diff: Double, name: String): String {
         Enums.Evento.GOAL_RIGORE -> ""
         Enums.Evento.DOPPIA_AMMONIZIONE -> String.format(SportAlbumApplication.getString(R.string.telecronacaAmmEsp), name)
         Enums.Evento.RIGORE -> String.format(SportAlbumApplication.getString(R.string.telecronacaRig), name)
+        Enums.Evento.TIRO -> {
+            if (diff < 10) {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaTir1), name)
+            } else {
+                String.format(SportAlbumApplication.getString(R.string.telecronacaTir2), name)
+            }
+        }
         Enums.Evento.GOAL_PUNIZIONE -> {
             if (diff < 0 && diff >= -4) {
                 String.format(

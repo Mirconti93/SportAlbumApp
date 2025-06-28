@@ -43,8 +43,7 @@ fun MatchStartScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight()
-            .padding(16.dp),
+            .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {

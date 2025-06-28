@@ -216,7 +216,7 @@ class MatchViewModel @Inject constructor(
             it.roleMatch = Enums.RoleLineUp.PAN
         }
 
-        val bench = roster.sortedBy { it.roleLineUp } 
+        val bench = roster.sortedBy { it.roleLineUp }
 
         if (teamIsHome) {
             homeEleven.value = field
@@ -238,11 +238,8 @@ class MatchViewModel @Inject constructor(
         }
         for (i in 0..players.size) {
             if (i<roles.size) {
-                val player = players.get(i)
-                val role = roles[i]
-                player.roleMatch = role
+                players[i].roleMatch = roles[i]
             }
-
         }
 
         if (teamPosition == Enums.TeamPosition.HOME) {

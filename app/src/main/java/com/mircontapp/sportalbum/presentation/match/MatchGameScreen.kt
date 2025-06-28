@@ -236,6 +236,7 @@ fun PlayersInMatch(modifier: Modifier, viewModel: MatchViewModel, position: Enum
 fun LineUpSelection(viewModel: MatchViewModel, position: Enums.TeamPosition) {
     val eleven= if (position == Enums.TeamPosition.HOME ) viewModel.homeEleven.collectAsState() else viewModel.awayEleven.collectAsState()
     val bench= if (position == Enums.TeamPosition.HOME ) viewModel.homeBench.collectAsState() else viewModel.awayBench.collectAsState()
+
     val playerSelected = viewModel.playerSelected.collectAsState()
     val isRoleSelection = remember { mutableStateOf(false) }
     val isModuleSelection = remember { mutableStateOf(false) }

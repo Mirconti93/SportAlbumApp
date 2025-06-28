@@ -227,8 +227,10 @@
     <string name="telecronacaGol1">Rete! Ooh! Che gol di %s!</string>
     <string name="telecronacaGol2">Goooooool! %s! Che gol ha fatto!</string>
     <string name="telecronacaGol3">Rete Incredibile! Rete Incredibile! %s! Gran gol!</string>
-    <string name="telecronacaPar1">%s va al tiro! Grandissima parata di %s!</string>
-    <string name="telecronacaPar2">%s inquadra la porta! %s para!</string>
+    <string name="telecronacaTir1">%s va al tiro!</string>
+    <string name="telecronacaTir2">%s inquadra la porta!</string>
+    <string name="telecronacaPar1">%s para!</string>
+    <string name="telecronacaPar2">Grandissima parata di %s!</string>
     <string name="telecronacaParig">La prende %s! Rigore Neutralizzato</string>
     <string name="telecronacaPal">%s colpisce il palo!</string>
     <string name="telecronacaTra">%s! Il pallone colpisce la traversa!</string>
