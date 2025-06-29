@@ -1,5 +1,6 @@
 package com.mircontapp.sportalbum.commons.ext
 
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
@@ -76,6 +77,7 @@ fun String?.getTeamTextColor(): Color {
 }
 
 fun Enums.Evento.getTelecronaca(diff: Double, name: String): String {
+    Log.i("BUPI", "Evento: ${this.name} diff : $diff")
     return when (this) {
         Enums.Evento.NONE -> ""
         Enums.Evento.PALLEGGIO -> {

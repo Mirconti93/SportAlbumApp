@@ -286,7 +286,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.TeamPosition) {
             .padding(start = 8.dp))
 
         LazyColumn(modifier = Modifier
-            .weight(1.2f)
+            .weight(1f)
             .padding(8.dp)) {
             items(eleven.value) {
                 PlayerLineUpItem(it, if (it.name.equals(playerSelected.value?.name)) Green else BlueD,
@@ -332,7 +332,7 @@ fun LineUpSelection(viewModel: MatchViewModel, position: Enums.TeamPosition) {
             .padding(start = 8.dp))
         LazyColumn(
             modifier = Modifier
-                .weight(0.8f)
+                .weight(1f)
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {

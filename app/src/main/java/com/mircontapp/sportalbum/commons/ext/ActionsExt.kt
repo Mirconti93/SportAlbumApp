@@ -6,7 +6,7 @@ import com.mircontapp.sportalbum.domain.models.ActionModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 
-fun MatchModel.genericAction(players: List<PlayerMatchModel>, faseAction: (player: PlayerMatchModel)->Double): ActionModel {
+fun MatchModel.genericAction(faseAction: (player: PlayerMatchModel)->Double): ActionModel {
     var protagonista = ""
     var att = -1.0
 
@@ -15,7 +15,7 @@ fun MatchModel.genericAction(players: List<PlayerMatchModel>, faseAction: (playe
     for (attacker in attackers) {
         if (attacker.partecipa(attacker.roleMatch.getPartAtt())) {
             val action = faseAction(attacker)
-            Log.i("BUPIAZIONE:", "${fase} ${attacker.name} $action")
+            //Log.i("BUPIAZIONE:", "${fase} ${attacker.name} $action")
             if (action > att) {
                 att = action
                 protagonista = attacker.name

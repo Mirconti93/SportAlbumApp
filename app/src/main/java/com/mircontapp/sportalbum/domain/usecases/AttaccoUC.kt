@@ -12,13 +12,9 @@ class AttaccoUC {
 
     operator fun invoke(matchModel: MatchModel): MatchModel {
 
-        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
-        val actionAttack = matchModel.genericAction(attackers,
-            faseAction = { player -> player.attacco()})
+        val actionAttack = matchModel.genericAction(faseAction = { player -> player.attacco()})
 
-        val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
-        val actionDefense = matchModel.genericAction(defenders,
-            faseAction = { player -> player.difesa()})
+        val actionDefense = matchModel.genericAction(faseAction = { player -> player.difesa()})
 
         var messaggio = ""
         val diff = actionDefense.score - actionAttack.score

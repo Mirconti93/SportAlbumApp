@@ -15,13 +15,11 @@ class ConclusioneUC {
 
     operator fun invoke(matchModel: MatchModel, ): MatchModel {
 
-        val attackers = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersHome else matchModel.playersAway
-        val actionAttack = matchModel.genericAction(attackers,
-            faseAction = { player -> player.tiro()})
+        val actionAttack = matchModel.genericAction(faseAction = { player -> player.tiro()})
 
         val defenders = if (matchModel.possesso == Enums.TeamPosition.HOME) matchModel.playersAway else matchModel.playersHome
         var difPower = 1.0
-        var part = matchModel.genericAction(defenders, faseAction = { player -> player.respinta()})
+        var part = matchModel.genericAction(faseAction = { player -> player.respinta()})
         val portiere = defenders.find { playerMatchModel -> playerMatchModel.roleMatch == Enums.RoleLineUp.PTC} ?: defenders.get(0)
         val actionDefense = ActionModel(portiere.name, portiere.parata(difPower))
 
