@@ -495,7 +495,7 @@ class Enums {
         M442(R.string.m442), M433(R.string.m433), M4231(R.string.m4231), M451(R.string.m451), M4312(
             R.string.m4312
         ),
-        M532(R.string.m532), M541(R.string.m541), M352(R.string.m352), M343(R.string.m343), M3412(R.string.m3412), M3313(
+        M532(R.string.m532), M541(R.string.m541), M352(R.string.m352), M3511(R.string.m3511), M343(R.string.m343), M3412(R.string.m3412), M3313(
             R.string.m3313
         );
 

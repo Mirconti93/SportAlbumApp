@@ -105,6 +105,20 @@ fun MatchModule?.getLineUpGenericRoles(): Array<Role> {
             Role.MD,
             Role.CC,
             Role.CC,
+            Role.PP,
+            Role.PP
+        )
+
+        MatchModule.M3511 -> arrayOf(
+            Role.PT,
+            Role.DC,
+            Role.DC,
+            Role.DC,
+            Role.TD,
+            Role.TS,
+            Role.MD,
+            Role.CC,
+            Role.CC,
             Role.SP,
             Role.PP
         )
