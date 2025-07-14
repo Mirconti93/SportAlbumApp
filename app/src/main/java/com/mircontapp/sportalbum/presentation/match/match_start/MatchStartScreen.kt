@@ -34,7 +34,7 @@ import com.mircontapp.sportalbum.domain.models.TeamModel
 import com.mircontapp.sportalbum.presentation.commons.OnClickHandler
 import com.mircontapp.sportalbum.presentation.commons.ScreenTitle
 import com.mircontapp.sportalbum.presentation.commons.team_select.TeamSelectView
-import com.mircontapp.sportalbum.presentation.match.MatchViewModel
+import com.mircontapp.sportalbum.presentation.match.match_game.MatchViewModel
 import com.mircontapp.sportalbum.presentation.navigation.Routes
 import com.mircontapp.sportalbum.presentation.ui.theme.OrangeYellowD
 
@@ -47,14 +47,14 @@ fun MatchStartScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        val viewModel: MatchViewModel = hiltViewModel()
+        val viewModel: MatchStartViewModel = hiltViewModel()
         LaunchedEffect(key1 = (Unit), block = {
             viewModel.initMatch()
         })
 
         ScreenTitle(text = SportAlbumApplication.instance.getString(R.string.match))
         if (viewModel.showSelection.value) {
-            TeamSelectView {  teamModel->
+            TeamSelectView(isLegend = false) {  teamModel->
                 if (viewModel.teamPosition == Enums.TeamPosition.HOME) {
                     viewModel.homeTeam.value = teamModel
                 } else {
@@ -78,7 +78,7 @@ fun MatchStartScreen(navController: NavController) {
                         }
                     }
                 })
-                Text(text = SportAlbumApplication.instance.getString(R.string.vs))
+                Text(text = SportAlbumApplication.getString(R.string.vs))
                 TeamSelected(modifier = Modifier.weight(1f),
                     team = viewModel.awayTeam.value, object : OnClickHandler {
                     override fun onClick() {
@@ -136,7 +136,7 @@ fun TeamSelected(modifier: Modifier, team: TeamModel?, onClickHandler: OnClickHa
                     modifier = Modifier
                         .fillMaxHeight()
                         .padding(32.dp),
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.FillHeight
                 )
                 Text(modifier = Modifier, text = name)
             }

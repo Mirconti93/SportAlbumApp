@@ -3,8 +3,6 @@ package com.mircontapp.sportalbum.domain.models
 import com.mirco.sportalbum.utils.Enums
 
 data class MatchModel(
-    var home: String,
-    var away: String,
     var homeScore: Int,
     var awayScore: Int,
     var minute: Int,

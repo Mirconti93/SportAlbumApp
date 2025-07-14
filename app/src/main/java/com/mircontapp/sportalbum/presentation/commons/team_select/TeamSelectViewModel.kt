@@ -6,6 +6,7 @@ import com.mirco.sportalbum.utils.Enums
 import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
 import com.mircontapp.sportalbum.domain.models.TeamModel
+import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TeamSelectViewModel @Inject constructor(
     val teamsFromAreaOrderedUC: GetTeamsFromAreaUC,
+    val teamsFromAreaLegendOrderedUC: GetTeamsFromAreaLegendUC
 ) : ViewModel() {
 
     private val _state by lazy {
@@ -25,9 +27,6 @@ class TeamSelectViewModel @Inject constructor(
     }
     val state: StateFlow<TeamSelectState> get() = _state
 
-    init {
-        onAction(TeamSelectAction.ShowTeamsByArea(Enums.Area.SERIEA))
-    }
 
     fun onAction(action: TeamSelectAction) {
         when (action) {
@@ -36,7 +35,8 @@ class TeamSelectViewModel @Inject constructor(
                 viewModelScope.launch {
                     onAction(TeamSelectAction.Load)
                     val list: List<TeamModel> = withContext(Dispatchers.IO) {
-                         teamsFromAreaOrderedUC(action.area)
+                        if (action.isLegend) teamsFromAreaLegendOrderedUC(action.area)
+                        else teamsFromAreaOrderedUC(action.area)
                     }
                     if (list.isEmpty()) {
                         _state.value = TeamSelectState(

@@ -17,7 +17,7 @@ import com.mircontapp.sportalbum.presentation.dashboard.dashboard_list.Dashboard
 import com.mircontapp.sportalbum.presentation.dashboard.edit_player.EditPlayerScreen
 import com.mircontapp.sportalbum.presentation.dashboard.edit_team.EditTeamScreen
 import com.mircontapp.sportalbum.presentation.draw.DrawScreen
-import com.mircontapp.sportalbum.presentation.match.MatchGameScreen
+import com.mircontapp.sportalbum.presentation.match.match_game.MatchGameScreen
 import com.mircontapp.sportalbum.presentation.match.match_start.MatchStartScreen
 
 @ExperimentalMaterial3Api
@@ -28,7 +28,7 @@ fun NavGraph(navController: NavHostController){
         startDestination = NavigationItem.Album.route)
     {
         composable<Routes.Album> {
-            TeamSelectView{ teamModel ->
+            TeamSelectView(isLegend = true){ teamModel ->
                 navController.navigate(Routes.TeamAlbum(Gson().toJson(teamModel)))
             }
         }

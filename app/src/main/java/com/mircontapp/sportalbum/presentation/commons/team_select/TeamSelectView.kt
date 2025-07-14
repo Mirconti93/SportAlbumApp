@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,9 +30,13 @@ import com.mircontapp.sportalbum.presentation.commons.OnTeamClickHandler
 import com.mircontapp.sportalbum.presentation.commons.ScreenTitle
 
 @Composable
-fun TeamSelectView(nextAction : (teamModel: TeamModel) -> Unit) {
+fun TeamSelectView(isLegend: Boolean, nextAction : (teamModel: TeamModel) -> Unit) {
     val viewModel: TeamSelectViewModel = hiltViewModel()
     val state = viewModel.state.collectAsState()
+
+    LaunchedEffect (key1 = (Unit), block = {
+        viewModel.onAction(TeamSelectAction.ShowTeamsByArea(Enums.Area.SERIEA, isLegend))
+    })
     
     Column(
         modifier = Modifier
@@ -48,7 +53,7 @@ fun TeamSelectView(nextAction : (teamModel: TeamModel) -> Unit) {
                 .horizontalScroll(rememberScrollState())) {
             Enums.Area.values().forEach { 
                 Button(onClick = { 
-                    viewModel.onAction(TeamSelectAction.ShowTeamsByArea(it))
+                    viewModel.onAction(TeamSelectAction.ShowTeamsByArea(it, isLegend))
                 }) {
                     Text(text = it.text)
                 }

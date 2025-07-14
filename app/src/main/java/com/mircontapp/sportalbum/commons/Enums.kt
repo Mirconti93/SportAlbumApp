@@ -510,4 +510,8 @@ class Enums {
     }
 
     enum class UpdateType { NEW, UPDATE }
+
+    enum class GameScreen {
+        LINE_UP_START, MATCH, LINE_UP
+    }
 }

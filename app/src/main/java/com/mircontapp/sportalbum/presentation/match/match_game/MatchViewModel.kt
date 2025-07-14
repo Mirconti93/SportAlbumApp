@@ -1,4 +1,4 @@
-package com.mircontapp.sportalbum.presentation.match
+package com.mircontapp.sportalbum.presentation.match.match_game
 
 import AttaccoUC
 import CentrocampoUC
@@ -12,73 +12,46 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mirco.sportalbum.utils.Enums
-import com.mircontapp.sportalbum.R
 import com.mircontapp.sportalbum.SportAlbumApplication
+import com.mircontapp.sportalbum.commons.AlbumHelper
 import com.mircontapp.sportalbum.commons.ext.findBestPlayerInRole
 import com.mircontapp.sportalbum.commons.ext.getLineUpGenericRoles
 import com.mircontapp.sportalbum.commons.ext.getLineUpRoles
 import com.mircontapp.sportalbum.commons.ext.getRoleLineUp
 import com.mircontapp.sportalbum.commons.ext.toPlayerMatchModel
-import com.mircontapp.sportalbum.domain.models.ActionModel
-import com.mircontapp.sportalbum.domain.models.CommentModel
 import com.mircontapp.sportalbum.domain.models.MatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerMatchModel
 import com.mircontapp.sportalbum.domain.models.PlayerModel
 import com.mircontapp.sportalbum.domain.models.TeamModel
-import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamLegendUC
 import com.mircontapp.sportalbum.domain.usecases.GetPlayersByTeamUC
-import com.mircontapp.sportalbum.domain.usecases.GetTeamFromNameUC
-import com.mircontapp.sportalbum.domain.usecases.GetTeamsFromAreaUC
 import com.mircontapp.sportalbum.domain.usecases.GetTeamsForMatchUC
+import com.mircontapp.sportalbum.presentation.match.match_start.MatchStartAction
+import com.mircontapp.sportalbum.presentation.match.match_start.MatchStartState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-//package com.mircontapp.sportalbum.presentation.viewmodels
-//
-//import android.content.Context
-//import androidx.lifecycle.MutableLiveData
-//import androidx.lifecycle.ViewModel
-//import com.mirco.sportalbum.utils.Enums
-//import com.mircontapp.sportalbum.SportAlbumApplication
-//import com.mircontapp.sportalbum.domain.models.MatchModel
-//import com.mircontapp.sportalbum.domain.models.PlayerModel
-//import com.mircontapp.sportalbum.domain.models.TeamModel
-//
-
 @HiltViewModel
 class MatchViewModel @Inject constructor(
     val getPlayersByTeamUC: GetPlayersByTeamUC,
-    val getTeamsSuperlegaUC: GetTeamsForMatchUC,
 ) : ViewModel() {
-    var app = SportAlbumApplication.instance
-    val homeTeam: MutableLiveData<TeamModel> = MutableLiveData()
-    val awayTeam: MutableLiveData<TeamModel> = MutableLiveData()
+    lateinit var homeTeam: TeamModel
+    lateinit var awayTeam: TeamModel
 
-    private val _homeRoster = MutableLiveData<MutableList<PlayerModel>>()
-    val homeRoster: LiveData<MutableList<PlayerModel>> = _homeRoster
-    private val _awayRoster = MutableLiveData<MutableList<PlayerModel>>()
-    val awayRoster: LiveData<MutableList<PlayerModel>> = _awayRoster
 
-    val currentPlayer: MutableLiveData<PlayerModel> = MutableLiveData()
-    val currentFocus: MutableLiveData<Int> = MutableLiveData()
-    val lineUpChoice: MutableLiveData<Enums.LineUpChoice> = MutableLiveData()
+    var homeRoster: List<PlayerModel> = emptyList()
+    var awayRoster: List<PlayerModel> = emptyList()
+
     val minute: MutableLiveData<Int> = MutableLiveData()
-//    private var homeLUManager: LineUpDataManager? = null
-//    private var awayLUManager: LineUpDataManager? = null
-    val homeEleven: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
-    val awayEleven: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
-    val homeBench: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
-    val awayBench: MutableStateFlow<List<PlayerMatchModel>> = MutableStateFlow(emptyList())
+
     var isLegend: Boolean = true
-    var matchType: Enums.MatchType = Enums.MatchType.SIMPLE_MATCH
     val playerSelected: MutableStateFlow<PlayerMatchModel?> = MutableStateFlow(null)
     var playerToChangeRole: PlayerMatchModel? = null
-    var firstPlayerSelected: Boolean = false
-    val showRoleSelection = MutableStateFlow(false)
+
 
     var teamPosition = Enums.TeamPosition.HOME
     val teams = mutableStateOf<List<TeamModel>>(emptyList())
@@ -87,26 +60,25 @@ class MatchViewModel @Inject constructor(
 
     val matchModel: MutableStateFlow<MatchModel> = MutableStateFlow(initMatchModel())
 
-
-    enum class LineUpPlace {
-        FIELD, BENCH, TRIBUNE
-    }
+    private val _state = MutableStateFlow(MatchGameState(matchModel = initMatchModel()))
+    val state: StateFlow<MatchGameState> get() = _state
 
     enum class Screen {
         LINE_UP_HOME_START, LINE_UP_AWAY_START, MATCH, LINE_UP_HOME, LINE_UP_AWAY
     }
 
-    fun initMatch() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val list = getTeamsSuperlegaUC()
-            withContext(Dispatchers.Main) {
-                teams.value = list
-                if (teams.value.isNotEmpty()) {
-                    homeTeam.value = teams.value[0]
-                }
-                if (teams.value.size > 1) {
-                    awayTeam.value = teams.value[1]
-                }
+    fun onAction(action: MatchGameAction) {
+        when (action) {
+            is MatchGameAction.Load -> _state.value = _state.value.copy(isLoading = true)
+            is MatchGameAction.ChangeLineUp -> {
+                _state.value = _state.value.copy(screen = Enums.GameScreen.LINE_UP)
+            }
+            is MatchGameAction.ToggleModule-> {
+                val showModule = _state.value.showModules
+                _state.value = _state.value.copy(showModules = !showModule)
+            }
+            is MatchGameAction.Play -> {
+                nextAction()
             }
         }
     }
@@ -115,8 +87,6 @@ class MatchViewModel @Inject constructor(
         val screen = when (currentScreen.value) {
             Screen.LINE_UP_HOME_START -> Screen.LINE_UP_AWAY_START
             Screen.LINE_UP_AWAY_START -> {
-                matchModel.value.home = homeTeam.value?.name ?: ""
-                matchModel.value.away = awayTeam.value?.name ?: ""
                 updatePlayersInMatch()
                 Screen.MATCH
             }
@@ -130,15 +100,13 @@ class MatchViewModel @Inject constructor(
 
     private fun updatePlayersInMatch() {
         matchModel.value.let {
-            it.playersHome = homeEleven.value.toMutableList()
-            it.playersAway= awayEleven.value.toMutableList()
+            it.playersHome = _state.value.homeEleven.toMutableList()
+            it.playersAway= _state.value.homeEleven.toMutableList()
         }
     }
 
     private fun initMatchModel(): MatchModel {
         return MatchModel(
-            homeTeam.value?.name ?: "",
-            awayTeam.value?.name ?: "",
             0,
             0,
             0,
@@ -157,25 +125,23 @@ class MatchViewModel @Inject constructor(
 
 
     fun initLineUp(homeT: TeamModel?, awayT: TeamModel?) {
+        onAction(MatchGameAction.Load)
         if (homeT != null && awayT != null) {
-            this.homeTeam.value = homeT
-            this.awayTeam.value = awayT
+            this.homeTeam = homeT
+            this.awayTeam = awayT
             viewModelScope.launch(Dispatchers.IO) {
-                val list = getPlayersByTeamUC(homeTeam.value!!)
+                val list = getPlayersByTeamUC(homeTeam)
                 withContext(Dispatchers.Main) {
-                    _homeRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
+                    homeRoster = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                     initOnFieledOrBench(Enums.TeamPosition.HOME)
                 }
             }.invokeOnCompletion {
                 viewModelScope.launch(Dispatchers.IO) {
-                    val list = getPlayersByTeamUC(awayTeam.value!!)
+                    val list = getPlayersByTeamUC(awayTeam)
                     withContext(Dispatchers.Main) {
-                        _awayRoster.value = list.filter {  it.value != null && it.value > 50 } .toMutableList()
-                        Log.i("BUPI", "INIT ROSTER")
-                        awayRoster.value?.forEach {
-                            Log.i("BUPI", it. name)
-                        }
+                        awayRoster = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                         initOnFieledOrBench(Enums.TeamPosition.AWAY)
+                        onAction(MatchGameAction.ChangeLineUp(Enums.TeamPosition.HOME))
                     }
                 }
             }
@@ -190,16 +156,16 @@ class MatchViewModel @Inject constructor(
         val field: MutableList<PlayerMatchModel> = ArrayList()
         val roster: MutableList<PlayerMatchModel> = ArrayList()
         if (teamIsHome)  {
-            homeRoster.value?.forEach {
+            homeRoster.forEach {
                 roster.add(it.toPlayerMatchModel(isLegend))
             }
         } else {
-            awayRoster.value?.forEach {
+            awayRoster.forEach {
                 roster.add(it.toPlayerMatchModel(isLegend))
             }
         }
 
-        val module = if (teamIsHome) homeTeam.value?.module else awayTeam.value?.module ?: Enums.MatchModule.M442
+        val module = if (teamIsHome) homeTeam.module else awayTeam.module
         val roles = module.getLineUpGenericRoles()
 
         for (role in roles) {
@@ -218,13 +184,9 @@ class MatchViewModel @Inject constructor(
 
         val bench = roster.sortedBy { it.roleLineUp }
 
-        if (teamIsHome) {
-            homeEleven.value = field
-            homeBench.value = bench
-        } else {
-            awayEleven.value = field
-            awayBench.value = bench
-        }
+
+        _state.value.homeEleven = field
+        _state.value.homeBench = bench
 
     }
 
@@ -264,10 +226,10 @@ class MatchViewModel @Inject constructor(
         var bench: MutableList<PlayerMatchModel> = ArrayList()
         if (teamIsHome) {
             eleven.addAll(homeEleven.value)
-            bench.addAll(homeBench.value)
+            bench.addAll(homeBench)
         } else {
             eleven.addAll(awayEleven.value)
-            bench.addAll(awayBench.value)
+            bench.addAll(awayBench)
         }
 
         if (eleven.contains(player1) && bench.contains(player2)) {
@@ -287,15 +249,15 @@ class MatchViewModel @Inject constructor(
             Log.i("BUPI", it. name)
         }
 
-        eleven = (eleven.sortedBy { it.roleMatch }?.toMutableList() ?: emptyList()).toMutableList()
-        bench = (bench.sortedBy { it.roleLineUp }?.toMutableList() ?: emptyList()).toMutableList()
+        eleven = (eleven.sortedBy { it.roleMatch }.toMutableList()).toMutableList()
+        bench = (bench.sortedBy { it.roleLineUp }.toMutableList()).toMutableList()
 
         if (teamIsHome) {
             homeEleven.value = eleven
-            homeBench.value = bench
+            homeBench = bench
         } else {
             awayEleven.value = eleven
-            awayBench.value = bench
+            awayBench = bench
         }
         playerSelected.value = null
     }
@@ -325,8 +287,6 @@ class MatchViewModel @Inject constructor(
         }
 
         matchModel.value = MatchModel(
-            match.home,
-            match.away,
             match.homeScore,
             match.awayScore,
             match.minute + 1,
