@@ -39,12 +39,12 @@ import javax.inject.Inject
 class MatchViewModel @Inject constructor(
     val getPlayersByTeamUC: GetPlayersByTeamUC,
 ) : ViewModel() {
-    lateinit var homeTeam: TeamModel
-    lateinit var awayTeam: TeamModel
+    var homeTeam: TeamModel = AlbumHelper.emptyTeamModel("")
+    var awayTeam: TeamModel = AlbumHelper.emptyTeamModel("")
 
 
-    var homeRoster: List<PlayerModel> = emptyList()
-    var awayRoster: List<PlayerModel> = emptyList()
+    private var homeRoster: List<PlayerModel> = emptyList()
+    private var awayRoster: List<PlayerModel> = emptyList()
 
     val minute: MutableLiveData<Int> = MutableLiveData()
 
@@ -52,58 +52,39 @@ class MatchViewModel @Inject constructor(
     val playerSelected: MutableStateFlow<PlayerMatchModel?> = MutableStateFlow(null)
     var playerToChangeRole: PlayerMatchModel? = null
 
-
-    var teamPosition = Enums.TeamPosition.HOME
     val teams = mutableStateOf<List<TeamModel>>(emptyList())
-    val showSelection = mutableStateOf(false)
-    val currentScreen  = mutableStateOf(Screen.LINE_UP_HOME_START)
-
-    val matchModel: MutableStateFlow<MatchModel> = MutableStateFlow(initMatchModel())
 
     private val _state = MutableStateFlow(MatchGameState(matchModel = initMatchModel()))
     val state: StateFlow<MatchGameState> get() = _state
 
-    enum class Screen {
-        LINE_UP_HOME_START, LINE_UP_AWAY_START, MATCH, LINE_UP_HOME, LINE_UP_AWAY
-    }
+    private var phase: Int = 0
 
     fun onAction(action: MatchGameAction) {
         when (action) {
             is MatchGameAction.Load -> _state.value = _state.value.copy(isLoading = true)
-            is MatchGameAction.ChangeLineUp -> {
-                _state.value = _state.value.copy(screen = Enums.GameScreen.LINE_UP)
-            }
-            is MatchGameAction.ToggleModule-> {
-                val showModule = _state.value.showModules
-                _state.value = _state.value.copy(showModules = !showModule)
-            }
+            is MatchGameAction.ShowChangeLineUp -> _state.value = _state.value.copy(screen = Enums.GameScreen.LINE_UP, teamPosition = action.teamPosition, phase = ++phase)
+            is MatchGameAction.ShowMatch -> _state.value = _state.value.copy(screen = Enums.GameScreen.MATCH)
+            is MatchGameAction.ToggleModule-> _state.value = _state.value.copy(showModules = !_state.value.showModules)
             is MatchGameAction.Play -> {
                 nextAction()
+                _state.value = _state.value.copy(phase = ++phase)
             }
         }
     }
 
     fun nextScreen() {
-        val screen = when (currentScreen.value) {
-            Screen.LINE_UP_HOME_START -> Screen.LINE_UP_AWAY_START
-            Screen.LINE_UP_AWAY_START -> {
-                updatePlayersInMatch()
-                Screen.MATCH
+        if (state.value.screen == Enums.GameScreen.LINE_UP) {
+            if (state.value.isStarting && state.value.teamPosition == Enums.TeamPosition.HOME) {
+                _state.value.isStarting = false
+                onAction(MatchGameAction.ShowChangeLineUp(Enums.TeamPosition.AWAY))
+            } else {
+                onAction(MatchGameAction.ShowMatch)
             }
-            Screen.LINE_UP_HOME -> Screen.MATCH
-            Screen.LINE_UP_AWAY -> Screen.MATCH
-            else -> Screen.MATCH
+        } else {
+            onAction(MatchGameAction.Play)
         }
-        Log.i("BUPI", screen.toString())
-        currentScreen.value = screen
     }
 
-    private fun updatePlayersInMatch() {
-        matchModel.value.let {
-            it.playersHome = _state.value.homeEleven.toMutableList()
-            it.playersAway= _state.value.homeEleven.toMutableList()
-        }
-    }
 
     private fun initMatchModel(): MatchModel {
         return MatchModel(
@@ -141,7 +122,7 @@ class MatchViewModel @Inject constructor(
                     withContext(Dispatchers.Main) {
                         awayRoster = list.filter {  it.value != null && it.value > 50 } .toMutableList()
                         initOnFieledOrBench(Enums.TeamPosition.AWAY)
-                        onAction(MatchGameAction.ChangeLineUp(Enums.TeamPosition.HOME))
+                        onAction(MatchGameAction.ShowChangeLineUp(Enums.TeamPosition.HOME))
                     }
                 }
             }
@@ -185,8 +166,15 @@ class MatchViewModel @Inject constructor(
         val bench = roster.sortedBy { it.roleLineUp }
 
 
-        _state.value.homeEleven = field
-        _state.value.homeBench = bench
+        if (teamPosition == Enums.TeamPosition.HOME) {
+            _state.value.matchModel.playersHome = field
+            _state.value.homeBench = bench
+        } else {
+            _state.value.matchModel.playersAway = field
+            _state.value.awayBench = bench
+        }
+
+        _state.value.isLoading = false
 
     }
 
@@ -194,9 +182,9 @@ class MatchViewModel @Inject constructor(
         val players = ArrayList<PlayerMatchModel>()
         val roles = module.getLineUpRoles()
         if (teamPosition == Enums.TeamPosition.HOME) {
-            players.addAll(homeEleven.value)
+            players.addAll(_state.value.matchModel.playersHome)
         } else {
-            players.addAll(awayEleven.value)
+            players.addAll(_state.value.matchModel.playersAway)
         }
         for (i in 0..players.size) {
             if (i<roles.size) {
@@ -205,9 +193,9 @@ class MatchViewModel @Inject constructor(
         }
 
         if (teamPosition == Enums.TeamPosition.HOME) {
-            homeEleven.value = players
+            _state.value.matchModel.playersHome = players
         } else {
-            awayEleven.value = players
+            _state.value.matchModel.playersAway = players
         }
 
     }
@@ -225,11 +213,11 @@ class MatchViewModel @Inject constructor(
         var eleven: MutableList<PlayerMatchModel> = ArrayList()
         var bench: MutableList<PlayerMatchModel> = ArrayList()
         if (teamIsHome) {
-            eleven.addAll(homeEleven.value)
-            bench.addAll(homeBench)
+            eleven.addAll(_state.value.matchModel.playersHome)
+            bench.addAll(_state.value.homeBench)
         } else {
-            eleven.addAll(awayEleven.value)
-            bench.addAll(awayBench)
+            eleven.addAll(_state.value.matchModel.playersAway)
+            bench.addAll(_state.value.awayBench)
         }
 
         if (eleven.contains(player1) && bench.contains(player2)) {
@@ -245,7 +233,7 @@ class MatchViewModel @Inject constructor(
         }
 
         Log.i("BUPI", "Eleven")
-        awayEleven.value?.forEach {
+        _state.value.matchModel.playersAway.forEach {
             Log.i("BUPI", it. name)
         }
 
@@ -253,18 +241,18 @@ class MatchViewModel @Inject constructor(
         bench = (bench.sortedBy { it.roleLineUp }.toMutableList()).toMutableList()
 
         if (teamIsHome) {
-            homeEleven.value = eleven
-            homeBench = bench
+            _state.value.matchModel.playersHome = eleven
+            _state.value.homeBench = bench
         } else {
-            awayEleven.value = eleven
-            awayBench = bench
+            _state.value.matchModel.playersAway = eleven
+            _state.value.awayBench = bench
         }
         playerSelected.value = null
     }
 
     fun changePlayerRole(teamPosition: Enums.TeamPosition) {
         val players: MutableList<PlayerMatchModel> = ArrayList()
-        players.addAll(homeEleven.value)
+        players.addAll(_state.value.matchModel.playersHome)
         if (teamPosition == Enums.TeamPosition.HOME) {
             for (p in players) {
                 playerToChangeRole?.let {
@@ -274,19 +262,20 @@ class MatchViewModel @Inject constructor(
                 }
             }
         }
-        homeEleven.value = players
+        _state.value.matchModel.playersHome = players
     }
 
     fun nextAction() {
-        val match = when (matchModel.value.fase) {
-            Enums.Fase.CENTROCAMPO -> CentrocampoUC().invoke(matchModel.value)
-            Enums.Fase.ATTACCO -> AttaccoUC().invoke(matchModel.value)
-            Enums.Fase.CONCLUSIONE -> ConclusioneUC().invoke(matchModel.value)
-            Enums.Fase.PUNIZIONE -> PunizioneUC().invoke(matchModel.value)
-            Enums.Fase.RIGORE -> RigoreUC().rigoreDiretto(matchModel.value)
+        val matchModel = state.value.matchModel
+        val match = when (matchModel.fase) {
+            Enums.Fase.CENTROCAMPO -> CentrocampoUC().invoke(matchModel)
+            Enums.Fase.ATTACCO -> AttaccoUC().invoke(matchModel)
+            Enums.Fase.CONCLUSIONE -> ConclusioneUC().invoke(matchModel)
+            Enums.Fase.PUNIZIONE -> PunizioneUC().invoke(matchModel)
+            Enums.Fase.RIGORE -> RigoreUC().rigoreDiretto(matchModel)
         }
 
-        matchModel.value = MatchModel(
+        _state.value.matchModel = MatchModel(
             match.homeScore,
             match.awayScore,
             match.minute + 1,
@@ -294,8 +283,8 @@ class MatchViewModel @Inject constructor(
             match.fase,
             match.evento,
             match.isLegend,
-            updateEnergy(homeEleven.value),
-            updateEnergy(awayEleven.value),
+            updateEnergy(_state.value.matchModel.playersHome),
+            updateEnergy(_state.value.matchModel.playersAway),
             match.comment,
             match.protagonista,
             match.coprotagonista,
