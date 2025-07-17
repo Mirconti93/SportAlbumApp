@@ -68,8 +68,8 @@ fun TeamChoiceItem(team: TeamModel, modifier: Modifier) {
             Image(
                 painter = painterResource(idDrawable),
                 contentDescription = "Team icon", // Descrizione opzionale per l'accessibilità
-                modifier = Modifier.size(80.dp),
-                contentScale = ContentScale.FillWidth
+                modifier = Modifier.size(75.dp).padding(8.dp),
+                contentScale = ContentScale.FillHeight
             )
             Text(modifier = Modifier, text = team.name, fontSize = 14.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
